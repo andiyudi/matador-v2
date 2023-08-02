@@ -14,7 +14,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Sign in - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
-    <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
     <meta name="msapplication-TileColor" content=""/>
     <meta name="theme-color" content=""/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -51,7 +50,15 @@
         --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
     }
     body {
+        background-image: url('{{ asset ('') }}assets/logo/background-login.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
         font-feature-settings: "cv03", "cv04", "cv11";
+    }
+    .logo-image {
+    width: 200px;
+    height: auto;
     }
     </style>
 </head>
@@ -61,7 +68,7 @@
     <div class="container container-tight py-4">
         <div class="text-center mb-4">
         <a href="." class="navbar-brand navbar-brand-autodark">
-            <img src="{{ asset ('') }}assets/static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            <img src="{{ asset('assets/logo/cmnplogo.png') }}" alt="Logo" class="mb-3 logo-image">
         </a>
         </div>
         <div class="card card-md">

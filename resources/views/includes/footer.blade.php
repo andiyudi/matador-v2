@@ -3,14 +3,19 @@
         <div class="row text-center align-items-center flex-row-reverse">
         <div class="col-lg-auto ms-lg-auto">
             <ul class="list-inline list-inline-dots mb-0">
-            <li class="list-inline-item"><a href="https://tabler.io/docs" target="_blank" class="link-secondary" rel="noopener">Documentation</a></li>
-            <li class="list-inline-item"><a href="{{ asset ('') }}assets/license.html" class="link-secondary">License</a></li>
-            <li class="list-inline-item"><a href="https://github.com/tabler/tabler" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">TI</a></li>
+            <li class="list-inline-item"><a href="#" class="link-secondary">Sistem Informasi</a></li>
+            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">All Right Reserved.</a></li>
             <li class="list-inline-item">
                 <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
                 <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
-                Sponsor
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
+                    <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889"></path>
+                    <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889"></path>
+                </svg>
+                AYRR
                 </a>
             </li>
             </ul>
@@ -18,13 +23,13 @@
         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
             <ul class="list-inline list-inline-dots mb-0">
             <li class="list-inline-item">
-                Copyright &copy; 2023
-                <a href="." class="link-secondary">Tabler</a>.
-                All rights reserved.
+                &copy; 2023 - {{ now()->year }}
+                <a href="." class="link-secondary">Umum - Pengadaan</a>.
+                &#174; Aplikasi Manajemen Database Vendor
             </li>
             <li class="list-inline-item">
                 <a href="{{ asset ('') }}assets/changelog.html" class="link-secondary" rel="noopener">
-                v1.0.0-beta19
+                v2.0.0
                 </a>
             </li>
             </ul>
