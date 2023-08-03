@@ -14,4 +14,9 @@ class Division extends Model
         'name',
         'status',
     ];
+
+    public function procurements_division()
+    {
+        return $this->hasMany(Procurement::class);
+    }
 }

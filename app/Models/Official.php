@@ -15,4 +15,9 @@ class Official extends Model
         'initials',
         'status',
     ];
+
+    public function procurements_official()
+    {
+        return $this->hasMany(Procurement::class);
+    }
 }
