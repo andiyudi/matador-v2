@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\OfficialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::resource('officials', OfficialController::class);
 Route::resource('divisions', DivisionController::class);
 
 Route::get('/dashboard', function () {
