@@ -16,7 +16,8 @@
         }
         </style>
     </head>
-    <body >
+    <body>
+        @routes()
         <script src="{{ asset ('') }}assets/dist/js/demo-theme.min.js?1685973381"></script>
         <div class="page">
             <!-- Sidebar -->
@@ -62,5 +63,6 @@
         <!-- Libs JS -->
         @include('includes.script')
         @stack('after-script')
+        @include('sweetalert::alert')
     </body>
 </html>
