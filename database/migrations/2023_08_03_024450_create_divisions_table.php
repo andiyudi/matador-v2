@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('divisions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code');
             $table->enum('status', ['0', '1']); // 0 = inactive, 1 = active
             $table->timestamps();
             $table->softDeletes();

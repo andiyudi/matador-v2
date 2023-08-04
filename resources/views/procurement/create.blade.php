@@ -11,7 +11,7 @@ $title    = 'Procurements'
                 <form action="{{ route('procurements.store') }}" method="POST">
                     @csrf
                     <div class="row mb-3">
-                        <label for="receipt" class="col-sm-2 col-form-label">TTPP</label>
+                        <label for="receipt" class="col-sm-2 col-form-label required">TTPP</label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control @error('receipt') is-invalid @enderror" name="receipt" id="receipt" value="{{ old('receipt') }}">
                             @error('receipt')
@@ -20,7 +20,7 @@ $title    = 'Procurements'
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="number" class="col-sm-2 col-form-label">Procurement Number</label>
+                        <label for="number" class="col-sm-2 col-form-label required">Procurement Number</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control @error('number') is-invalid @enderror" id="number" name="number" value="{{ old('number') }}" placeholder="Input Procurement Number">
                             @error('number')
@@ -29,7 +29,7 @@ $title    = 'Procurements'
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="name" class="col-sm-2 col-form-label">Job Name</label>
+                        <label for="name" class="col-sm-2 col-form-label required">Job Name</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Job Name">
                             @error('name')
@@ -38,7 +38,7 @@ $title    = 'Procurements'
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="division" class="col-sm-2 col-form-label">Division</label>
+                        <label for="division" class="col-sm-2 col-form-label required">Division</label>
                         <div class="col-sm-10">
                             <select class="form-control select2 @error('division') is-invalid @enderror" id="division" name="division">
                                 <option value="">Select Division</option>
@@ -52,7 +52,7 @@ $title    = 'Procurements'
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="person_in_charge" class="col-sm-2 col-form-label">Person In Charge</label>
+                        <label for="person_in_charge" class="col-sm-2 col-form-label required">PIC Pengadaan</label>
                         <div class="col-sm-10">
                             <select class="form-control select2 @error('official') is-invalid @enderror" id="official" name="official">
                                 <option value="">Select Official</option>
@@ -65,7 +65,10 @@ $title    = 'Procurements'
                             @enderror
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <div class="col-md-6 btn-group float-end">
+                        <a type="button" href="{{ route('procurements.index') }}" class="btn btn-secondary me-3">Back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -81,5 +84,3 @@ $title    = 'Procurements'
     });
 </script>
 @endsection
-@push('page-action')
-@endpush

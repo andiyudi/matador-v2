@@ -25,8 +25,12 @@ $title    = 'Division'
                 </div>
                 <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="name">Division Name</label>
+                        <label for="name" class="form-label required">Division Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Input Division Name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="code" class="form-label required">Division Code</label>
+                        <input type="text" class="form-control" id="code" name="code" placeholder="Input Division Code" required>
                     </div>
                     <div class="form-group mb-3">
                         <div class="form-label">Status</div>
@@ -58,8 +62,12 @@ $title    = 'Division'
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-3">
-                        <label for="editDivisionName">Division Name</label>
+                        <label for="editDivisionName" class="form-label required">Division Name</label>
                         <input type="text" class="form-control" id="editDivisionName" name="name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="editDivisionCode" class="form-label required">Division Code</label>
+                        <input type="text" class="form-control" id="editDivisionCode" name="code" required>
                     </div>
                     <div class="form-group mb-3">
                         <div class="form-label">Status</div>
@@ -117,10 +125,12 @@ $title    = 'Division'
         var button = $(event.relatedTarget);
         var id = button.data('division-id');
         var name = button.data('division-name');
+        var code = button.data('division-code');
         var status = button.data('division-status');
 
         var modal = $(this);
         modal.find('.modal-body #editDivisionName').val(name);
+        modal.find('.modal-body #editDivisionCode').val(code);
 
         var form = $('#editDivisionForm');
         form.attr('action', route('divisions.update', { division: id })); // Perbaikan pada parameter division

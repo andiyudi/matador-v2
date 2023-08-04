@@ -15,8 +15,6 @@ class DivisionController extends Controller
     public function index(DivisionDataTable $dataTable)
     {
         return $dataTable->render('master-data.division');
-        // $divisions = Division::all();
-        // return view('master-data.division', compact('divisions'));
     }
 
     /**
@@ -35,12 +33,14 @@ class DivisionController extends Controller
         try {
             $request->validate([
                 'name' => 'required|unique:divisions',
+                'code' => 'required|unique:divisions',
             ]);
 
             $status = $request->has('status') ? '1' : '0';
 
             $division = new Division([
                 'name' => $request->get('name'),
+                'code' => $request->get('code'),
                 'status' => $status,
             ]);
 
@@ -49,7 +49,16 @@ class DivisionController extends Controller
             Alert::success('Success', 'Division added successfully!');
             return redirect('/divisions');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            Alert::error('Error', 'Failed to add Division: ' . $e->errors()['name'][0]);
+            // Alert::error('Error', 'Failed to add Division: ' . $e->errors()['name'][0]);
+            // return redirect()->back()->withInput();
+            $errorMessages = $e->errors();
+            if (isset($errorMessages['name'])) {
+                Alert::error('Error', 'Failed to add Official: ' . $errorMessages['name'][0]);
+            } elseif (isset($errorMessages['code'])) {
+                Alert::error('Error', 'Failed to add Official: ' . $errorMessages['code'][0]);
+            } else {
+                Alert::error('Error', 'Failed to add Official');
+            }
             return redirect()->back()->withInput();
         } catch (\Exception $e) {
             Alert::error('Error', 'Failed to add Division: ' . $e->getMessage());

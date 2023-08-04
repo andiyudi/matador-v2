@@ -32,7 +32,7 @@ class DivisionDataTable extends DataTable
         })
             // ->addColumn('action', 'division.action')
             ->addColumn('action', function($data){
-                $button = '<button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editDivisionModal" data-division-id="'.$data->id.'" data-division-name="'.$data->name.'" data-division-status="'.$data->status.'">
+                $button = '<button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editDivisionModal" data-division-id="'.$data->id.'" data-division-name="'.$data->name.'" data-division-code="'.$data->code.'" data-division-status="'.$data->status.'">
                 Edit
             </button> ';
                 $button .= ' <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDivisionModal" data-division-id="'.$data->id.'">
@@ -84,6 +84,7 @@ class DivisionDataTable extends DataTable
         return [
             Column::make('DT_RowIndex')->title('No')->orderable(false)->searchable(false),
             Column::make('name')->title('Nama Divisi'),
+            Column::make('code')->title('Kode Divisi'),
             Column::make('status')->title('Status'),
             Column::computed('action')
                     ->exportable(false)

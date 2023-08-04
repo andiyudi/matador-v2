@@ -59,11 +59,11 @@ $title    = 'Official'
                 </div>
                 <div class="modal-body">
                     <div class="form-group mb-3">
-                        <label for="name">Official Name</label>
+                        <label for="name" class="form-label required">Official Name</label>
                         <input type="text" class="form-control" id="name" name="name" placeholder="Input Official Name" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="initials">Initials</label>
+                        <label for="initials" class="form-label required">Initials</label>
                         <input type="text" class="form-control" id="initials" name="initials" placeholder="Input Official Initials" required>
                     </div>
                     <div class="form-group mb-3">
@@ -96,11 +96,11 @@ $title    = 'Official'
                     @csrf
                     @method('PUT')
                     <div class="form-group mb-3">
-                        <label for="editOfficialName">Official Name</label>
+                        <label for="editOfficialName" class="form-label required">Official Name</label>
                         <input type="text" class="form-control" id="editOfficialName" name="name" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="editInitials">Initials</label>
+                        <label for="editInitials" class="form-label required">Initials</label>
                         <input type="text" class="form-control" id="editInitials" name="initials" required>
                     </div>
                     <div class="form-group mb-3">
