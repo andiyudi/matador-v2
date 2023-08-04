@@ -32,11 +32,11 @@ class ProcurementDataTable extends DataTable
         })
         ->addColumn('status', function ($data) {
             if ($data->status == 0) {
-                return '<span class="badge text-bg-primary">PP Masih Dalam Proses Negosiasi</span>';
+                return '<span class="badge text-bg-primary">Process</span>';
             } elseif ($data->status == 1) {
-                return '<span class="badge text-bg-success">Dokumen di Direksi</span>';
+                return '<span class="badge text-bg-success">Done</span>';
             }
-            return '<span class="badge text-bg-dark">Terjadi Kesalahan</span>';
+            return '<span class="badge text-bg-dark">Unknown</span>';
         })
         ->addColumn('action', function($data){
             $route = 'procurements';
@@ -64,7 +64,7 @@ class ProcurementDataTable extends DataTable
                     ->setTableId('procurement-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('lBfrtip')
+                    ->dom('lfBrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
