@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Division;
 use Illuminate\Http\Request;
+use App\DataTables\DivisionDataTable;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class DivisionController extends Controller
@@ -11,10 +12,11 @@ class DivisionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DivisionDataTable $dataTable)
     {
-        $divisions = Division::all();
-        return view('master-data.division', compact('divisions'));
+        return $dataTable->render('master-data.division');
+        // $divisions = Division::all();
+        // return view('master-data.division', compact('divisions'));
     }
 
     /**

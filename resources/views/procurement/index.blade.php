@@ -8,18 +8,14 @@ $title    = 'Procurements'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <table id="table-divisions" class="table table-responsive table-bordered table-striped table-hover">
                     {{ $dataTable->table() }}
-                </table>
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('page-action')
-    <button type="button" class="btn btn-primary">
-        Add Procurement Data
-    </button>
+<a href="{{ route('procurements.create') }}" class="btn btn-primary mb-3">Add Procurement Data</a>
 @endpush
 @push('after-script')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}

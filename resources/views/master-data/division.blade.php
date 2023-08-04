@@ -8,39 +8,7 @@ $title    = 'Division'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <table id="table-divisions" class="table table-responsive table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Division Name</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($divisions as $division)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $division->name }}</td>
-                            <td>
-                                @if ($division->status == '1')
-                                    <span class="badge bg-success">Active</span>
-                                @else
-                                    <span class="badge bg-danger">InActive</span>
-                                @endif
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editDivisionModal" data-division-id="{{ $division->id }}" data-division-name="{{ $division->name }}" data-division-status="{{ $division->status }}">
-                                    Edit
-                                </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDivisionModal" data-division-id="{{ $division->id }}">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                {{ $dataTable->table() }}
             </div>
         </div>
     </div>
@@ -134,13 +102,6 @@ $title    = 'Division'
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('#table-divisions').DataTable({
-            lengthMenu: [5, 10, 25, 50] // Pilihan jumlah data per halaman
-        });
-    });
-</script>
-<script>
     $('#deleteDivisionModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var id = button.data('division-id')
@@ -178,4 +139,7 @@ $title    = 'Division'
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createDivisionModal">
         Add Division Data
     </button>
+@endpush
+@push('after-script')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @endpush

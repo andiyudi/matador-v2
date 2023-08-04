@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Division;
+use App\Models\Official;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\DataTables\ProcurementDataTable;
@@ -21,7 +23,9 @@ class ProcurementController extends Controller
      */
     public function create()
     {
-        //
+        $divisions = Division::where('status', '1')->get();
+        $officials = Official::where('status', '1')->get();
+        return view('procurement.create', compact('divisions', 'officials'));
     }
 
     /**
