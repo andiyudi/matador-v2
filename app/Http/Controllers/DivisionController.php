@@ -49,8 +49,6 @@ class DivisionController extends Controller
             Alert::success('Success', 'Division added successfully!');
             return redirect('/divisions');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Alert::error('Error', 'Failed to add Division: ' . $e->errors()['name'][0]);
-            // return redirect()->back()->withInput();
             $errorMessages = $e->errors();
             if (isset($errorMessages['name'])) {
                 Alert::error('Error', 'Failed to add Official: ' . $errorMessages['name'][0]);
@@ -92,8 +90,10 @@ class DivisionController extends Controller
 
             // Cek apakah input 'name' ada atau tidak
             $name = $request->has('name') ? $request->input('name') : $division->name;
+            $code = $request->has('code') ? $request->input('code') : $division->code;
 
             $division->name = $name;
+            $division->code = $code;
             $division->status = $status;
 
             $division->save();

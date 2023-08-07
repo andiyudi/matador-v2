@@ -24,8 +24,8 @@ class ProcurementDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addColumn('division_name', function ($data) {
-            return $data->division->name;
+        ->addColumn('division_code', function ($data) {
+            return $data->division->code;
         })
         ->addColumn('official_initials', function ($data) {
             return $data->official->initials;
@@ -87,7 +87,7 @@ class ProcurementDataTable extends DataTable
             Column::make('receipt')->title('TTPP'),
             Column::make('number')->title('No PP'),
             Column::make('name')->title('Nama Pekerjaan'),
-            Column::make('division_name')->title('Divisi'),
+            Column::make('division_code')->title('Divisi'),
             Column::make('official_initials')->title('PIC Pengadaan'),
             Column::make('status')->title('Status Dokumen PP')->orderable(false)->searchable(false),
             Column::computed('action')
