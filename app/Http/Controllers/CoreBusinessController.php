@@ -13,7 +13,7 @@ class CoreBusinessController extends Controller
      */
     public function index()
     {
-        $coreBusinesses = Business::where('classification_name', null)->get();
+        $coreBusinesses = Business::where('parent_id', null)->get();
         return view('master-data.core-business', compact('coreBusinesses'));
     }
 
@@ -32,11 +32,11 @@ class CoreBusinessController extends Controller
     {
         try {
             $request->validate([
-                'core_business_name' => 'required|unique:businesses',
+                'name' => 'required|unique:businesses',
             ]);
 
             $core_business = new Business([
-                'core_business_name' => $request->get('core_business_name'),
+                'name' => $request->get('name'),
             ]);
 
             $core_business->save();
@@ -44,7 +44,7 @@ class CoreBusinessController extends Controller
             Alert::success('Success', 'Core Business added successfully!');
             return redirect('/core-business');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            Alert::error('Error','Failed to add Core Business: ' . $e->errors()['core_business_name'][0]);
+            Alert::error('Error','Failed to add Core Business: ' . $e->errors()['name'][0]);
             return redirect()->back()->withInput();
         } catch (\Exception $e) {
             Alert::error('Error','Failed to add Core Business: ' . $e->getMessage());
@@ -74,7 +74,7 @@ class CoreBusinessController extends Controller
     public function update(Request $request, Business $core_business)
     {
         $request->validate([
-            'core_business_name' => 'required|max:255'
+            'name' => 'required|max:255'
         ]);
 
         $core_business->update($request->all());

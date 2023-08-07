@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Business;
 use Illuminate\Http\Request;
+use App\DataTables\ClassificationDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ClassificationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ClassificationDataTable $dataTable)
     {
-        //
+        $coreBusinesses = Business::where('parent_id', null)->get();
+        return $dataTable->with(compact('coreBusinesses'))->render('master-data.classification');
     }
 
     /**

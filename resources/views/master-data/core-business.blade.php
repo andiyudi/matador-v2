@@ -20,9 +20,9 @@ $title    = 'Core Business'
                         @foreach ($coreBusinesses as $coreBusiness)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $coreBusiness->core_business_name }}</td>
+                            <td>{{ $coreBusiness->name }}</td>
                             <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->core_business_name }}">
+                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
                                     Edit
                                 </button>
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
@@ -51,7 +51,7 @@ $title    = 'Core Business'
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="name" class="form-label required">Core Business Name</label>
-                        <input type="text" class="form-control" id="core_business_name" name="core_business_name" placeholder="Input Core Business Name" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Input Core Business Name" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -77,7 +77,7 @@ $title    = 'Core Business'
             @method('PUT')
             <div class="form-group">
             <label for="editCoreBusinessName">Core Business Name</label>
-            <input type="text" class="form-control" id="editCoreBusinessName" name="core_business_name" required>
+            <input type="text" class="form-control" id="editCoreBusinessName" name="name" required>
             </div>
         </div>
         <div class="modal-footer">

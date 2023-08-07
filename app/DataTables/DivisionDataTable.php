@@ -30,7 +30,6 @@ class DivisionDataTable extends DataTable
             }
             return '<span class="badge text-bg-dark">Unknown</span>';
         })
-            // ->addColumn('action', 'division.action')
             ->addColumn('action', function($data){
                 $button = '<button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editDivisionModal" data-division-id="'.$data->id.'" data-division-name="'.$data->name.'" data-division-code="'.$data->code.'" data-division-status="'.$data->status.'">
                 Edit

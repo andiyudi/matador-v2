@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('businesses', function (Blueprint $table) {
             $table->id();
-            $table->string('core_business_name');
-            $table->string('classification_name')->nullable();
+            $table->string('name');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

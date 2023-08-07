@@ -77,7 +77,7 @@
                     </div>
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('classification.index') }}">
                                 Classification
                             </a>
                         </div>

@@ -10,7 +10,7 @@ class Business extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['core_business_name', 'classification_name', 'parent_id'];
+    protected $fillable = ['name', 'parent_id'];
 
     public function parent(): BelongsTo
     {
