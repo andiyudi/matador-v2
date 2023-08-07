@@ -11,7 +11,7 @@ $title    = 'Core Business'
                 <table id="table-core-business" class="table table-responsive table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Core Business Name</th>
                             <th>Action</th>
                         </tr>
