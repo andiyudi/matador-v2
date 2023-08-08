@@ -72,9 +72,7 @@ $title    = 'Classification'
             <div class="mb-3">
             <label for="editClassificationCoreBusiness" class="form-label">Core Business</label>
             <select class="form-select" aria-label="Select Core Business" id="editClassificationCoreBusiness" name="core_business_id">
-                @foreach($coreBusinesses as $coreBusiness)
-                    <option value="{{ $coreBusiness->id }}">{{ $coreBusiness->name }}</option>
-                @endforeach
+                <!-- Options will be populated using JavaScript -->
             </select>
             </div>
             <div class="mb-3">
@@ -137,29 +135,114 @@ $title    = 'Classification'
                     orderable: false,
                     searchable: false,
                     render: function(data, type, full, meta) {
-                        return '<button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal" data-id="' + data + '">Edit</button> <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal" data-id="' + data + '">Delete</button>';
+                        return '<button class="btn btn-warning btn-sm edit-btn" data-bs-toggle="modal" data-bs-target="#editClassificationModal" data-id="' + data + '">Edit</button> <button class="btn btn-danger btn-sm delete-btn" data-bs-toggle="modal" data-bs-target="#deleteClassificationModal" data-id="' + data + '">Delete</button>';
                     }
                 },
             ]
         });
-        $(document).on('click', '.edit-btn', function() {
-        var classificationId = $(this).data('id');
-        var editUrl = route('classification.edit', classificationId);
+        $(document).on('click', '.delete-btn', function() {
+            var classificationId = $(this).data('id');
+            var deleteUrl = "{{ route('classification.index') }}" + '/' + classificationId;
 
-        $.ajax({
-            url: editUrl,
-            type: 'GET',
-            success: function(response) {
-                // Populate the modal form fields with response data
-                $('#editClassificationCoreBusiness').val(response.core_business_id);
-                $('#editClassificationName').val(response.name);
-                $('#editClassificationForm').attr('action', route('classification.update', classificationId));
+            // Get the classification name for display
+            var classificationName = $(this).data('name');
+            $('#deleteClassificationName').text(classificationName);
 
-                // Populate core business select options
-                $('#editClassificationCoreBusiness option').each(function() {
-                    if ($(this).val() == response.core_business_id) {
-                        $(this).prop('selected', true);
+            $('#deleteClassificationForm').attr('action', deleteUrl);
+            $('#deleteClassificationModal').modal('show');
+        });
+
+        $(document).on('submit', '#deleteClassificationForm', function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                data: form.serialize(),
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Classification deleted successfully'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Refresh or update the DataTable if needed
+                            $('#classification-table').DataTable().ajax.reload();
+                            // Close the modal
+                            $('#deleteClassificationModal').modal('hide');
                         }
+                    });
+                },
+                error: function(error) {
+                    console.log('Error deleting data');
+                }
+            });
+        });
+        $(document).on('click', '.edit-btn', function() {
+            var classificationId = $(this).data('id');
+            var editUrl = "{{ route('classification.index') }}" + '/' + classificationId + '/edit';
+
+            $.ajax({
+                url: editUrl,
+                type: 'GET',
+                success: function(response) {
+                    // Populate the modal form fields with response data
+                    $('#editClassificationName').val(response.name);
+                    $('#editClassificationForm').attr('action', "{{ route('classification.index') }}" + '/' + classificationId);
+
+                    // Populate core business select options
+                    var coreBusinessSelect = $('#editClassificationCoreBusiness');
+                    coreBusinessSelect.empty(); // Clear previous options
+
+                    var options = '';
+                    if (response.coreBusinesses.length > 0) {
+                        options += '<option value="" disabled>-- Select Core Business --</option>';
+                        response.coreBusinesses.forEach(function(coreBusiness) {
+                            var isSelected = (coreBusiness.id == response.core_business_id) ? 'selected' : '';
+                            options += '<option value="' + coreBusiness.id + '" ' + isSelected + '>' + coreBusiness.name + '</option>';
+                        });
+                    } else {
+                        options += '<option value="" disabled>No Core Business available</option>';
+                    }
+
+                    coreBusinessSelect.append(options);
+                }
+            });
+        });
+        $(document).on('submit', '#editClassificationForm', function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                data: form.serialize(),
+                success: function(response) {
+                    // Show success SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Classification updated successfully'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Refresh or update the DataTable if needed
+                            $('#classification-table').DataTable().ajax.reload();
+                            // Close the modal
+                            $('#editClassificationModal').modal('hide');
+                        }
+                    });
+                },
+                error: function(error) {
+                    // Show error SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error updating classification'
                     });
                 }
             });

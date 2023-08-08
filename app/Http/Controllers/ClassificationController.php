@@ -53,8 +53,8 @@ class ClassificationController extends Controller
             'parent_id' => $request->core_business_id,
         ]);
 
-        return redirect()->route('classification.index')
-            ->with('success', 'Classification data created successfully.');
+        Alert::success('Success', 'Classification data created successfully.');
+        return redirect()->route('classification.index');
     }
 
     /**
@@ -68,24 +68,56 @@ class ClassificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $classification = Business::find($id);
+        $coreBusinesses = Business::where('parent_id', null)->get();
+
+        return response()->json([
+            'name' => $classification->name,
+            'core_business_id' => $classification->parent_id,
+            'coreBusinesses' => $coreBusinesses
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $classification = Business::find($id);
+
+        if (!$classification) {
+            return response()->json(['message' => 'Classification not found'], 404);
+        }
+
+        $data = $request->validate([
+            'name' => 'required|string',
+            'core_business_id' => 'required|exists:businesses,id',
+        ]);
+
+        $classification->update([
+            'name' => $data['name'],
+            'parent_id' => $data['core_business_id']
+        ]);
+
+        return response()->json(['message' => 'Classification updated successfully']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $classification = Business::find($id);
+
+        if (!$classification) {
+            return response()->json(['message' => 'Classification not found'], 404);
+        }
+
+        $classification->delete();
+
+        return response()->json(['message' => 'Classification deleted successfully']);
     }
+
 }
