@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
 
 class Business extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = ['name', 'parent_id'];
 
@@ -21,5 +23,15 @@ class Business extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Business::class, 'parent_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class, 'business_partner')->withTimestamps();
     }
 }

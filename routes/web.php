@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\OfficialController;
@@ -28,6 +29,7 @@ Route::resource('divisions', DivisionController::class);
 Route::resource('procurements', ProcurementController::class);
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classification', ClassificationController::class);
+Route::resource('partner', PartnerController::class);
 
 Route::get('/dashboard', function () {
     return view('layouts.template');
