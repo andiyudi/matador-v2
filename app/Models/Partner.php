@@ -16,6 +16,6 @@ class Partner extends Model
 
     public function businesses()
     {
-        return $this->belongsToMany(Businesses::class, 'business_partner')->withTimestamps();
+        return $this->belongsToMany(Business::class, 'business_partner')->withTimestamps();
     }
 }
