@@ -89,7 +89,15 @@ class PartnerController extends Controller
      */
     public function show(Partner $partner)
     {
-        //
+        $core_businesses = Business::whereNull('parent_id')->get();
+        $classifications = Business::whereNotNull('parent_id')->get();
+
+        $selectedCoreBusinesses = $partner->businesses->map(function ($business) {
+            return $business->parent_id ?: $business->id;
+        })->toArray();
+        $selectedClassifications = $partner->businesses->pluck('id')->toArray();
+
+        return view('partner.edit', compact('partner', 'core_businesses', 'classifications' , 'selectedCoreBusinesses', 'selectedClassifications'));
     }
 
     /**
@@ -97,7 +105,16 @@ class PartnerController extends Controller
      */
     public function edit(Partner $partner)
     {
-        //
+        $core_businesses = Business::whereNull('parent_id')->get();
+        $classifications = Business::whereNotNull('parent_id')->get();
+
+        $selectedCoreBusinesses = $partner->businesses->map(function ($business) {
+            return $business->parent_id ?: $business->id;
+        })->toArray();
+        $selectedClassifications = $partner->businesses->pluck('id')->toArray();
+
+        return view('partner.edit', compact('partner', 'core_businesses', 'classifications' , 'selectedCoreBusinesses', 'selectedClassifications'));
+
     }
 
     /**
@@ -105,7 +122,40 @@ class PartnerController extends Controller
      */
     public function update(Request $request, Partner $partner)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'domicility' => 'required',
+            'area' => 'required',
+            'director' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email|unique:partners,email,' . $partner->id,
+            'capital' => 'required',
+            'grade' => 'required',
+            'reference' => 'required',
+            'join_date' => 'required',
+            'classification_id' => 'required|array'
+        ]);
+        $partner->update([
+            'name' => $validatedData['name'],
+            'address' => $validatedData['address'],
+            'domicility' => $validatedData['domicility'],
+            'area' => $validatedData['area'],
+            'director' => $validatedData['director'],
+            'phone' => $validatedData['phone'],
+            'email' => $validatedData['email'],
+            'capital' => $validatedData['capital'],
+            'grade' => $validatedData['grade'],
+            'reference' => $validatedData['reference'],
+            'join_date' => $validatedData['join_date'],
+            'classification_id' => $validatedData['classification_id'],
+        ]);
+
+        $partner->businesses()->sync($request->classification_id);
+        Alert::success('Success', 'Vendor data successfully updated');
+
+        return redirect()->route('partner.index');
+
     }
 
     /**

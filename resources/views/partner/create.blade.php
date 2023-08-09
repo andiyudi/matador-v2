@@ -156,28 +156,27 @@ $title    = 'Vendors'
         });
     });
     $(document).on('change', '#core_business_id', function() {
-    var selectedCoreBusinesses = $(this).val();
+        var selectedCoreBusinesses = $(this).val();
 
-    $.ajax({
-        url: "{{ route('get_classifications') }}",
-        type: 'GET',
-        data: {
-            core_business_id: selectedCoreBusinesses
-        },
-        success: function(response) {
-            var classificationSelect = $('#classification_id');
-            classificationSelect.empty();
+        $.ajax({
+            url: "{{ route('get_classifications') }}",
+            type: 'GET',
+            data: {
+                core_business_id: selectedCoreBusinesses
+            },
+            success: function(response) {
+                var classificationSelect = $('#classification_id');
+                classificationSelect.empty();
 
-            if (response.length > 0) {
-                response.forEach(function(classification) {
-                    classificationSelect.append('<option value="' + classification.id + '">' + classification.name + '</option>');
-                });
-            } else {
-                classificationSelect.append('<option value="" disabled>No classifications available</option>');
+                if (response.length > 0) {
+                    response.forEach(function(classification) {
+                        classificationSelect.append('<option value="' + classification.id + '">' + classification.name + '</option>');
+                    });
+                } else {
+                    classificationSelect.append('<option value="" disabled>No classifications available</option>');
+                }
             }
-        }
+        });
     });
-});
-
 </script>
 @endsection
