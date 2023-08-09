@@ -46,9 +46,35 @@ $title    = 'Vendors'
                 searchable: false,
                 orderable: false,
                 },
-                { data: 'businesses', name: 'name' },
-                { data: 'businesses', name: 'name' },
                 { data: 'name', name: 'name' },
+                {
+                    data: 'businesses',
+                    render: function (data) {
+                        var displayedParents = {};
+                        var counter = 1;
+                        return data.map(function (item, index) {
+                            var businessName = item.parent ? item.parent.name : item.name;
+                            if (!displayedParents[businessName]) {
+                                displayedParents[businessName] = true;
+                                var displayedIndex = counter;
+                                counter++;
+                                return displayedIndex + ". " + businessName + "<br>";
+                            } else {
+                                return "";
+                            }
+                        }).join("");
+                    },
+                    name: 'businesses',
+                },
+                {
+                data: 'businesses',
+                    render: function (data) {
+                        return data.map(function (item, index) {
+                            return (index+1) + "." + item.name +"<br>";
+                        }).join("");
+                        },
+                name: 'businesses.name'
+                },
                 { data: 'director', name: 'director' },
                 { data: 'phone', name: 'phone' },
                 { data: 'grade', name: 'grade',
@@ -79,7 +105,19 @@ $title    = 'Vendors'
                     }
                 },
                 { data: 'expired_at', name: 'expired_at' },
-                { data: 'id', name: 'action' },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false,
+                    render: function (data, type, row, meta) {
+                        return `
+                                    <a href="${route('partner.edit', {partner: row.id})}" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="${route('partner.show', {partner: row.id})}" class="btn btn-sm btn-info">Show</a>
+                                    <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
+                                `;
+                    }
+                },
             ]
         });
     });

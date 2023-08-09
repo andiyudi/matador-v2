@@ -16,7 +16,7 @@ class PartnerController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $partner = Partner::with('businesses:name')
+            $partner = Partner::with(['businesses.parent', 'businesses.children'])
                 ->orderByDesc('created_at')
                 ->get();
             return DataTables::of($partner)->make(true);
@@ -81,7 +81,7 @@ class PartnerController extends Controller
 
         Alert::success('Success', 'Vendor data successfully stored');
 
-        // return redirect()->route('vendors.index');
+        return redirect()->route('partner.index');
     }
 
     /**
