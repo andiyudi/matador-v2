@@ -97,7 +97,7 @@ class PartnerController extends Controller
         })->toArray();
         $selectedClassifications = $partner->businesses->pluck('id')->toArray();
 
-        return view('partner.edit', compact('partner', 'core_businesses', 'classifications' , 'selectedCoreBusinesses', 'selectedClassifications'));
+        return view('partner.show', compact('partner', 'core_businesses', 'classifications' , 'selectedCoreBusinesses', 'selectedClassifications'));
     }
 
     /**
@@ -163,7 +163,8 @@ class PartnerController extends Controller
      */
     public function destroy(Partner $partner)
     {
-        //
+        $partner->delete();
+        return redirect()->route('partner.index');
     }
 
     public function getClassificationsByCoreBusiness(Request $request)

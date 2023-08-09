@@ -96,7 +96,7 @@ class ProcurementController extends Controller
         $procurement->official_id = $request->official;
         $procurement->save();
 
-        Alert::success('Success', 'Job data updated successfully.');
+        Alert::success('Success', 'Procurement data has been updated.');
         return redirect()->route('procurements.index');
     }
 
@@ -106,6 +106,7 @@ class ProcurementController extends Controller
     public function destroy(Procurement $procurement)
     {
         $procurement->delete();
+        Alert::success('Success', 'Procurement data has been deleted.');
         return redirect()->route('procurements.index');
     }
 }

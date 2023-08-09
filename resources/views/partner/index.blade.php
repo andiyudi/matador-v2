@@ -114,11 +114,47 @@ $title    = 'Vendors'
                         return `
                                     <a href="${route('partner.edit', {partner: row.id})}" class="btn btn-sm btn-warning">Edit</a>
                                     <a href="${route('partner.show', {partner: row.id})}" class="btn btn-sm btn-info">Show</a>
-                                    <button type="button" class="btn btn-sm btn-danger delete-vendor" data-id="${row.id}">Delete</button>
+                                    <button type="button" class="btn btn-sm btn-danger delete-partner" data-id="${row.id}">Delete</button>
                                 `;
                     }
                 },
             ]
+        });
+        $(document).on('click', '.delete-partner', function () {
+            var id = $(this).data('id');
+            Swal.fire({
+                title: 'Delete Vendor',
+                text: 'Are you sure you want to delete this vendor?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kirim permintaan penghapusan ke URL yang sesuai
+                    $.ajax({
+                        url: route('partner.destroy', {partner: id}),
+                        type: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function (response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Vendor deleted successfully'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        },
+                        error: function (xhr) {
+                            Swal.fire('Error deleting vendor', '', 'error');
+                        }
+                    });
+                }
+            });
         });
     });
 </script>

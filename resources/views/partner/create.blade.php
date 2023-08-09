@@ -141,7 +141,7 @@ $title    = 'Vendors'
                             @enderror
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="submit" class="btn btn-success float-end">Save</button>
                 </form>
             </div>
         </div>

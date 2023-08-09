@@ -21,7 +21,7 @@ $title    = 'Vendors'
                     <div class="row">
                         <div class="col mb-3">
                             <label for="core_business_id" class="form-label">Core Business</label>
-                            <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business" multiple>
+                            <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business_id" multiple>
                                 <option value="" disabled>Pilih Jenis Bisnis</option>
                                 @foreach($core_businesses as $core_business)
                                     <option value="{{ $core_business->id }}" {{ in_array($core_business->id, $selectedCoreBusinesses) ? 'selected' : '' }}>
@@ -35,12 +35,14 @@ $title    = 'Vendors'
                         </div>
                         <div class="col mb-3">
                             <label for="classification_id" class="form-label">Classification</label>
-                            <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification" multiple>
+                            <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification_id" multiple>
                                 <option value="" disabled>Pilih Klasifikasi</option>
                                 @foreach($classifications as $classification)
-                                    <option value="{{ $classification->id }}" {{ in_array($classification->id, $selectedClassifications) ? 'selected' : '' }}>
-                                        {{ $classification->name }}
-                                    </option>
+                                    @if (in_array($classification->parent_id ?: $classification->id, $selectedCoreBusinesses))
+                                        <option value="{{ $classification->id }}" {{ in_array($classification->id, $selectedClassifications) ? 'selected' : '' }}>
+                                            {{ $classification->name }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                             @error('classification_id')
@@ -141,7 +143,7 @@ $title    = 'Vendors'
                             @enderror
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="submit" class="btn btn-success float-end">Update</button>
                 </form>
             </div>
         </div>
