@@ -47,7 +47,7 @@ class PartnerController extends Controller
     {
        // validasi input
         $validatedData = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:partners',
             'address' => 'required',
             'domicility' => 'required',
             'area' => 'required',
@@ -123,7 +123,7 @@ class PartnerController extends Controller
     public function update(Request $request, Partner $partner)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:partners,name,'.$partner->id,
             'address' => 'required',
             'domicility' => 'required',
             'area' => 'required',

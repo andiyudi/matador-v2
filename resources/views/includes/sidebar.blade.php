@@ -154,6 +154,20 @@
                             </a>
                         </div>
                     </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Roles
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="{{ route('user.index') }}">
+                                Users
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </li>
             <li class="nav-item">

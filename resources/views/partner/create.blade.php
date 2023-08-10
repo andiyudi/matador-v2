@@ -24,7 +24,9 @@ $title    = 'Vendors'
                             <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business_id" multiple>
                                 <option value="" disabled>Select Core Business</option>
                                 @foreach($core_businesses as $core_business)
-                                    <option value="{{ $core_business->id }}">{{ $core_business->name }}</option>
+                                    <option value="{{ $core_business->id }}" {{ in_array($core_business->id, old('core_business_id', [])) ? 'selected' : '' }}>
+                                        {{ $core_business->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('core_business_id')
@@ -35,7 +37,7 @@ $title    = 'Vendors'
                         <div class="col mb-3">
                             <label for="classification_id" class="form-label">Classification</label>
                             <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification_id" multiple>
-                                <option value="">Select Classification</option>
+                                <option value="" disabled>Select Classification</option>
                             </select>
                             @error('classification_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
