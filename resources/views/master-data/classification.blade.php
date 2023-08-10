@@ -227,7 +227,7 @@ $title    = 'Classification'
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
-                        text: 'Classification updated successfully'
+                        text: response.message
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Refresh or update the DataTable if needed
@@ -237,13 +237,24 @@ $title    = 'Classification'
                         }
                     });
                 },
-                error: function(error) {
-                    // Show error SweetAlert
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error updating classification'
-                    });
+                error: function(xhr) {
+                    var response = xhr.responseJSON;
+
+                    // Show validation error SweetAlert if status code is 422
+                    if (xhr.status === 422) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Validation Error',
+                            html: response.error
+                        });
+                    } else {
+                        // Show general error SweetAlert
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error updating classification: ' + response.error
+                        });
+                    }
                 }
             });
         });

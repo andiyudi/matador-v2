@@ -43,18 +43,28 @@ class ClassificationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'core_business_id' => 'required|exists:businesses,id',
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'core_business_id' => 'required|exists:businesses,id',
+                'name' => 'required|string|max:255|unique:businesses,name,NULL,id,parent_id,' . $request->core_business_id,
+            ], [
+                'name.unique' => 'The name already exists for the selected core business.',
+            ]);
 
-        Business::create([
-            'name' => $request->name,
-            'parent_id' => $request->core_business_id,
-        ]);
+            Business::create([
+                'name' => $request->name,
+                'parent_id' => $request->core_business_id,
+            ]);
 
-        Alert::success('Success', 'Classification data created successfully.');
-        return redirect()->route('classification.index');
+            Alert::success('Success', 'Classification data created successfully.');
+            return redirect()->route('classification.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Alert::error('Error','Failed to add Classification: ' . $e->errors()['name'][0]);
+            return redirect()->back()->withInput();
+        } catch (\Exception $e) {
+            Alert::error('Error','Failed to add Classification: ' . $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -85,23 +95,48 @@ class ClassificationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $classification = Business::find($id);
+        try {
+            $classification = Business::find($id);
 
-        if (!$classification) {
-            return response()->json(['message' => 'Classification not found'], 404);
+            if (!$classification) {
+                return response()->json(['message' => 'Classification not found'], 404);
+            }
+
+            $data = $request->validate([
+                'name' => 'required|string',
+                'core_business_id' => 'required|exists:businesses,id',
+            ]);
+
+            // Check if the updated core_business_id is different from the current parent_id
+            if ($classification->parent_id != $data['core_business_id']) {
+                // Check if the updated core_business_id and name combination already exists
+                if (Business::where('name', $data['name'])
+                    ->where('parent_id', $data['core_business_id'])
+                    ->where('id', '!=', $id)
+                    ->exists()) {
+                    return response()->json(['error' => 'The combination of classification and core business already exists.'], 422);
+                }
+            } else {
+                // Check if the name already exists for the same core_business_id
+                if (Business::where('name', $data['name'])
+                    ->where('parent_id', $data['core_business_id'])
+                    ->where('id', '!=', $id)
+                    ->exists()) {
+                    return response()->json(['error' => 'Core business with the same classification already exists.'], 422);
+                }
+            }
+
+            $classification->update([
+                'name' => $data['name'],
+                'parent_id' => $data['core_business_id']
+            ]);
+
+            return response()->json(['message' => 'Classification updated successfully']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update Classification: ' . $e->getMessage()], 500);
         }
-
-        $data = $request->validate([
-            'name' => 'required|string',
-            'core_business_id' => 'required|exists:businesses,id',
-        ]);
-
-        $classification->update([
-            'name' => $data['name'],
-            'parent_id' => $data['core_business_id']
-        ]);
-
-        return response()->json(['message' => 'Classification updated successfully']);
     }
 
     /**

@@ -88,12 +88,16 @@ class DivisionController extends Controller
         try {
             $status = $request->input('status') ? '1' : '0';
 
-            // Cek apakah input 'name' ada atau tidak
-            $name = $request->has('name') ? $request->input('name') : $division->name;
-            $code = $request->has('code') ? $request->input('code') : $division->code;
+            $request->validate([
+            'name' => "required|unique:divisions,name,$division->id",
+            'code' => "required|unique:divisions,code,$division->id",
+            ], [
+                'name.unique' => 'The name has already been taken.',
+                'code.unique' => 'The code has already been taken.',
+            ]);
 
-            $division->name = $name;
-            $division->code = $code;
+            $division->name = $request->input('name');
+            $division->code = $request->input('code');
             $division->status = $status;
 
             $division->save();

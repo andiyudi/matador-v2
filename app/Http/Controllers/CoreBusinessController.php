@@ -73,13 +73,21 @@ class CoreBusinessController extends Controller
      */
     public function update(Request $request, Business $core_business)
     {
-        $request->validate([
-            'name' => 'required|max:255'
-        ]);
-
-        $core_business->update($request->all());
-        Alert::success('Success', 'Core Business updated successfully!');
-        return redirect()->route('core-business.index');
+        try {
+            $request->validate([
+                'name' => 'required|unique:businesses,name,$core_business->id'
+            ]);
+            $core_business->name = $request->input('name');
+            $core_business->save();
+            Alert::success('Success', 'Core Business updated successfully!');
+            return redirect()->route('core-business.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Alert::error('Error', 'Failed to update Core Business: ' . $e->getMessage());
+            return redirect()->back()->withInput();
+        } catch (\Exception $e) {
+            Alert::error('Error', 'Failed to update Core Business: ' . $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     /**

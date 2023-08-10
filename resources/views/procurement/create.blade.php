@@ -65,10 +65,8 @@ $title    = 'Procurements'
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 btn-group float-end">
-                        <a type="button" href="{{ route('procurements.index') }}" class="btn btn-secondary me-3">Back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
-                    </div>
+                    <a type="button" href="{{ route('procurements.index') }}" class="btn btn-secondary">Back</a>
+                    <button type="submit" class="btn btn-success">Save</button>
                 </form>
             </div>
         </div>

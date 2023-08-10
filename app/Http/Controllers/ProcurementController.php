@@ -82,7 +82,7 @@ class ProcurementController extends Controller
         $request->validate([
             'receipt' => 'required',
             'name' => 'required',
-            'number' => 'required',
+            'number' => 'required|unique:procurements,number,' . $id,
             'division' => 'required',
             'official' => 'required',
         ]);

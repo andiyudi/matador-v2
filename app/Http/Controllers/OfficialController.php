@@ -87,13 +87,16 @@ class OfficialController extends Controller
     {
         try {
             $status = $request->input('status') ? '1' : '0';
+            $request->validate([
+            'name' => "required|unique:officials,name,$official->id",
+            'initials' => "required|unique:officials,initials,$official->id",
+            ], [
+                'name.unique' => 'The name has already been taken.',
+                'initials.unique' => 'The initials has already been taken.',
+            ]);
 
-            // Cek apakah input 'name' ada atau tidak
-            $name = $request->has('name') ? $request->input('name') : $official->name;
-            $initials = $request->has('initials') ? $request->input('initials') : $official->initials;
-
-            $official->name = $name;
-            $official->initials = $initials;
+            $official->name = $request->input('name');
+            $official->initials = $request->input('initials');
             $official->status = $status;
 
             $official->save();
