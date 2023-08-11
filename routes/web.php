@@ -7,6 +7,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\OfficialController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
@@ -34,20 +35,11 @@ Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classification', ClassificationController::class);
 Route::resource('partner', PartnerController::class);
 
-// Route::prefix('/dashboard')
-//     ->middleware('auth')
-//     ->group(function(){
-//             Route::get('/', function () {
-//                     return view('layouts.template');
-//                 })->middleware(['auth', 'verified'])->name('dashboard');
-
-//                 Route::resource('user', UserController::class);
-//                 Route::resource('role', RoleController::class);
-//             });
 
 Route::middleware('auth', 'verified')->group(function(){
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
+    Route::resource('permission', PermissionController::class);
 });
 
 Route::get('/dashboard', function () {

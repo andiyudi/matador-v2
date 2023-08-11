@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\DataTables\PermissionDataTable;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(PermissionDataTable $dataTable)
     {
-        //
+        return $dataTable->render('permission.index');
     }
 
     /**
@@ -27,7 +29,17 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:permissions',
+            'guard_name' => 'required',
+        ]);
+        $permission = new Permission([
+            'name' => $request->get('name'),
+            'guard_name' => $request->get('guard_name'),
+        ]);
+
+        $permission->save();
+        return redirect('/permission');
     }
 
     /**
@@ -41,15 +53,15 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Permission $permission)
     {
-        //
+        return view ('permission.edit', compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Permission $permission)
     {
         //
     }
@@ -57,8 +69,9 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+        return redirect('/permission');
     }
 }
