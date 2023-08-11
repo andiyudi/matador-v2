@@ -14,6 +14,8 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         //create permissions
+        Permission::create(['name' => 'menu-config']);
+
         Permission::create(['name' => 'user-index']);
         Permission::create(['name' => 'user-create']);
         Permission::create(['name' => 'user-edit']);

@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Data';
-$title    = 'Users'
+$title    = 'Roles'
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">
@@ -12,33 +12,29 @@ $title    = 'Users'
                     <thead>
                         <tr class="text-center">
                             <th>No</th>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Username</th>
                             <th>Roles</th>
+                            <th>Permissions</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($users as $user)
+                        @forelse ($roles as $item)
                         <tr class="text-center">
                             <td>{{  $loop->iteration }}</td>
-                            <td>{{  $user->name }}</td>
-                            <td>{{  $user->email }}</td>
-                            <td>{{  $user->username }}</td>
+                            <td>{{  $item->name }}</td>
                             <td>
-                                @if(!empty($user->getRoleNames()))
-                                @foreach ($user->getRoleNames() as $role)
-                                <span class="badge rounded-pill text-bg-info">{{ $role }}</span>
+                                @if(!empty($item->getPermissionNames()))
+                                @foreach ($item->getPermissionNames() as $role)
+                                <span class="badge rounded-pill text-bg-info mb-3">{{ $role }}</span>
                                 @endforeach
                                 @endif
                             </td>
                             <td>
-                                @can('user-edit')
-                                <a href="{{ route('user.edit', $user->id) }}" type="button" class="btn btn-warning btn-pill btn-sm">Edit</a>
+                                @can('role-edit')
+                                <a href="{{ route('role.edit', $item->id) }}" type="button" class="btn btn-warning btn-pill btn-sm">Edit</a>
                                 @endcan
-                                @can('user-delete')
-                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="inline-block">
+                                @can('role-delete')
+                                <form action="{{ route('role.destroy', $item->id) }}" method="POST" class="inline-block">
                                     @method("DELETE")
                                     @csrf
                                     <button class="btn btn-danger btn-pill btn-sm">Delete</button>
@@ -57,7 +53,7 @@ $title    = 'Users'
 </div>
 @endsection
 @push('page-action')
-@can('user-create')
-<a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Add User Data</a>
+@can('role-create')
+<a href="{{ route('role.create') }}" class="btn btn-primary mb-3">Add Role Data</a>
 @endcan
 @endpush

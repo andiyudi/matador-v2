@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
@@ -33,19 +34,25 @@ Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classification', ClassificationController::class);
 Route::resource('partner', PartnerController::class);
 
-Route::prefix('/dashboard')
-    ->middleware('auth')
-    ->group(function(){
-            Route::get('/', function () {
-                    return view('layouts.template');
-                })->middleware(['auth', 'verified'])->name('dashboard');
+// Route::prefix('/dashboard')
+//     ->middleware('auth')
+//     ->group(function(){
+//             Route::get('/', function () {
+//                     return view('layouts.template');
+//                 })->middleware(['auth', 'verified'])->name('dashboard');
 
-        Route::resource('user', UserController::class);
+//                 Route::resource('user', UserController::class);
+//                 Route::resource('role', RoleController::class);
+//             });
 
-    });
-// Route::get('/dashboard', function () {
-//     return view('layouts.template');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth', 'verified')->group(function(){
+    Route::resource('user', UserController::class);
+    Route::resource('role', RoleController::class);
+});
+
+Route::get('/dashboard', function () {
+    return view('layouts.template');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

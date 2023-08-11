@@ -133,6 +133,7 @@
                     </div>
                 </div>
             </li>
+            @can('menu-config')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -147,6 +148,7 @@
                     </span>
                 </a>
                 <div class="dropdown-menu">
+                    @can('permission-index')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="#">
@@ -154,13 +156,17 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('role-index')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('role.index') }}">
                                 Roles
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('user-index')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('user.index') }}">
@@ -168,8 +174,10 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
                 </div>
             </li>
+            @endcan
             <li class="nav-item">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
