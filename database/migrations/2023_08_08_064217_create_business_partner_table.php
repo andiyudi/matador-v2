@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('business_id');
             $table->unsignedBigInteger('partner_id');
+            $table->enum('is_blacklist', ['0','1'])->default('0'); // 0=not blacklisted, 1=blacklisted
             $table->timestamps();
 
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');

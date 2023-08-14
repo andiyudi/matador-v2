@@ -17,33 +17,6 @@ $title    = 'Vendors'
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <!-- Core Business -->
-                    <div class="row">
-                        <div class="col mb-3">
-                            <label for="core_business_id" class="form-label">Core Business</label>
-                            <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business_id" multiple>
-                                <option value="" disabled>Select Core Business</option>
-                                @foreach($core_businesses as $core_business)
-                                    <option value="{{ $core_business->id }}" {{ in_array($core_business->id, old('core_business_id', [])) ? 'selected' : '' }}>
-                                        {{ $core_business->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('core_business_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <!-- Classification -->
-                        <div class="col mb-3">
-                            <label for="classification_id" class="form-label">Classification</label>
-                            <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification_id" multiple>
-                                <option value="" disabled>Select Classification</option>
-                            </select>
-                            @error('classification_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
                     <!-- Alamat -->
                     <div class="row">
                         <div class="col mb-3">
@@ -143,7 +116,10 @@ $title    = 'Vendors'
                             @enderror
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success float-end">Save</button>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ route('partner.index') }}" type="button" class="btn btn-secondary">Back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -155,29 +131,6 @@ $title    = 'Vendors'
             theme: "bootstrap-5",
             selectionCssClass: "select2--small",
             dropdownCssClass: "select2--small",
-        });
-    });
-    $(document).on('change', '#core_business_id', function() {
-        var selectedCoreBusinesses = $(this).val();
-
-        $.ajax({
-            url: "{{ route('get_classifications') }}",
-            type: 'GET',
-            data: {
-                core_business_id: selectedCoreBusinesses
-            },
-            success: function(response) {
-                var classificationSelect = $('#classification_id');
-                classificationSelect.empty();
-
-                if (response.length > 0) {
-                    response.forEach(function(classification) {
-                        classificationSelect.append('<option value="' + classification.id + '">' + classification.name + '</option>');
-                    });
-                } else {
-                    classificationSelect.append('<option value="" disabled>No classifications available</option>');
-                }
-            }
         });
     });
 </script>

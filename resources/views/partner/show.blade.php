@@ -17,36 +17,6 @@ $title    = 'Vendors'
                 </div>
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="core_business_id" class="form-label">Core Business</label>
-                        <select class="form-select basic-multiple @error('core_business_id') is-invalid @enderror" name="core_business_id[]" id="core_business" multiple disabled>
-                            <option value="" disabled>Pilih Jenis Bisnis</option>
-                            @foreach($core_businesses as $core_business)
-                                <option value="{{ $core_business->id }}" {{ in_array($core_business->id, $selectedCoreBusinesses) ? 'selected' : '' }}>
-                                    {{ $core_business->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('core_business_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <div class="col mb-3">
-                        <label for="classification_id" class="form-label">Classification</label>
-                        <select class="form-select basic-multiple @error('classification_id') is-invalid @enderror" name="classification_id[]" id="classification" multiple disabled>
-                            <option value="" disabled>Pilih Klasifikasi</option>
-                            @foreach($classifications as $classification)
-                                <option value="{{ $classification->id }}" {{ in_array($classification->id, $selectedClassifications) ? 'selected' : '' }}>
-                                    {{ $classification->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('classification_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col mb-3">
                         <label for="address" class="form-label">Address</label>
                         <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4" disabled>{{ $partner->address }}</textarea>
                         @error('address')

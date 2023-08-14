@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('receipt');
             $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('official_id');
-            $table->enum('status', ['0', '1']); // 0 = process, 1 = done
+            $table->enum('status', ['0', '1', '2'])->default('0'); // 0 = process, 1 = success, 2=cancel
             $table->timestamps();
             $table->softDeletes();
 

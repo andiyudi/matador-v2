@@ -22,7 +22,6 @@ use App\Http\Controllers\ClassificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/get-classifications', [PartnerController::class, 'getClassificationsByCoreBusiness'])->name('get_classifications');
 
 Route::get('/', function () {
     return view('auth/login');
