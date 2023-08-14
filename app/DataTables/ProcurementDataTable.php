@@ -34,7 +34,9 @@ class ProcurementDataTable extends DataTable
             if ($data->status == 0) {
                 return '<span class="badge text-bg-primary">Process</span>';
             } elseif ($data->status == 1) {
-                return '<span class="badge text-bg-success">Done</span>';
+                return '<span class="badge text-bg-success">Success</span>';
+            } elseif ($data->status == 2) {
+                return '<span class="badge text-bg-danger">Canceled</span>';
             }
             return '<span class="badge text-bg-dark">Unknown</span>';
         })

@@ -133,6 +133,13 @@
                             </a>
                         </div>
                     </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="{{ route('category.index') }}">
+                                Category
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </li>
             @can('menu-config')

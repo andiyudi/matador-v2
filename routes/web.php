@@ -5,6 +5,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\PermissionController;
@@ -22,6 +23,9 @@ use App\Http\Controllers\ClassificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::prefix('partner')->group(function () {
+    Route::resource('category', CategoryController::class);
+});
 
 Route::get('/', function () {
     return view('auth/login');

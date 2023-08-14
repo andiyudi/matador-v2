@@ -164,6 +164,9 @@ class PartnerController extends Controller
     public function destroy(Partner $partner)
     {
         $partner->delete();
+
+        Alert::success('Success', 'Vendor data successfully deleted');
+
         return redirect()->route('partner.index');
     }
 

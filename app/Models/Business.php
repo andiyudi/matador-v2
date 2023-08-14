@@ -15,6 +15,10 @@ class Business extends Model
     use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = ['name', 'parent_id'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function parent(): BelongsTo
     {
@@ -26,10 +30,6 @@ class Business extends Model
         return $this->hasMany(Business::class, 'parent_id');
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
 
     public function partners()
     {
