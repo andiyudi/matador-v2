@@ -6,4 +6,5 @@
         @method('DELETE')
         <button type="submit" class="btn btn-sm btn-danger action">Delete</button>
     </form>
+    <a href="{{ route('document.index', ['partner_id' => $data->id]) }}" class="btn btn-sm btn-primary action">Document</a>
 </div>

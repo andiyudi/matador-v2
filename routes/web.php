@@ -7,6 +7,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProcurementController;
@@ -25,6 +26,10 @@ use App\Http\Controllers\ClassificationController;
 */
 Route::prefix('partner')->group(function () {
     Route::resource('category', CategoryController::class);
+    Route::get('document/{partner_id}', [DocumentController::class, 'index'])->name('document.index');
+    Route::get('document/{partner_id}/create', [DocumentController::class, 'create'])->name('document.create');
+    Route::post('document/store', [DocumentController::class, 'store'])->name('document.store');
+    Route::delete('document/{file_id}', [DocumentController::class, 'destroy'])->name('document.destroy');
 });
 
 Route::get('/', function () {
