@@ -5,7 +5,7 @@
     </button>
     <h1 class="navbar-brand navbar-brand-autodark">
         <a href=".">
-        <img src="{{ asset ('') }}assets/static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
+            <img src="{{ asset('assets/logo/cmnplogo.png') }}" alt="Logo" width="100" height="50" class="logo-image">
         </a>
     </h1>
     <div class="navbar-nav flex-row d-lg-none">
@@ -86,6 +86,7 @@
                 </div>
             </li>
             @endcan
+            @can('menu-procurement')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -108,6 +109,8 @@
                     </div>
                 </div>
             </li>
+            @endcan
+            @can('menu-vendor')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
@@ -137,6 +140,33 @@
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('category.index') }}">
                                 Category
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            @endcan
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+                    <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-icons" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M6.5 6.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0"></path>
+                            <path d="M2.5 21h8l-4 -7z"></path>
+                            <path d="M14 3l7 7"></path>
+                            <path d="M14 10l7 -7"></path>
+                            <path d="M14 14h7v7h-7z"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-link-title">
+                        Tender
+                    </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Pengajuan
                             </a>
                         </div>
                     </div>
