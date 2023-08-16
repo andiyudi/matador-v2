@@ -45,7 +45,7 @@ $title    = 'Category Vendor'
                         </div>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a type="button" href="{{ route('procurements.index') }}" class="btn btn-secondary">Back</a>
+                        <a type="button" href="{{ route('category.index') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>
                 </form>
@@ -53,13 +53,7 @@ $title    = 'Category Vendor'
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('.select2').select2({
-            theme: "bootstrap-5",
-            selectionCssClass: "select2--small",
-            dropdownCssClass: "select2--small",
-        });
-    });
-</script>
 @endsection
+@push('after-script')
+@include('includes.after-script')
+@endpush

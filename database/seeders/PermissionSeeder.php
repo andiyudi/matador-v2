@@ -16,6 +16,9 @@ class PermissionSeeder extends Seeder
         //create permissions
         Permission::create(['name' => 'menu-config']);
         Permission::create(['name' => 'menu-masterdata']);
+        Permission::create(['name' => 'menu-procurement']);
+        Permission::create(['name' => 'menu-vendor']);
+        Permission::create(['name' => 'menu-tender']);
 
         Permission::create(['name' => 'user-index']);
         Permission::create(['name' => 'user-create']);

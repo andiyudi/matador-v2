@@ -41,7 +41,7 @@ $title    = 'Procurements'
                     <div class="row mb-3">
                         <label for="division" class="col-sm-2 col-form-label required">Division</label>
                         <div class="col-sm-10">
-                            <select class="form-control select2 @error('division') is-invalid @enderror" id="division" name="division">
+                            <select class="form-select @error('division') is-invalid @enderror" id="division" name="division">
                                 <option value="">Select Division</option>
                                 @foreach ($divisions as $division)
                                 <option value="{{ $division->id }}" {{ $procurement->division_id == $division->id ? 'selected' : '' }}>
@@ -57,7 +57,7 @@ $title    = 'Procurements'
                     <div class="row mb-3">
                         <label for="person_in_charge" class="col-sm-2 col-form-label required">PIC Pengadaan</label>
                         <div class="col-sm-10">
-                            <select class="form-control select2 @error('official') is-invalid @enderror" id="official" name="official">
+                            <select class="form-select @error('official') is-invalid @enderror" id="official" name="official">
                                 <option value="">Select Official</option>
                                 @foreach ($officials as $official)
                                     <option value="{{ $official->id }}" {{ $procurement->official_id == $official->id ? 'selected' : '' }}>{{ $official->name }}</option>
@@ -77,13 +77,4 @@ $title    = 'Procurements'
         </div>
     </div>
 </div>
-<script>
-        $(document).ready(function() {
-        $('.select2').select2({
-            theme: "bootstrap-5",
-            selectionCssClass: "select2--small",
-            dropdownCssClass: "select2--small",
-        });
-    });
-</script>
 @endsection

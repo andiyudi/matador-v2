@@ -16,6 +16,7 @@ $title    = 'Category Vendors'
                             <th>Core Business</th>
                             <th>Classification</th>
                             <th>Status Vendor</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,7 @@ $title    = 'Category Vendors'
                 { data: 'core_business_name', name: 'core_business_name' },
                 { data: 'business_name', name: 'business_name' },
                 { data: 'status', name: 'status' },
+                { data: 'action', name: 'action' },
             ]
         });
     });

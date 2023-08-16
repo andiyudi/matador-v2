@@ -2,14 +2,15 @@
 <html lang="en">
     <head>
         @include('includes.meta')
-        <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+        <title>Aplikasi Manajemen Database Vendor</title>
         <!-- CSS files -->
         @include('includes.style')
         @stack('after-style')
         <style>
         @import url('https://rsms.me/inter/inter.css');
         :root {
-        --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        --tblr-font-sans-serif: 'Inter Var',
+        -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
         }
         body {
         font-feature-settings: "cv03", "cv04", "cv11";

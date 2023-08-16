@@ -166,7 +166,7 @@
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="#">
-                                Pengajuan
+                                Process
                             </a>
                         </div>
                     </div>

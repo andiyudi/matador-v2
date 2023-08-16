@@ -3,11 +3,13 @@
         <div class="row text-center align-items-center flex-row-reverse">
         <div class="col-lg-auto ms-lg-auto">
             <ul class="list-inline list-inline-dots mb-0">
-            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">TI</a></li>
+            <li class="list-inline-item"><a href="#" class="link-secondary" rel="noopener">TI</a></li>
             <li class="list-inline-item"><a href="#" class="link-secondary">Sistem Informasi</a></li>
-            <li class="list-inline-item"><a href="#" target="_blank" class="link-secondary" rel="noopener">All Right Reserved.</a></li>
             <li class="list-inline-item">
-                <a href="https://github.com/sponsors/codecalm" target="_blank" class="link-secondary" rel="noopener">
+                <a href="#" class="link-secondary" rel="noopener">All Right Reserved.</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="#" class="link-secondary" rel="noopener">
                 <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -24,11 +26,11 @@
             <ul class="list-inline list-inline-dots mb-0">
             <li class="list-inline-item">
                 &copy; 2023 - {{ now()->year }}
-                <a href="." class="link-secondary">Umum - Pengadaan</a>.
+                <a href="#" class="link-secondary">Umum - Pengadaan</a>.
                 &#174; Aplikasi Manajemen Database Vendor
             </li>
             <li class="list-inline-item">
-                <a href="{{ asset ('') }}assets/changelog.html" class="link-secondary" rel="noopener">
+                <a href="#" class="link-secondary" rel="noopener">
                 v2.0.0
                 </a>
             </li>

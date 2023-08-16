@@ -58,8 +58,5 @@ $title    = 'Document '. $partner->name;
 </script>
 @endsection
 @push('page-action')
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a href="{{ route('partner.index') }}" type="button" class="btn btn-secondary mb-3">Back</a>
-    <a href="{{ route('document.create', ['partner_id' => $partner->id]) }}" class="btn btn-primary mb-3">Add Document Vendor</a>
-</div>
+<a href="{{ route('document.create', ['partner_id' => $partner->id]) }}" class="btn btn-primary mb-3">Add Document Vendor</a>
 @endpush

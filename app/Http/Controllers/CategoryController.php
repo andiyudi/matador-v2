@@ -35,7 +35,16 @@ class CategoryController extends Controller
                         return '<span class="badge text-bg-danger">Blacklist</span>';
                     }
                 })
-                ->rawColumns(['status'])
+                ->addColumn('action', function($data){
+                    $button = '<button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#blacklist-modal" data-category-id="'.$data->id.'">
+                    Blacklist
+                </button> ';
+                    $button .= ' <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#whitelist-modal" data-category-id="'.$data->id.'">
+                    Whitelist
+                </button>';
+                    return $button;
+                })
+                ->rawColumns(['status', 'action'])
                 ->toJson();
         }
         return view('partner.category.index');
