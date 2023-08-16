@@ -18,6 +18,9 @@ return new class extends Migration
             $table->date('can_whitelist_at')
                 ->nullable()->default(NULL)
                 ->after ('blacklist_at');
+            $table->date('whitelist_at')
+                ->nullable()->default(NULL)
+                ->after ('can_whitelist_at');
 
         });
     }
@@ -30,6 +33,7 @@ return new class extends Migration
         Schema::table('business_partner', function (Blueprint $table) {
             $table->dropColumn('blacklist_at');
             $table->dropColumn('can_whitelist_at');
+            $table->dropColumn('whitelist_at');
         });
     }
 };

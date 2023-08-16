@@ -11,6 +11,12 @@ class BusinessPartner extends Model
 {
     use HasFactory;
     protected $table = 'business_partner';
+    protected $fillable = [
+        'is_blacklist',
+        'blacklist_at',
+        'can_whitelist_at',
+        'whitelist_at',
+    ];
 
     public function partner()
     {

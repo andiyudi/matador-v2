@@ -16,6 +16,9 @@ $title    = 'Category Vendors'
                             <th>Core Business</th>
                             <th>Classification</th>
                             <th>Status Vendor</th>
+                            <th>Blacklist At</th>
+                            <th>Can Whitelist At</th>
+                            <th>Whitelist At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -26,31 +29,7 @@ $title    = 'Category Vendors'
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#category-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{{ route('category.index') }}',
-            columns: [
-                {
-                data: null,
-                render: function (data, type, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1;
-                },
-                name: 'row_number',
-                searchable: false,
-                orderable: false,
-                },
-                { data: 'partner_name', name: 'partner_name' },
-                { data: 'core_business_name', name: 'core_business_name' },
-                { data: 'business_name', name: 'business_name' },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action' },
-            ]
-        });
-    });
-</script>
+@include('partner.category.js')
 @endsection
 @push('page-action')
 <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Vendor Categories</a>
