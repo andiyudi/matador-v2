@@ -100,9 +100,10 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($category_id)
     {
-        //
+        $files = CategoryFiles::where('category_id', $category_id)->get();
+        return view('partner.category.show', compact('files'));
     }
 
     /**

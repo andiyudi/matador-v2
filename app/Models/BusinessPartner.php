@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Partner;
 use App\Models\Business;
+use App\Models\CategoryFiles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -26,5 +27,10 @@ class BusinessPartner extends Model
     public function business()
     {
         return $this->belongsTo(Business::class, 'business_id');
+    }
+
+    public function categoryFiles()
+    {
+        return $this->hasMany(CategoryFiles::class, 'category_id');
     }
 }
