@@ -102,8 +102,17 @@ class CategoryController extends Controller
      */
     public function show($category_id)
     {
+        $businessPartner = BusinessPartner::findOrFail($category_id);
+        $partner = $businessPartner->partner->name;
+        $business = $businessPartner->business->name;
+        $core_business = $businessPartner->business->parent->name;
+        $data = [
+            'partner' => $partner,
+            'business' => $business,
+            'core_business' => $core_business,
+        ];
         $files = CategoryFiles::where('category_id', $category_id)->get();
-        return view('partner.category.show', compact('files'));
+        return view('partner.category.show', compact('files', 'data'));
     }
 
     /**

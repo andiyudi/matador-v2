@@ -1,8 +1,8 @@
 @extends('layouts.template')
 @section('content')
 @php
-$pretitle = 'Data';
-$title    = 'Blacklist Document'
+    $pretitle = 'Data Blacklist Document';
+    $title =  $data['partner'] . ' - ' .  $data['core_business'] . ' - ' . $data['business'];
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

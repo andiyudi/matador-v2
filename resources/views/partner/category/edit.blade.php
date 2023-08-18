@@ -11,9 +11,9 @@ $title    = 'Vendor Category'
                 <form action="{{ route('category.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @method("PUT")
                     @csrf
-                    <input type="text" name="id_category" value="{{ $data->id }}">
-                    <input type="text" name="is_blacklist" id="is_blacklist" value="{{ $data->is_blacklist }}">
-                    <input type="text" name="type" id="type" value="{{ $data->is_blacklist === 0 ? 1 : 0 }}">
+                    <input type="hidden" name="id_category" value="{{ $data->id }}">
+                    <input type="hidden" name="is_blacklist" id="is_blacklist" value="{{ $data->is_blacklist }}">
+                    <input type="hidden" name="type" id="type" value="{{ $data->is_blacklist === 0 ? 1 : 0 }}">
                     <div class="row mb-3">
                         <div class="row mb-3">
                         <label for="file" class="col-sm-2 col-form-label required">Upload Document</label>
