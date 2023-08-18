@@ -8,5 +8,5 @@
             <button class="btn btn-sm btn-light action" disabled>Whitelist</button>
         @endif
     @endif
-    <a href="{{ route($route.'.show', $data->id) }}" class="btn btn-sm btn-link action" target="_blank">Document</a>
+    <a href="{{ route($route.'.show', $data->id) }}" class="btn btn-sm btn-primary action" target="_blank">Document</a>
 </div>

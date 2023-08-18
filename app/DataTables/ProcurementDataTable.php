@@ -32,7 +32,7 @@ class ProcurementDataTable extends DataTable
         })
         ->addColumn('status', function ($data) {
             if ($data->status == 0) {
-                return '<span class="badge text-bg-primary">Process</span>';
+                return '<span class="badge text-bg-info">Process</span>';
             } elseif ($data->status == 1) {
                 return '<span class="badge text-bg-success">Success</span>';
             } elseif ($data->status == 2) {

@@ -13,10 +13,8 @@ $title    = 'Vendors'
                         <tr>
                             <th>No</th>
                             <th>Name</th>
-                            <th>Address</th>
                             <th>Director</th>
                             <th>Phone</th>
-                            <th>Email</th>
                             <th>Grade</th>
                             <th>Status</th>
                             <th>Expired At</th>
@@ -47,10 +45,8 @@ $title    = 'Vendors'
                 orderable: false,
                 },
                 { data: 'name', name: 'name' },
-                { data: 'address', name: 'address' },
                 { data: 'director', name: 'director' },
                 { data: 'phone', name: 'phone' },
-                { data: 'email', name: 'email' },
                 { data: 'grade', name: 'grade' },
                 { data: 'status', name: 'email' },
                 { data: 'expired_at', name: 'expired_at' },

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Partner;
+use App\Models\Procurement;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,12 +20,17 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(PermissionSeeder::class);
-        $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(ExampleDivisionSeeder::class);
-        $this->call(ExampleOfficialSeeder::class);
-        $this->call(ExampleCoreBusinessSeeder::class);
-        $this->call(ExampleClassificationSeeder::class);
+        $this->call([
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+            ExampleDivisionSeeder::class,
+            ExampleOfficialSeeder::class,
+            ExampleCoreBusinessSeeder::class,
+            ExampleClassificationSeeder::class,
+        ]);
+
+        Partner::factory(20)->create();
+        Procurement::factory(20)->create();
     }
 }

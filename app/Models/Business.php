@@ -17,7 +17,8 @@ class Business extends Model
     protected $fillable = ['name', 'parent_id'];
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+        ->useLogName('business');
     }
 
     public function parent(): BelongsTo

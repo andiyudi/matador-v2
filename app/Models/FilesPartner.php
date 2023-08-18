@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FilesPartner extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
     protected $table = 'files_partner';
     protected $fillable = [
         'partner_id',
@@ -19,5 +21,11 @@ class FilesPartner extends Model
     public function partner()
     {
         return $this->belongsTo(Partner::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->useLogName('files_partner');
     }
 }
