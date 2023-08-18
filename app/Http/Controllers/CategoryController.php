@@ -182,8 +182,12 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $file = CategoryFiles::findOrFail($id);
+        $file->delete();
+
+        Alert::success('Success', 'File has been deleted successfully');
+        return redirect()->route('category.show', $file->category_id);
     }
 }

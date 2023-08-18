@@ -11,7 +11,7 @@ $title    = 'Vendors'
                 <form action="{{ route('partner.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label required">Name</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Vendor Name">
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -20,7 +20,7 @@ $title    = 'Vendors'
                     <!-- Alamat -->
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="address" class="form-label">Address</label>
+                            <label for="address" class="form-label required">Address</label>
                             <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="4">{{ old('address') }}</textarea>
                             @error('address')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -28,7 +28,7 @@ $title    = 'Vendors'
                         </div>
                         <!-- Alamat 2 -->
                         <div class="col mb-3">
-                            <label for="domicility" class="form-label">Residence Address</label>
+                            <label for="domicility" class="form-label required">Residence Address</label>
                             <textarea class="form-control @error('domicility') is-invalid @enderror" id="domicility" name="domicility" rows="4">{{ old('domicility') }}</textarea>
                             @error('domicility')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -38,14 +38,14 @@ $title    = 'Vendors'
                     <!-- Area dan Direktur -->
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="area" class="form-label">Area</label>
+                            <label for="area" class="form-label required">Area</label>
                             <input type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area" value="{{ old('area') }}" placeholder="Input Area">
                             @error('area')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
-                            <label for="director" class="form-label">Director</label>
+                            <label for="director" class="form-label required">Director</label>
                             <input type="text" class="form-control @error('director') is-invalid @enderror" id="director" name="director" value="{{ old('director') }}" placeholder="Input Director">
                             @error('director')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -55,14 +55,14 @@ $title    = 'Vendors'
                     <!-- Telepon dan Email -->
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="phone" class="form-label">Telephone</label>
+                            <label for="phone" class="form-label required">Telephone</label>
                             <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Input Telephone">
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label required">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" placeholder="Input Email">
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -72,14 +72,14 @@ $title    = 'Vendors'
                     <!-- Join date dan Reference -->
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="join_date" class="form-label">Join Date</label>
+                            <label for="join_date" class="form-label required">Join Date</label>
                             <input type="date" class="form-control @error('join_date') is-invalid @enderror" id="join_date" name="join_date" value="{{ old('join_date') ?? date('Y-m-d') }}">
                             @error('join_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
-                            <label for="reference" class="form-label">Reference</label>
+                            <label for="reference" class="form-label required">Reference</label>
                             <input type="text" class="form-control @error('reference') is-invalid @enderror" id="reference" name="reference" value="{{ old('reference') }}" placeholder="Input Reference">
                             @error('reference')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -89,14 +89,14 @@ $title    = 'Vendors'
                     <!-- Modal dan Grade -->
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="capital" class="form-label">Capital</label>
+                            <label for="capital" class="form-label required">Capital</label>
                             <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ old('capital') }}" placeholder="Input Capital">
                             @error('capital')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="col mb-3">
-                            <label class="form-label">Grade</label>
+                            <label class="form-label required">Grade</label>
                             <div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input @error('grade') is-invalid @enderror" type="radio" name="grade" id="grade_kecil" value="0" {{ old('grade') == '0' ? 'checked' : '' }}>

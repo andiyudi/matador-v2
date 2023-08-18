@@ -35,6 +35,15 @@
                             <td>{{ $file->notes }}</td>
                             <td>
                                 <a href="{{ asset('storage/'.$file->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                @if ($loop->last)
+                                    @can('delete-file-category')
+                                        <form action="{{ route('category.destroy', $file->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this file?')">Delete</button>
+                                        </form>
+                                    @endcan
+                                @endif
                             </td>
                         </tr>
                         @endforeach
