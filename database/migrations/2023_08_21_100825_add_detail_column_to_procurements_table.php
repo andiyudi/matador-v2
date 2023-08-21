@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('procurements', function (Blueprint $table) {
-            $table->date('estimation')
+            $table->string('estimation')
             ->nullable()->default(NULL)
             ->after ('receipt');
-            $table->date('pic_user')
+            $table->string('pic_user')
             ->nullable()->default(NULL)
             ->after ('estimation');
         });

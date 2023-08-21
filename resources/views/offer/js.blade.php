@@ -8,7 +8,6 @@
             const selectedOption = procurementSelect.options[procurementSelect.selectedIndex];
             const selectedName = selectedOption.getAttribute('data-name');
             const selectedDivision = selectedOption.getAttribute('data-division');
-            console.log(selectedName, selectedDivision);
             nameInput.value = selectedName;
             divisionInput.value = selectedDivision;
         });
@@ -121,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 error: function (error) {
                     console.error('Error fetching partners:', error);
+                    alert('Error fetching partners: ' + error.responseText);
                 }
             });
         });
