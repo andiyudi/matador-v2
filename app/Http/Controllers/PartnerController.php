@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Partner;
 use App\Models\Business;
 use Illuminate\Http\Request;
+use App\Models\BusinessPartner;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -168,6 +169,15 @@ class PartnerController extends Controller
         Alert::success('Success', 'Vendor data successfully deleted');
 
         return redirect()->route('partner.index');
+    }
+
+    public function getPartnersByBusiness($business_id)
+    {
+        $partners = BusinessPartner::where('business_id', $business_id)
+            ->where('is_blacklist', '!=', '1')
+            ->with('partner')
+            ->get();
+        return response()->json($partners);
     }
 
 }

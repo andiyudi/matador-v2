@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -24,12 +25,14 @@ use App\Http\Controllers\ClassificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::prefix('partner')->group(function () {
     Route::resource('category', CategoryController::class);
     Route::get('document/{partner_id}', [DocumentController::class, 'index'])->name('document.index');
     Route::get('document/{partner_id}/create', [DocumentController::class, 'create'])->name('document.create');
     Route::post('document/store', [DocumentController::class, 'store'])->name('document.store');
     Route::delete('document/{file_id}', [DocumentController::class, 'destroy'])->name('document.destroy');
+    Route::get('fetch/{business_id}', [PartnerController::class, 'getPartnersByBusiness'])->name('partner.fetch');
 });
 
 Route::get('/', function () {
@@ -42,6 +45,7 @@ Route::resource('procurements', ProcurementController::class);
 Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classification', ClassificationController::class);
 Route::resource('partner', PartnerController::class);
+Route::resource('offer', OfferController::class);
 
 
 Route::middleware('auth', 'verified')->group(function(){
