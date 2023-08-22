@@ -17,26 +17,44 @@ class OfferController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $tenders = Offer::with('procurement')
-                ->orderByDesc('created_at')
-                ->get();
+            $tenders = Offer::with(['procurement', 'category.partner'])
+            ->orderByDesc('created_at')
+            ->get();
 
-            return DataTables::of($tenders)
-                ->addColumn('procurement', function ($tender) {
-                    return $tender->procurement->name;
+            $groupedTenders = $tenders->groupBy('procurement.number');
+
+            return DataTables::of($groupedTenders)
+                ->addColumn('procurement', function ($group) {
+                    return $group->first()->procurement->number;
                 })
-                ->addColumn('vendors', function ($tender) {
-                    // Modify this part based on your relationship with vendors/partners
-                    return $tender->partners->pluck('partner.name')->implode(', ');
+                ->addColumn('job_name', function ($group) {
+                    return $group->first()->procurement->name;
                 })
-                ->addColumn('status', function ($tender) {
-                    // Modify this part based on how you store the status in your model
-                    return $tender->status;
+                ->addColumn('division', function ($group) {
+                    return $group->first()->procurement->division->code;
                 })
-                ->addColumn('action', function ($tender) {
-                    // Add action buttons here if needed
-                    return '<a href="' . route('offer.show', $tender->id) . '" class="btn btn-sm btn-info">View</a>';
+                ->addColumn('estimation', function ($group) {
+                    return $group->first()->procurement->estimation;
                 })
+                ->addColumn('pic_user', function ($group) {
+                    return $group->first()->procurement->pic_user;
+                })
+                ->addColumn('vendors', function ($group) {
+                    $vendors = $group->map(function ($item, $index) {
+                        return ($index + 1) . '. ' . $item->category->partner->name;
+                    })->implode("<br>");
+                    return $vendors;
+                })
+                ->addColumn('status', function ($group) {
+                    return $group->first()->status;
+                })
+                ->addColumn('action', function($group){
+                    $route = 'offer';
+                    $procurement_id = $group[0]->procurement->id;
+                    return view('offer.action', compact('route', 'group', 'procurement_id'));
+                })
+                ->addindexcolumn()
+                ->rawColumns(['vendors'])
                 ->make(true);
         }
         return view('offer.index');

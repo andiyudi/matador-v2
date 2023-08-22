@@ -42,7 +42,7 @@ $title    = 'Tender'
                 { data: 'job_name', name: 'job_name' },
                 { data: 'division', name: 'division' },
                 { data: 'estimation', name: 'estimation' },
-                { data: 'pic', name: 'pic' },
+                { data: 'pic_user', name: 'pic_user' },
                 { data: 'vendors', name: 'vendors' },
                 { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
