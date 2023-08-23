@@ -8,7 +8,7 @@ $title    = 'Tender'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="#" method="POST">
+                <form action="{{ route ('offer.update', $selected_procurement->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
@@ -61,7 +61,7 @@ $title    = 'Tender'
                                     @if (!$item->parent_id)
                                         <optgroup label="{{ $item->name }}">
                                             @foreach ($item->children as $child)
-                                                <option value="{{ $child->id }}" {{ old('business') == $child->id ? 'selected' : '' }}>{{ $child->name }}</option>
+                                                <option value="{{ $child->id }}" {{ $child->id == $selected_procurement->business_id ? 'selected' : '' }}>{{ $child->name }}</option>
                                             @endforeach
                                         </optgroup>
                                     @endif
@@ -87,7 +87,29 @@ $title    = 'Tender'
                                     </tr>
                                 </thead>
                                 <tbody id="selected_partners_list">
-                                    <!-- Partners will be added here -->
+                                    @foreach ($business_partners as $item)
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="selected_partners[]" value="{{ $item->id }}"
+                                            {{ in_array($item->id, $selected_business_partner->toArray()) ? 'checked' : '' }}>
+                                        </td>
+                                        <td>{{ $item->partner->name }}</td>
+                                        <td>
+                                            @if ($item->partner->status === '0')
+                                                Registered
+                                            @elseif ($item->partner->status === '1')
+                                                Active
+                                            @elseif ($item->partner->status === '2')
+                                                Inactive
+                                            @else
+                                                Unknown
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->partner->director }}</td>
+                                        <td>{{ $item->partner->phone }}</td>
+                                        <td>{{ $item->partner->email }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

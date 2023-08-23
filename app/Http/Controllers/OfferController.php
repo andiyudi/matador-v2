@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Offer;
 use App\Models\Business;
 use App\Models\Procurement;
+use App\Models\BusinessPartner;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -92,6 +93,9 @@ class OfferController extends Controller
             $request->validate([
                 'procurement_id' => 'required|exists:procurements,id',
                 'selected_partners' => 'required|array',
+                'estimation' => 'required',
+                'pic_user' => 'required',
+                'business' => 'required',
             ]);
 
             $procurementId = $request->input('procurement_id');
@@ -101,6 +105,7 @@ class OfferController extends Controller
             $procurement->update([
                 'estimation' => $request->input('estimation'),
                 'pic_user' => $request->input('pic_user'),
+                'business_id' => $request->input('business'),
             ]);
 
             foreach ($selectedPartners as $partnerId) {
@@ -145,7 +150,12 @@ class OfferController extends Controller
 
         $procurements->push($selected_procurement);
 
-        return view('offer.edit', compact('business', 'procurements', 'selected_procurement'));
+        $selected_business_id = $selected_procurement->business_id;
+        $business_partners = BusinessPartner::where('business_id', $selected_business_id)->get();
+
+        $selected_business_partner = Offer::where('procurement_id', $procurement_id)->pluck('category_id');
+
+        return view('offer.edit', compact('business', 'procurements', 'selected_procurement', 'business_partners', 'selected_business_partner'));
     }
 
     /**
@@ -153,7 +163,38 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
-        //
+        try {
+            $request->validate([
+                'procurement_id' => 'required|exists:procurements,id',
+                'selected_partners' => 'required|array',
+                'estimation' => 'required',
+                'pic_user' => 'required',
+                'business' => 'required',
+            ]);
+
+            $procurementId = $request->input('procurement_id');
+            $selectedPartners = $request->input('selected_partners');
+
+            $procurement = Procurement::findOrFail($procurementId);
+            $procurement->update([
+                'estimation' => $request->input('estimation'),
+                'pic_user' => $request->input('pic_user'),
+                'business_id' => $request->input('business'),
+            ]);
+
+            $offer->procurement_id = $procurementId;
+            $offer->save();
+
+            $offer->category()->sync($selectedPartners);
+
+            Alert::success('Success', 'Process tender updated successfully');
+            return redirect()->route('offer.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to save data: ' . $e->getMessage());
+        }
     }
 
     /**

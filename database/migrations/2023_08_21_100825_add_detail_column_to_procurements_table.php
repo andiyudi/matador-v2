@@ -18,6 +18,11 @@ return new class extends Migration
             $table->string('pic_user')
             ->nullable()->default(NULL)
             ->after ('estimation');
+            $table->unsignedBigInteger('business_id')
+            ->nullable()->default(NULL)
+            ->after ('pic_user');
+
+            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
         });
     }
 
@@ -29,6 +34,7 @@ return new class extends Migration
         Schema::table('procurements', function (Blueprint $table) {
             $table->dropColumn('estimation');
             $table->dropColumn('pic_user');
+            $table->dropColumn('business_id');
         });
     }
 };
