@@ -21,6 +21,11 @@ class Partner extends Model
         return $this->belongsToMany(Business::class, 'business_partner')->withTimestamps();
     }
 
+    public function partnerFiles()
+    {
+        return $this->hasMany(FilesPartner::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

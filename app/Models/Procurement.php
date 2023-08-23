@@ -26,6 +26,16 @@ class Procurement extends Model
         return $this->belongsTo(Official::class);
     }
 
+    public function business()
+    {
+        return $this->belongsTo(Business::class);
+    }
+
+    public function offer()
+    {
+        return $this->hasOne(Offer::class);
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

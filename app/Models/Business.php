@@ -31,6 +31,10 @@ class Business extends Model
         return $this->hasMany(Business::class, 'parent_id');
     }
 
+    public function procurements()
+    {
+        return $this->hasMany(Procurement::class);
+    }
 
     public function partners()
     {

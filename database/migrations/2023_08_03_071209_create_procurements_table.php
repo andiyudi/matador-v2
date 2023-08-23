@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('procurements', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
             $table->string('number');
+            $table->string('name');
             $table->date('receipt');
             $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('official_id');

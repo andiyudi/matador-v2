@@ -185,7 +185,8 @@ class OfferController extends Controller
             $offer->procurement_id = $procurementId;
             $offer->save();
 
-            $offer->category()->sync($selectedPartners);
+            $offer->category()->detach();
+            $offer->category()->attach($selectedPartners);
 
             Alert::success('Success', 'Process tender updated successfully');
             return redirect()->route('offer.index');

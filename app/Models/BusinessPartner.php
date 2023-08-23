@@ -38,6 +38,11 @@ class BusinessPartner extends Model
         return $this->hasMany(CategoryFiles::class, 'category_id');
     }
 
+    public function offer()
+    {
+        return $this->hasMany(Offer::class, 'category_id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

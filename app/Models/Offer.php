@@ -23,6 +23,6 @@ class Offer extends Model
 
     public function category()
     {
-        return $this->belongsTo(BusinessPartner::class);
+        return $this->belongsTo(BusinessPartner::class, 'category_id');
     }
 }
