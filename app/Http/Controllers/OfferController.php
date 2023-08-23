@@ -46,7 +46,16 @@ class OfferController extends Controller
                     return $vendors;
                 })
                 ->addColumn('status', function ($group) {
-                    return $group->first()->status;
+                    if ($group->first()->status == '0') {
+                        return '<span class="badge text-bg-info">Process</span>';
+                    } elseif ($group->first()->status == '1') {
+                        return '<span class="badge text-bg-success">Success</span>';
+                    } elseif ($group->first()->status == '2') {
+                        return '<span class="badge text-bg-secondary">Repeat</span>';
+                    } elseif ($group->first()->status == '3') {
+                        return '<span class="badge text-bg-danger">Cancel</span>';
+                    }
+                    return '<span class="badge text-bg-dark">Unknown</span>';
                 })
                 ->addColumn('action', function($group){
                     $route = 'offer';
@@ -54,7 +63,7 @@ class OfferController extends Controller
                     return view('offer.action', compact('route', 'group', 'procurement_id'));
                 })
                 ->addindexcolumn()
-                ->rawColumns(['vendors'])
+                ->rawColumns(['vendors', 'status'])
                 ->make(true);
         }
         return view('offer.index');
@@ -65,7 +74,11 @@ class OfferController extends Controller
      */
     public function create()
     {
-        $procurements = Procurement::where('status', '0')->get();
+        $usedProcurementIds = Offer::where('status', '!=', '2')->pluck('procurement_id');
+
+        $procurements = Procurement::where('status', '0')
+            ->whereNotIn('id', $usedProcurementIds)
+            ->get();
         $business = Business::all();
         return view('offer.create', compact('procurements', 'business'));
     }
@@ -119,9 +132,20 @@ class OfferController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Offer $offer)
+    public function edit($procurement_id)
     {
-        //
+        $usedProcurementIds = Offer::where('status', '!=', '2')->pluck('procurement_id');
+
+        $procurements = Procurement::where('status', '0')
+            ->whereNotIn('id', $usedProcurementIds)
+            ->get();
+        $business = Business::all();
+
+        $selected_procurement = Procurement::findOrFail($procurement_id);
+
+        $procurements->push($selected_procurement);
+
+        return view('offer.edit', compact('business', 'procurements', 'selected_procurement'));
     }
 
     /**

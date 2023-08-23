@@ -12,11 +12,11 @@ $title    = 'Tender'
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Procurement</th>
+                            <th>No. PP</th>
                             <th>Job Name</th>
                             <th>Division</th>
                             <th>Estimation</th>
-                            <th>PIC</th>
+                            <th>PIC User</th>
                             <th>Vendors</th>
                             <th>Status</th>
                             <th>Action</th>
