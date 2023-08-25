@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Partner;
 use App\Models\Business;
 use Illuminate\Http\Request;
-use App\Models\CategoryFiles;
+use App\Models\BusinessPartnerFiles;
 use App\Models\BusinessPartner;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -111,7 +111,7 @@ class CategoryController extends Controller
             'business' => $business,
             'core_business' => $core_business,
         ];
-        $files = CategoryFiles::where('category_id', $category_id)->get();
+        $files = BusinessPartnerFiles::where('business_partner_id', $category_id)->get();
         return view('partner.category.show', compact('files', 'data'));
     }
 
@@ -129,7 +129,6 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         try {
             $this->validate($request, [
                 'file' => 'required',
@@ -145,13 +144,13 @@ class CategoryController extends Controller
                 $name = time() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('category_files', $name, 'public');
 
-                $fileCategory = new CategoryFiles();
+                $fileCategory = new BusinessPartnerFiles();
 
-                $fileCategory->category_id = $category_id->id;
-                $fileCategory->name        = $name;
-                $fileCategory->path        = $path;
-                $fileCategory->type        = $request->type;
-                $fileCategory->notes       = $request->notes;
+                $fileCategory->business_partner_id  = $category_id->id;
+                $fileCategory->name                 = $name;
+                $fileCategory->path                 = $path;
+                $fileCategory->type                 = $request->type;
+                $fileCategory->notes                = $request->notes;
 
                 $fileCategory->save();
 
@@ -184,10 +183,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $file = CategoryFiles::findOrFail($id);
+        $file = BusinessPartnerFiles::findOrFail($id);
         $file->delete();
 
         Alert::success('Success', 'File has been deleted successfully');
-        return redirect()->route('category.show', $file->category_id);
+        return redirect()->route('category.show', $file->business_partner_id);
     }
 }

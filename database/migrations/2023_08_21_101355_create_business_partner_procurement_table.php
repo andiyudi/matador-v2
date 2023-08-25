@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offers', function (Blueprint $table) {
+        Schema::create('business_partner_procurement', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('procurement_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('business_partner_id');
             $table->enum('status', ['0','1','2','3'])->default('0');// 0:process, 1:success, 2:repeat, 3:cancel
             $table->timestamps();
 
             $table->foreign('procurement_id')->references('id')->on('procurements')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('business_partner')->onDelete('cascade');
+            $table->foreign('business_partner_id')->references('id')->on('business_partner')->onDelete('cascade');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offers');
+        Schema::dropIfExists('business_partner_procurement');
     }
 };

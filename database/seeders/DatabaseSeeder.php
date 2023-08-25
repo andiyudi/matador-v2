@@ -32,9 +32,9 @@ class DatabaseSeeder extends Seeder
             ExampleClassificationSeeder::class,
         ]);
 
-        Partner::factory(20)->create();
-        Procurement::factory(20)->create();
+        Partner::factory(100)->create();
+        Procurement::factory(5)->create();
 
-        $this->call(BusinessPartnerSeeder::class);
+        // $this->call(BusinessPartnerSeeder::class);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Models\Partner;
 use App\Models\Business;
-use App\Models\CategoryFiles;
 use Spatie\Activitylog\LogOptions;
+use App\Models\BusinessPartnerFiles;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,14 +33,15 @@ class BusinessPartner extends Model
         return $this->belongsTo(Business::class, 'business_id');
     }
 
-    public function categoryFiles()
+    public function businessPartnerFiles()
     {
-        return $this->hasMany(CategoryFiles::class, 'category_id');
+        return $this->hasMany(BusinessPartnerFiles::class, 'business_partner_id');
     }
 
-    public function offer()
+    public function procurements()
     {
-        return $this->hasMany(Offer::class, 'category_id');
+        return $this->belongsToMany(Procurement::class, 'business_partner_procurement', 'business_partner_id', 'procurement_id')
+            ->withTimestamps();
     }
 
     public function getActivitylogOptions(): LogOptions

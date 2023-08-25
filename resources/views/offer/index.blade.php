@@ -38,7 +38,7 @@ $title    = 'Tender'
             ajax: '{{ route('offer.index') }}',
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'procurement', name: 'procurement' },
+                { data: 'number', name: 'number' },
                 { data: 'job_name', name: 'job_name' },
                 { data: 'division', name: 'division' },
                 { data: 'estimation', name: 'estimation' },

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CategoryFiles extends Model
+class BusinessPartnerFiles extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $table = 'category_files';
+    protected $table = 'business_partner_files';
     protected $fillable = [
-        'category_id',
+        'business_partner_id',
         'type',
         'name',
         'path',
@@ -29,6 +29,6 @@ class CategoryFiles extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->useLogName('category_files');
+        ->useLogName('business_partner_files');
     }
 }

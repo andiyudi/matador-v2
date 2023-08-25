@@ -31,9 +31,9 @@ class Procurement extends Model
         return $this->belongsTo(Business::class);
     }
 
-    public function offer()
+    public function businessPartners()
     {
-        return $this->hasOne(Offer::class);
+    return $this->belongsToMany(BusinessPartner::class, 'business_partner_procurement', 'procurement_id', 'business_partner_id')->withTimestamps();
     }
 
     public function getActivitylogOptions(): LogOptions
