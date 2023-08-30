@@ -20,6 +20,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'menu-vendor']);
         Permission::create(['name' => 'menu-tender']);
 
+        Permission::create(['name' => 'submenu-division']);
+        Permission::create(['name' => 'submenu-official']);
+        Permission::create(['name' => 'submenu-core-business']);
+        Permission::create(['name' => 'submenu-classification']);
+
         Permission::create(['name' => 'delete-file-category']);
 
         Permission::create(['name' => 'user-index']);

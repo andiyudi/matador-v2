@@ -38,15 +38,13 @@ class BusinessPartner extends Model
         return $this->hasMany(BusinessPartnerFiles::class, 'business_partner_id');
     }
 
-    public function procurements()
-    {
-        return $this->belongsToMany(Procurement::class, 'business_partner_procurement', 'business_partner_id', 'procurement_id')
-            ->withTimestamps();
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
         ->useLogName('business_partner');
+    }
+
+    public function tenders(){
+        return $this->belongsToMany(Tender::class, 'business_partner_tender')->withTimestamp();
     }
 }

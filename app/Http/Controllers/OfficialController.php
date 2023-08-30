@@ -117,6 +117,10 @@ class OfficialController extends Controller
      */
     public function destroy(Official $official)
     {
+        if ($official->procurements_official()->exists()) {
+            Alert::error('Error', 'Official data can\'t be deleted, it is used in Procurement.');
+            return redirect()->route('officials.index');
+        }
         $official->delete();
 
         Alert::success('Success', 'Official deleted successfully!');

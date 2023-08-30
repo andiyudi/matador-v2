@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tender;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -31,14 +32,13 @@ class Procurement extends Model
         return $this->belongsTo(Business::class);
     }
 
-    public function businessPartners()
-    {
-    return $this->belongsToMany(BusinessPartner::class, 'business_partner_procurement', 'procurement_id', 'business_partner_id')->withTimestamps();
-    }
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
         ->useLogName('procurement');
+    }
+
+    public function tenders() {
+        return $this->hasMany(Tender::class);
     }
 }

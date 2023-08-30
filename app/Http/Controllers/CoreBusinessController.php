@@ -95,6 +95,11 @@ class CoreBusinessController extends Controller
      */
     public function destroy(Business $core_business)
     {
+        if ($core_business->children()->whereNotNull('parent_id')->count() > 0) {
+            Alert::error('Error', 'Core Business data can\'t be deleted, it is used as parent for other businesses.');
+            return redirect()->route('core-business.index');
+        }
+
         $core_business->delete();
         Alert::success('Success', 'Core Business deleted successfully!');
         return redirect()->route('core-business.index');

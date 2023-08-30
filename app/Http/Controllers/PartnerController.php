@@ -164,6 +164,10 @@ class PartnerController extends Controller
      */
     public function destroy(Partner $partner)
     {
+        if ($partner->businesses()->exists()) {
+            Alert::error('Error', 'Partner data can\'t be deleted, it is used in Tender.');
+            return redirect()->route('partner.index');
+        }
         $partner->delete();
 
         Alert::success('Success', 'Vendor data successfully deleted');

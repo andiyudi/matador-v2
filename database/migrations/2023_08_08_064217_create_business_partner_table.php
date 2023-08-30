@@ -20,6 +20,8 @@ return new class extends Migration
 
             $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
             $table->foreign('partner_id')->references('id')->on('partners')->onDelete('cascade');
+
+            $table->unique(['business_id', 'partner_id']);
         });
     }
 

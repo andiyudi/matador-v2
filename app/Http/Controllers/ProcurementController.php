@@ -105,8 +105,17 @@ class ProcurementController extends Controller
      */
     public function destroy(Procurement $procurement)
     {
-        $procurement->delete();
-        Alert::success('Success', 'Procurement data has been deleted.');
-        return redirect()->route('procurements.index');
+        try {
+            if ($procurement->tenders()->count() > 0) {
+                throw new \Exception('Procurement data can\'t be deleted, it is associated with tender(s).');
+            }
+
+            $procurement->delete();
+            Alert::success('Success', 'Procurement data has been deleted.');
+            return redirect()->route('procurements.index');
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to delete procurement data: ' . $e->getMessage());
+        }
     }
 }

@@ -55,6 +55,7 @@
                     </span>
                 </a>
                 <div class="dropdown-menu">
+                    @can('submenu-division')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('divisions.index') }}">
@@ -62,6 +63,8 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('submenu-official')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('officials.index') }}">
@@ -69,6 +72,8 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('submenu-core-business')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('core-business.index') }}">
@@ -76,6 +81,8 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('submenu-classification')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('classification.index') }}">
@@ -83,6 +90,7 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
                 </div>
             </li>
             @endcan

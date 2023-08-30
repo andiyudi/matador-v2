@@ -118,6 +118,10 @@ class DivisionController extends Controller
      */
     public function destroy(Division $division)
     {
+        if ($division->procurements_division()->exists()) {
+            Alert::error('Error', 'Division data can\'t be deleted, it is used in Procurement.');
+            return redirect()->route('divisions.index');
+        }
         $division->delete();
 
         Alert::success('Success', 'Division deleted successfully!');

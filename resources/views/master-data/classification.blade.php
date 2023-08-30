@@ -178,6 +178,11 @@ $title    = 'Classification'
                 },
                 error: function(error) {
                     console.log('Error deleting data');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Classification data can\'t be deleted, it is associated with procurement(s)'
+                    })
                 }
             });
         });

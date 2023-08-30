@@ -142,7 +142,7 @@ class CategoryController extends Controller
             if ($request->hasFile('file')){
                 $file = $request->file('file');
                 $name = time() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('category_files', $name, 'public');
+                $path = $file->storeAs('files_partner/category', $name, 'public');
 
                 $fileCategory = new BusinessPartnerFiles();
 

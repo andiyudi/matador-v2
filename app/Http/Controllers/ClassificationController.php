@@ -150,6 +150,11 @@ class ClassificationController extends Controller
             return response()->json(['message' => 'Classification not found'], 404);
         }
 
+         // Cek apakah classification terkait digunakan dalam procurement
+        if ($classification->procurements()->count() > 0) {
+            return response()->json(['message' => 'Classification data can\'t be deleted, it is associated with procurement(s)'], 422);
+        }
+
         $classification->delete();
 
         return response()->json(['message' => 'Classification deleted successfully']);
