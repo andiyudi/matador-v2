@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
 use App\Models\Tender;
 use App\Models\Business;
 use App\Models\Procurement;
@@ -197,12 +198,38 @@ class OfferController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tender $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $tender = Tender::findOrFail($id);
+            $tender->businessPartners()->detach();
+            $tender->delete();
+            Alert::success('success', 'Tender deleted successfully!');
+            return redirect()->route('offer.index');
+        } catch (\Exception $e) {
+            Alert::error('error', 'Failed to delete tender: ' . $e->getMessage());
+            return redirect()->route('offer.index');
+        }
     }
+
+    public function print($id)
+    {
+        $tender = Tender::findOrFail($id);
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        $creatorName = request()->query('creatorName');
+        $creatorPosition = request()->query('creatorPosition');
+        $supervisorName = request()->query('supervisorName');
+        $supervisorPosition = request()->query('supervisorPosition');
+        $html = view ('offer.print', compact('logoBase64', 'tender', 'creatorName', 'creatorPosition','supervisorName', 'supervisorPosition'))->render();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+        return $dompdf->stream('calon-usulan-vendor.pdf');
+    }
+
 }

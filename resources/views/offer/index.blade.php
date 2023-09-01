@@ -30,6 +30,7 @@ $title    = 'Tender'
         </div>
     </div>
 </div>
+@include('offer.modal')
 <script>
     $(document).ready(function () {
         $('#offer-table').DataTable({

@@ -25,6 +25,9 @@ use App\Http\Controllers\ClassificationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::prefix('offer')->group(function () {
+    Route::get('{offer}/print', [OfferController::class, 'print'])->name('offer.print');
+});
 
 Route::prefix('partner')->group(function () {
     Route::resource('category', CategoryController::class);

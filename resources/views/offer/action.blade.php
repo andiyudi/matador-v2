@@ -11,9 +11,9 @@
                 @method('DELETE')
                 <button type="submit" class="dropdown-item">Delete</button>
             </form>
-            <a class="dropdown-item" href="{{ route($route.'.show', $tender->id) }}">Pick Vendor</a>
-            <a class="dropdown-item" href="{{ route($route.'.show', $tender->id) }}">Second Tender</a>
-            <a class="dropdown-item" href="{{ route($route.'.show', $tender->id) }}">Cancel</a>
+            <a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printModal" data-tender="{{ $tender }}">
+                Print
+            </a>
         </div>
     </div>
 </div>
