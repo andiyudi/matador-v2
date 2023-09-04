@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Dompdf\Dompdf;
 use App\Models\Tender;
 use App\Models\Business;
+use App\Models\Official;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\Models\BusinessPartner;
@@ -225,11 +225,13 @@ class OfferController extends Controller
         $creatorPosition = request()->query('creatorPosition');
         $supervisorName = request()->query('supervisorName');
         $supervisorPosition = request()->query('supervisorPosition');
-        $html = view ('offer.print', compact('logoBase64', 'tender', 'creatorName', 'creatorPosition','supervisorName', 'supervisorPosition'))->render();
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->render();
-        return $dompdf->stream('calon-usulan-vendor.pdf');
+        return view ('offer.print', compact('logoBase64', 'tender', 'creatorName', 'creatorPosition','supervisorName', 'supervisorPosition'));
+    }
+
+    public function official()
+    {
+        $officials = Official::where('status', '1')->get(['id', 'name']);
+        return response()->json(['data' => $officials]);
     }
 
 }

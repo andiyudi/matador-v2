@@ -27,6 +27,7 @@ use App\Http\Controllers\ClassificationController;
 */
 Route::prefix('offer')->group(function () {
     Route::get('{offer}/print', [OfferController::class, 'print'])->name('offer.print');
+    Route::get('official', [OfferController::class, 'official'])->name('offer.official');
 });
 
 Route::prefix('partner')->group(function () {

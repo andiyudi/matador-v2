@@ -9,22 +9,25 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="creatorName" class="form-label">Creator Name</label>
-                            <input type="text" class="form-control" id="creatorName" placeholder="Enter creator name" required>
+                            <label for="selectCreatorName" class="form-label">Creator Name</label>
+                            <select name="selectCreatorName" id="selectCreatorName" class="form-select">
+                                <option value=""></option>
+                            </select>
+                            <input type="hidden" class="form-control" id="creatorName" name="creatorName" value="">
                         </div>
                         <div class="col mb-3">
                             <label for="supervisorName" class="form-label">Supervisor Name</label>
-                            <input type="text" class="form-control" id="supervisorName" placeholder="Enter supervisor name" required>
+                            <input type="text" class="form-control" id="supervisorName" value="Tinne Ratulangi" placeholder="Enter supervisor name" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
                             <label for="creatorPosition" class="form-label">Creator Position</label>
-                            <input type="text" class="form-control" id="creatorPosition" placeholder="Enter creator position" required>
+                            <input type="text" class="form-control" id="creatorPosition" value="Kasi Pengadaan" placeholder="Enter creator position" required>
                         </div>
                         <div class="col mb-3">
                             <label for="supervisorPosition" class="form-label">Supervisor Position</label>
-                            <input type="text" class="form-control" id="supervisorPosition" placeholder="Enter supervisor position" required>
+                            <input type="text" class="form-control" value="Manajer Divisi Umum" id="supervisorPosition" placeholder="Enter supervisor position" required>
                         </div>
                     </div>
                 </div>
@@ -39,6 +42,33 @@
 <script>
     $(document).ready(function() {
         $('#printModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var tenderData = button.data('tender');
+            var creatorNameSelect = $('#selectCreatorName');
+            creatorNameSelect.empty();
+            $.ajax({
+                url: route("offer.official"),
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $.each(response.data, function(index, official) {
+                        creatorNameSelect.append($('<option>', {
+                            value: official.id,
+                            text: official.name,
+                            selected: official.id == tenderData.procurement.official_id
+                        }));
+                    });
+                    var selectedOfficialName = creatorNameSelect.find('option:selected').text();
+                    $('#creatorName').val(selectedOfficialName);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            creatorNameSelect.on('change', function() {
+                var creatorName = creatorNameSelect.find('option:selected').text();
+                $('#creatorName').val(creatorName);
+            });
             $('#printForm').submit(function (e) {
             e.preventDefault();
                 var creatorName = $('#creatorName').val();
@@ -55,7 +85,7 @@
                     '&supervisorName=' + encodeURIComponent(supervisorName) +
                     '&supervisorPosition=' + encodeURIComponent(supervisorPosition);
 
-                window.location.href = printUrl;
+                window.open(printUrl, '_blank');
 
                 $('#printModal').modal('hide');
 
