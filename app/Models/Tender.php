@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Schedule;
 use App\Models\Procurement;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
@@ -28,5 +29,9 @@ class Tender extends Model
 
     public function businessPartners(){
         return $this->belongsToMany(BusinessPartner::class, 'business_partner_tender')->withTimestamps();
+    }
+
+    public function schedule() {
+        return $this->hasMany(Schedule::class);
     }
 }

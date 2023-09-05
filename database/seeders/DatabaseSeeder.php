@@ -8,6 +8,7 @@ use App\Models\Business;
 use App\Models\Procurement;
 use App\Models\BusinessPartner;
 use Illuminate\Database\Seeder;
+use Database\Seeders\BusinessPartnerSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,8 +33,10 @@ class DatabaseSeeder extends Seeder
             ExampleClassificationSeeder::class,
         ]);
 
-        Partner::factory(8)->create();
+        Partner::factory(10)->create();
         Procurement::factory(5)->create();
+
+        BusinessPartner::factory(50)->create();
 
     }
 }

@@ -12,15 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('business_partner', function (Blueprint $table) {
-            $table->date('blacklist_at')
-                ->nullable()->default(NULL)
-                ->after ('is_blacklist');
-            $table->date('can_whitelist_at')
-                ->nullable()->default(NULL)
-                ->after ('blacklist_at');
-            $table->date('whitelist_at')
-                ->nullable()->default(NULL)
-                ->after ('can_whitelist_at');
+            $table->date('blacklist_at')->nullable()->default(NULL)->after ('is_blacklist');
+            $table->date('can_whitelist_at')->nullable()->default(NULL)->after ('blacklist_at');
+            $table->date('whitelist_at')->nullable()->default(NULL)->after ('can_whitelist_at');
 
         });
     }
