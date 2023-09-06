@@ -31,7 +31,4 @@ class Tender extends Model
         return $this->belongsToMany(BusinessPartner::class, 'business_partner_tender')->withTimestamps();
     }
 
-    public function schedule() {
-        return $this->hasMany(Schedule::class);
-    }
 }

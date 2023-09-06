@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('business_id');
             $table->unsignedBigInteger('partner_id');
+            $table->date('blacklist_at')->nullable()->default(NULL);
+            $table->date('can_whitelist_at')->nullable()->default(NULL);
+            $table->date('whitelist_at')->nullable()->default(NULL);
             $table->enum('is_blacklist', ['0','1'])->default('0'); // 0=not blacklisted, 1=blacklisted
             $table->timestamps();
 

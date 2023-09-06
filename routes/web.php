@@ -43,7 +43,6 @@ Route::prefix('partner')->group(function () {
 Route::get('/', function () {
     return view('auth/login');
 });
-Route::get('schedule/list', [ScheduleController::class, 'list'])->name('schedule.list');
 
 Route::resource('officials', OfficialController::class);
 Route::resource('divisions', DivisionController::class);
@@ -52,8 +51,6 @@ Route::resource('core-business', CoreBusinessController::class);
 Route::resource('classification', ClassificationController::class);
 Route::resource('partner', PartnerController::class);
 Route::resource('offer', OfferController::class);
-Route::resource('schedule', ScheduleController::class);
-
 
 Route::middleware('auth', 'verified')->group(function(){
     Route::resource('user', UserController::class);

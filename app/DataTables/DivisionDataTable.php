@@ -62,16 +62,16 @@ class DivisionDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->lengthMenu([5,10,25,50])
-                    ->dom('lfBrtip')
+                    // ->dom('lfBrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        // Button::make('pdf'),
+                        Button::make('pdf'),
                         Button::make('print'),
-                        // Button::make('reset'),
-                        // Button::make('reload')
+                        Button::make('reset'),
+                        Button::make('reload')
                     ]);
     }
 

@@ -143,14 +143,25 @@ class OfferController extends Controller
         try {
             $tender = Tender::findOrFail($id);
 
-            return view('offer.edit', [
-                'procurement' => $tender->procurement,
-                'selected_business_partners' => $tender->businessPartners->pluck('id')->toArray(),
-                'available_procurements' => Procurement::whereDoesntHave('tenders')->get()->push($tender->procurement),
-                'businessPartners' => BusinessPartner::all(),
-                'business' => Business::all(),
-                'tender' => $tender,
-            ]);
+            // Dapatkan informasi Procurement terkait
+            $procurement = $tender->procurement;
+            $procurement_id = $tender->procurement->id;
+            $selected_procurement = Procurement::findOrFail($procurement_id);
+
+            // Dapatkan daftar Business Partners yang terkait dengan Tender
+            $selected_business_partners = $tender->businessPartners->pluck('id')->toArray();
+
+            // Ambil semua Procurements yang belum terhubung dengan Tender (untuk dropdown)
+            $available_procurements = Procurement::whereDoesntHave('tenders')->get();
+            $available_procurements->push($selected_procurement);
+
+            // Ambil semua Business Partners yang memiliki business_id sesuai dengan procurement
+            $businessPartners = BusinessPartner::where('business_id', $procurement->business_id)->get();
+
+            // Ambil semua Business untuk dropdown
+            $business = Business::all();
+
+            return view('offer.edit', compact('procurement', 'selected_business_partners', 'available_procurements', 'businessPartners', 'tender', 'business'));
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
             return redirect()->back()->with('error', 'Failed to fetch data for editing: ' . $e->getMessage());

@@ -18,12 +18,16 @@ return new class extends Migration
             $table->date('receipt');
             $table->unsignedBigInteger('division_id');
             $table->unsignedBigInteger('official_id');
+            $table->unsignedBigInteger('business_id')->nullable()->default(NULL);
+            $table->string('pic_user')->nullable()->default(NULL);
+            $table->string('estimation')->nullable()->default(NULL);
             $table->enum('status', ['0', '1', '2'])->default('0'); // 0 = process, 1 = success, 2=cancel
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('division_id')->references('id')->on('divisions')->onDelete('cascade');
             $table->foreign('official_id')->references('id')->on('officials')->onDelete('cascade');
+            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
         });
     }
 

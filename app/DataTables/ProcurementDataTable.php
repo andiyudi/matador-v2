@@ -66,16 +66,16 @@ class ProcurementDataTable extends DataTable
                     ->setTableId('procurement-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('lfBrtip')
+                    // ->dom('lfBrtip')
                     ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        // Button::make('pdf'),
+                        Button::make('pdf'),
                         Button::make('print'),
-                        // Button::make('reset'),
-                        // Button::make('reload')
+                        Button::make('reset'),
+                        Button::make('reload')
                     ]);
     }
 
