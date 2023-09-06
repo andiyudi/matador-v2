@@ -14,6 +14,7 @@
             <a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printModal" data-tender="{{ $tender }}">
                 Print
             </a>
+            <a class="dropdown-item" href="{{ route('schedule.index', $tender->id) }}" target="_blank">Schedule</a>
         </div>
     </div>
 </div>
