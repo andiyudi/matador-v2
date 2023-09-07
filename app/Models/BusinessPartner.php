@@ -44,7 +44,8 @@ class BusinessPartner extends Model
         ->useLogName('business_partner');
     }
 
-    public function tenders(){
+    public function tenders()
+    {
         return $this->belongsToMany(Tender::class, 'business_partner_tender')->withTimestamp();
     }
 }

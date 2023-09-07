@@ -2,42 +2,42 @@
 @section('content')
 @php
 $pretitle = 'Data PP'. $tender->procurement->number;
-$title    = 'Schedule '. $tender->procurement->name;
+$title    = 'Jadwal Lelang '. $tender->procurement->name;
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col mb-3">
-                        <label class="form-label required">Pilih Jenis Schedule</label>
-                        <div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_1" value="1">
-                                <label class="form-check-label" for="schedule_type_1">Schedule Normal</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_2" value="2">
-                                <label class="form-check-label" for="schedule_type_2">Schedule Aanwijzing & Nego</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_3" value="3">
-                                <label class="form-check-label" for="schedule_type_3">Schedule IKP</label>
-                            </div>
-                        </div>
-                        @error('type')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
-                @include('offer.schedule.normal')
-                @include('offer.schedule.nego')
-                @include('offer.schedule.ikp')
+                <table class="table table-responsive table-bordered table-striped table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th>No</th>
+                            <th>Activity</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($schedules as $schedule)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $schedule->activity }}</td>
+                            <td>{{ $schedule->start_date }}</td>
+                            <td>{{ $schedule->end_date }}</td>
+                            <td>{{ $schedule->duration }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 @endsection
-@push('after-script')
-@include('offer.schedule.js')
+@push('page-action')
+@if ($scheduleCount == 0)
+    <a href="{{ route('schedule.create', $tender->id) }}" class="btn btn-primary mb-3">Add Schedule Data</a>
+@endif
 @endpush
+
