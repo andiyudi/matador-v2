@@ -32,6 +32,7 @@ Route::prefix('offer')->group(function () {
     Route::get('schedule/{tender_id}', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('schedule/{tender_id}/create', [ScheduleController::class, 'create'])->name('schedule.create');
     Route::post('schedule/store', [ScheduleController::class, 'store'])->name('schedule.store');
+    Route::get('schedule/{tender_id}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
 });
 
 Route::prefix('partner')->group(function () {

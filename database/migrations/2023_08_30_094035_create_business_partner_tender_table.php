@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tender_id');
             $table->unsignedBigInteger('business_partner_id');
+            $table->time('start_hour')->nullable()->default(NULL);
+            $table->time('end_hour')->nullable()->default(NULL);
             $table->enum('is_selected', ['0', '1'])->default('0'); // 0: not selected and 1: selected
             //company to vendor
             $table->enum('evaluation', ['0', '1'])->nullable()->default(NULL); // 0: bad evaluation and 1: good evaluation

@@ -46,6 +46,8 @@ class BusinessPartner extends Model
 
     public function tenders()
     {
-        return $this->belongsToMany(Tender::class, 'business_partner_tender')->withTimestamp();
+        return $this->belongsToMany(Tender::class, 'business_partner_tender')
+        ->withPivot('start_hour', 'end_hour')
+        ->withTimestamp();
     }
 }
