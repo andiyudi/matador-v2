@@ -55,12 +55,12 @@ class ScheduleController extends Controller
                 $rules['end_date_' . $i] = 'required';
             }
         } elseif ($data['schedule_type'] == 1) {
-            for ($i = 1; $i <= 2; $i++) {
+            for ($i = 1; $i <= 1; $i++) {
                 $rules['start_date_' . $i] = 'required';
                 $rules['end_date_' . $i] = 'required';
             }
         } elseif ($data['schedule_type'] == 2) {
-            for ($i = 1; $i <= 3; $i++) {
+            for ($i = 1; $i <= 1; $i++) {
                 $rules['start_date_' . $i] = 'required';
                 $rules['end_date_' . $i] = 'required';
             }
@@ -73,7 +73,7 @@ class ScheduleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
        // Simpan data ke dalam tabel schedules sesuai dengan schedule_type
-        $loopCount = ($data['schedule_type'] == 0) ? 1 : (($data['schedule_type'] == 1) ? 2 : 3);
+        $loopCount = ($data['schedule_type'] == 0) ? 1 : (($data['schedule_type'] == 1) ? 1 : 1);
 
         for ($i = 1; $i <= $loopCount; $i++) {
             $schedule = new Schedule();
@@ -130,9 +130,9 @@ class ScheduleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        dd($request->all());
     }
 
     /**

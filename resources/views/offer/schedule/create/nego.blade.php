@@ -1,4 +1,4 @@
-<div id="form_type_2" style="display:none;">
+<div id="form_type_1" style="display:none;">
     <form action="{{ route('schedule.store') }}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="schedule_type" value="1">
@@ -30,23 +30,9 @@
                         <input type="text" class="form-control" name="duration_1" id="nego_duration_1" value="0" readonly>
                     </td>
                 </tr>
-                <tr>
-                    <td class="text-center">2.</td>
-                    <td>
-                        <input type="text" class="form-control" name="activity_2" id="nego_activity_2" readonly value="Undangan Tender">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="start_date_2" id="nego_start_date_2" onchange="calculateDuration('nego', 2)">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="end_date_2" id="nego_end_date_2" onchange="calculateDuration('nego', 2)">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="duration_2" id="nego_duration_2" value="0" readonly>
-                    </td>
-                </tr>
             </tbody>
         </table>
+
         <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="Leave a comment here" name="note" id="note" style="height:100px"></textarea>
             <label for="note">Keterangan</label>
@@ -84,6 +70,21 @@
         </div>
     </form>
 </div>
+{{-- <tr>
+    <td class="text-center">2.</td>
+    <td>
+        <input type="text" class="form-control" name="activity_2" id="nego_activity_2" readonly value="Undangan Tender">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="start_date_2" id="nego_start_date_2" onchange="calculateDuration('nego', 2)">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="end_date_2" id="nego_end_date_2" onchange="calculateDuration('nego', 2)">
+    </td>
+    <td>
+        <input type="text" class="form-control" name="duration_2" id="nego_duration_2" value="0" readonly>
+    </td>
+</tr> --}}
 {{-- <tr>
                     <td class="text-center">3.</td>
                     <td>

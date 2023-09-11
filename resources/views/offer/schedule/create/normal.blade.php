@@ -1,4 +1,4 @@
-<div id="form_type_1" style="display:none;">
+<div id="form_type_0" style="display:none;">
     <form action="{{ route('schedule.store') }}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="schedule_type" value="0">

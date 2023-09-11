@@ -1,4 +1,4 @@
-<div id="form_type_3" style="display:none;">
+<div id="form_type_2" style="display:none;">
     <form action="{{ route('schedule.store') }}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="schedule_type" value="2">
@@ -28,36 +28,6 @@
                     </td>
                     <td>
                         <input type="text" class="form-control" name="duration_1" id="ikp_duration_1" value="0" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">2.</td>
-                    <td>
-                        <input type="text" class="form-control" name="activity_2" id="ikp_activity_2" readonly value="Undangan Rapat Penjelasan Teknis">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="start_date_2" id="ikp_start_date_2" onchange="calculateDuration('ikp', 2)">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="end_date_2" id="ikp_end_date_2" onchange="calculateDuration('ikp', 2)">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="duration_2" id="ikp_duration_2" value="0" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">3.</td>
-                    <td>
-                        <input type="text" class="form-control" name="activity_3" id="ikp_activity_3" readonly value="Penjelasan Teknis (Aanwijzing)">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="start_date_3" id="ikp_start_date_3" onchange="calculateDuration('ikp', 3)">
-                    </td>
-                    <td>
-                        <input type="date" class="form-control" name="end_date_3" id="ikp_end_date_3" onchange="calculateDuration('ikp', 3)">
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="duration_3" id="ikp_duration_3" value="0" readonly>
                     </td>
                 </tr>
             </tbody>
@@ -99,6 +69,36 @@
         </div>
     </form>
 </div>
+{{-- <tr>
+    <td class="text-center">2.</td>
+    <td>
+        <input type="text" class="form-control" name="activity_2" id="ikp_activity_2" readonly value="Undangan Rapat Penjelasan Teknis">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="start_date_2" id="ikp_start_date_2" onchange="calculateDuration('ikp', 2)">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="end_date_2" id="ikp_end_date_2" onchange="calculateDuration('ikp', 2)">
+    </td>
+    <td>
+        <input type="text" class="form-control" name="duration_2" id="ikp_duration_2" value="0" readonly>
+    </td>
+</tr>
+<tr>
+    <td class="text-center">3.</td>
+    <td>
+        <input type="text" class="form-control" name="activity_3" id="ikp_activity_3" readonly value="Penjelasan Teknis (Aanwijzing)">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="start_date_3" id="ikp_start_date_3" onchange="calculateDuration('ikp', 3)">
+    </td>
+    <td>
+        <input type="date" class="form-control" name="end_date_3" id="ikp_end_date_3" onchange="calculateDuration('ikp', 3)">
+    </td>
+    <td>
+        <input type="text" class="form-control" name="duration_3" id="ikp_duration_3" value="0" readonly>
+    </td>
+</tr> --}}
 {{-- <tr>
                     <td class="text-center">4.</td>
                     <td>
