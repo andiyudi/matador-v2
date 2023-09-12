@@ -8,6 +8,26 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                @if ($scheduleCount > 0)
+                <div class="row">
+                    <div class="col mb-3">
+                        <label class="form-label">Jenis Schedule</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_0" value="0" {{ $tender->schedule_type == 0 ? 'checked' : '' }} disabled>
+                                <label class="form-check-label" for="schedule_type_0">Schedule Normal</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_1" value="1" {{ $tender->schedule_type == 1 ? 'checked' : '' }} disabled>
+                                <label class="form-check-label" for="schedule_type_1">Schedule Aanwijzing & Nego</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="schedule_type" id="schedule_type_2" value="2" {{ $tender->schedule_type == 2 ? 'checked' : '' }} disabled>
+                                <label class="form-check-label" for="schedule_type_2">Schedule IKP</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <table class="table table-responsive table-bordered table-striped table-hover">
                     <thead class="text-center">
                         <tr>
@@ -21,7 +41,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                     <tbody>
                         @foreach ($schedules as $schedule)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td class="text-center">{{ $loop->iteration }}.</td>
                             <td>{{ $schedule->activity }}</td>
                             <td>{{ $schedule->start_date }}</td>
                             <td>{{ $schedule->end_date }}</td>
@@ -44,7 +64,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                     <tbody>
                         @foreach ($tender->businessPartners as $businessPartner)
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
+                            <td class="text-center">{{ $loop->iteration }}.</td>
                             <td>{{ $businessPartner->partner->name }}</td>
                             <td>
                                 <input type="time" class="form-control" name="start_hour_{{ $businessPartner->id }}" id="start_hour_{{ $businessPartner->id }}" value="{{ $businessPartner->pivot->start_hour }}" readonly>
@@ -65,6 +85,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                         @enderror
                     </div>
                 </div>
+            @endif
             </div>
         </div>
     </div>
@@ -74,7 +95,8 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
 @if ($scheduleCount == 0)
     <a href="{{ route('schedule.create', $tender->id) }}" class="btn btn-primary mb-3">Add Schedule Data</a>
 @else
-    <a href="{{ route('schedule.edit', $tender->id) }}" class="btn btn-primary mb-3">Edit Schedule Data</a>
+    <a href="{{ route('schedule.show', $tender->id) }}" class="btn btn-info mb-3">Print Schedule Data</a>
+    <a href="{{ route('schedule.edit', $tender->id) }}" class="btn btn-warning mb-3">Edit Schedule Data</a>
 @endif
 @endpush
 

@@ -50,19 +50,19 @@ class ScheduleController extends Controller
         ];
 
         if ($data['schedule_type'] == 0) {
-            for ($i = 1; $i <= 1; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required';
+                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
             }
         } elseif ($data['schedule_type'] == 1) {
-            for ($i = 1; $i <= 1; $i++) {
+            for ($i = 1; $i <= 9; $i++) {
                 $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required';
+                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
             }
         } elseif ($data['schedule_type'] == 2) {
-            for ($i = 1; $i <= 1; $i++) {
+            for ($i = 1; $i <= 12; $i++) {
                 $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required';
+                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
             }
         }
 
@@ -73,7 +73,7 @@ class ScheduleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
        // Simpan data ke dalam tabel schedules sesuai dengan schedule_type
-        $loopCount = ($data['schedule_type'] == 0) ? 1 : (($data['schedule_type'] == 1) ? 1 : 1);
+        $loopCount = ($data['schedule_type'] == 0) ? 10 : (($data['schedule_type'] == 1) ? 9 : 12);
 
         for ($i = 1; $i <= $loopCount; $i++) {
             $schedule = new Schedule();
@@ -132,14 +132,93 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
+        $this->validate($request, [
+            'activity' => 'required|array',
+            'start_date' => 'required|array',
+            'end_date' => 'required|array',
+            'duration' => 'required|array',
+            'activity.*' => 'required|string',
+            'start_date.*' => 'required|date',
+            'end_date.*' => 'required|date|after_or_equal:start_date.*',
+            'duration.*' => 'required|numeric',
+            'note' => 'required|string',
+            'secretary' => 'required|string',
+            'start_hour_*' => 'required|date_format:H:i',
+            'end_hour_*' => 'required|date_format:H:i',
+        ]);
+        try {
+            $tender = Tender::findOrFail($id);
+            foreach ($request->activity as $key => $activity) {
+                $scheduleId = $key;
+                $schedule = Schedule::findOrFail($request->id_schedule[$key]);
+                $schedule->activity = $activity;
+                $schedule->start_date = $request->start_date[$scheduleId];
+                $schedule->end_date = $request->end_date[$scheduleId];
+                $schedule->duration = $request->duration[$scheduleId];
+                $schedule->save();
+            }
+            $tender->note = $request->input('note');
+            $tender->secretary = $request->input('secretary');
+            $tender->save();
+             // Loop melalui business partners dan update pivot table
+            foreach ($tender->businessPartners as $businessPartner) {
+                $startHourName = 'start_hour_' . $businessPartner->id;
+                $endHourName = 'end_hour_' . $businessPartner->id;
+
+                // Ambil nilai start_hour dan end_hour dari request
+                $startHour = $request->input($startHourName);
+                $endHour = $request->input($endHourName);
+
+                // Update pivot table dengan sync
+                $businessPartner->pivot->update([
+                    'start_hour' => $startHour,
+                    'end_hour' => $endHour,
+                ]);
+            }
+            Alert::success('Success', 'Schedule updated successfully.');
+            return redirect()->route('schedule.index', $tender->id);
+        } catch (\Exception $e) {
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            $tender = Tender::findOrFail($id);
+
+            // Hapus data dari tabel Schedule
+            $tender->schedules()->delete();
+
+            // Set kolom schedule_type, secretary, dan note menjadi null
+            $tender->update([
+                'schedule_type' => null,
+                'secretary' => null,
+                'note' => null,
+            ]);
+
+            // Set kolom start_hour dan end_hour pada pivot table menjadi null
+            foreach ($tender->businessPartners as $businessPartner) {
+                $startHourName = 'start_hour_' . $businessPartner->id;
+                $endHourName = 'end_hour_' . $businessPartner->id;
+
+                // Update pivot table dengan sync
+                $businessPartner->pivot->update([
+                    'start_hour' => NULL,
+                    'end_hour' => NULL,
+                ]);
+            }
+
+            Alert::success('Success', 'Schedule deleted successfully, Please make new schedule');
+            return redirect()->route('schedule.create', $tender->id);
+        } catch (\Exception $e) {
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back();
+        }
+}
 }

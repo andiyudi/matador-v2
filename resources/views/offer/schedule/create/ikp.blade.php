@@ -30,76 +30,37 @@
                         <input type="text" class="form-control" name="duration_1" id="ikp_duration_1" value="0" readonly>
                     </td>
                 </tr>
-            </tbody>
-        </table>
-        <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Leave a comment here" name="note" id="note" style="height:100px"></textarea>
-            <label for="note">Keterangan</label>
-        </div>
-        <table class="table table-responsive table-bordered table-striped table-hover">
-            <thead class="text-center">
-                <th width="5%">No</th>
-                <th width="60%">Nama Vendor</th>
-                <th width="15%">Start Hour</th>
-                <th width="15%">End Hour</th>
-            </thead>
-            <tbody>
-                @foreach ($tender->businessPartners as $businessPartner)
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $businessPartner->partner->name }}</td>
-                    <td><input type="time" class="form-control" name="start_hour_{{ $businessPartner->id }}" id="start_hour_{{ $businessPartner->id }}"></td>
-                    <td><input type="time" class="form-control" name="end_hour_{{ $businessPartner->id }}" id="end_hour_{{ $businessPartner->id }}"></td>
+                    <td class="text-center">2.</td>
+                    <td>
+                        <input type="text" class="form-control" name="activity_2" id="ikp_activity_2" readonly value="Undangan Rapat Penjelasan Teknis">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="start_date_2" id="ikp_start_date_2" onchange="calculateDuration('ikp', 2)">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="end_date_2" id="ikp_end_date_2" onchange="calculateDuration('ikp', 2)">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="duration_2" id="ikp_duration_2" value="0" readonly>
+                    </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="row mb-3">
-            <label for="secretary" class="col-sm-2 col-form-label required">Secretary Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control @error('secretary') is-invalid @enderror" id="secretary" name="secretary" value="{{ old('secretary') }}" placeholder="Input Secretary Name">
-                @error('secretary')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-        <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
-            <button type="reset" class="btn btn-secondary">Reset</button>
-            <button type="submit" class="btn btn-success">Save</button>
-        </div>
-    </form>
-</div>
-{{-- <tr>
-    <td class="text-center">2.</td>
-    <td>
-        <input type="text" class="form-control" name="activity_2" id="ikp_activity_2" readonly value="Undangan Rapat Penjelasan Teknis">
-    </td>
-    <td>
-        <input type="date" class="form-control" name="start_date_2" id="ikp_start_date_2" onchange="calculateDuration('ikp', 2)">
-    </td>
-    <td>
-        <input type="date" class="form-control" name="end_date_2" id="ikp_end_date_2" onchange="calculateDuration('ikp', 2)">
-    </td>
-    <td>
-        <input type="text" class="form-control" name="duration_2" id="ikp_duration_2" value="0" readonly>
-    </td>
-</tr>
-<tr>
-    <td class="text-center">3.</td>
-    <td>
-        <input type="text" class="form-control" name="activity_3" id="ikp_activity_3" readonly value="Penjelasan Teknis (Aanwijzing)">
-    </td>
-    <td>
-        <input type="date" class="form-control" name="start_date_3" id="ikp_start_date_3" onchange="calculateDuration('ikp', 3)">
-    </td>
-    <td>
-        <input type="date" class="form-control" name="end_date_3" id="ikp_end_date_3" onchange="calculateDuration('ikp', 3)">
-    </td>
-    <td>
-        <input type="text" class="form-control" name="duration_3" id="ikp_duration_3" value="0" readonly>
-    </td>
-</tr> --}}
-{{-- <tr>
+                <tr>
+                    <td class="text-center">3.</td>
+                    <td>
+                        <input type="text" class="form-control" name="activity_3" id="ikp_activity_3" readonly value="Penjelasan Teknis (Aanwijzing)">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="start_date_3" id="ikp_start_date_3" onchange="calculateDuration('ikp', 3)">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="end_date_3" id="ikp_end_date_3" onchange="calculateDuration('ikp', 3)">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="duration_3" id="ikp_duration_3" value="0" readonly>
+                    </td>
+                </tr>
+                <tr>
                     <td class="text-center">4.</td>
                     <td>
                         <input type="text" class="form-control" name="activity_4" id="ikp_activity_4" readonly value="Peninjauan Lapangan">
@@ -233,4 +194,44 @@
                     <td>
                         <input type="text" class="form-control" name="duration_12" id="ikp_duration_12" value="0" readonly>
                     </td>
-                </tr> --}}
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Leave a comment here" name="note" id="note" style="height:100px"></textarea>
+            <label for="note">Keterangan</label>
+        </div>
+        <table class="table table-responsive table-bordered table-striped table-hover">
+            <thead class="text-center">
+                <th width="5%">No</th>
+                <th width="60%">Nama Vendor</th>
+                <th width="15%">Start Hour</th>
+                <th width="15%">End Hour</th>
+            </thead>
+            <tbody>
+                @foreach ($tender->businessPartners as $businessPartner)
+                <tr>
+                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td>{{ $businessPartner->partner->name }}</td>
+                    <td><input type="time" class="form-control" name="start_hour_{{ $businessPartner->id }}" id="start_hour_{{ $businessPartner->id }}"></td>
+                    <td><input type="time" class="form-control" name="end_hour_{{ $businessPartner->id }}" id="end_hour_{{ $businessPartner->id }}"></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="row mb-3">
+            <label for="secretary" class="col-sm-2 col-form-label required">Secretary Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control @error('secretary') is-invalid @enderror" id="secretary" name="secretary" value="{{ old('secretary') }}" placeholder="Input Secretary Name">
+                @error('secretary')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
+            <a type="button" href="{{ route('schedule.index', $tender->id) }}" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-success">Save</button>
+        </div>
+    </form>
+</div>
+
