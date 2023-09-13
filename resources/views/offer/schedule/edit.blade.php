@@ -132,19 +132,36 @@ $title    = 'Edit Schedule '. $tender->procurement->name;
         var startDate = new Date(row.querySelector('input[name="start_date[]"]').value);
         var endDate = new Date(row.querySelector('input[name="end_date[]"]').value);
 
+        // Fungsi untuk memeriksa apakah tanggal adalah hari Sabtu atau Minggu
+        function isWeekend(date) {
+            return date.getDay() === 6 || date.getDay() === 0;
+        }
+
         // Periksa apakah tanggal awal dan tanggal akhir valid
         if (!isNaN(startDate) && !isNaN(endDate)) {
-            // Hitung durasi dalam hari
-            var duration = (endDate - startDate) / (1000 * 60 * 60 * 24) + 1;
+            // Inisialisasi durasi
+            var duration = 0;
+
+            // Loop melalui setiap tanggal antara tanggal awal dan akhir
+            var currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                // Tambahkan satu hari jika bukan hari Sabtu atau Minggu
+                if (!isWeekend(currentDate)) {
+                    duration++;
+                }
+                // Pindah ke tanggal berikutnya
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
 
             // Isi input durasi dengan hasil perhitungan
-            row.querySelector('input[name="duration[]"]').value = duration.toFixed(0);
+            row.querySelector('input[name="duration[]"]').value = duration;
         } else {
             // Jika salah satu tanggal tidak valid, set durasi ke 0
             row.querySelector('input[name="duration[]"]').value = '0';
         }
     }
 </script>
+
 @endsection
 @push('page-action')
     <a href="#" class="btn btn-danger mb-3" data-bs-toggle="modal" data-bs-target="#confirmModal">Change Schedule Type</a>

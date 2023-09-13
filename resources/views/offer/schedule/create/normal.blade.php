@@ -2,7 +2,7 @@
     <form action="{{ route('schedule.store') }}" method="POST">
         @csrf
         <input type="hidden" class="form-control" name="schedule_type" value="0">
-        <input type="hidden" class="form-control" name="category" value="0">
+        <input type="hidden" class="form-control" name="is_holiday" value="0">
         <input type="hidden" class="form-control" name="tender_id" value="{{ $tender->id }}">
         <table class="table table-responsive table-bordered table-striped table-hover">
             <thead class="text-center">

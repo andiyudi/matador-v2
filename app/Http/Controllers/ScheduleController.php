@@ -43,7 +43,7 @@ class ScheduleController extends Controller
         $rules = [
             // Definisikan aturan validasi yang sesuai dengan kebutuhan Anda
             'tender_id' => 'required|exists:tenders,id',
-            'category' => 'required',
+            'is_holiday' => 'required',
             'schedule_type' => 'required|in:0,1,2',
             'secretary' => 'required',
             'note' => 'required',
@@ -78,7 +78,7 @@ class ScheduleController extends Controller
         for ($i = 1; $i <= $loopCount; $i++) {
             $schedule = new Schedule();
             $schedule->tender_id = $data['tender_id'];
-            $schedule->category = $data['category'];
+            $schedule->is_holiday = $data['is_holiday'];
             $schedule->activity = $data['activity_' . $i];
             $schedule->start_date = $data['start_date_' . $i];
             $schedule->end_date = $data['end_date_' . $i];
@@ -220,5 +220,20 @@ class ScheduleController extends Controller
             Alert::error('Error', $e->getMessage());
             return redirect()->back();
         }
-}
+    }
+
+    public function print ($id)
+    {
+        // dd($id);
+        $tender = Tender::findOrFail($id);
+        $schedules = Schedule::where('tender_id', $tender->id)->get();
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        $leadName = request()->query('leadName');
+        $leadPosition = request()->query('leadPosition');
+        $secretaryName = request()->query('secretaryName');
+        $secretaryPosition = request()->query('secretaryPosition');
+        return view ('offer.schedule.print', compact('logoBase64', 'tender', 'leadName', 'leadPosition','secretaryName', 'secretaryPosition', 'schedules'));
+    }
 }

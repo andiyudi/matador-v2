@@ -18,8 +18,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('duration');
-            $table->enum('category', ['0','1']); // 0=officeday, 1=holiday
-            $table->enum('status', ['0','1'])->default('0'); // 0=process, 1=cancel
+            $table->enum('is_holiday', ['0','1']); // 0=no, 1=yes
             $table->timestamps();
 
             $table->foreign('tender_id')->references('id')->on('tenders')->onDelete('cascade');

@@ -34,7 +34,7 @@ Route::prefix('offer')->group(function () {
     Route::post('schedule/store', [ScheduleController::class, 'store'])->name('schedule.store');
     Route::get('schedule/{tender_id}/edit', [ScheduleController::class, 'edit'])->name('schedule.edit');
     Route::put('schedule/{tender_id}/update', [ScheduleController::class, 'update'])->name('schedule.update');
-    Route::get('schedule/{tender_id}/show', [ScheduleController::class, 'show'])->name('schedule.show');
+    Route::get('schedule/{tender_id}/print', [ScheduleController::class, 'print'])->name('schedule.print');
     Route::delete('schedule/{tender_id}/destroy', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
 });
 

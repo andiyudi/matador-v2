@@ -12,6 +12,25 @@
     });
 </script>
 <script>
+    function isWeekend(date) {
+        // Periksa apakah tanggal merupakan hari Sabtu atau Minggu (6 atau 0 adalah indeks hari)
+        return date.getDay() === 6 || date.getDay() === 0;
+    }
+
+    function calculateWorkDays(startDate, endDate) {
+        var workDays = 0;
+        var currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            if (!isWeekend(currentDate)) {
+                workDays++;
+            }
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return workDays;
+    }
+
     function calculateDuration(type, rowNumber) {
         // Ambil nilai tanggal mulai dan tanggal selesai dari input
         var startDateInput = document.getElementById(type + "_start_date_" + rowNumber);
@@ -24,14 +43,11 @@
 
         // Pastikan kedua tanggal telah dipilih sebelum menghitung
         if (startDateInput.value !== "" && endDateInput.value !== "") {
-            // Hitung selisih dalam milidetik
-            var timeDiff = endDate - startDate;
+            // Hitung durasi hari kerja (tanpa memeriksa hari libur nasional)
+            var workDays = calculateWorkDays(startDate, endDate);
 
-            // Hitung jumlah hari (tambahkan 1)
-            var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-
-            // Tampilkan jumlah hari di input duration
-            durationInput.value = daysDiff;
+            // Tampilkan jumlah hari kerja di input duration
+            durationInput.value = workDays;
         } else {
             // Jika salah satu tanggal belum dipilih, atur durasi menjadi 0
             durationInput.value = "0";
