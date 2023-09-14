@@ -73,20 +73,35 @@
         </tbody>
     </table>
     <br>
-    <table class="tg" width="50%">
-        <tbody>
+    <u>Keterangan :</u><br>
+    &#160;{{ $tender->note }}
+    <table class="tg">
+        <thead>
             @foreach ($tender->businessPartners as $businessPartner)
             <tr>
-                <td class="tg-eqkh">{{ $loop->iteration }}.</td>
-                <td class="tg-eqkh">{{ $businessPartner->partner->name }}</td>
-                <td class="tg-eqkh">
-                    {{ $businessPartner->pivot->start_hour }}
-                </td>
-                <td class="tg-eqkh">
-                    {{ $businessPartner->pivot->end_hour }}
-                </td>
+                <td class="tg-cjdc">{{ $loop->iteration }}&#46;&#41;&#32;{{ $businessPartner->partner->name }}</td>
+                <td class="tg-cjdc">{{ $businessPartner->pivot->start_hour }}&#32;&#45;&#32;{{ $businessPartner->pivot->end_hour }}</td>
             </tr>
             @endforeach
+        </body>
+        </thead>
+    </table>
+    <table class="tg" width="100%">
+        <thead>
+            <tr>
+                <th class="tg-eqkh" width="50%">Dibuat Oleh,</th>
+                <th class="tg-eqkh" width="50%">Disetujui Oleh,</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tg-zv4m"></td>
+                <td class="tg-zv4m"></td>
+            </tr>
+            <tr>
+                <td class="tg-eqkh"><u>{{ $secretaryName }}</u><br>{{ $secretaryPosition }}</td>
+                <td class="tg-eqkh"><u>{{ $leadName }}</u><br>{{ $leadPosition }}</td>
+            </tr>
         </tbody>
     </table>
 </body>

@@ -17,3 +17,6 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+<!-- input mask -->
+
+<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/jquery.inputmask.min.js" integrity="sha256-5oiwHICle0yTRnZCN2ZeJtIArHp308CK7VYboY8FNe8=" crossorigin="anonymous"></script>

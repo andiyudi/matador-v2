@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Tender;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
+use Riskihajar\Terbilang\Facades\Terbilang;
 
 
 class ScheduleController extends Controller
@@ -112,9 +114,35 @@ class ScheduleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $tender = Tender::findOrFail($id);
+        $leadName = request()->query('leadName');
+        $leadPosition = request()->query('leadPosition');
+        $secretaryName = request()->query('secretaryName');
+        $secretaryPosition = request()->query('secretaryPosition');
+        $number = request()->query('number');
+
+        $dateString = request()->query('date');
+        $date = Carbon::createFromFormat('Y-m-d', $dateString);
+        $formattedDate = $date->format('d-m-Y');
+        $date->locale('id');
+
+        // Pisahkan tanggal, bulan, dan tahun
+        $tgl = $date->day;
+        $tanggal = Terbilang::make($tgl);
+        $bulan = $date->translatedFormat('F');
+        $thn = $date->year;
+        $tahun = Terbilang::make($thn);
+
+        $day = $date->translatedFormat('l');
+        $location = request()->query('location');
+
+        return view('offer.schedule.show', compact(
+            'tender', 'leadName', 'leadPosition', 'secretaryName',
+            'secretaryPosition', 'number', 'formattedDate', 'day',
+            'location', 'tanggal', 'bulan', 'tahun',
+        ));
     }
 
     /**
@@ -224,7 +252,6 @@ class ScheduleController extends Controller
 
     public function print ($id)
     {
-        // dd($id);
         $tender = Tender::findOrFail($id);
         $schedules = Schedule::where('tender_id', $tender->id)->get();
         $logoPath = public_path('assets/logo/cmnplogo.png');
