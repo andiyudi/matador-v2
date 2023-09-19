@@ -263,4 +263,10 @@ class ScheduleController extends Controller
         $secretaryPosition = request()->query('secretaryPosition');
         return view ('offer.schedule.print', compact('logoBase64', 'tender', 'leadName', 'leadPosition','secretaryName', 'secretaryPosition', 'schedules'));
     }
+
+
+    public function detail()
+    {
+        return 'hello world';
+    }
 }

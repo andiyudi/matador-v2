@@ -143,7 +143,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                     <div class="row">
                         <div class="col mb-3">
                             <label for="number" class="form-label">Number</label>
-                            <input type="text" id="number" name="number" class="form-control" data-mask="****/BA-PPKH-CMNP/***/****" data-mask-visible="true" placeholder="****/BA-PPKH-CMNP/***/****" autocomplete="off">
+                            <input type="text" id="number" name="number" class="form-control" data-mask="****/BA-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/BA-PPKH-CMNP/****/****" autocomplete="off">
                         </div>
                         <div class="col mb-3">
                             <label for="date" class="form-label">Date</label>
@@ -172,6 +172,58 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                         <div class="col mb-3">
                             <label for="secretaryAanwijzingPosition" class="form-label">Secretary Position</label>
                             <input type="text" class="form-control" value="SEKRETARIS" id="secretaryAanwijzingPosition" placeholder="Enter secretary position" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Print</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="printBanego" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="banegoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="printFormBanego">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="banegoModalLabel">Print Berita Acara Negosiasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="banegoNumber" class="form-label">Number</label>
+                            <input type="text" id="banegoNumber" name="banegoNumber" class="form-control" data-mask="****/BA-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/BA-PPKH-CMNP/****/****" autocomplete="off">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="banegoDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="banegoDate" name="banegoDate" placeholder="Enter nego date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="selectLeadBanegoName" class="form-label">Creator Name</label>
+                            <select name="selectLeadBanegoName" id="selectLeadBanegoName" class="form-select">
+                                <option value=""></option>
+                            </select>
+                            <input type="hidden" class="form-control" id="leadBanegoName" name="leadBanegoName" value="">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="secretaryBanegoName" class="form-label">Secretary Name</label>
+                            <input type="text" class="form-control" id="secretaryBanegoName" value="{{ $tender->secretary }}" placeholder="Enter secretary name" required>
+                            <input type="hidden" class="form-control" id="banegoLocation" name="banegoLocation" value="PT. Citra Marga Nusaphala Persada, Tbk">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="leadBanegoPosition" class="form-label">Lead Position</label>
+                            <input type="text" class="form-control" id="leadBanegoPosition" value="TIM PPKH" placeholder="Enter lead position" required>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="secretaryBanegoPosition" class="form-label">Secretary Position</label>
+                            <input type="text" class="form-control" value="SEKRETARIS" id="secretaryBanegoPosition" placeholder="Enter secretary position" required>
                         </div>
                     </div>
                 </div>
@@ -299,6 +351,67 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#printBanego').on('show.bs.modal', function(event) {
+            var buttonBanego = $(event.relatedTarget);
+            var tenderData = buttonBanego.data('tender');
+            var leadBanegoNameSelect = $('#selectLeadBanegoName');
+            leadBanegoNameSelect.empty();
+            $.ajax({
+                url: route("offer.official"),
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $.each(response.data, function(index, official) {
+                        leadBanegoNameSelect.append($('<option>', {
+                            value: official.id,
+                            text: official.name,
+                            selected: official.id == tenderData.procurement.official_id
+                        }));
+                    });
+                    var selectedOfficialName = leadBanegoNameSelect.find('option:selected').text();
+                    $('#leadBanegoName').val(selectedOfficialName);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            leadBanegoNameSelect.on('change', function() {
+                var leadBanegoName = leadBanegoNameSelect.find('option:selected').text();
+                $('#leadBanegoName').val(leadBanegoName);
+            });
+            $('#printFormBanego').submit(function (e) {
+            e.preventDefault();
+                var leadBanegoName = $('#leadBanegoName').val();
+                var leadBanegoPosition = $('#leadBanegoPosition').val();
+                var secretaryBanegoName = $('#secretaryBanegoName').val();
+                var secretaryBanegoPosition = $('#secretaryBanegoPosition').val();
+                var banegoNumber = $('#banegoNumber').val();
+                var banegoDate = $('#banegoDate').val();
+                var banegoLocation = $('#banegoLocation').val();
+
+                var buttonAanwijzing = $(event.relatedTarget);
+                var id = buttonAanwijzing.data('tender');
+
+                var printUrl = route('schedule.detail', id) +
+                    '?leadAanwijzingName=' + encodeURIComponent(leadAanwijzingName) +
+                    '&leadAanwijzingPosition=' + encodeURIComponent(leadAanwijzingPosition) +
+                    '&secretaryAanwijzingName=' + encodeURIComponent(secretaryAanwijzingName) +
+                    '&secretaryAanwijzingPosition=' + encodeURIComponent(secretaryAanwijzingPosition) +
+                    '&banegoNumber=' + encodeURIComponent(banegoNumber) +
+                    '&banegoDate=' + encodeURIComponent(banegoDate) +
+                    '&banegoLocation=' + encodeURIComponent(banegoLocation);
+
+                window.open(printUrl, '_blank');
+
+                $('#printBanego').modal('hide');
+
+                $('#printFormBanego')[0].reset();
+            });
+        });
+    });
+</script>
 @endsection
 @push('page-action')
 @if ($scheduleCount == 0)
@@ -311,7 +424,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
         <ul class="dropdown-menu">
             <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printSchedule" data-tender="{{ json_encode($tender) }}">Schedule</a></li>
             <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printAanwijzing" data-tender="{{ json_encode($tender) }}">Aanwijzing</a></li>
-            <li><a class="dropdown-item" href="#">Berita Acara</a></li>
+            <li><a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printBanego" data-tender="{{ json_encode($tender) }}">Berita Acara</a></li>
         </ul>
     </div>
     <a href="{{ route('schedule.edit', $tender->id) }}" class="btn btn-warning mb-3">Edit Schedule Data</a>

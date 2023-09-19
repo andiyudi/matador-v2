@@ -8,11 +8,13 @@
 </head>
 <body>
 <center>
-    <p>
+    <h3>
         BERITA ACARA<br>
         RAPAT PENJELASAN TEKNIS<br>
         {{ strtoupper($tender->procurement->name) }}<br>
         <br>
+    </h3>
+    <p>
         NOMOR : {{ $number }}<br>
         <hr>
     </p>
