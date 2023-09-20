@@ -63,7 +63,7 @@
                 <tr>
                     <td class="text-center">4.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_4" id="normal_activity_4" readonly value="Pemasukan Dokumen Penawaran Harga Via Email">
+                        <input type="text" class="form-control" name="activity_4" id="normal_activity_4" readonly value="Peninjauan Lapangan">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_4" id="normal_start_date_4" onchange="calculateDuration('normal', 4)">
@@ -78,7 +78,7 @@
                 <tr>
                     <td class="text-center">5.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_5" id="normal_activity_5" readonly value="Verifikasi Penawaran Harga">
+                        <input type="text" class="form-control" name="activity_5" id="normal_activity_5" readonly value="Pemasukan Dokumen Penawaran Harga Via Email">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_5" id="normal_start_date_5" onchange="calculateDuration('normal', 5)">
@@ -93,7 +93,7 @@
                 <tr>
                     <td class="text-center">6.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_6" id="normal_activity_6" readonly value="Negosiasi Kewajaran Harga">
+                        <input type="text" class="form-control" name="activity_6" id="normal_activity_6" readonly value="Verifikasi Penawaran Harga">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_6" id="normal_start_date_6" onchange="calculateDuration('normal', 6)">
@@ -108,7 +108,7 @@
                 <tr>
                     <td class="text-center">7.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_7" id="normal_activity_7" readonly value="Evaluasi Hasil Tender">
+                        <input type="text" class="form-control" name="activity_7" id="normal_activity_7" readonly value="Negosiasi Kewajaran Harga">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_7" id="normal_start_date_7" onchange="calculateDuration('normal', 7)">
@@ -123,7 +123,7 @@
                 <tr>
                     <td class="text-center">8.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_8" id="normal_activity_8" readonly value="Persetujuan Direksi">
+                        <input type="text" class="form-control" name="activity_8" id="normal_activity_8" readonly value="Evaluasi Hasil Tender">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_8" id="normal_start_date_8" onchange="calculateDuration('normal', 8)">
@@ -138,7 +138,7 @@
                 <tr>
                     <td class="text-center">9.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_9" id="normal_activity_9" readonly value="Surat Penetapan Pemenang">
+                        <input type="text" class="form-control" name="activity_9" id="normal_activity_9" readonly value="Persetujuan Direksi">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_9" id="normal_start_date_9" onchange="calculateDuration('normal', 9)">
@@ -153,7 +153,7 @@
                 <tr>
                     <td class="text-center">10.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_10" id="normal_activity_10" readonly value="Pembuatan Kontrak / PO">
+                        <input type="text" class="form-control" name="activity_10" id="normal_activity_10" readonly value="Surat Penetapan Pemenang / Kalah Tender">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_10" id="normal_start_date_10" onchange="calculateDuration('normal', 10)">
@@ -163,6 +163,21 @@
                     </td>
                     <td>
                         <input type="text" class="form-control" name="duration_10" id="normal_duration_10" value="0" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">11.</td>
+                    <td>
+                        <input type="text" class="form-control" name="activity_11" id="normal_activity_11" readonly value="Pembuatan Kontrak / PO">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="start_date_11" id="normal_start_date_11" onchange="calculateDuration('normal', 11)">
+                    </td>
+                    <td>
+                        <input type="date" class="form-control" name="end_date_11" id="normal_end_date_11" onchange="calculateDuration('normal', 11)">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="duration_11" id="normal_duration_11" value="0" readonly>
                     </td>
                 </tr>
             </tbody>

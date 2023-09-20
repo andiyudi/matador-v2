@@ -52,7 +52,7 @@ class ScheduleController extends Controller
         ];
 
         if ($data['schedule_type'] == 0) {
-            for ($i = 1; $i <= 10; $i++) {
+            for ($i = 1; $i <= 11; $i++) {
                 $rules['start_date_' . $i] = 'required';
                 $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
             }
@@ -75,7 +75,7 @@ class ScheduleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
        // Simpan data ke dalam tabel schedules sesuai dengan schedule_type
-        $loopCount = ($data['schedule_type'] == 0) ? 10 : (($data['schedule_type'] == 1) ? 9 : 12);
+        $loopCount = ($data['schedule_type'] == 0) ? 11 : (($data['schedule_type'] == 1) ? 9 : 12);
 
         for ($i = 1; $i <= $loopCount; $i++) {
             $schedule = new Schedule();
@@ -104,8 +104,6 @@ class ScheduleController extends Controller
 
             $tender->businessPartners()->updateExistingPivot($businessPartner->id, $pivotData);
         }
-        // Redirect atau berikan respons sesuai kebutuhan Anda
-        // ...
 
         Alert::success('Success', 'Schedule Tender Successfully Saved');
         return to_route('schedule.index', $data['tender_id']);
@@ -117,10 +115,10 @@ class ScheduleController extends Controller
     public function show($id)
     {
         $tender = Tender::findOrFail($id);
-        $leadName = request()->query('leadName');
-        $leadPosition = request()->query('leadPosition');
-        $secretaryName = request()->query('secretaryName');
-        $secretaryPosition = request()->query('secretaryPosition');
+        $leadAanwijzingName = request()->query('leadAanwijzingName');
+        $leadAanwijzingPosition = request()->query('leadAanwijzingPosition');
+        $secretaryAanwijzingName = request()->query('secretaryAanwijzingName');
+        $secretaryAanwijzingPosition = request()->query('secretaryAanwijzingPosition');
         $number = request()->query('number');
 
         $dateString = request()->query('date');
@@ -139,8 +137,8 @@ class ScheduleController extends Controller
         $location = request()->query('location');
 
         return view('offer.schedule.show', compact(
-            'tender', 'leadName', 'leadPosition', 'secretaryName',
-            'secretaryPosition', 'number', 'formattedDate', 'day',
+            'tender', 'leadAanwijzingName', 'leadAanwijzingPosition', 'secretaryAanwijzingName',
+            'secretaryAanwijzingPosition', 'number', 'formattedDate', 'day',
             'location', 'tanggal', 'bulan', 'tahun',
         ));
     }
@@ -265,8 +263,14 @@ class ScheduleController extends Controller
     }
 
 
-    public function detail()
+    public function detail($id)
     {
-        return 'hello world';
+        $tender = Tender::findOrFail($id);
+
+        if ($tender->schedule_type === 0 || $tender->schedule_type === 1) {
+            return view('offer.schedule.detail-non-ikp', compact('tender'));
+        } else {
+            return view('offer.schedule.detail-ikp', compact('tender'));
+        }
     }
 }

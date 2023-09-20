@@ -216,15 +216,24 @@ class OfferController extends Controller
     {
         try {
             $tender = Tender::findOrFail($id);
-            $tender->businessPartners()->detach();
-            $tender->delete();
-            Alert::success('success', 'Tender deleted successfully!');
+
+            $hasSchedules = $tender->schedules()->exists();
+
+            if ($hasSchedules) {
+                Alert::error('error', 'Tender has associated schedules and cannot be deleted.');
+            } else {
+                $tender->businessPartners()->detach();
+                $tender->delete();
+                Alert::success('success', 'Tender deleted successfully!');
+            }
+
             return redirect()->route('offer.index');
         } catch (\Exception $e) {
             Alert::error('error', 'Failed to delete tender: ' . $e->getMessage());
             return redirect()->route('offer.index');
         }
     }
+
 
     public function print($id)
     {

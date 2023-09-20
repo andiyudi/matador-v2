@@ -78,7 +78,7 @@
                 <tr>
                     <td class="text-center">5.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_5" id="nego_activity_5" readonly value="Penjelasan Teknis (Aanwijzing) & Negosiasi Harga (Online via zoom meeting)">
+                        <input type="text" class="form-control" name="activity_5" id="nego_activity_5" readonly value="Penjelasan Teknis (Aanwijzing) & Negosiasi Harga (Online / Offline)">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_5" id="nego_start_date_5" onchange="calculateDuration('nego', 5)">
@@ -123,7 +123,7 @@
                 <tr>
                     <td class="text-center">8.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_8" id="nego_activity_8" readonly value="Surat Penetapan Pemenang">
+                        <input type="text" class="form-control" name="activity_8" id="nego_activity_8" readonly value="Surat Penetapan Pemenang / Kalah Tender">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_8" id="nego_start_date_8" onchange="calculateDuration('nego', 8)">

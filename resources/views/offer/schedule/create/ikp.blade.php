@@ -168,7 +168,7 @@
                 <tr>
                     <td class="text-center">11.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_11" id="ikp_activity_11" readonly value="Surat Penetapan Pemenang">
+                        <input type="text" class="form-control" name="activity_11" id="ikp_activity_11" readonly value="Surat Penetapan Pemenang / Kalah Tender">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_11" id="ikp_start_date_11" onchange="calculateDuration('ikp', 11)">
@@ -183,7 +183,7 @@
                 <tr>
                     <td class="text-center">12.</td>
                     <td>
-                        <input type="text" class="form-control" name="activity_12" id="ikp_activity_12" readonly value="Pembuatan Kontrak">
+                        <input type="text" class="form-control" name="activity_12" id="ikp_activity_12" readonly value="Pembuatan Kontrak / PO">
                     </td>
                     <td>
                         <input type="date" class="form-control" name="start_date_12" id="ikp_start_date_12" onchange="calculateDuration('ikp', 12)">
