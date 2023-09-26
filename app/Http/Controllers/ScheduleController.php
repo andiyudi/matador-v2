@@ -266,11 +266,64 @@ class ScheduleController extends Controller
     public function detail($id)
     {
         $tender = Tender::findOrFail($id);
+        $banegoNumber = request()->query('banegoNumber');
+        $dateString = request()->query('banegoDate');
+        $date = Carbon::createFromFormat('Y-m-d', $dateString);
+        $formattedDate = $date->format('d-m-Y');
+        $date->locale('id');
+
+        // Pisahkan tanggal, bulan, dan tahun
+        $tgl = $date->day;
+        $tanggal = Terbilang::make($tgl);
+        $bulan = $date->translatedFormat('F');
+        $thn = $date->year;
+        $tahun = Terbilang::make($thn);
+
+        $day = $date->translatedFormat('l');
+        $location = request()->query('banegoLocation');
+
+        $leadBanegoName = request()->query('leadBanegoName');
+        $leadBanegoPosition = request()->query('leadBanegoPosition');
+        $secretaryBanegoName = request()->query('secretaryBanegoName');
+        $secretaryBanegoPosition = request()->query('secretaryBanegoPosition');
 
         if ($tender->schedule_type === 0 || $tender->schedule_type === 1) {
-            return view('offer.schedule.detail-non-ikp', compact('tender'));
+            return view('offer.schedule.detail-non-ikp', compact('tender','banegoNumber', 'day', 'tanggal', 'bulan', 'tahun', 'formattedDate', 'location', 'leadBanegoName', 'leadBanegoPosition', 'secretaryBanegoName', 'secretaryBanegoPosition'));
         } else {
-            return view('offer.schedule.detail-ikp', compact('tender'));
+            return view('offer.schedule.detail-ikp', compact('tender','banegoNumber', 'day', 'tanggal', 'bulan', 'tahun', 'formattedDate', 'location', 'leadBanegoName', 'leadBanegoPosition', 'secretaryBanegoName', 'secretaryBanegoPosition'));
         }
+    }
+
+    public function view($id)
+    {
+        $tender = Tender::findOrFail($id);
+        $leadTinjauName = request()->query('leadTinjauName');
+        $leadTinjauPosition = request()->query('leadTinjauPosition');
+        $secretaryTinjauName = request()->query('secretaryTinjauName');
+        $secretaryTinjauPosition = request()->query('secretaryTinjauPosition');
+
+        $dateString = request()->query('tinjauDate');
+        $date = Carbon::createFromFormat('Y-m-d', $dateString);
+        $formattedDate = $date->format('d-m-Y');
+        $date->locale('id');
+
+        // Pisahkan tanggal, bulan, dan tahun
+        $tgl = $date->day;
+        $tanggal = Terbilang::make($tgl);
+        $bulan = $date->translatedFormat('F');
+        $thn = $date->year;
+        $tahun = Terbilang::make($thn);
+
+        $day = $date->translatedFormat('l');
+        $location = request()->query('location');
+
+        $jumlahVendor = count($tender->businessPartners);
+        $terbilangVendor = Terbilang::make($jumlahVendor);
+
+        return view('offer.schedule.view', compact(
+            'tender', 'leadTinjauName', 'leadTinjauPosition', 'secretaryTinjauName',
+            'secretaryTinjauPosition', 'formattedDate', 'day', 'tgl', 'thn',
+            'location', 'tanggal', 'bulan', 'tahun','jumlahVendor', 'terbilangVendor'
+        ));
     }
 }

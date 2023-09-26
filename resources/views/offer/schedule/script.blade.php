@@ -49,6 +49,8 @@
                 $('#printSchedule').modal('hide');
 
                 $('#printFormSchedule')[0].reset();
+
+                location.reload();
             });
         });
     });
@@ -110,6 +112,8 @@
                 $('#printAanwijzing').modal('hide');
 
                 $('#printFormAanwijzing')[0].reset();
+
+                location.reload();
             });
         });
     });
@@ -154,14 +158,14 @@
                 var banegoDate = $('#banegoDate').val();
                 var banegoLocation = $('#banegoLocation').val();
 
-                var buttonAanwijzing = $(event.relatedTarget);
-                var id = buttonAanwijzing.data('tender');
+                var buttonBanego = $(event.relatedTarget);
+                var id = buttonBanego.data('tender');
 
                 var printUrl = route('schedule.detail', id) +
-                    '?leadAanwijzingName=' + encodeURIComponent(leadAanwijzingName) +
-                    '&leadAanwijzingPosition=' + encodeURIComponent(leadAanwijzingPosition) +
-                    '&secretaryAanwijzingName=' + encodeURIComponent(secretaryAanwijzingName) +
-                    '&secretaryAanwijzingPosition=' + encodeURIComponent(secretaryAanwijzingPosition) +
+                    '?leadBanegoName=' + encodeURIComponent(leadBanegoName) +
+                    '&leadBanegoPosition=' + encodeURIComponent(leadBanegoPosition) +
+                    '&secretaryBanegoName=' + encodeURIComponent(secretaryBanegoName) +
+                    '&secretaryBanegoPosition=' + encodeURIComponent(secretaryBanegoPosition) +
                     '&banegoNumber=' + encodeURIComponent(banegoNumber) +
                     '&banegoDate=' + encodeURIComponent(banegoDate) +
                     '&banegoLocation=' + encodeURIComponent(banegoLocation);
@@ -171,6 +175,69 @@
                 $('#printBanego').modal('hide');
 
                 $('#printFormBanego')[0].reset();
+
+                location.reload();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#printTinjau').on('show.bs.modal', function(event) {
+            var buttonTinjau = $(event.relatedTarget);
+            var tenderData = buttonTinjau.data('tender');
+            var leadTinjauNameSelect = $('#selectLeadTinjauName');
+            leadTinjauNameSelect.empty();
+            $.ajax({
+                url: route("offer.official"),
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $.each(response.data, function(index, official) {
+                        leadTinjauNameSelect.append($('<option>', {
+                            value: official.id,
+                            text: official.name,
+                            selected: official.id == tenderData.procurement.official_id
+                        }));
+                    });
+                    var selectedOfficialName = leadTinjauNameSelect.find('option:selected').text();
+                    $('#leadTinjauName').val(selectedOfficialName);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            leadTinjauNameSelect.on('change', function() {
+                var leadTinjauName = leadTinjauNameSelect.find('option:selected').text();
+                $('#leadTinjauName').val(leadTinjauName);
+            });
+            $('#printFormTinjau').submit(function (e) {
+            e.preventDefault();
+                var leadTinjauName = $('#leadTinjauName').val();
+                var leadTinjauPosition = $('#leadTinjauPosition').val();
+                var secretaryTinjauName = $('#secretaryTinjauName').val();
+                var secretaryTinjauPosition = $('#secretaryTinjauPosition').val();
+                var tinjauDate = $('#tinjauDate').val();
+                var tinjauLocation = $('#tinjauLocation').val();
+
+                var buttonTinjau = $(event.relatedTarget);
+                var id = buttonTinjau.data('tender');
+
+                var printUrl = route('schedule.view', id) +
+                    '?leadTinjauName=' + encodeURIComponent(leadTinjauName) +
+                    '&leadTinjauPosition=' + encodeURIComponent(leadTinjauPosition) +
+                    '&secretaryTinjauName=' + encodeURIComponent(secretaryTinjauName) +
+                    '&secretaryTinjauPosition=' + encodeURIComponent(secretaryTinjauPosition) +
+                    '&tinjauDate=' + encodeURIComponent(tinjauDate) +
+                    '&tinjauLocation=' + encodeURIComponent(tinjauLocation);
+
+                window.open(printUrl, '_blank');
+
+                $('#printTinjau').modal('hide');
+
+                $('#printFormTinjau')[0].reset();
+
+                location.reload();
             });
         });
     });
