@@ -15,6 +15,7 @@
                 Print
             </a>
             <a class="dropdown-item" href="{{ route('schedule.index', $tender->id) }}" target="_blank">Schedule</a>
+            <a class="dropdown-item" href="{{ route($route.'.view', $tender->id) }}">Decision</a>
         </div>
     </div>
 </div>

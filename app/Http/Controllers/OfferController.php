@@ -175,7 +175,10 @@ class OfferController extends Controller
     {
         try {
             $tender = Tender::findOrFail($id);
-
+            $hasSchedules = $tender->schedules()->exists();
+            if ($hasSchedules) {
+                Alert::error('error', 'Tender has associated schedules and cannot be updated. Delete schedules first.');
+            } else {
             $request->validate([
                 'procurement_id' => 'required|exists:procurements,id',
                 'selected_partners' => 'required|array',
@@ -183,7 +186,6 @@ class OfferController extends Controller
                 'pic_user' => 'required',
                 'business' => 'required',
             ]);
-
             $procurementId = $request->input('procurement_id');
             $selectedPartners = $request->input('selected_partners');
 
@@ -200,6 +202,7 @@ class OfferController extends Controller
             $tender->businessPartners()->sync($selectedPartners);
 
             Alert::success('Success', 'Process tender updated successfully');
+        }
             return redirect()->route('offer.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -252,6 +255,11 @@ class OfferController extends Controller
     {
         $officials = Official::where('status', '1')->get(['id', 'name']);
         return response()->json(['data' => $officials]);
+    }
+
+    public function view($id)
+    {
+        return view('offer.view');
     }
 
 }
