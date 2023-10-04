@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tender;
+use App\Models\Partner;
 use App\Models\Business;
 use App\Models\Official;
 use App\Models\Procurement;
@@ -259,7 +260,90 @@ class OfferController extends Controller
 
     public function view($id)
     {
-        return view('offer.view');
+        try {
+            $tender = Tender::with(['procurement', 'businessPartners.partner'])->findOrFail($id);
+
+            return view('offer.view', compact('tender'));
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to fetch tender data: ' . $e->getMessage());
+        }
+    }
+
+    public function decision(Request $request, $id)
+    {
+        // dd($request->all());
+        try {
+            $tender = Tender::findOrFail($id);
+
+            $request->validate([
+                'decision' => 'required|in:1,2,3',
+            ]);
+
+            $decision = $request->input('decision');
+
+            if ($decision == 1) {
+                $request->validate([
+                    'pick_vendor' => 'required', // Pastikan ada vendor yang dipilih
+                    // 'file' => 'required|file', // Pastikan ada file yang diunggah
+                ]);
+
+                // Ambil ID dari vendor yang dipilih
+                $selectedVendorId = $request->input('pick_vendor');
+
+                // Update tabel business_partner_tender, set kolom is_selected menjadi 1 untuk vendor yang dipilih
+                $tender->businessPartners()->where('business_partner_id', $selectedVendorId)->update(['is_selected' => '1']);
+
+                // Update model Tender, set kolom status menjadi 1
+                $tender->status = '1';
+                $tender->save();
+
+                // Update model Procurement, set kolom status menjadi 1
+                $tender->procurement->status = '1';
+                $tender->procurement->save();
+
+                // Update semua partner yang terkait dengan tender
+                foreach ($tender->businessPartners as $businessPartner) {
+                    $partner = $businessPartner->partner;
+                    $partner->status = '1';
+                    $partner->expired_at = date('Y') . '-12-31';
+                    $partner->save();
+                }
+
+                // Sekarang Anda dapat menangani file yang diunggah dan melakukan operasi lain yang diperlukan
+                // $uploadedFile = $request->file('file');
+                // Lakukan sesuatu dengan file yang diunggah, seperti menyimpannya di lokasi tertentu
+
+                // Setelah selesai, Anda dapat mengarahkan pengguna ke halaman yang sesuai
+                Alert::success('Success', 'Decision saved successfully');
+                return redirect()->route('offer.index');
+                // Handle logika jika keputusan adalah 'Pick Vendor'
+                // Anda dapat mengakses pemenang dengan $request->input('pick_vendor')
+                // Dan Anda dapat mengakses file yang diunggah dengan $request->file('file')
+            } elseif ($decision == 2) {
+                $request->validate([
+                    'file' => 'required|file', // Pastikan ada file yang diunggah
+                ]);
+                // Handle logika jika keputusan adalah 'Cancel Tender'
+                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
+            } elseif ($decision == 3) {
+                $request->validate([
+                    'file' => 'required|file', // Pastikan ada file yang diunggah
+                ]);
+                // Handle logika jika keputusan adalah 'Repeat Tender'
+                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
+            }
+
+            // Selain logika yang di atas, Anda juga dapat melakukan operasi lain yang diperlukan.
+
+            Alert::success('Success', 'Decision saved successfully');
+            return redirect()->route('offer.index');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Alert::error($e->getMessage());
+            return redirect()->back()->with('error', 'Failed to save decision: ' . $e->getMessage());
+        }
     }
 
 }
