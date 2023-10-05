@@ -1,0 +1,208 @@
+@extends('layouts.template')
+@section('content')
+@php
+$pretitle = 'Detail Data';
+$title    = 'Tender'
+@endphp
+<div class="row justify-content-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="">
+                    <div class="row mb-3">
+                        <label for="procurement_id" class="col-sm-2 col-form-label">Procurement Number</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="procurement" id="procurement" value={{ $tender->procurement->number }} readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="name" class="col-sm-2 col-form-label">Job Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" name="name" value="{{ $tender->procurement->name }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="division" class="col-sm-2 col-form-label">Division</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="division" name="division" value="{{ $tender->procurement->division->name }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="estimation" class="col-sm-2 col-form-label">Estimation Time</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="estimation" name="estimation" value="{{ $tender->procurement->estimation }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="pic_user" class="col-sm-2 col-form-label">PIC User</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="pic_user" name="pic_user" value="{{ $tender->procurement->pic_user }}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="business" class="col-sm-2 col-form-label">Business Category</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="business" id="business" value={{ $tender->procurement->business->name }} readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="pic_user" class="col-sm-2 col-form-label">Data Vendor</label>
+                        <div class="col-sm-10">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="selected_partners_table">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor Name</th>
+                                        <th>Status</th>
+                                        <th>Director</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Pick Vendor</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selected_partners_list">
+                                    @foreach ($tender->businessPartners as $businessPartner)
+                                        <tr>
+                                            <td>{{ $businessPartner->partner->name }}</td>
+                                            <td>
+                                                @if ($businessPartner->partner->status === '0')
+                                                    Registered
+                                                @elseif ($businessPartner->partner->status === '1')
+                                                    Active
+                                                @elseif ($businessPartner->partner->status === '2')
+                                                    Inactive
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
+                                            <td>{{ $businessPartner->partner->director }}</td>
+                                            <td>{{ $businessPartner->partner->phone }}</td>
+                                            <td>{{ $businessPartner->partner->email }}</td>
+                                            <td align="center">
+                                                <input type="checkbox" name="pick_vendor" id="pick_vendor_{{ $businessPartner->partner->id }}" value="{{ $businessPartner->partner->id }}" class="form-check-input"
+                                                @if ($businessPartner->pivot->is_selected == '1')
+                                                    checked
+                                                @endif
+                                                disabled>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="tender_files" class="col-sm-2 col-form-label">Tender Files</label>
+                        <div class="col-sm-10">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="tender_files_table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama File</th>
+                                        <th>Type File</th>
+                                        <th>Catatan File</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selected_partners_list">
+                                    @foreach ($tender->tenderFile as $tenderFile)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $tenderFile->name }}</td>
+                                            <td>
+                                                @if ($tenderFile->type === 0)
+                                                    File Selected Vendor
+                                                @elseif ($tenderFile->type === 1)
+                                                    File Canceled Vendor
+                                                @elseif ($tenderFile->type === 2)
+                                                    File Repeat Vendor
+                                                @elseif ($tenderFile->type === 3)
+                                                    File Evaluation Company
+                                                @elseif ($tenderFile->type === 4)
+                                                    File Evaluation Vendor
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
+                                            <td>{{ $tenderFile->notes }}</td>
+                                            <td><a href="{{ asset('storage/'.$tenderFile->path) }}" class="btn btn-sm btn-info" target="_blank">View</a></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalEvaluationCompany" aria-hidden="true" aria-labelledby="modalEvaluationCompanyLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEvaluationCompanyLabel">Evaluation CMNP To Vendor</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="evaluationCompanyForm" action="{{ route('offer.company', ['offer' => $tender->id]) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="vendor_name">Vendor Name</label>
+                        @foreach ($tender->businessPartners as $businessPartner)
+                            @if ($businessPartner->pivot->is_selected == '1')
+                                <input type="text" class="form-control" name="vendor_name" id="vendor_name" value="{{ $businessPartner->partner->name }}" readonly>
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="form-group">
+                        <label for="type_file">Evaluation</label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="evaluation" id="evaluation_0" value="0">
+                                    <label class="form-check-label" for="evaluation_0">
+                                        <h4>Buruk (Tidak Layak: &le; -60)</h4>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="evaluation" id="evaluation_1" value="1">
+                                    <label class="form-check-label" for="evaluation_1">
+                                        <h4>Baik (Dipertahankan: 61-100)</h4>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        @error('evaluation')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="file_evaluation_company">File Evaluation Company</label>
+                        <input type="file" class="form-control" id="file_evaluation_company" name="file_evaluation_company" accept=".pdf">
+                        @error('file_evaluation_company')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="evaluationCompanyBtn" name="evaluationCompanyBtn" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+@push('page-action')
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button type="button" class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#modalEvaluationCompany">
+        CMNP To Vendor
+    </button>
+    <button class="btn btn-primary" type="button">Vendor To CMNP</button>
+</div>
+@endpush

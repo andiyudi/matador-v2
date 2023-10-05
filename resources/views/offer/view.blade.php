@@ -8,7 +8,7 @@ $title    = 'Decision'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route ('offer.decision', $tender->id) }}" method="POST">
+                <form action="{{ route ('offer.decision', $tender->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
@@ -102,6 +102,15 @@ $title    = 'Decision'
                             <input type="file" name="file" id="file" class="form-control">
                         </div>
                     </div>
+                    <div class="row mb-3" id="notes" style="display: none;">
+                        <label for="notes" class="col-sm-2 col-form-label required">Tender Notes</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                            @error('notes')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Save</button>
@@ -118,16 +127,16 @@ $title    = 'Decision'
             var decision = $(this).val();
 
             // Sembunyikan semua elemen terlebih dahulu
-            $('#vendorData, #uploadFile').hide();
+            $('#vendorData, #uploadFile, #notes').hide();
 
             if (decision === '1') {
                 // Tampilkan elemen data vendor
                 $('#vendorData').show();
                 // Tampilkan elemen radio button dan upload file jika Pick Vendor dipilih
-                $('#vendorWinner, #uploadFile').show();
+                $('#vendorWinner, #uploadFile, #notes').show();
             } else if (decision === '2' || decision === '3') {
                 // Tampilkan elemen upload file jika Cancel Tender atau Repeat Tender dipilih
-                $('#uploadFile').show();
+                $('#uploadFile, #notes').show();
             }
         });
     });
