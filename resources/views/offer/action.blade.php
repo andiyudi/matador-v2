@@ -17,11 +17,7 @@
                 </a>
                 <a class="dropdown-item" href="{{ route('schedule.index', $tender->id) }}" target="_blank">Schedule</a>
                 <a class="dropdown-item" href="{{ route($route.'.view', $tender->id) }}">Decision</a>
-            @elseif ($tender->status == '1')
-                <a class="dropdown-item" href="{{ route($route.'.detail', $tender->id) }}">Detail & Evaluation</a>
-            @elseif ($tender->status == '2')
-                <a class="dropdown-item" href="{{ route($route.'.detail', $tender->id) }}">Detail</a>
-            @elseif ($tender->status == '3')
+            @else
                 <a class="dropdown-item" href="{{ route($route.'.detail', $tender->id) }}">Detail</a>
             @endif
         </div>

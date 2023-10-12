@@ -49,6 +49,7 @@ $title    = 'Decision'
                                 <option value="1">Pick Vendor</option>
                                 <option value="2">Cancel Tender</option>
                                 <option value="3">Repeat Tender</option>
+                                <option value="4">Pick Vendor From Past Tender</option>
                             </select>
                             @error('decision')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -96,6 +97,49 @@ $title    = 'Decision'
                             </table>
                         </div>
                     </div>
+                    <div class="row mb-3" id="vendorDataAll" style="display: none;">
+                        <label for="vendorDataAll" class="col-sm-2 col-form-label required">Data Vendor Past Tender</label>
+                        <div class="col-sm-10">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="selected_partners_table_all">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor Name</th>
+                                        <th>Status</th>
+                                        <th>Director</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Pick Vendor</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="selected_partners_list_all">
+                                    @foreach ($previousTenders as $previousTender)
+                                        @foreach ($previousTender->businessPartners as $businessPartner)
+                                            <tr>
+                                                <td>{{ $businessPartner->partner->name }}</td>
+                                                <td>
+                                                    @if ($businessPartner->partner->status === '0')
+                                                        Registered
+                                                    @elseif ($businessPartner->partner->status === '1')
+                                                        Active
+                                                    @elseif ($businessPartner->partner->status === '2')
+                                                        Inactive
+                                                    @else
+                                                        Unknown
+                                                    @endif
+                                                </td>
+                                                <td>{{ $businessPartner->partner->director }}</td>
+                                                <td>{{ $businessPartner->partner->phone }}</td>
+                                                <td>{{ $businessPartner->partner->email }}</td>
+                                                <td align="center">
+                                                    <input type="radio" name="pick_vendor_old" id="pick_vendor_old_{{ $businessPartner->partner->id }}" value="{{ $previousTender->id }}_{{ $businessPartner->partner->id }}" class="form-check-input">
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="row mb-3" id="uploadFile" style="display: none;">
                         <label for="file" class="col-sm-2 col-form-label required">Upload File</label>
                         <div class="col-sm-10">
@@ -127,16 +171,18 @@ $title    = 'Decision'
             var decision = $(this).val();
 
             // Sembunyikan semua elemen terlebih dahulu
-            $('#vendorData, #uploadFile, #notes').hide();
+            $('#vendorData, #vendorDataAll, #uploadFile, #notes').hide();
 
             if (decision === '1') {
                 // Tampilkan elemen data vendor
-                $('#vendorData').show();
+                // $('#vendorData').show();
                 // Tampilkan elemen radio button dan upload file jika Pick Vendor dipilih
-                $('#vendorWinner, #uploadFile, #notes').show();
+                $('#vendorData, #uploadFile, #notes').show();
             } else if (decision === '2' || decision === '3') {
                 // Tampilkan elemen upload file jika Cancel Tender atau Repeat Tender dipilih
                 $('#uploadFile, #notes').show();
+            } else if (decision === '4') {
+                $('#vendorDataAll, #uploadFile, #notes').show();
             }
         });
     });

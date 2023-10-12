@@ -10,6 +10,7 @@ use App\Models\TenderFile;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\Models\BusinessPartner;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -177,10 +178,10 @@ class OfferController extends Controller
     {
         try {
             $tender = Tender::findOrFail($id);
-            // $hasSchedules = $tender->schedules()->exists();
-            // if ($hasSchedules) {
-            //     Alert::error('error', 'Tender has associated schedules and cannot be updated. Delete schedules first.');
-            // } else {
+            $hasSchedules = $tender->schedules()->exists();
+            if ($hasSchedules) {
+                Alert::error('error', 'Tender has associated schedules and cannot be updated. Delete schedules first.');
+            } else {
             $request->validate([
                 'procurement_id' => 'required|exists:procurements,id',
                 'selected_partners' => 'required|array',
@@ -204,7 +205,7 @@ class OfferController extends Controller
             $tender->businessPartners()->sync($selectedPartners);
 
             Alert::success('Success', 'Process tender updated successfully');
-        // }
+        }
             return redirect()->route('offer.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
@@ -264,7 +265,21 @@ class OfferController extends Controller
         try {
             $tender = Tender::with(['procurement', 'businessPartners.partner'])->findOrFail($id);
 
-            return view('offer.view', compact('tender'));
+            // Dapatkan procurement_id dari tender saat ini
+            $procurementId = $tender->procurement->id;
+
+            // Cari semua tender sebelumnya yang memiliki procurement_id yang sama dan status = 3
+            $previousTenders = [];
+                        foreach (Tender::where('procurement_id', $procurementId)
+                        ->where('status', '3')
+                        ->where('id', '<>', $id) // Exclude current tender
+                        ->get() as $previousTender) {
+                // Dapatkan business_partner_ids dari businessPartnerTender
+                $previousTenders[] = $previousTender;
+            }
+
+            return view('offer.view', compact('tender', 'previousTenders'));
+
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
             return redirect()->back()->with('error', 'Failed to fetch tender data: ' . $e->getMessage());
@@ -273,12 +288,11 @@ class OfferController extends Controller
 
     public function decision(Request $request, $id)
     {
-        // dd($request->all());
         try {
             $tender = Tender::findOrFail($id);
 
             $request->validate([
-                'decision' => 'required|in:1,2,3',
+                'decision' => 'required|in:1,2,3,4',
             ]);
 
             $decision = $request->input('decision');
@@ -405,19 +419,73 @@ class OfferController extends Controller
                     $fileTender->save();
                 }
 
-                $dataLama = Tender::find($id);
-                $dataBaru = new Tender;
-                $dataBaru->procurement_id = $dataLama->procurement_id;
+                $oldTender = Tender::find($id);
+                $newTender = new Tender;
+                $newTender->procurement_id = $oldTender->procurement_id;
                 // Lanjutkan dengan mengisi semua kolom lain yang perlu disalin.
-                $dataBaru->status = '0'; // Misalnya, mengganti nilai fieldX dengan nilai baru.
-                $dataBaru->save();
+                $newTender->status = '0'; // Misalnya, mengganti nilai fieldX dengan nilai baru.
+                $newTender->save();
+                $newTenderId = $newTender->id;
+
+                Alert::success('Success', 'Decision saved successfully');
+                // return redirect()->route('offer.edit', ['offer' => $newTenderId]);
+                return redirect()->route('offer.index');
+                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
+            } elseif ($decision == 4) {
+                $request->validate([
+                    'pick_vendor_old' => 'required',
+                    'file' => 'required|file',
+                    'notes' => 'required',
+                ]);
+
+                 // Ambil nilai dari 'pick_vendor_old'
+                $pickVendorOld = $request->input('pick_vendor_old');
+
+                // Pisahkan nilai 'pick_vendor_old' menjadi 'previousTenderId' dan 'businessPartnerId' berdasarkan delimiter (underscore)
+                list($previousTenderId, $businessPartnerId) = explode('_', $pickVendorOld);
+
+                // Update tabel business_partner_tender, set kolom is_selected menjadi 1 untuk vendor old dari tender old yang dipilih
+                DB::table('business_partner_tender')
+                    ->where('tender_id', $previousTenderId)
+                    ->where('business_partner_id', $businessPartnerId)
+                    ->update(['is_selected' => '1']);
+
+                $previousTender = Tender::find($previousTenderId);
+                $previousTender->status='1';
+                $previousTender->save();
+
+                $tender->status = '3';
+                $tender->save();
+
+                $tender->procurement->status = '1';
+                $tender->procurement->save();
+
+                foreach ($tender->businessPartners as $businessPartner) {
+                    $partner = $businessPartner->partner;
+                    $partner->status = '1';
+                    $partner->expired_at = date('Y') . '-12-31';
+                    $partner->save();
+                }
+
+                if ($request->hasFile('file')){
+                    $file = $request->file('file');
+                    $name = time() . '_' . $file->getClientOriginalName();
+                    $path = $file->storeAs('tender_partner', $name, 'public');
+
+                    $fileTender = new TenderFile();
+
+                    $fileTender->tender_id   = $id;
+                    $fileTender->name        = $name;
+                    $fileTender->path        = $path;
+                    $fileTender->type        = 0;
+                    $fileTender->notes       = $request->notes;
+
+                    $fileTender->save();
+                }
 
                 Alert::success('Success', 'Decision saved successfully');
                 return redirect()->route('offer.index');
-                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
             }
-
-            // Selain logika yang di atas, Anda juga dapat melakukan operasi lain yang diperlukan.
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
