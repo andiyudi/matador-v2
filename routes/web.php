@@ -11,6 +11,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
@@ -43,6 +44,10 @@ Route::prefix('offer')->group(function () {
     Route::get('schedule/{tender_id}/detail', [ScheduleController::class, 'detail'])->name('schedule.detail');
     Route::get('schedule/{tender_id}/view', [ScheduleController::class, 'view'])->name('schedule.view');
     Route::delete('schedule/{tender_id}/destroy', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
+});
+
+Route::prefix('procurements')->group(function () {
+    Route::resource('evaluation', EvaluationController::class);
 });
 
 Route::prefix('partner')->group(function () {

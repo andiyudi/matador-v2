@@ -8,7 +8,7 @@ $title    = 'Vendors'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <table class="table table-responsive table-bordered table-striped table-hover" id="partner-table">
+                <table class="table table-responsive table-bordered table-striped table-hover" id="partner-table" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>

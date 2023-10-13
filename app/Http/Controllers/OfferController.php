@@ -265,18 +265,16 @@ class OfferController extends Controller
         try {
             $tender = Tender::with(['procurement', 'businessPartners.partner'])->findOrFail($id);
 
-            // Dapatkan procurement_id dari tender saat ini
             $procurementId = $tender->procurement->id;
 
-            // Cari semua tender sebelumnya yang memiliki procurement_id yang sama dan status = 3
             $previousTenders = [];
-                        foreach (Tender::where('procurement_id', $procurementId)
-                        ->where('status', '3')
-                        ->where('id', '<>', $id) // Exclude current tender
-                        ->get() as $previousTender) {
+                foreach (Tender::where('procurement_id', $procurementId)
+                ->where('status', '3')
+                ->where('id', '<>', $id) // Exclude current tender
+                ->get() as $previousTender) {
                 // Dapatkan business_partner_ids dari businessPartnerTender
                 $previousTenders[] = $previousTender;
-            }
+                }
 
             return view('offer.view', compact('tender', 'previousTenders'));
 
@@ -304,27 +302,15 @@ class OfferController extends Controller
                     'notes' => 'required',
                 ]);
 
-                // Ambil ID dari vendor yang dipilih
                 $selectedVendorId = $request->input('pick_vendor');
 
-                // Update tabel business_partner_tender, set kolom is_selected menjadi 1 untuk vendor yang dipilih
                 $tender->businessPartners()->where('business_partner_id', $selectedVendorId)->update(['is_selected' => '1']);
 
-                // Update model Tender, set kolom status menjadi 1
                 $tender->status = '1';
                 $tender->save();
 
-                // Update model Procurement, set kolom status menjadi 1
                 $tender->procurement->status = '1';
                 $tender->procurement->save();
-
-                // Update semua partner yang terkait dengan tender
-                foreach ($tender->businessPartners as $businessPartner) {
-                    $partner = $businessPartner->partner;
-                    $partner->status = '1';
-                    $partner->expired_at = date('Y') . '-12-31';
-                    $partner->save();
-                }
 
                 if ($request->hasFile('file')){
                     $file = $request->file('file');
@@ -342,29 +328,17 @@ class OfferController extends Controller
                     $fileTender->save();
                 }
 
-                Alert::success('Success', 'Decision saved successfully');
-                return redirect()->route('offer.index');
             } elseif ($decision == 2) {
                 $request->validate([
                     'file' => 'required|file',
                     'notes' => 'required',
                 ]);
-                // Handle logika jika keputusan adalah 'Cancel Tender'
-                // Update model Tender, set kolom status menjadi 1
+
                 $tender->status = '2';
                 $tender->save();
 
-                // Update model Procurement, set kolom status menjadi 1
                 $tender->procurement->status = '2';
                 $tender->procurement->save();
-
-                // Update semua partner yang terkait dengan tender
-                foreach ($tender->businessPartners as $businessPartner) {
-                    $partner = $businessPartner->partner;
-                    $partner->status = '1';
-                    $partner->expired_at = date('Y') . '-12-31';
-                    $partner->save();
-                }
 
                 if ($request->hasFile('file')){
                     $file = $request->file('file');
@@ -382,26 +356,14 @@ class OfferController extends Controller
                     $fileTender->save();
                 }
 
-                Alert::success('Success', 'Decision saved successfully');
-                return redirect()->route('offer.index');
-                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
             } elseif ($decision == 3) {
                 $request->validate([
                     'file' => 'required|file',
                     'notes' => 'required',
                 ]);
-                // Handle logika jika keputusan adalah 'Repeat Tender'
-                // Update model Tender, set kolom status menjadi 1
+                // Update model Tender, set kolom status menjadi 3
                 $tender->status = '3';
                 $tender->save();
-
-                // Update semua partner yang terkait dengan tender
-                foreach ($tender->businessPartners as $businessPartner) {
-                    $partner = $businessPartner->partner;
-                    $partner->status = '1';
-                    $partner->expired_at = date('Y') . '-12-31';
-                    $partner->save();
-                }
 
                 if ($request->hasFile('file')){
                     $file = $request->file('file');
@@ -422,15 +384,10 @@ class OfferController extends Controller
                 $oldTender = Tender::find($id);
                 $newTender = new Tender;
                 $newTender->procurement_id = $oldTender->procurement_id;
-                // Lanjutkan dengan mengisi semua kolom lain yang perlu disalin.
-                $newTender->status = '0'; // Misalnya, mengganti nilai fieldX dengan nilai baru.
+                $newTender->status = '0';
                 $newTender->save();
                 $newTenderId = $newTender->id;
 
-                Alert::success('Success', 'Decision saved successfully');
-                // return redirect()->route('offer.edit', ['offer' => $newTenderId]);
-                return redirect()->route('offer.index');
-                // Anda dapat mengakses file yang diunggah dengan $request->file('file')
             } elseif ($decision == 4) {
                 $request->validate([
                     'pick_vendor_old' => 'required',
@@ -438,13 +395,10 @@ class OfferController extends Controller
                     'notes' => 'required',
                 ]);
 
-                 // Ambil nilai dari 'pick_vendor_old'
                 $pickVendorOld = $request->input('pick_vendor_old');
 
-                // Pisahkan nilai 'pick_vendor_old' menjadi 'previousTenderId' dan 'businessPartnerId' berdasarkan delimiter (underscore)
                 list($previousTenderId, $businessPartnerId) = explode('_', $pickVendorOld);
 
-                // Update tabel business_partner_tender, set kolom is_selected menjadi 1 untuk vendor old dari tender old yang dipilih
                 DB::table('business_partner_tender')
                     ->where('tender_id', $previousTenderId)
                     ->where('business_partner_id', $businessPartnerId)
@@ -459,13 +413,6 @@ class OfferController extends Controller
 
                 $tender->procurement->status = '1';
                 $tender->procurement->save();
-
-                foreach ($tender->businessPartners as $businessPartner) {
-                    $partner = $businessPartner->partner;
-                    $partner->status = '1';
-                    $partner->expired_at = date('Y') . '-12-31';
-                    $partner->save();
-                }
 
                 if ($request->hasFile('file')){
                     $file = $request->file('file');
@@ -482,11 +429,17 @@ class OfferController extends Controller
 
                     $fileTender->save();
                 }
-
-                Alert::success('Success', 'Decision saved successfully');
-                return redirect()->route('offer.index');
             }
 
+            foreach ($tender->businessPartners as $businessPartner) {
+                $partner = $businessPartner->partner;
+                $partner->status = '1';
+                $partner->expired_at = date('Y') . '-12-31';
+                $partner->save();
+            }
+
+            Alert::success('Success', 'Decision saved successfully');
+            return redirect()->route('offer.index');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
@@ -506,11 +459,4 @@ class OfferController extends Controller
             return redirect()->back()->with('error', 'Failed to fetch tender data: ' . $e->getMessage());
         }
     }
-
-    public function company(Request $request, $id)
-    {
-        dd($request->all());
-    }
-
-
 }

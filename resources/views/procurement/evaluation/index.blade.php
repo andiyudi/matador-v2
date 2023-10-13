@@ -2,13 +2,13 @@
 @section('content')
 @php
 $pretitle = 'Data';
-$title    = 'Tender'
+$title    = 'Evaluation'
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <table class="table table-responsive table-bordered table-striped table-hover" id="offer-table" width="100%">
+                <table class="table table-responsive table-bordered table-striped table-hover" id="evaluation-table" width="100%">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -18,7 +18,7 @@ $title    = 'Tender'
                             <th>Estimation</th>
                             <th>PIC User</th>
                             <th>Vendors</th>
-                            <th>Status</th>
+                            <th>Pick Vendor</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -30,28 +30,24 @@ $title    = 'Tender'
         </div>
     </div>
 </div>
-@include('offer.modal')
 <script>
     $(document).ready(function () {
-        $('#offer-table').DataTable({
+        $('#evaluation-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ route('offer.index') }}',
+            ajax: '{{ route('evaluation.index') }}',
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'number', name: 'number' },
-                { data: 'job_name', name: 'job_name' },
+                { data: 'name', name: 'name' },
                 { data: 'division', name: 'division' },
                 { data: 'estimation', name: 'estimation' },
                 { data: 'pic_user', name: 'pic_user' },
                 { data: 'vendors', name: 'vendors' },
-                { data: 'status', name: 'status' },
+                { data: 'is_selected', name: 'is_selected' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
     });
 </script>
 @endsection
-@push('page-action')
-<a href="{{ route('offer.create') }}" class="btn btn-primary mb-3">Add Tender Data</a>
-@endpush

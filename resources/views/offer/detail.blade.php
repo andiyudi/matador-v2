@@ -90,47 +90,6 @@ $title    = 'Tender'
                             </table>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="tender_files" class="col-sm-2 col-form-label">Tender Files</label>
-                        <div class="col-sm-10">
-                            <table class="table table-responsive table-bordered table-striped table-hover" id="tender_files_table">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama File</th>
-                                        <th>Type File</th>
-                                        <th>Catatan File</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="selected_partners_list">
-                                    @foreach ($tender->tenderFile as $tenderFile)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $tenderFile->name }}</td>
-                                            <td>
-                                                @if ($tenderFile->type === 0)
-                                                    File Selected Vendor
-                                                @elseif ($tenderFile->type === 1)
-                                                    File Canceled Vendor
-                                                @elseif ($tenderFile->type === 2)
-                                                    File Repeat Vendor
-                                                @elseif ($tenderFile->type === 3)
-                                                    File Evaluation Company
-                                                @elseif ($tenderFile->type === 4)
-                                                    File Evaluation Vendor
-                                                @else
-                                                    Unknown
-                                                @endif
-                                            </td>
-                                            <td>{{ $tenderFile->notes }}</td>
-                                            <td><a href="{{ asset('storage/'.$tenderFile->path) }}" class="btn btn-sm btn-info" target="_blank">View</a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
                     </div>
