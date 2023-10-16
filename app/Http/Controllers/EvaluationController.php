@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TenderFile;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -54,7 +56,7 @@ class EvaluationController extends Controller
         })
         ->addColumn('action', function ($procurement) {
             $url = route('evaluation.show', ['evaluation' => $procurement->id]);
-            return '<a href="' . $url . '" class="btn btn-sm btn-primary">Evaluation</a>';
+            return '<a href="' . $url . '" class="btn btn-sm btn-info">Evaluation</a>';
         })
         ->addIndexColumn()
         ->rawColumns(['vendors', 'action'])
@@ -148,5 +150,105 @@ class EvaluationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function company (Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'file_evaluation_company' => 'required|file|mimes:pdf|max:2048', // Ubah sesuai kebutuhan
+                'evaluation' => 'required|in:0,1', // Ubah sesuai kebutuhan
+                'notes' => 'required',
+                'tender_id' => 'required',
+                'business_partner_id' => 'required',
+                'type' => 'required',
+            ]);
+
+            $tender_id = $request->input('tender_id');
+            $business_partner_id = $request->input('business_partner_id');
+
+            // Unggah file ke tabel tender_files jika ada file yang diunggah
+            if ($request->hasFile('file_evaluation_company')) {
+                $file = $request->file('file_evaluation_company');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('tender_partner/evaluation', $name, 'public');
+
+                $fileTender = new TenderFile();
+                $fileTender->tender_id = $tender_id;
+                $fileTender->name = $name;
+                $fileTender->path = $path;
+                $fileTender->type = $request->input('type'); // Tipe file sesuai kebutuhan
+                $fileTender->notes = $request->input('notes');
+
+                $fileTender->save();
+            }
+
+            DB::table('business_partner_tender')
+                ->where('tender_id', $tender_id)
+                ->where('business_partner_id', $business_partner_id)
+                ->update(['evaluation' => $request->input('evaluation')]);
+
+            Alert::success('Success', 'File saved successfully');
+            return to_route ('evaluation.show', $id);
+        } catch (\Throwable $th) {
+            Alert::error($th->getMessage());
+            return to_route ('evaluation.show', $id);
+        }
+    }
+
+    public function vendor (Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'file_evaluation_vendor' => 'required|file|mimes:pdf|max:2048', // Ubah sesuai kebutuhan
+                'value_cost' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+                'contract_order' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+                'work_implementation' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+                'pre_handover' => 'required|in:0,1,2,3', // Ubah sesuai kebutuhan
+                'final_handover' => 'required|in:0,1,2,3', // Ubah sesuai kebutuhan
+                'invoice_payment' => 'required|in:0,1,2', // Ubah sesuai kebutuhan
+                'notes' => 'required',
+                'tender_id' => 'required',
+                'business_partner_id' => 'required',
+                'type' => 'required',
+            ]);
+
+            $tender_id = $request->input('tender_id');
+            $business_partner_id = $request->input('business_partner_id');
+
+            // Unggah file ke tabel tender_files jika ada file yang diunggah
+            if ($request->hasFile('file_evaluation_vendor')) {
+                $file = $request->file('file_evaluation_vendor');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('tender_partner/evaluation', $name, 'public');
+
+                $fileTender = new TenderFile();
+                $fileTender->tender_id = $tender_id;
+                $fileTender->name = $name;
+                $fileTender->path = $path;
+                $fileTender->type = $request->input('type'); // Tipe file sesuai kebutuhan
+                $fileTender->notes = $request->input('notes');
+
+                $fileTender->save();
+            }
+
+            DB::table('business_partner_tender')
+                ->where('tender_id', $tender_id)
+                ->where('business_partner_id', $business_partner_id)
+                ->update([
+                    'value_cost' => $request->input('value_cost'),
+                    'contract_order' => $request->input('contract_order'),
+                    'work_implementation' => $request->input('work_implementation'),
+                    'pre_handover' => $request->input('pre_handover'),
+                    'final_handover' => $request->input('final_handover'),
+                    'invoice_payment' => $request->input('invoice_payment')
+                ]);
+
+            Alert::success('Success', 'File saved successfully');
+            return to_route ('evaluation.show', $id);
+        } catch (\Throwable $th) {
+            Alert::error($th->getMessage());
+            return to_route ('evaluation.show', $id);
+        }
     }
 }

@@ -48,6 +48,8 @@ Route::prefix('offer')->group(function () {
 
 Route::prefix('procurements')->group(function () {
     Route::resource('evaluation', EvaluationController::class);
+    Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
+    Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
 });
 
 Route::prefix('partner')->group(function () {

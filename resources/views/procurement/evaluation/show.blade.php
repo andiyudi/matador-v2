@@ -147,7 +147,7 @@ $title    = 'Procurement'
 @endsection
 @push('page-action')
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button id="evaluationCompanyButton" class="btn btn-secondary me-md-2" type="button"data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal" @if(!$fileCompanyExist) disabled @endif>CMNP To Vendor</button>
-    <button id="evaluationVendorButton" class="btn btn-dark" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal" @if(!$fileVendorExist) disabled @endif>Vendor To CMNP</button>
+    <button id="evaluationCompanyButton" class="btn btn-primary me-md-2" type="button"data-bs-target="#modalEvaluationCompany" data-bs-toggle="modal" @if(!$fileCompanyExist) disabled @endif>CMNP To Vendor</button>
+    <button id="evaluationVendorButton" class="btn btn-primary" data-bs-target="#modalEvaluationVendor" data-bs-toggle="modal" @if(!$fileVendorExist) disabled @endif>Vendor To CMNP</button>
 </div>
 @endpush
