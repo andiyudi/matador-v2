@@ -424,7 +424,7 @@ class OfferController extends Controller
                     $fileTender->tender_id   = $id;
                     $fileTender->name        = $name;
                     $fileTender->path        = $path;
-                    $fileTender->type        = 0;
+                    $fileTender->type        = 5;
                     $fileTender->notes       = $request->notes;
 
                     $fileTender->save();

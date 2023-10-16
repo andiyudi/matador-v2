@@ -189,6 +189,77 @@
                 </div>
             </li>
             @endcan
+            @can('menu-isoreport')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+                    <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-report" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"></path>
+                            <path d="M18 14v4h4"></path>
+                            <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2"></path>
+                            <path d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
+                            <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                            <path d="M8 11h4"></path>
+                            <path d="M8 15h3"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-link-title">
+                        ISO Report
+                    </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Vendor Recap
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Evaluation Recap
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            @endcan
+            @can('menu-setting')
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+                    <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-key" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M14 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                            <path d="M21 12a9 9 0 1 1 -18 0a9 9 0 0 1 18 0z"></path>
+                            <path d="M12.5 11.5l-4 4l1.5 1.5"></path>
+                            <path d="M12 15l-1.5 -1.5"></path>
+                        </svg>
+                    </span>
+                    <span class="nav-link-title">
+                        Setting
+                    </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Password
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Profile
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            @endcan
             @can('menu-config')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >

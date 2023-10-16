@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\DataTables\PermissionDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -63,7 +64,22 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        // Validasi input dari form jika diperlukan
+        $request->validate([
+            'name' => 'required|unique:permissions,name,' . $permission->id,
+            'guard_name' => 'required',
+        ]);
+
+        // Perbarui data permission
+        $permission->name = $request->input('name');
+        $permission->guard_name = $request->input('guard_name');
+
+        // Simpan perubahan ke dalam database
+        $permission->save();
+
+        // Redirect ke halaman lain atau tampilkan pesan sukses
+        Alert::success('Success', 'Permission updated successfully');
+        return redirect()->route('permission.index');
     }
 
     /**

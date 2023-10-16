@@ -89,7 +89,7 @@ $title    = 'Decision'
                                             <td>{{ $businessPartner->partner->phone }}</td>
                                             <td>{{ $businessPartner->partner->email }}</td>
                                             <td align="center">
-                                                <input type="radio" name="pick_vendor" id="pick_vendor_{{ $businessPartner->partner->id }}" value="{{ $businessPartner->partner->id }}" class="form-check-input">
+                                                <input type="radio" name="pick_vendor" id="pick_vendor_{{ $businessPartner->id }}" value="{{ $businessPartner->id }}" class="form-check-input">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -131,7 +131,7 @@ $title    = 'Decision'
                                                 <td>{{ $businessPartner->partner->phone }}</td>
                                                 <td>{{ $businessPartner->partner->email }}</td>
                                                 <td align="center">
-                                                    <input type="radio" name="pick_vendor_old" id="pick_vendor_old_{{ $businessPartner->partner->id }}" value="{{ $previousTender->id }}_{{ $businessPartner->partner->id }}" class="form-check-input">
+                                                    <input type="radio" name="pick_vendor_old" id="pick_vendor_old_{{ $previousTender->id }}_{{ $businessPartner->id }}" value="{{ $previousTender->id }}_{{ $businessPartner->id }}" class="form-check-input">
                                                 </td>
                                             </tr>
                                         @endforeach

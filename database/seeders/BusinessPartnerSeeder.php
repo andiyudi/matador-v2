@@ -34,6 +34,7 @@ class BusinessPartnerSeeder extends Seeder
             ['partner_id' => 18, 'business_id' => 11],
             ['partner_id' => 19, 'business_id' => 11],
             ['partner_id' => 20, 'business_id' => 11],
+            ['partner_id' => 1, 'business_id' => 9],
         ];
 
         foreach ($businessPartners as $businessPartner) {

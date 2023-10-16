@@ -119,6 +119,8 @@ $title    = 'Tender'
                                                     File Evaluation Company
                                                 @elseif ($tenderFile->type === 4)
                                                     File Evaluation Vendor
+                                                @elseif ($tenderFile->type === 5)
+                                                    File Selected Vendor From Past Tender
                                                 @else
                                                     Unknown
                                                 @endif
