@@ -47,7 +47,7 @@ Route::prefix('offer')->group(function () {
 });
 
 Route::prefix('procurements')->group(function () {
-    Route::resource('evaluation', EvaluationController::class);
+    Route::resource('evaluation', EvaluationController::class)->only(['index', 'show']);
     Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
     Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
 });
@@ -65,13 +65,15 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::resource('officials', OfficialController::class);
-Route::resource('divisions', DivisionController::class);
-Route::resource('procurements', ProcurementController::class);
-Route::resource('core-business', CoreBusinessController::class);
-Route::resource('classification', ClassificationController::class);
-Route::resource('partner', PartnerController::class);
-Route::resource('offer', OfferController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('officials', OfficialController::class);
+    Route::resource('divisions', DivisionController::class);
+    Route::resource('procurements', ProcurementController::class);
+    Route::resource('core-business', CoreBusinessController::class);
+    Route::resource('classification', ClassificationController::class);
+    Route::resource('partner', PartnerController::class);
+    Route::resource('offer', OfferController::class);
+});
 
 Route::middleware('auth', 'verified')->group(function(){
     Route::resource('user', UserController::class);

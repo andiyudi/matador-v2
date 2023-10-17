@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tender_id');
             $table->string('name');
-            $table->tinyInteger('type')->comment('0: File Selected Vendor, 1: File Cancelled Tender, 2: File Repeat Tender, 3: File Evaluation Company, 4: File Evaluation Vendor, 5: File Selected Vendor From Past Tender');
+            $table->tinyInteger('type')->comment('0: File Selected Vendor, 1: File Cancelled Tender, 2: File Repeat Tender, 3: File Selected Vendor From Past Tender, 4: File Evaluation Company, 5: File Evaluation Vendor');
             $table->string('path');
             $table->string('notes');
             $table->timestamps();

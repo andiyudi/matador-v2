@@ -22,7 +22,7 @@ class EvaluationController extends Controller
         ->get();
         return DataTables::of($procurements)
         ->editColumn('division', function ($procurement) {
-            return $procurement->division->name;
+            return $procurement->division->code;
         })
         ->addColumn('vendors', function ($procurement) {
             // Inisialisasi nomor urut
@@ -102,8 +102,8 @@ class EvaluationController extends Controller
             foreach ($tender->businessPartners as $businessPartner) {
                 if ($businessPartner->pivot->is_selected == '1') {
                     // Cek apakah ada file tender dengan type 3 & 4 pada tender ini
-                    $fileCompanyExists = $tender->tenderFile->where('type', 3)->isNotEmpty();
-                    $fileVendorExists = $tender->tenderFile->where('type', 4)->isNotEmpty();
+                    $fileCompanyExists = $tender->tenderFile->where('type', 4)->isNotEmpty();
+                    $fileVendorExists = $tender->tenderFile->where('type', 5)->isNotEmpty();
 
                     if ($fileCompanyExists) {
                         // Jika ada file tender dengan type 3, maka set $fileCompanyExist menjadi false

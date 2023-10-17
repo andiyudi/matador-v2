@@ -14,9 +14,9 @@
                         @foreach ($procurement->tenders as $tender)
                             @foreach ($tender->businessPartners as $businessPartner)
                                 @if ($businessPartner->pivot->is_selected == '1')
-                                <input type="hidden" class="form-control" name="type" id="type" value="3" readonly>
+                                <input type="hidden" class="form-control" name="type" id="type" value="4" readonly>
                                 <input type="hidden" class="form-control" name="tender_id" id="tender_id" value="{{ $tender->id }}" readonly>
-                                <input type="hidden" class="form-control" name="business_partner_id" id="business_partner_id" value="{{ $businessPartner->partner->id }}" readonly>
+                                <input type="hidden" class="form-control" name="business_partner_id" id="business_partner_id" value="{{ $businessPartner->id }}" readonly>
                                 <input type="text" class="form-control" name="vendor_name" id="vendor_name" value="{{ $businessPartner->partner->name }}" readonly>
                                 @endif
                             @endforeach
@@ -85,9 +85,9 @@
                             @foreach ($procurement->tenders as $tender)
                                 @foreach ($tender->businessPartners as $businessPartner)
                                     @if ($businessPartner->pivot->is_selected == '1')
-                                    <input type="hidden" class="form-control" name="type" id="type" value="4" readonly>
+                                    <input type="hidden" class="form-control" name="type" id="type" value="5" readonly>
                                     <input type="hidden" class="form-control" name="tender_id" id="tender_id" value="{{ $tender->id }}" readonly>
-                                    <input type="hidden" class="form-control" name="business_partner_id" id="business_partner_id" value="{{ $businessPartner->partner->id }}" readonly>
+                                    <input type="hidden" class="form-control" name="business_partner_id" id="business_partner_id" value="{{ $businessPartner->id }}" readonly>
                                     <input type="text" class="form-control" name="vendor_name" id="vendor_name" value="{{ $businessPartner->partner->name }}" readonly>
                                     @endif
                                 @endforeach

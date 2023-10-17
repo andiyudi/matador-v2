@@ -290,17 +290,16 @@ class OfferController extends Controller
             $tender = Tender::findOrFail($id);
 
             $request->validate([
-                'decision' => 'required|in:1,2,3,4',
+                'decision' => 'required|in:0,1,2,3',
+                'file' => $request->has('decision') ? 'required|file' : '',
+                'notes' => $request->has('decision') ? 'required' : '',
+                'pick_vendor' => $request->has('decision') && $request->input('decision') == "0" ? 'required' : '',
+                'pick_vendor_old' => $request->has('decision') && $request->input('decision') == "3" ? 'required' : '',
             ]);
 
             $decision = $request->input('decision');
-
-            if ($decision == 1) {
-                $request->validate([
-                    'pick_vendor' => 'required',
-                    'file' => 'required|file',
-                    'notes' => 'required',
-                ]);
+            //tender success
+            if ($decision == 0) {
 
                 $selectedVendorId = $request->input('pick_vendor');
 
@@ -312,27 +311,8 @@ class OfferController extends Controller
                 $tender->procurement->status = '1';
                 $tender->procurement->save();
 
-                if ($request->hasFile('file')){
-                    $file = $request->file('file');
-                    $name = time() . '_' . $file->getClientOriginalName();
-                    $path = $file->storeAs('tender_partner', $name, 'public');
-
-                    $fileTender = new TenderFile();
-
-                    $fileTender->tender_id   = $id;
-                    $fileTender->name        = $name;
-                    $fileTender->path        = $path;
-                    $fileTender->type        = 0;
-                    $fileTender->notes       = $request->notes;
-
-                    $fileTender->save();
-                }
-
-            } elseif ($decision == 2) {
-                $request->validate([
-                    'file' => 'required|file',
-                    'notes' => 'required',
-                ]);
+            //tender cancel
+            } elseif ($decision == 1) {
 
                 $tender->status = '2';
                 $tender->save();
@@ -340,46 +320,11 @@ class OfferController extends Controller
                 $tender->procurement->status = '2';
                 $tender->procurement->save();
 
-                if ($request->hasFile('file')){
-                    $file = $request->file('file');
-                    $name = time() . '_' . $file->getClientOriginalName();
-                    $path = $file->storeAs('tender_partner', $name, 'public');
-
-                    $fileTender = new TenderFile();
-
-                    $fileTender->tender_id   = $id;
-                    $fileTender->name        = $name;
-                    $fileTender->path        = $path;
-                    $fileTender->type        = 1;
-                    $fileTender->notes       = $request->notes;
-
-                    $fileTender->save();
-                }
-
-            } elseif ($decision == 3) {
-                $request->validate([
-                    'file' => 'required|file',
-                    'notes' => 'required',
-                ]);
+            //tender repeat
+            } elseif ($decision == 2) {
                 // Update model Tender, set kolom status menjadi 3
                 $tender->status = '3';
                 $tender->save();
-
-                if ($request->hasFile('file')){
-                    $file = $request->file('file');
-                    $name = time() . '_' . $file->getClientOriginalName();
-                    $path = $file->storeAs('tender_partner', $name, 'public');
-
-                    $fileTender = new TenderFile();
-
-                    $fileTender->tender_id   = $id;
-                    $fileTender->name        = $name;
-                    $fileTender->path        = $path;
-                    $fileTender->type        = 2;
-                    $fileTender->notes       = $request->notes;
-
-                    $fileTender->save();
-                }
 
                 $oldTender = Tender::find($id);
                 $newTender = new Tender;
@@ -387,13 +332,8 @@ class OfferController extends Controller
                 $newTender->status = '0';
                 $newTender->save();
                 $newTenderId = $newTender->id;
-
-            } elseif ($decision == 4) {
-                $request->validate([
-                    'pick_vendor_old' => 'required',
-                    'file' => 'required|file',
-                    'notes' => 'required',
-                ]);
+            //tender success from past tender
+            } elseif ($decision == 3) {
 
                 $pickVendorOld = $request->input('pick_vendor_old');
 
@@ -414,21 +354,22 @@ class OfferController extends Controller
                 $tender->procurement->status = '1';
                 $tender->procurement->save();
 
-                if ($request->hasFile('file')){
-                    $file = $request->file('file');
-                    $name = time() . '_' . $file->getClientOriginalName();
-                    $path = $file->storeAs('tender_partner', $name, 'public');
+            }
 
-                    $fileTender = new TenderFile();
+            if ($request->hasFile('file')){
+                $file = $request->file('file');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('tender_partner', $name, 'public');
 
-                    $fileTender->tender_id   = $id;
-                    $fileTender->name        = $name;
-                    $fileTender->path        = $path;
-                    $fileTender->type        = 5;
-                    $fileTender->notes       = $request->notes;
+                $fileTender = new TenderFile();
 
-                    $fileTender->save();
-                }
+                $fileTender->tender_id   = $id;
+                $fileTender->name        = $name;
+                $fileTender->path        = $path;
+                $fileTender->type        = $decision;
+                $fileTender->notes       = $request->notes;
+
+                $fileTender->save();
             }
 
             foreach ($tender->businessPartners as $businessPartner) {

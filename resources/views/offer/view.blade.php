@@ -46,10 +46,10 @@ $title    = 'Decision'
                         <div class="col-sm-10">
                             <select class="form-select @error('decision') is-invalid @enderror" name="decision" id="decision">
                                 <option value="">Select Decision</option>
-                                <option value="1">Pick Vendor</option>
-                                <option value="2">Cancel Tender</option>
-                                <option value="3">Repeat Tender</option>
-                                <option value="4">Pick Vendor From Past Tender</option>
+                                <option value="0" {{ old('decision') == "0" ? 'selected' : '' }}>Pick Vendor</option>
+                                <option value="1" {{ old('decision') == "1" ? 'selected' : '' }}>Cancel Tender</option>
+                                <option value="2" {{ old('decision') == "2" ? 'selected' : '' }}>Repeat Tender</option>
+                                <option value="3" {{ old('decision') == "3" ? 'selected' : '' }}>Pick Vendor From Past Tender</option>
                             </select>
                             @error('decision')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -89,12 +89,15 @@ $title    = 'Decision'
                                             <td>{{ $businessPartner->partner->phone }}</td>
                                             <td>{{ $businessPartner->partner->email }}</td>
                                             <td align="center">
-                                                <input type="radio" name="pick_vendor" id="pick_vendor_{{ $businessPartner->id }}" value="{{ $businessPartner->id }}" class="form-check-input">
+                                                <input type="radio" name="pick_vendor" id="pick_vendor_{{ $businessPartner->id }}" value="{{ $businessPartner->id }}" class="form-check-input @error('pick_vendor') is-invalid @enderror">
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
+                            @error('pick_vendor')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3" id="vendorDataAll" style="display: none;">
@@ -131,25 +134,31 @@ $title    = 'Decision'
                                                 <td>{{ $businessPartner->partner->phone }}</td>
                                                 <td>{{ $businessPartner->partner->email }}</td>
                                                 <td align="center">
-                                                    <input type="radio" name="pick_vendor_old" id="pick_vendor_old_{{ $previousTender->id }}_{{ $businessPartner->id }}" value="{{ $previousTender->id }}_{{ $businessPartner->id }}" class="form-check-input">
+                                                    <input type="radio" name="pick_vendor_old" id="pick_vendor_old_{{ $previousTender->id }}_{{ $businessPartner->id }}" value="{{ $previousTender->id }}_{{ $businessPartner->id }}" class="form-check-input  @error('pick_vendor_old') is-invalid @enderror">
                                                 </td>
                                             </tr>
                                         @endforeach
                                     @endforeach
                                 </tbody>
                             </table>
+                            @error('pick_vendor_old')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3" id="uploadFile" style="display: none;">
                         <label for="file" class="col-sm-2 col-form-label required">Upload File</label>
                         <div class="col-sm-10">
-                            <input type="file" name="file" id="file" class="form-control">
+                            <input type="file" name="file" id="file" class="form-control @error('file') is-invalid @enderror">
+                            @error('file')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mb-3" id="notes" style="display: none;">
                         <label for="notes" class="col-sm-2 col-form-label required">Tender Notes</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" id="notes" name="notes" rows="5"></textarea>
+                            <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" name="notes" rows="5"></textarea>
                             @error('notes')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -166,22 +175,27 @@ $title    = 'Decision'
 </div>
 <script>
     $(document).ready(function() {
+        // Menampilkan elemen berdasarkan keputusan saat halaman dimuat
+        var decision = $('#decision').val();
+        if (decision === '0') {
+            $('#vendorData, #uploadFile, #notes').show();
+        } else if (decision === '1' || decision === '2') {
+            $('#uploadFile, #notes').show();
+        } else if (decision === '3') {
+            $('#vendorDataAll, #uploadFile, #notes').show();
+        }
+
         // Fungsi untuk menangani perubahan dalam elemen select
         $('#decision').on('change', function() {
             var decision = $(this).val();
-
             // Sembunyikan semua elemen terlebih dahulu
             $('#vendorData, #vendorDataAll, #uploadFile, #notes').hide();
-
-            if (decision === '1') {
-                // Tampilkan elemen data vendor
-                // $('#vendorData').show();
-                // Tampilkan elemen radio button dan upload file jika Pick Vendor dipilih
+            // Tampilkan elemen sesuai dengan keputusan saat ini
+            if (decision === '0') {
                 $('#vendorData, #uploadFile, #notes').show();
-            } else if (decision === '2' || decision === '3') {
-                // Tampilkan elemen upload file jika Cancel Tender atau Repeat Tender dipilih
+            } else if (decision === '1' || decision === '2') {
                 $('#uploadFile, #notes').show();
-            } else if (decision === '4') {
+            } else if (decision === '3') {
                 $('#vendorDataAll, #uploadFile, #notes').show();
             }
         });

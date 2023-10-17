@@ -93,7 +93,7 @@ $title    = 'Procurement'
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="pic_user" class="col-sm-2 col-form-label">Data Dokumen</label>
+                        <label for="pic_user" class="col-sm-2 col-form-label">Data Document</label>
                         <div class="col-sm-10">
                             <table class="table table-responsive table-bordered table-striped table-hover" id="document_tender_table">
                                 <thead>
@@ -117,11 +117,11 @@ $title    = 'Procurement'
                                                 @elseif ($tenderFile->type === 2)
                                                 File Repeat Tender
                                                 @elseif ($tenderFile->type === 3)
-                                                File Evaluation Company
-                                                @elseif ($tenderFile->type === 4)
-                                                File Evaluation Vendor
-                                                @elseif ($tenderFile->type === 5)
                                                 File Selected Vendor From Past Tender
+                                                @elseif ($tenderFile->type === 4)
+                                                File Evaluation Company
+                                                @elseif ($tenderFile->type === 5)
+                                                File Evaluation Vendor
                                                 @else
                                                 Unknown
                                                 @endif

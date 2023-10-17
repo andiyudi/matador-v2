@@ -116,11 +116,11 @@ $title    = 'Tender'
                                                 @elseif ($tenderFile->type === 2)
                                                     File Repeat Vendor
                                                 @elseif ($tenderFile->type === 3)
-                                                    File Evaluation Company
-                                                @elseif ($tenderFile->type === 4)
-                                                    File Evaluation Vendor
-                                                @elseif ($tenderFile->type === 5)
                                                     File Selected Vendor From Past Tender
+                                                @elseif ($tenderFile->type === 4)
+                                                    File Evaluation Company
+                                                @elseif ($tenderFile->type === 5)
+                                                    File Evaluation Vendor
                                                 @else
                                                     Unknown
                                                 @endif
