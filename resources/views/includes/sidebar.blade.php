@@ -211,14 +211,14 @@
                 <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('report.index') }}">
                                 Vendor Recap
                             </a>
                         </div>
                     </div>
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('review.index') }}">
                                 Evaluation Recap
                             </a>
                         </div>

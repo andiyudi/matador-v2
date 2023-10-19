@@ -30,7 +30,7 @@ class Tender extends Model
 
     public function businessPartners(){
         return $this->belongsToMany(BusinessPartner::class, 'business_partner_tender')
-        ->withPivot('start_hour', 'end_hour', 'is_selected')
+        ->withPivot('start_hour', 'end_hour', 'is_selected', 'value_cost')
         ->withTimestamps();
     }
 

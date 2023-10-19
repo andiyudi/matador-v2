@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -59,6 +61,14 @@ Route::prefix('partner')->group(function () {
     Route::post('document/store', [DocumentController::class, 'store'])->name('document.store');
     Route::delete('document/{file_id}', [DocumentController::class, 'destroy'])->name('document.destroy');
     Route::get('fetch/{business_id}', [PartnerController::class, 'getPartnersByBusiness'])->name('partner.fetch');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('report', [ReportController::class, 'index'])->name('report.index');
+    Route::get('report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
+    Route::get('report-blacklist', [ReportController::class, 'blacklist'])->name('report.blacklist');
+    Route::get('review', [ReviewController::class, 'index'])->name('review.index');
+    Route::get('review-vendor', [ReviewController::class, 'vendor'])->name('review.vendor');
+    Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
 });
 
 Route::get('/', function () {
