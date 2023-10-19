@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tender;
 use App\Models\Partner;
 use App\Models\Business;
+use App\Models\Division;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -170,5 +171,64 @@ class ReviewController extends Controller
             ];
 
     return view('review.vendor-result', compact('logoBase64', 'creatorNameVendor', 'creatorPositionVendor', 'supervisorNameVendor', 'supervisorPositionVendor', 'formattedStartDate', 'formattedEndDate', 'vendorData', 'totalData'));
+    }
+
+
+    public function company(Request $request)
+    {
+        $startDate = $request->input('startDateCompany');
+        $endDate = $request->input('endDateCompany');
+
+        $startDate = Carbon::createFromFormat('Y', $startDate)->startOfYear();
+        $endDate = Carbon::createFromFormat('Y', $endDate)->endOfYear();
+
+        // Mengambil path file logo
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+
+        // Membaca file logo dan mengonversi menjadi base64
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        // data pembuat dan atasan
+        $creatorNameCompany = request()->query('creatorNameCompany');
+        $creatorPositionCompany = request()->query('creatorPositionCompany');
+        $supervisorNameCompany = request()->query('supervisorNameCompany');
+        $supervisorPositionCompany = request()->query('supervisorPositionCompany');
+
+        // Format bulan dan tahun untuk startDate dan endDate
+        $periodeAwal = Carbon::parse($startDate)->format('Y');
+        $periodeAkhir = Carbon::parse($endDate)->format('Y');
+        //ambil seluruh data divisi
+        $divisions = Division::all();
+
+        $jumlahPenilaian = [];
+        $jumlahPenilaianBaik = [];
+        $jumlahPenilaianBuruk = [];
+
+        foreach ($divisions as $division) {
+            $jumlah = Tender::whereHas('procurement', function ($query) use ($division, $startDate, $endDate) {
+                $query->where('division_id', $division->id)
+                    ->whereBetween('created_at', [$startDate, $endDate]);
+                })->whereHas('businessPartners', function ($query) {
+                    $query->whereNotNull('evaluation');
+                })->count();
+            $jumlahBaik = Tender::whereHas('procurement', function ($query) use ($division, $startDate, $endDate) {
+                $query->where('division_id', $division->id)
+                    ->whereBetween('created_at', [$startDate, $endDate]);
+                })->whereHas('businessPartners', function ($query) {
+                    $query->where('evaluation', '1');
+                })->count();
+            $jumlahBuruk = Tender::whereHas('procurement', function ($query) use ($division, $startDate, $endDate) {
+                $query->where('division_id', $division->id)
+                    ->whereBetween('created_at', [$startDate, $endDate]);
+                })->whereHas('businessPartners', function ($query) {
+                    $query->where('evaluation', '0');
+                })->count();
+
+            $jumlahPenilaian[$division->id] = $jumlah;
+            $jumlahPenilaianBaik[$division->id] = $jumlahBaik;
+            $jumlahPenilaianBuruk[$division->id] = $jumlahBuruk;
+        }
+
+    return view('review.company-result', compact('logoBase64', 'creatorNameCompany', 'creatorPositionCompany', 'supervisorNameCompany', 'supervisorPositionCompany', 'periodeAwal', 'periodeAkhir', 'divisions', 'jumlahPenilaian', 'jumlahPenilaianBaik', 'jumlahPenilaianBuruk'));
     }
 }
