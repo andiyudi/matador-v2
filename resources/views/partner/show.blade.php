@@ -82,7 +82,10 @@ $title    = 'Vendors'
                 <div class="row">
                     <div class="col mb-3">
                         <label for="capital" class="form-label">Capital</label>
-                        <input type="text" class="form-control @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ $partner->capital }}" disabled>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            <input type="text" class="form-control curencyField @error('capital') is-invalid @enderror" id="capital" name="capital" value="{{ $partner->capital }}" disabled>
+                        </div>
                         @error('capital')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
