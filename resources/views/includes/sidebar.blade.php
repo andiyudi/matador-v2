@@ -226,40 +226,6 @@
                 </div>
             </li>
             @endcan
-            @can('menu-setting')
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
-                    <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-key" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M14 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                            <path d="M21 12a9 9 0 1 1 -18 0a9 9 0 0 1 18 0z"></path>
-                            <path d="M12.5 11.5l-4 4l1.5 1.5"></path>
-                            <path d="M12 15l-1.5 -1.5"></path>
-                        </svg>
-                    </span>
-                    <span class="nav-link-title">
-                        Setting
-                    </span>
-                </a>
-                <div class="dropdown-menu">
-                    <div class="dropdown-menu-columns">
-                        <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
-                                Password
-                            </a>
-                        </div>
-                    </div>
-                    <div class="dropdown-menu-columns">
-                        <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
-                                Profile
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            @endcan
             @can('menu-config')
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
@@ -303,6 +269,24 @@
                     </div>
                     @endcan
                 </div>
+            </li>
+            @endcan
+            @can('menu-setting')
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('profile.edit') }}" >
+                <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-key" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M14 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                        <path d="M21 12a9 9 0 1 1 -18 0a9 9 0 0 1 18 0z"></path>
+                        <path d="M12.5 11.5l-4 4l1.5 1.5"></path>
+                        <path d="M12 15l-1.5 -1.5"></path>
+                    </svg>
+                </span>
+                <span class="nav-link-title">
+                    Setting
+                </span>
+                </a>
             </li>
             @endcan
             <li class="nav-item">

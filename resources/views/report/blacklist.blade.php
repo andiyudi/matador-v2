@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active" id="blacklistContent" role="tabpanel" aria-labelledby="blacklistTab">
+<div class="tab-pane fade" id="blacklistContent" role="tabpanel" aria-labelledby="blacklistTab">
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-group">

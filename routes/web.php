@@ -13,6 +13,7 @@ use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProcurementController;
@@ -62,6 +63,7 @@ Route::prefix('partner')->group(function () {
     Route::delete('document/{file_id}', [DocumentController::class, 'destroy'])->name('document.destroy');
     Route::get('fetch/{business_id}', [PartnerController::class, 'getPartnersByBusiness'])->name('partner.fetch');
 });
+
 Route::middleware(['auth'])->group(function () {
     Route::get('report', [ReportController::class, 'index'])->name('report.index');
     Route::get('report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
@@ -91,8 +93,15 @@ Route::middleware('auth', 'verified')->group(function(){
     Route::resource('permission', PermissionController::class);
 });
 
+Route::prefix('dashboard')->group(function () {
+    Route::get('vendor-count', [DashboardController::class, 'getVendorCount'])->name('dashboard.vendor-count');
+    Route::get('procurement-count', [DashboardController::class, 'getProcurementCount'])->name('dashboard.procurement-count');
+    Route::get('table-data-vendor', [DashboardController::class, 'getDataTableVendor'])->name('dashboard.table-data-vendor');
+    Route::get('table-data-procurement', [DashboardController::class, 'getDataTableProcurement'])->name('dashboard.table-data-procurement');
+});
+
 Route::get('/dashboard', function () {
-    return view('layouts.template');
+    return view('dashboard.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

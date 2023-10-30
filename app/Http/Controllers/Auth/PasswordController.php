@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Validation\Rules\Password;
 
 class PasswordController extends Controller
@@ -24,6 +25,8 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'password-updated');
+        Alert::success('Success', 'Password successfully changed');
+        return redirect()->route('dashboard');
+        // return back()->with('status', 'password-updated');
     }
 }
