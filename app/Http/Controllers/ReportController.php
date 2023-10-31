@@ -35,7 +35,10 @@ class ReportController extends Controller
         // $vendors = $vendors->filter(function ($vendor) {
         //     return $vendor->businesses->isNotEmpty();
         // });
-
+        $vendors->transform(function ($vendor) {
+            $vendor->join_date = Carbon::parse($vendor->join_date)->format('d-m-Y');
+            return $vendor;
+        });
         $vendors->transform(function ($vendor) {
             $coreBusinesses = [];
             $classifications = [];
@@ -112,7 +115,10 @@ class ReportController extends Controller
         $vendors = $vendors->filter(function ($vendor) {
             return $vendor->businesses->isNotEmpty();
         });
-
+        $vendors->transform(function ($vendor) {
+            $vendor->join_date = Carbon::parse($vendor->join_date)->format('d-m-Y');
+            return $vendor;
+        });
         $vendors->transform(function ($vendor) {
             $coreBusinesses = [];
             $classifications = [];
