@@ -92,13 +92,13 @@ $title    = 'Dashboard'
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <h1>Last 5 Vendor Data</h1>
+                        <h1>Last 5 Vendors Data</h1>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Vendor Name</th>
-                                    <th>Join Date</th>
+                                    <th>Grade</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -200,8 +200,17 @@ $title    = 'Dashboard'
             cellName.innerHTML = data[i].name;
 
             if (tableId === 'latestVendorsTable') {
-                var cellJoinDate = row.insertCell(2);
-                cellJoinDate.innerHTML = data[i].join_date;
+                var cellGrade = row.insertCell(2);
+                if (data[i].grade === "0") {
+                    cellGrade.innerHTML = '<span class="badge rounded-pill text-bg-dark">Kecil</span>';
+                } else if (data[i].grade === "1") {
+                    cellGrade.innerHTML = '<span class="badge rounded-pill text-bg-secondary">Menengah</span>';
+                } else if (data[i].grade === "2") {
+                    cellGrade.innerHTML = '<span class="badge rounded-pill text-bg-primary">Besar</span>';
+                } else {
+                    cellGrade.innerHTML = '<span class="badge text-bg-light">Unknown</span'; // Handle case when status has unexpected value
+                }
+                // cellGrade.innerHTML = data[i].grade;
 
                 var cellVendorStatus = row.insertCell(3);
                 if (data[i].status === "0") {

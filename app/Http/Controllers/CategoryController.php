@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Partner;
 use App\Models\Business;
 use Illuminate\Http\Request;
-use App\Models\BusinessPartnerFiles;
 use App\Models\BusinessPartner;
+use App\Models\BusinessPartnerFiles;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
@@ -19,7 +21,7 @@ class CategoryController extends Controller
         if ($request->ajax()) {
             $businessPartners = BusinessPartner::with(['partner', 'business'])->get();
 
-            return datatables()->of($businessPartners)
+            return DataTables::of($businessPartners)
                 ->editColumn('partner_name', function ($businessPartner) {
                     return $businessPartner->partner->name;
                 })
@@ -30,13 +32,13 @@ class CategoryController extends Controller
                     return $businessPartner->business->parent->name;
                 })
                 ->editColumn('blacklist_at', function ($businessPartner) {
-                    return $businessPartner->blacklist_at;
+                    return $businessPartner->blacklist_at ? Carbon::parse($businessPartner->blacklist_at)->format('d-m-Y') : '';
                 })
                 ->editColumn('can_whitelist_at', function ($businessPartner) {
-                    return $businessPartner->can_whitelist_at;
+                    return $businessPartner->can_whitelist_at ? Carbon::parse($businessPartner->can_whitelist_at)->format('d-m-Y') : '';
                 })
                 ->editColumn('whitelist_at', function ($businessPartner) {
-                    return $businessPartner->whitelist_at;
+                    return $businessPartner->whitelist_at ? Carbon::parse($businessPartner->whitelist_at)->format('d-m-Y') : '';
                 })
                 ->editColumn('status', function ($businessPartner){
                     if ($businessPartner->is_blacklist == 0) {

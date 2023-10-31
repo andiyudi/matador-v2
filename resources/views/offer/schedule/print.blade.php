@@ -54,10 +54,10 @@
         <thead class="text-center">
             <tr>
                 <th>No</th>
-                <th>Activity</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Duration</th>
+                <th>Aktivitas</th>
+                <th>Tanggal Mulai</th>
+                <th>Tanggal Akhir</th>
+                <th>Durasi</th>
             </tr>
         </thead>
         <tbody>

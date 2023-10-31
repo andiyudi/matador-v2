@@ -27,7 +27,7 @@
                         <input type="date" class="form-control" name="end_date_1" id="normal_end_date_1" onchange="calculateDuration('normal', 1)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_1" id="normal_duration_1" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_1" id="normal_duration_1" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                         <input type="date" class="form-control" name="end_date_2" id="normal_end_date_2" onchange="calculateDuration('normal', 2)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_2" id="normal_duration_2" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_2" id="normal_duration_2" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
                         <input type="date" class="form-control" name="end_date_3" id="normal_end_date_3" onchange="calculateDuration('normal', 3)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_3" id="normal_duration_3" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_3" id="normal_duration_3" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -72,7 +72,7 @@
                         <input type="date" class="form-control" name="end_date_4" id="normal_end_date_4" onchange="calculateDuration('normal', 4)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_4" id="normal_duration_4" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_4" id="normal_duration_4" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@
                         <input type="date" class="form-control" name="end_date_5" id="normal_end_date_5" onchange="calculateDuration('normal', 5)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_5" id="normal_duration_5" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_5" id="normal_duration_5" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                         <input type="date" class="form-control" name="end_date_6" id="normal_end_date_6" onchange="calculateDuration('normal', 6)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_6" id="normal_duration_6" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_6" id="normal_duration_6" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -117,7 +117,7 @@
                         <input type="date" class="form-control" name="end_date_7" id="normal_end_date_7" onchange="calculateDuration('normal', 7)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_7" id="normal_duration_7" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_7" id="normal_duration_7" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +132,7 @@
                         <input type="date" class="form-control" name="end_date_8" id="normal_end_date_8" onchange="calculateDuration('normal', 8)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_8" id="normal_duration_8" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_8" id="normal_duration_8" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -147,7 +147,7 @@
                         <input type="date" class="form-control" name="end_date_9" id="normal_end_date_9" onchange="calculateDuration('normal', 9)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_9" id="normal_duration_9" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_9" id="normal_duration_9" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -162,7 +162,7 @@
                         <input type="date" class="form-control" name="end_date_10" id="normal_end_date_10" onchange="calculateDuration('normal', 10)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_10" id="normal_duration_10" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_10" id="normal_duration_10" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -177,7 +177,7 @@
                         <input type="date" class="form-control" name="end_date_11" id="normal_end_date_11" onchange="calculateDuration('normal', 11)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" name="duration_11" id="normal_duration_11" value="0" readonly>
+                        <input type="number" class="form-control" name="duration_11" id="normal_duration_11" value="0" min="1">
                     </td>
                 </tr>
             </tbody>

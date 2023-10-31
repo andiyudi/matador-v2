@@ -22,8 +22,8 @@ class ProcurementFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Pekerjaan ' . $this->faker->word(),
-            'number' => $this->faker->regexify('[0-9]{4}-[0-9]{2}'),
+            'name' => 'PEKERJAAN ' . strtoupper($this->faker->words(3, true)),
+            'number' => $this->faker->regexify('[0-9]{4}-[2-3]{2}'),
             'receipt' => $this->faker->date,
             'division_id' => $this->faker->randomElement(Division::pluck('id')->toArray()),
             'official_id' => $this->faker->randomElement(Official::pluck('id')->toArray()),

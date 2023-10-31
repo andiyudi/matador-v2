@@ -33,7 +33,7 @@
 <center>
     <h3>
         BERITA ACARA<br>
-        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ strtoupper($tender->procurement->name) }}<br>
+        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ $tender->procurement->name }}<br>
     </h3>
     <p>
         NOMOR : {{ $banegoNumber }}
@@ -45,7 +45,7 @@
     <tr style="line-height: 1.15">
         <td width="38%" style="vertical-align: text-top">A. <strong>Nama Pekerjaan</strong></td>
         <td width="2%" style="vertical-align: text-top">:</td>
-        <td width="60%">{{ ucwords($tender->procurement->name) }}</td>
+        <td width="60%">{{ ucwords(strtolower($tender->procurement->name)) }}</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">B. <strong>Lokasi Pekerjaan</strong></td>
@@ -58,12 +58,12 @@
     <tr style="line-height: 1.15">
         <td width="38%" style="vertical-align: text-top">&nbsp;&nbsp;&nbsp;&nbsp;1. Pemimpin Rapat</td>
         <td width="2%" style="vertical-align: text-top">:</td>
-        <td width="60%">{{ $tender->procurement->official->name }} sebagai Ketua Panitia Pengadaan dan Kewajaran Harga {{ ucwords($tender->procurement->name) }}.</td>
+        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai Ketua Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">&nbsp;&nbsp;&nbsp;&nbsp;2. Sekretaris</td>
         <td width="2%">:</td>
-        <td width="60%">{{ $secretaryBanegoName }}</td>
+        <td width="60%">{{ ucwords(strtolower($secretaryBanegoName)) }}</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">&nbsp;&nbsp;&nbsp;&nbsp;3. Anggota Panitia</td>
@@ -90,7 +90,7 @@
 <center>
     <h3>
         PESERTA RAPAT PEMBUKAAN PROPOSAL PENAWARAN HARGA<br>
-        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ strtoupper($tender->procurement->name) }}<br>
+        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ $tender->procurement->name }}<br>
         <br>
     </h3>
 </center>

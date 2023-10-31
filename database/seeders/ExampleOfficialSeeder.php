@@ -14,9 +14,9 @@ class ExampleOfficialSeeder extends Seeder
     public function run(): void
     {
         $officials = [
-            ['name' => 'Rangga Nopara', 'initials'=>'RN', 'status' => '1'],
-            ['name' => 'Eza Pradila Putri', 'initials'=>'EZA', 'status' => '1'],
-            ['name' => 'Eryc Pranata', 'initials'=>'EPP', 'status' => '1'],
+            ['name' => 'RANGGA NOPARA', 'initials'=>'RN', 'status' => '1'],
+            ['name' => 'EZA PRADILA PUTRI', 'initials'=>'EZA', 'status' => '1'],
+            ['name' => 'ERYC PRANATA', 'initials'=>'EPP', 'status' => '1'],
         ];
 
         foreach ($officials as $official) {

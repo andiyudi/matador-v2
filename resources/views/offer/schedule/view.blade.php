@@ -33,14 +33,14 @@
 <center>
     <h3>
         BERITA ACARA PENINJAUAN LAPANGAN<br>
-        {{ strtoupper($tender->procurement->name) }}
+        {{ $tender->procurement->name }}
     </h3>
 </center>
-<p style="line-height: 1.15">Setelah diadakan pembukaan umum dan penjelasan teknis {{ ucwords($tender->procurement->name) }}, yang dilaksanakan oleh Panitia Pengadaan dan Kewajaran Harga PT. Citra Marga Nusaphala Persada, Tbk yang dihadiri oleh {{ $jumlahVendor }} &#40;{{ $terbilangVendor }}&#41; calon vendor, yaitu : <br>
+<p style="line-height: 1.15">Setelah diadakan pembukaan umum dan penjelasan teknis {{ ucwords(strtolower($tender->procurement->name)) }}, yang dilaksanakan oleh Panitia Pengadaan dan Kewajaran Harga PT. Citra Marga Nusaphala Persada, Tbk yang dihadiri oleh {{ $jumlahVendor }} &#40;{{ $terbilangVendor }}&#41; calon vendor, yaitu : <br>
 @foreach ($tender->businessPartners as $businessPartner)
-&nbsp;&nbsp;&nbsp;&nbsp;{{ $loop->iteration }}.{{ $businessPartner->partner->name }}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{{ $loop->iteration }}.{{ ucwords(strtolower($businessPartner->partner->name)) }}<br>
 @endforeach
-Pada hari {{ $day }}, tanggal {{ ucwords($tanggal) }}, bulan {{ $bulan }}, tahun {{ ucwords($tahun) }} &#40;{{ $formattedDate }}&#41; maka untuk lebih jelasnya mengenai hal-hal yang berhubungan dengan pekerjaan yang akan dilaksanakan oleh calon peserta lelang {{ $tender->procurement->name }}, diperlukan peninjauan lapangan secara bersama-sama, antara calon peserta dan Panitia Pengadaan & Kewajaran Harga.
+Pada hari {{ $day }}, tanggal {{ ucwords($tanggal) }}, bulan {{ $bulan }}, tahun {{ ucwords($tahun) }} &#40;{{ $formattedDate }}&#41; maka untuk lebih jelasnya mengenai hal-hal yang berhubungan dengan pekerjaan yang akan dilaksanakan oleh calon peserta lelang {{ ucwords(strtolower($tender->procurement->name)) }}, diperlukan peninjauan lapangan secara bersama-sama, antara calon peserta dan Panitia Pengadaan & Kewajaran Harga.
 <br>
 Untuk itu perlu adanya Berita Acara Peninjauan Lapangan pekerjaan dimaksud, yang tujuannya agar calon peserta mengerti dan memahami situasi dan kondisi lapangan yang akan dikerjakan.
 <br>

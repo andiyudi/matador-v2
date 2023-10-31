@@ -21,6 +21,11 @@ class ScheduleController extends Controller
         $tender = Tender::findOrFail($id);
         $scheduleCount = Schedule::where('tender_id', $tender->id)->count();
         $schedules = Schedule::where('tender_id', $tender->id)->get();
+        $schedules->transform(function ($schedule) {
+            $schedule->start_date = Carbon::parse($schedule->start_date)->format('d-m-Y');
+            $schedule->end_date = Carbon::parse($schedule->end_date)->format('d-m-Y');
+            return $schedule;
+        });
         return view('offer.schedule.index', compact('tender', 'schedules', 'scheduleCount'));
     }
 
@@ -252,6 +257,11 @@ class ScheduleController extends Controller
     {
         $tender = Tender::findOrFail($id);
         $schedules = Schedule::where('tender_id', $tender->id)->get();
+        $schedules->transform(function ($schedule) {
+            $schedule->start_date = Carbon::parse($schedule->start_date)->format('d-m-Y');
+            $schedule->end_date = Carbon::parse($schedule->end_date)->format('d-m-Y');
+            return $schedule;
+        });
         $logoPath = public_path('assets/logo/cmnplogo.png');
         $logoData = file_get_contents($logoPath);
         $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);

@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
-use App\Models\Procurement;
+use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Official;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use App\Models\Procurement;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class ProcurementDataTable extends DataTable
 {
@@ -24,6 +25,9 @@ class ProcurementDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+        ->editColumn('receipt', function ($data) {
+            return Carbon::parse($data->receipt)->format('d-m-Y');
+        })
         ->addColumn('division_code', function ($data) {
             return $data->division->code;
         })

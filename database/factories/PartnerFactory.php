@@ -19,14 +19,14 @@ class PartnerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company,
+            'name' => strtoupper($this->faker->company),
             'address' => $this->faker->address,
             'domicility' => $this->faker->address,
             'area' => $this->faker->city,
             'director' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
             'email' => $this->faker->email,
-            'capital' => $this->faker->numberBetween(100000000, 1000000000),
+            'capital' => number_format($this->faker->numberBetween(100000000, 1000000000), 0, ',', '.'),
             'grade' => $this->faker->randomElement(['0', '1', '2']),
             'join_date' => now(),
             'reference' => $this->faker->name(),

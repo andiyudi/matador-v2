@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Partner;
 use App\Models\Business;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ class PartnerController extends Controller
                     return '<span class="badge bg-danger">Error</span>';
                 }
             })
+            ->editColumn('expired_at', function ($data) {
+                return Carbon::parse($data->expired_at)->format('d-m-Y');
+            })
             ->addColumn('action', function($data){
                 $route = 'partner';
                 return view ('partner.action', compact ('route', 'data'));
@@ -78,7 +82,7 @@ class PartnerController extends Controller
             'area' => 'required',
             'director' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|unique:partners',
+            'email' => 'required',
             'capital' => 'required',
             'grade' => 'required',
             'join_date' => 'required',
@@ -133,7 +137,7 @@ class PartnerController extends Controller
             'area' => 'required',
             'director' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|unique:partners,email,' . $partner->id,
+            'email' => 'required',
             'capital' => 'required',
             'grade' => 'required',
             'reference' => 'required',
