@@ -22,8 +22,8 @@ class ScheduleController extends Controller
         $scheduleCount = Schedule::where('tender_id', $tender->id)->count();
         $schedules = Schedule::where('tender_id', $tender->id)->get();
         $schedules->transform(function ($schedule) {
-            $schedule->start_date = Carbon::parse($schedule->start_date)->format('d-m-Y');
-            $schedule->end_date = Carbon::parse($schedule->end_date)->format('d-m-Y');
+            $schedule->start_date = $schedule->start_date ? Carbon::parse($schedule->start_date)->format('d-m-Y') : '';
+            $schedule->end_date = $schedule->end_date ? Carbon::parse($schedule->end_date)->format('d-m-Y') : '';
             return $schedule;
         });
         return view('offer.schedule.index', compact('tender', 'schedules', 'scheduleCount'));
@@ -56,22 +56,22 @@ class ScheduleController extends Controller
             'note' => 'required',
         ];
 
-        if ($data['schedule_type'] == 0) {
-            for ($i = 1; $i <= 11; $i++) {
-                $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-            }
-        } elseif ($data['schedule_type'] == 1) {
-            for ($i = 1; $i <= 9; $i++) {
-                $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-            }
-        } elseif ($data['schedule_type'] == 2) {
-            for ($i = 1; $i <= 12; $i++) {
-                $rules['start_date_' . $i] = 'required';
-                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-            }
-        }
+        // if ($data['schedule_type'] == 0) {
+        //     for ($i = 1; $i <= 11; $i++) {
+        //         $rules['start_date_' . $i] = 'required';
+        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+        //     }
+        // } elseif ($data['schedule_type'] == 1) {
+        //     for ($i = 1; $i <= 9; $i++) {
+        //         $rules['start_date_' . $i] = 'required';
+        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+        //     }
+        // } elseif ($data['schedule_type'] == 2) {
+        //     for ($i = 1; $i <= 12; $i++) {
+        //         $rules['start_date_' . $i] = 'required';
+        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+        //     }
+        // }
 
         $validator = Validator::make($data, $rules);
 
@@ -80,9 +80,9 @@ class ScheduleController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
        // Simpan data ke dalam tabel schedules sesuai dengan schedule_type
-        $loopCount = ($data['schedule_type'] == 0) ? 11 : (($data['schedule_type'] == 1) ? 9 : 12);
+        $countData = ($data['schedule_type'] == 0) ? 11 : (($data['schedule_type'] == 1) ? 9 : 12);
 
-        for ($i = 1; $i <= $loopCount; $i++) {
+        for ($i = 1; $i <= $countData; $i++) {
             $schedule = new Schedule();
             $schedule->tender_id = $data['tender_id'];
             $schedule->is_holiday = $data['is_holiday'];
@@ -170,8 +170,8 @@ class ScheduleController extends Controller
             'end_date' => 'required|array',
             'duration' => 'required|array',
             'activity.*' => 'required|string',
-            'start_date.*' => 'required|date',
-            'end_date.*' => 'required|date|after_or_equal:start_date.*',
+            // 'start_date.*' => 'required|date',
+            // 'end_date.*' => 'required|date|after_or_equal:start_date.*',
             'duration.*' => 'required|numeric',
             'note' => 'required|string',
             'secretary' => 'required|string',
@@ -258,8 +258,8 @@ class ScheduleController extends Controller
         $tender = Tender::findOrFail($id);
         $schedules = Schedule::where('tender_id', $tender->id)->get();
         $schedules->transform(function ($schedule) {
-            $schedule->start_date = Carbon::parse($schedule->start_date)->format('d-m-Y');
-            $schedule->end_date = Carbon::parse($schedule->end_date)->format('d-m-Y');
+            $schedule->start_date = $schedule->start_date ? Carbon::parse($schedule->start_date)->format('d-m-Y') : '';
+            $schedule->end_date = $schedule->end_date ? Carbon::parse($schedule->end_date)->format('d-m-Y') : '';
             return $schedule;
         });
         $logoPath = public_path('assets/logo/cmnplogo.png');

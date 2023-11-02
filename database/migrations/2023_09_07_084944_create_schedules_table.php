@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tender_id');
             $table->string('activity');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->integer('duration');
             $table->enum('is_holiday', ['0','1']); // 0=no, 1=yes
             $table->timestamps();

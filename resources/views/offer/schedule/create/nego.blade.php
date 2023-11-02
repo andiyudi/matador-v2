@@ -27,7 +27,7 @@
                         <input type="date" class="form-control" name="end_date_1" id="nego_end_date_1" onchange="calculateDuration('nego', 1)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_1" id="nego_duration_1" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_1" id="nego_duration_1" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                         <input type="date" class="form-control" name="end_date_2" id="nego_end_date_2" onchange="calculateDuration('nego', 2)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_2" id="nego_duration_2" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_2" id="nego_duration_2" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
                         <input type="date" class="form-control" name="end_date_3" id="nego_end_date_3" onchange="calculateDuration('nego', 3)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_3" id="nego_duration_3" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_3" id="nego_duration_3" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -72,7 +72,7 @@
                         <input type="date" class="form-control" name="end_date_4" id="nego_end_date_4" onchange="calculateDuration('nego', 4)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_4" id="nego_duration_4" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_4" id="nego_duration_4" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@
                         <input type="date" class="form-control" name="end_date_5" id="nego_end_date_5" onchange="calculateDuration('nego', 5)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_5" id="nego_duration_5" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_5" id="nego_duration_5" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                         <input type="date" class="form-control" name="end_date_6" id="nego_end_date_6" onchange="calculateDuration('nego', 6)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_6" id="nego_duration_6" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_6" id="nego_duration_6" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -117,7 +117,7 @@
                         <input type="date" class="form-control" name="end_date_7" id="nego_end_date_7" onchange="calculateDuration('nego', 7)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_7" id="nego_duration_7" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_7" id="nego_duration_7" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +132,7 @@
                         <input type="date" class="form-control" name="end_date_8" id="nego_end_date_8" onchange="calculateDuration('nego', 8)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_8" id="nego_duration_8" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_8" id="nego_duration_8" value="0" min="0">
                     </td>
                 </tr>
                 <tr>
@@ -147,7 +147,7 @@
                         <input type="date" class="form-control" name="end_date_9" id="nego_end_date_9" onchange="calculateDuration('nego', 9)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_9" id="nego_duration_9" value="0" min="1">
+                        <input type="number" class="form-control" name="duration_9" id="nego_duration_9" value="0" min="0">
                     </td>
                 </tr>
             </tbody>

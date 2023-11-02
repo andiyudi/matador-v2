@@ -136,7 +136,7 @@
                 <td class="tg-zv4m"></td>
             </tr>
             <tr>
-                <td class="tg-eqkh">{{ $creatorName }}<br>{{ $creatorPosition }}</td>
+                <td class="tg-eqkh">{{ ucwords(strtolower($creatorName)) }}<br>{{ $creatorPosition }}</td>
                 <td class="tg-eqkh">{{ $supervisorName }}<br>{{ $supervisorPosition }}</td>
             </tr>
         </tbody>

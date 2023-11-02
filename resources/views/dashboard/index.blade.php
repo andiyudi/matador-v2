@@ -259,7 +259,7 @@ $title    = 'Dashboard'
                                             <tr>
                                                 <th>No</th>
                                                 <th>Job Name</th>
-                                                <th>Procurement Number</th>
+                                                <th>Number</th>
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
