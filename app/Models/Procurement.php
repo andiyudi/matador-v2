@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Tender;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,7 +35,12 @@ class Procurement extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
+        $userName = optional(Auth::user())->username;
+
         return LogOptions::defaults()
+        ->setDescriptionForEvent(fn(string $eventName) => $this->number . " {$eventName} by : " . $userName)
+        ->logUnguarded()
+        ->logOnlyDirty()
         ->useLogName('procurement');
     }
 

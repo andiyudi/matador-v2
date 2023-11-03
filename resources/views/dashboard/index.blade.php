@@ -96,7 +96,7 @@ $title    = 'Dashboard'
                         </div>
                         <div class="col">
                             <div class="font-weight-medium">
-                                Expired Vendors
+                                Inactive Vendors
                             </div>
                             <div class="text-secondary" id="expired">
                                 Loading...
@@ -359,7 +359,7 @@ $title    = 'Dashboard'
                 } else if (data[i].status === "1") {
                     cellVendorStatus.innerHTML = '<span class="badge text-bg-success">Active</span>';
                 } else if (data[i].status === "2") {
-                    cellVendorStatus.innerHTML = '<span class="badge text-bg-warning">Expired</span>';
+                    cellVendorStatus.innerHTML = '<span class="badge text-bg-warning">Inactive</span>';
                 } else {
                     cellVendorStatus.innerHTML = '<span class="badge text-bg-secondary">Unknown</span'; // Handle case when status has unexpected value
                 }

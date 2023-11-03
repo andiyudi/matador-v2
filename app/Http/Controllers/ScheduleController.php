@@ -58,8 +58,13 @@ class ScheduleController extends Controller
 
         // if ($data['schedule_type'] == 0) {
         //     for ($i = 1; $i <= 11; $i++) {
-        //         $rules['start_date_' . $i] = 'required';
-        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+        //         if ($i === 4) {
+        //             $rules['start_date_' . $i] = 'nullable';
+        //             $rules['end_date_' . $i] = 'nullable|date|after_or_equal:start_date.*';
+        //         } else {
+        //             $rules['start_date_' . $i] = 'required';
+        //             $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+        //         }
         //     }
         // } elseif ($data['schedule_type'] == 1) {
         //     for ($i = 1; $i <= 9; $i++) {

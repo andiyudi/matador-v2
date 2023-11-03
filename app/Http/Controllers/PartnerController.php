@@ -38,7 +38,7 @@ class PartnerController extends Controller
                 } else if ($partner_status->status==1){
                     return '<span class="badge bg-success">Active</span>';
                 } else if ($partner_status->status==2){
-                    return '<span class="badge bg-warning">InActive</span>';
+                    return '<span class="badge bg-warning">Inactive</span>';
                 } else {
                     return '<span class="badge bg-danger">Error</span>';
                 }

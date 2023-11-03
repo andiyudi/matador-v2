@@ -6,6 +6,7 @@ use App\Models\Partner;
 use App\Models\Business;
 use Spatie\Activitylog\LogOptions;
 use App\Models\BusinessPartnerFiles;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,7 +41,12 @@ class BusinessPartner extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
+        $userName = optional(Auth::user())->username;
+
         return LogOptions::defaults()
+        ->setDescriptionForEvent(fn(string $eventName) => "Id Partner " . $this->partner_id . " Id Business " . $this->business_id . " {$eventName} by : " . $userName)
+        ->logFillable()
+        ->logOnlyDirty()
         ->useLogName('business_partner');
     }
 

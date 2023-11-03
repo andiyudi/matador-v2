@@ -7,7 +7,7 @@
                     <option disabled selected>Pilih Status Vendor</option>
                     <option value="0">Registered</option>
                     <option value="1">Active</option>
-                    <option value="2">InActive</option>
+                    <option value="2">Inactive</option>
                 </select>
             </div>
         </div>

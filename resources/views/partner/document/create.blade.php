@@ -8,7 +8,7 @@ $title    = 'Document '. $partner->name;
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('document.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="partnerDocsForm" action="{{ route('document.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
                         <input type="hidden" name="id_partner" value="{{ $partner->id }}">
@@ -45,7 +45,7 @@ $title    = 'Document '. $partner->name;
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="{{ route('document.index', ['partner_id' => $partner->id]) }}" type="button" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success" onclick="this.disabled=true; this.innerHTML='Processing...'; this.form.submit();">Save</button>
                     </div>
                 </form>
             </div>

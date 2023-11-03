@@ -8,7 +8,7 @@ $title    = 'Tender'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('offer.store') }}" method="POST">
+                <form id="tenderForm" action="{{ route('offer.store') }}" method="POST">
                     @csrf
                     <div class="row mb-3">
                         <label for="procurement_id" class="col-sm-2 col-form-label required">Procurement Number</label>
@@ -102,7 +102,7 @@ $title    = 'Tender'
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success" onclick="this.disabled=true; this.innerHTML='Processing...'; this.form.submit();">Save</button>
                     </div>
                 </form>
             </div>

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        //buat log ip dan url
+        Activity::saving(function (Activity $activity) {
+            $activity->properties = $activity->properties->put('agent', [
+                'ip' => request()->ip(),
+                'url' => request()->fullUrl(),
+            ]);
+        });
     }
 }

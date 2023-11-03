@@ -8,7 +8,7 @@ $title    = 'Decision'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route ('offer.decision', $tender->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="decisionForm" action="{{ route ('offer.decision', $tender->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row mb-3">
@@ -166,7 +166,7 @@ $title    = 'Decision'
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success" onclick="this.disabled=true; this.innerHTML='Processing...'; this.form.submit();">Save</button>
                     </div>
                 </form>
             </div>

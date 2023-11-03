@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('secretary')->nullable()->default(NULL);
             $table->string('note')->nullable()->default(NULL);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('procurement_id')->references('id')->on('procurements')->onDelete('cascade');
         });

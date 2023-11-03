@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,6 +19,8 @@ class Division extends Model
         'status',
     ];
 
+    protected static $logFillable = true;
+
     public function procurements_division()
     {
         return $this->hasMany(Procurement::class);
@@ -25,7 +28,12 @@ class Division extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
+        $userName = optional(Auth::user())->username;
+
         return LogOptions::defaults()
+        ->setDescriptionForEvent(fn(string $eventName) => $this->name . " {$eventName} by : " . $userName)
+        ->logFillable()
+        ->logOnlyDirty()
         ->useLogName('division');
     }
 }

@@ -8,7 +8,7 @@ $title    = 'Vendor Category'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('category.update', $data->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="blacklistDocsForm" action="{{ route('category.update', $data->id) }}" method="POST" enctype="multipart/form-data">
                     @method("PUT")
                     @csrf
                     <input type="hidden" name="id_category" value="{{ $data->id }}">
@@ -35,7 +35,7 @@ $title    = 'Vendor Category'
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a href="{{ route('category.index') }}" type="button" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button type="submit" class="btn btn-success" onclick="this.disabled=true; this.innerHTML='Processing...'; this.form.submit();">Save</button>
                     </div>
                 </form>
             </div>
