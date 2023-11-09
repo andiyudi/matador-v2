@@ -58,7 +58,7 @@
     <tr style="line-height: 1.15">
         <td width="38%" style="vertical-align: text-top">&nbsp;&nbsp;&nbsp;&nbsp;1. Pemimpin Rapat</td>
         <td width="2%" style="vertical-align: text-top">:</td>
-        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai Ketua Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
+        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai {{ ucwords(strtolower($leadBanegoPosition)) }} Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">&nbsp;&nbsp;&nbsp;&nbsp;2. Sekretaris</td>
@@ -118,13 +118,13 @@
 <center>
     <h3>
         PANITIA PENGADAAN DAN KEWAJARAN HARGA<br>
-        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ strtoupper($tender->procurement->name) }}<br>
+        PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ $tender->procurement->name }}<br>
         <br>
     </h3>
 </center>
 <table width="100%">
     <thead>
-        <th>KETUA PPKH</th>
+        <th>{{ $leadBanegoPosition }} PPKH</th>
         <th>SEKRETARIS</th>
     </thead>
     <tbody>

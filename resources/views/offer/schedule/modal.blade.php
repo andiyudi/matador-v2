@@ -50,12 +50,12 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="number" class="form-label">Number</label>
-                            <input type="text" id="number" name="number" class="form-control" data-mask="****/BA-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/BA-PPKH-CMNP/****/****" autocomplete="off">
+                            <label for="aanwijzingNumber" class="form-label">Number</label>
+                            <input type="text" id="aanwijzingNumber" name="aanwijzingNumber" class="form-control" data-mask="****/BA-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/BA-PPKH-CMNP/****/****" autocomplete="off">
                         </div>
                         <div class="col mb-3">
-                            <label for="date" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="date" name="date" placeholder="Enter aanwijzing date" required>
+                            <label for="aanwijzingDate" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="aanwijzingDate" name="aanwijzingDate" placeholder="Enter aanwijzing date" required>
                         </div>
                     </div>
                     <div class="row">
@@ -69,13 +69,16 @@
                         <div class="col mb-3">
                             <label for="secretaryAanwijzingName" class="form-label">Secretary Name</label>
                             <input type="text" class="form-control" id="secretaryAanwijzingName" value="{{ $tender->secretary }}" placeholder="Enter secretary name" required>
-                            <input type="hidden" class="form-control" id="location" name="location" value="PT. Citra Marga Nusaphala Persada, Tbk">
+                            <input type="hidden" class="form-control" id="aanwijzingLocation" name="aanwijzingLocation" value="PT. Citra Marga Nusaphala Persada, Tbk">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">
                             <label for="leadAanwijzingPosition" class="form-label">Lead Position</label>
-                            <input type="text" class="form-control" id="leadAanwijzingPosition" value="TIM PPKH" placeholder="Enter lead position" required>
+                            <select name="leadAanwijzingPosition" id="leadAanwijzingPosition" class="form-select" required>
+                                <option value="TIM">TIM</option>
+                                <option value="KETUA">KETUA</option>
+                            </select>
                         </div>
                         <div class="col mb-3">
                             <label for="secretaryAanwijzingPosition" class="form-label">Secretary Position</label>
@@ -127,7 +130,10 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="leadBanegoPosition" class="form-label">Lead Position</label>
-                            <input type="text" class="form-control" id="leadBanegoPosition" value="TIM PPKH" placeholder="Enter lead position" required>
+                            <select name="leadBanegoPosition" id="leadBanegoPosition" class="form-select" required>
+                                <option value="TIM">TIM</option>
+                                <option value="KETUA">KETUA</option>
+                            </select>
                         </div>
                         <div class="col mb-3">
                             <label for="secretaryBanegoPosition" class="form-label">Secretary Position</label>
@@ -148,7 +154,7 @@
         <div class="modal-content">
             <form id="printFormTinjau">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tinjauModalLabel">Print Berita Acara Penijauan Lapangan</h5>
+                    <h5 class="modal-title" id="tinjauModalLabel">Print Berita Acara Peninjauan Lapangan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -175,7 +181,10 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="leadTinjauPosition" class="form-label">Lead Position</label>
-                            <input type="text" class="form-control" id="leadTinjauPosition" value="TIM PPKH" placeholder="Enter lead position" required>
+                            <select name="leadTinjauPosition" id="leadTinjauPosition" class="form-select" required>
+                                <option value="TIM">TIM</option>
+                                <option value="KETUA">KETUA</option>
+                            </select>
                         </div>
                         <div class="col mb-3">
                             <label for="secretaryTinjauPosition" class="form-label">Secretary Position</label>

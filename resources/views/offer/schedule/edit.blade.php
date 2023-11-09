@@ -64,7 +64,7 @@ $title    = 'Edit Schedule '. $tender->procurement->name;
                     </table>
                     <div class="form-floating mb-3">
                         <textarea class="form-control" placeholder="Leave a comment here" name="note" id="note" style="height:100px" >{{ $tender->note }}</textarea>
-                        <label for="note">Keterangan</label>
+                        <label for="note" class="col-form-label required">Keterangan</label>
                     </div>
                     <table class="table table-responsive table-bordered table-striped table-hover">
                         <thead class="text-center">

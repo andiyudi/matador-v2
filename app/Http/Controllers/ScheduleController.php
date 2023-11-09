@@ -56,27 +56,32 @@ class ScheduleController extends Controller
             'note' => 'required',
         ];
 
-        // if ($data['schedule_type'] == 0) {
-        //     for ($i = 1; $i <= 11; $i++) {
-        //         if ($i === 4) {
-        //             $rules['start_date_' . $i] = 'nullable';
-        //             $rules['end_date_' . $i] = 'nullable|date|after_or_equal:start_date.*';
-        //         } else {
-        //             $rules['start_date_' . $i] = 'required';
-        //             $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-        //         }
-        //     }
-        // } elseif ($data['schedule_type'] == 1) {
-        //     for ($i = 1; $i <= 9; $i++) {
-        //         $rules['start_date_' . $i] = 'required';
-        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-        //     }
-        // } elseif ($data['schedule_type'] == 2) {
-        //     for ($i = 1; $i <= 12; $i++) {
-        //         $rules['start_date_' . $i] = 'required';
-        //         $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
-        //     }
-        // }
+        if ($data['schedule_type'] == 0) {
+            for ($i = 1; $i <= 11; $i++) {
+                if ($i === 4) {
+                    $rules['start_date_' . $i] = 'nullable';
+                    $rules['end_date_' . $i] = 'nullable|date|after_or_equal:start_date.*';
+                } else {
+                    $rules['start_date_' . $i] = 'required';
+                    $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+                }
+            }
+        } elseif ($data['schedule_type'] == 1) {
+            for ($i = 1; $i <= 9; $i++) {
+                $rules['start_date_' . $i] = 'required';
+                $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+            }
+        } elseif ($data['schedule_type'] == 2) {
+            for ($i = 1; $i <= 12; $i++) {
+                if ($i === 4) {
+                    $rules['start_date_' . $i] = 'nullable';
+                    $rules['end_date_' . $i] = 'nullable|date|after_or_equal:start_date.*';
+                } else {
+                    $rules['start_date_' . $i] = 'required';
+                    $rules['end_date_' . $i] = 'required|date|after_or_equal:start_date.*';
+                }
+            }
+        }
 
         $validator = Validator::make($data, $rules);
 
@@ -124,14 +129,15 @@ class ScheduleController extends Controller
      */
     public function show($id)
     {
+        //aanwijzing
         $tender = Tender::findOrFail($id);
         $leadAanwijzingName = request()->query('leadAanwijzingName');
         $leadAanwijzingPosition = request()->query('leadAanwijzingPosition');
         $secretaryAanwijzingName = request()->query('secretaryAanwijzingName');
         $secretaryAanwijzingPosition = request()->query('secretaryAanwijzingPosition');
-        $number = request()->query('number');
+        $aanwijzingNumber = request()->query('aanwijzingNumber');
 
-        $dateString = request()->query('date');
+        $dateString = request()->query('aanwijzingDate');
         $date = Carbon::createFromFormat('Y-m-d', $dateString);
         $formattedDate = $date->format('d-m-Y');
         $date->locale('id');
@@ -144,11 +150,11 @@ class ScheduleController extends Controller
         $tahun = Terbilang::make($thn);
 
         $day = $date->translatedFormat('l');
-        $location = request()->query('location');
+        $location = request()->query('aanwijzingLocation');
 
         return view('offer.schedule.show', compact(
             'tender', 'leadAanwijzingName', 'leadAanwijzingPosition', 'secretaryAanwijzingName',
-            'secretaryAanwijzingPosition', 'number', 'formattedDate', 'day',
+            'secretaryAanwijzingPosition', 'aanwijzingNumber', 'formattedDate', 'day',
             'location', 'tanggal', 'bulan', 'tahun',
         ));
     }
@@ -280,6 +286,7 @@ class ScheduleController extends Controller
 
     public function detail($id)
     {
+        //ba nego
         $tender = Tender::findOrFail($id);
         $banegoNumber = request()->query('banegoNumber');
         $dateString = request()->query('banegoDate');
@@ -311,6 +318,7 @@ class ScheduleController extends Controller
 
     public function view($id)
     {
+        //peninjauan lapangan
         $tender = Tender::findOrFail($id);
         $leadTinjauName = request()->query('leadTinjauName');
         $leadTinjauPosition = request()->query('leadTinjauPosition');

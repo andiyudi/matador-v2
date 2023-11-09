@@ -91,9 +91,9 @@
                 var leadAanwijzingPosition = $('#leadAanwijzingPosition').val();
                 var secretaryAanwijzingName = $('#secretaryAanwijzingName').val();
                 var secretaryAanwijzingPosition = $('#secretaryAanwijzingPosition').val();
-                var number = $('#number').val();
-                var date = $('#date').val();
-                var location = $('#location').val();
+                var aanwijzingNumber = $('#aanwijzingNumber').val();
+                var aanwijzingDate = $('#aanwijzingDate').val();
+                var aanwijzingLocation = $('#aanwijzingLocation').val();
 
                 var buttonAanwijzing = $(event.relatedTarget);
                 var id = buttonAanwijzing.data('tender');
@@ -103,9 +103,9 @@
                     '&leadAanwijzingPosition=' + encodeURIComponent(leadAanwijzingPosition) +
                     '&secretaryAanwijzingName=' + encodeURIComponent(secretaryAanwijzingName) +
                     '&secretaryAanwijzingPosition=' + encodeURIComponent(secretaryAanwijzingPosition) +
-                    '&number=' + encodeURIComponent(number) +
-                    '&date=' + encodeURIComponent(date) +
-                    '&location=' + encodeURIComponent(location);
+                    '&aanwijzingNumber=' + encodeURIComponent(aanwijzingNumber) +
+                    '&aanwijzingDate=' + encodeURIComponent(aanwijzingDate) +
+                    '&aanwijzingLocation=' + encodeURIComponent(aanwijzingLocation);
 
                 window.open(printUrl, '_blank');
 

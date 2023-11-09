@@ -32,7 +32,8 @@
 <div class="page-break-before"></div>
 <center>
     <h3>
-        BERITA ACARA PENINJAUAN LAPANGAN<br>
+        BERITA ACARA<br>
+        PENINJAUAN LAPANGAN<br>
         {{ $tender->procurement->name }}
     </h3>
 </center>
@@ -44,7 +45,7 @@ Pada hari {{ $day }}, tanggal {{ ucwords($tanggal) }}, bulan {{ $bulan }}, tahun
 <br>
 Untuk itu perlu adanya Berita Acara Peninjauan Lapangan pekerjaan dimaksud, yang tujuannya agar calon peserta mengerti dan memahami situasi dan kondisi lapangan yang akan dikerjakan.
 <br>
-Bahwa calon pesera telah melaksanakan peninjauan lapangan secara bersama-sama dan telah mengerti serta memahami situasi maupun kondisi lapangan yang akan dikerjakan.
+Bahwa calon peserta telah melaksanakan peninjauan lapangan secara bersama-sama dan telah mengerti serta memahami situasi maupun kondisi lapangan yang akan dikerjakan.
 <br>Demikianlah Berita Acara ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
 <p align="right">Jakarta, {{ $tgl }} {{ $bulan }} {{ $thn }}</p>
 <div class="peserta-rapat">
@@ -76,7 +77,7 @@ Bahwa calon pesera telah melaksanakan peninjauan lapangan secara bersama-sama da
 </center>
 <table width="100%">
     <thead>
-        <td align="center">TIM PPKH</td>
+        <td align="center">{{ $leadTinjauPosition }} PPKH</td>
         <td align="center">SEKRETARIS</td>
     </thead>
     <tbody>

@@ -25,7 +25,7 @@ class Tender extends Model
         $userName = optional(Auth::user())->username;
 
         return LogOptions::defaults()
-        ->setDescriptionForEvent(fn(string $eventName) => "Id Procurement" . $this->procurement_id . " {$eventName} by : " . $userName)
+        ->setDescriptionForEvent(fn(string $eventName) => "Id Procurement " . $this->procurement_id . " {$eventName} by : " . $userName)
         ->logUnguarded()
         ->logOnlyDirty()
         ->useLogName('tender');

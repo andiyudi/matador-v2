@@ -22,9 +22,9 @@ class ProcurementFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'PEKERJAAN ' . strtoupper($this->faker->words(3, true)),
+            'name' => 'PEKERJAAN ' . strtoupper($this->faker->text(300, true)),
             'number' => $this->faker->regexify('[0-9]{4}-[2-3]{2}'),
-            'receipt' => $this->faker->date,
+            'receipt' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'division_id' => $this->faker->randomElement(Division::pluck('id')->toArray()),
             'official_id' => $this->faker->randomElement(Official::pluck('id')->toArray()),
             'status' => '0',

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
-            $table->string('domicility');
+            $table->text('address');
+            $table->text('domicility');
             $table->string('area');
             $table->string('director');
             $table->string('phone');

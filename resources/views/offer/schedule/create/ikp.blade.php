@@ -27,7 +27,7 @@
                         <input type="date" class="form-control" name="end_date_1" id="ikp_end_date_1" onchange="calculateDuration('ikp', 1)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_1" id="ikp_duration_1" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_1" id="ikp_duration_1" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -42,7 +42,7 @@
                         <input type="date" class="form-control" name="end_date_2" id="ikp_end_date_2" onchange="calculateDuration('ikp', 2)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_2" id="ikp_duration_2" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_2" id="ikp_duration_2" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -57,7 +57,7 @@
                         <input type="date" class="form-control" name="end_date_3" id="ikp_end_date_3" onchange="calculateDuration('ikp', 3)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_3" id="ikp_duration_3" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_3" id="ikp_duration_3" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -87,7 +87,7 @@
                         <input type="date" class="form-control" name="end_date_5" id="ikp_end_date_5" onchange="calculateDuration('ikp', 5)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_5" id="ikp_duration_5" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_5" id="ikp_duration_5" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -102,7 +102,7 @@
                         <input type="date" class="form-control" name="end_date_6" id="ikp_end_date_6" onchange="calculateDuration('ikp', 6)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_6" id="ikp_duration_6" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_6" id="ikp_duration_6" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -117,7 +117,7 @@
                         <input type="date" class="form-control" name="end_date_7" id="ikp_end_date_7" onchange="calculateDuration('ikp', 7)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_7" id="ikp_duration_7" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_7" id="ikp_duration_7" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -132,7 +132,7 @@
                         <input type="date" class="form-control" name="end_date_8" id="ikp_end_date_8" onchange="calculateDuration('ikp', 8)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_8" id="ikp_duration_8" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_8" id="ikp_duration_8" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -147,7 +147,7 @@
                         <input type="date" class="form-control" name="end_date_9" id="ikp_end_date_9" onchange="calculateDuration('ikp', 9)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_9" id="ikp_duration_9" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_9" id="ikp_duration_9" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -162,7 +162,7 @@
                         <input type="date" class="form-control" name="end_date_10" id="ikp_end_date_10" onchange="calculateDuration('ikp', 10)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_10" id="ikp_duration_10" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_10" id="ikp_duration_10" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -177,7 +177,7 @@
                         <input type="date" class="form-control" name="end_date_11" id="ikp_end_date_11" onchange="calculateDuration('ikp', 11)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_11" id="ikp_duration_11" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_11" id="ikp_duration_11" value="0" min="1">
                     </td>
                 </tr>
                 <tr>
@@ -192,14 +192,14 @@
                         <input type="date" class="form-control" name="end_date_12" id="ikp_end_date_12" onchange="calculateDuration('ikp', 12)">
                     </td>
                     <td>
-                        <input type="number" class="form-control" name="duration_12" id="ikp_duration_12" value="0" min="0">
+                        <input type="number" class="form-control" name="duration_12" id="ikp_duration_12" value="0" min="1">
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="Leave a comment here" name="note" id="note" style="height:100px"></textarea>
-            <label for="note">Keterangan</label>
+            <label for="note" class="col-form-label required">Keterangan</label>
         </div>
         <table class="table table-responsive table-bordered table-striped table-hover">
             <thead class="text-center">

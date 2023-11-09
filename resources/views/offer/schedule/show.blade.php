@@ -37,7 +37,7 @@
         {{ $tender->procurement->name }}<br>
     </h3>
     <p>
-        NOMOR : {{ $number }}
+        NOMOR : {{ $aanwijzingNumber }}
         <hr>
     </p>
 </center>
@@ -59,7 +59,7 @@
     <tr style="line-height: 1.15">
         <td width="38%" style="vertical-align: text-top">&nbsp;&nbsp;&nbsp;&nbsp;1. Pemimpin Rapat</td>
         <td width="2%" style="vertical-align: text-top">:</td>
-        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai Ketua Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
+        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai {{ ucwords(strtolower($leadAanwijzingPosition)) }} Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">&nbsp;&nbsp;&nbsp;&nbsp;2. Sekretaris</td>
@@ -136,7 +136,7 @@
 </center>
 <table width="100%">
     <thead>
-        <th>TIM PPKH</th>
+        <th>{{ $leadAanwijzingPosition }} PPKH</th>
         <th>SEKRETARIS</th>
     </thead>
     <tbody>

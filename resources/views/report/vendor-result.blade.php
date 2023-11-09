@@ -66,7 +66,7 @@
             <thead>
                 <tr>
                     <th class="tc-baqh">No</th>
-                    <th class="tc-baqh">Timestamp</th>
+                    <th class="tc-baqh">Tgl/Bln/Thn Bergabung</th>
                     <th class="tc-baqh">Nama Perusahaan</th>
                     <th class="tc-baqh">Core Business</th>
                     <th class="tc-baqh">Klasifikasi</th>

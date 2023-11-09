@@ -59,7 +59,7 @@
     <tr style="line-height: 1.15">
         <td width="38%" style="vertical-align: text-top">&nbsp;&nbsp;&nbsp;&nbsp;1. Pemimpin Rapat</td>
         <td width="2%" style="vertical-align: text-top">:</td>
-        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai Ketua Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
+        <td width="60%">{{ ucwords(strtolower($tender->procurement->official->name)) }} sebagai {{ ucwords(strtolower($leadBanegoPosition)) }} Panitia Pengadaan dan Kewajaran Harga {{ ucwords(strtolower($tender->procurement->name)) }}.</td>
     </tr>
     <tr style="line-height: 1.15">
         <td width="38%">&nbsp;&nbsp;&nbsp;&nbsp;2. Sekretaris</td>
@@ -91,7 +91,7 @@
 <center>
     <h3>
         PESERTA RAPAT PEMBUKAAN PROPOSAL PENAWARAN HARGA<br>
-        {{ strtoupper($tender->procurement->name) }}<br>
+        {{ $tender->procurement->name }}<br>
         <br>
     </h3>
 </center>
@@ -119,13 +119,13 @@
 <center>
     <h3>
         PANITIA PENGADAAN DAN KEWAJARAN HARGA<br>
-        {{ strtoupper($tender->procurement->name) }}<br>
+        {{ $tender->procurement->name }}<br>
         <br>
     </h3>
 </center>
 <table width="100%">
     <thead>
-        <th>TIM PPKH</th>
+        <th>{{ $leadBanegoPosition }} PPKH</th>
         <th>SEKRETARIS</th>
     </thead>
     <tbody>
