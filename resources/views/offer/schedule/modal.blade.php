@@ -27,7 +27,10 @@
                         </div>
                         <div class="col mb-3">
                             <label for="leadPosition" class="form-label">Lead Position</label>
-                            <input type="text" class="form-control" id="leadPosition" value="Ketua PPKH" placeholder="Enter lead position" required>
+                            <select name="leadPosition" id="leadPosition" class="form-select" required>
+                                <option value="TIM">TIM</option>
+                                <option value="KETUA">KETUA</option>
+                            </select>
                         </div>
                     </div>
                 </div>

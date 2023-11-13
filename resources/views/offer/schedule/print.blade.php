@@ -7,50 +7,34 @@
     <title>Jadwal Lelang</title>
 </head>
 <body>
-    <style type="text/css">
-        .tg  {border-collapse:collapse;border-spacing:0;}
-        .tg td{border-color:black;border-style:solid;border-width:1px;font-family:"Times New Roman", Times, serif;font-size:14px;
-            overflow:hidden;padding:10px 5px;word-break:normal;}
-        .tg th{border-color:black;border-style:solid;border-width:1px;font-family:"Times New Roman", Times, serif;font-size:14px;
-            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-        .tg .tg-oe15{background-color:#ffffff;border-color:#ffffff;text-align:left;vertical-align:top}
-        .tg .tg-eqkh{border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:center;
-                vertical-align:top}
-        .tg .tg-cjdc{background-color:#ffffff;border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:14px;
-            text-align:left;vertical-align:top}
-        .tg .tg-4zsn{border-color:black;font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:left;
-                vertical-align:top}
-        .tg .tg-ylov{border-color:#000000;font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:left;
-            vertical-align:top}
-        .tg .tg-vnnk{font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:center;vertical-align:top}
-
-        .tg .tg-baqh{text-align:center;vertical-align:top}
-
-        .tg .tg-1xb4{font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:center;vertical-align:middle}
-
-        .tg .tg-0lax{text-align:left;vertical-align:top}
-
-        .tg .tg-eqkh{border-color:#ffffff;font-family:"Times New Roman", Times, serif !important;font-size:14px;text-align:center;
-            vertical-align:top}
-
-        .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
-    </style>
-    <table class="tg">
-        <thead>
-            <tr>
-                <td class="tg-oe15"><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;"></td>
-                <td class="tg-cjdc">PT. CITRA MARGA NUSAPHALA PERSADA Tbk.<br>Divisi Umum - Departemen Pengadaan</td>
-            </tr>
-        </thead>
-    </table>
-    <table class="tg" width="100%">
-        <thead>
-            <tr>
-                <td class="tg-eqkh">JADWAL LELANG<br>{{ $tender->procurement->name }}</td>
-            </tr>
-        </thead>
-    </table>
-    <table class="tg" width="100%">
+<style>
+    body {
+        font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
+        font-size:12pt; /* Ukuran huruf 12px */
+    }
+    .peserta-rapat table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .peserta-rapat th, .peserta-rapat td {
+        border: 1px solid black;
+        padding: 8px;
+    }
+</style>
+<table>
+    <thead>
+        <tr>
+            <td><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;"></td>
+            <td>PT. CITRA MARGA NUSAPHALA PERSADA Tbk.<br>Divisi Umum - Departemen Pengadaan</td>
+        </tr>
+    </thead>
+</table>
+<p style="text-align: center; font-size: 14pt">JADWAL LELANG</p>
+<p style="text-align: center; margin-top: -20px">
+    {{ $tender->procurement->name }}
+</p>
+<div class="peserta-rapat">
+    <table width="100%">
         <thead class="text-center">
             <tr>
                 <th>No</th>
@@ -63,46 +47,47 @@
         <tbody>
             @foreach ($schedules as $schedule)
             <tr>
-                <td class="tg-1xb4">{{ $loop->iteration }}.</td>
+                <td style="text-align: center">{{ $loop->iteration }}.</td>
                 <td>{{ $schedule->activity }}</td>
-                <td class="tg-1xb4">{{ $schedule->start_date }}</td>
-                <td class="tg-1xb4">{{ $schedule->end_date }}</td>
-                <td class="tg-1xb4">{{ $schedule->duration }}</td>
+                <td style="text-align: center">{{ $schedule->start_date }}</td>
+                <td style="text-align: center">{{ $schedule->end_date }}</td>
+                <td style="text-align: center">{{ $schedule->duration }}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    <br>
-    <u>Keterangan :</u><br>
+</div>
+<br><u>Keterangan :</u><br>
     &#160;{{ $tender->note }}
-    <table class="tg">
-        <thead>
-            @foreach ($tender->businessPartners as $businessPartner)
-            <tr>
-                <td class="tg-cjdc">{{ $loop->iteration }}&#46;&#41;&#32;{{ $businessPartner->partner->name }}</td>
-                <td class="tg-cjdc">{{ $businessPartner->pivot->start_hour }}&#32;&#45;&#32;{{ $businessPartner->pivot->end_hour }}</td>
-            </tr>
-            @endforeach
-        </body>
-        </thead>
-    </table>
-    <table class="tg" width="100%">
-        <thead>
-            <tr>
-                <th class="tg-eqkh" width="50%">Dibuat Oleh,</th>
-                <th class="tg-eqkh" width="50%">Disetujui Oleh,</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="tg-zv4m"></td>
-                <td class="tg-zv4m"></td>
-            </tr>
-            <tr>
-                <td class="tg-eqkh"><u>{{ $secretaryName }}</u><br>{{ $secretaryPosition }}</td>
-                <td class="tg-eqkh"><u>{{ $leadName }}</u><br>{{ $leadPosition }}</td>
-            </tr>
-        </tbody>
-    </table>
+<table>
+    <thead>
+        @foreach ($tender->businessPartners as $businessPartner)
+        <tr>
+            <td>{{ $loop->iteration }}&#46;&#41;&#32;{{ $businessPartner->partner->name }}</td>
+            <td>&emsp;{{ date('H:i', strtotime($businessPartner->pivot->start_hour)) }}&#32;&#45;&#32;{{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}</td>
+        </tr>
+        @endforeach
+    </body>
+    </thead>
+</table>
+<br>
+<table width="100%">
+    <thead>
+        <tr style="text-align: center">
+            <td width="50%">Dibuat Oleh,</td>
+            <td width="50%">Disetujui Oleh,</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="height:2cm;">
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="text-align: center">
+            <td><u>{{ ucwords(strtolower($secretaryName)) }}</u><br>{{ $secretaryPosition }}</td>
+            <td><u>{{ ucwords(strtolower($leadName)) }}</u><br>{{ ucwords(strtolower($leadPosition)) }} PPKH</td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

@@ -67,10 +67,10 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                             <td class="text-center">{{ $loop->iteration }}.</td>
                             <td>{{ $businessPartner->partner->name }}</td>
                             <td>
-                                {{ $businessPartner->pivot->start_hour }}
+                                {{ date('H:i', strtotime($businessPartner->pivot->start_hour)) }}
                             </td>
                             <td>
-                                {{ $businessPartner->pivot->end_hour }}
+                                {{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}
                             </td>
                         </tr>
                         @endforeach
