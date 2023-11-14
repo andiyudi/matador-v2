@@ -37,15 +37,15 @@
         {{ $tender->procurement->name }}
     </p>
 </center>
-<p style="text-align: justify; margin-bottom: 3px">Setelah diadakan pembukaan umum dan penjelasan teknis {{ ucwords(strtolower($tender->procurement->name)) }}, yang dilaksanakan oleh Panitia Pengadaan dan Kewajaran Harga PT. Citra Marga Nusaphala Persada, Tbk yang dihadiri oleh {{ $jumlahVendor }} &#40;{{ $terbilangVendor }}&#41; calon vendor, yaitu :</p>
+<p style="text-align: justify; margin-bottom: 6px">Setelah diadakan pembukaan umum dan penjelasan teknis {{ ucwords(strtolower($tender->procurement->name)) }}, yang dilaksanakan oleh Panitia Pengadaan dan Kewajaran Harga PT. Citra Marga Nusaphala Persada, Tbk yang dihadiri oleh {{ $jumlahVendor }} &#40;{{ $terbilangVendor }}&#41; calon vendor, yaitu :</p>
 @foreach ($tender->businessPartners as $businessPartner)
 &emsp;{{ $loop->iteration }}.{{ ucwords(strtolower($businessPartner->partner->name)) }}<br>
 @endforeach
-<p style="text-align: justify; margin-top: 3px">pada hari {{ $day }}, tanggal {{ ucwords($tanggal) }}, bulan {{ $bulan }}, tahun {{ ucwords($tahun) }} &#40;{{ $formattedDate }}&#41; maka untuk lebih jelasnya mengenai hal-hal yang berhubungan dengan pekerjaan yang akan dilaksanakan oleh calon peserta lelang {{ ucwords(strtolower($tender->procurement->name)) }}, diperlukan peninjauan lapangan secara bersama-sama, antara calon peserta dan Panitia Pengadaan & Kewajaran Harga.</p>
-<p style="text-align: justify; margin-top: -10px">Untuk itu perlu adanya Berita Acara Peninjauan Lapangan pekerjaan dimaksud, yang tujuannya agar calon peserta mengerti dan memahami situasi dan kondisi lapangan yang akan dikerjakan.</p>
-<p style="text-align: justify; margin-top: -10px">Bahwa calon peserta telah melaksanakan peninjauan lapangan secara bersama-sama dan telah mengerti serta memahami situasi maupun kondisi lapangan yang akan dikerjakan.</p>
-<p style="text-align: justify; margin-top: -10px">Demikianlah Berita Acara ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
-<p style="text-align: right; margin-bottom: 2px">Jakarta, {{ $tgl }} {{ $bulan }} {{ $thn }}</p>
+<p style="text-align: justify; margin-top: 6px">pada hari {{ $day }}, tanggal {{ ucwords($tanggal) }}, bulan {{ $bulan }}, tahun {{ ucwords($tahun) }} &#40;{{ $formattedDate }}&#41; maka untuk lebih jelasnya mengenai hal-hal yang berhubungan dengan pekerjaan yang akan dilaksanakan oleh calon peserta lelang {{ ucwords(strtolower($tender->procurement->name)) }}, diperlukan peninjauan lapangan secara bersama-sama, antara calon peserta dan Panitia Pengadaan & Kewajaran Harga.</p>
+<p style="text-align: justify; margin-top: -6px">Untuk itu perlu adanya Berita Acara Peninjauan Lapangan pekerjaan dimaksud, yang tujuannya agar calon peserta mengerti dan memahami situasi dan kondisi lapangan yang akan dikerjakan.</p>
+<p style="text-align: justify; margin-top: -6px">Bahwa calon peserta telah melaksanakan peninjauan lapangan secara bersama-sama dan telah mengerti serta memahami situasi maupun kondisi lapangan yang akan dikerjakan.</p>
+<p style="text-align: justify; margin-top: -6px">Demikianlah Berita Acara ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
+<p style="text-align: right; margin-bottom: 2px; margin-top: -6px">Jakarta, {{ $tgl }} {{ $bulan }} {{ $thn }}</p>
 <div class="peserta-rapat">
     <table width="100%">
         <thead>

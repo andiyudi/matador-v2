@@ -44,7 +44,7 @@
         {{ $tender->procurement->name }}<br>
     </h3>
     <p>
-        NOMOR : {{ $aanwijzingNumber }}
+        NOMOR : &ensp;{{ $aanwijzingNumber }}
         <hr>
     </p>
 </center>

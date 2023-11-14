@@ -43,7 +43,7 @@
         PEMBUKAAN DOKUMEN SAMPUL A, B &#40;ADMINISTRASI & TEKNIS&#41; DAN SAMPUL C &#40;PROPOSAL PENAWARAN HARGA&#41; SERTA KLARIFIKASI DAN NEGOSIASI KEWAJARAN HARGA {{ $tender->procurement->name }}<br>
     </h3>
     <p>
-        NOMOR : {{ $banegoNumber }}
+        NOMOR : &ensp;{{ $banegoNumber }}
         <hr>
     </p>
 </center>

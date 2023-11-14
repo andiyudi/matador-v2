@@ -43,7 +43,7 @@
         {{ $tender->procurement->name }}<br>
     </h3>
     <p>
-        NOMOR : {{ $banegoNumber }}
+        NOMOR : &ensp;{{ $banegoNumber }}
         <hr>
     </p>
 </center>

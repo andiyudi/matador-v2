@@ -7,182 +7,94 @@
     <title>Laporan Rekap Vendor Blacklist</title>
 </head>
 <body>
-    <style type="text/css">
-        .ta  {border-collapse:collapse;border-spacing:0;}
-            .ta td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-            overflow:hidden;padding:10px 5px;word-break:normal;}
-            .ta th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-            font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .ta .ta-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
-        .tb  {border-collapse:collapse;border-spacing:0;}
-            .tb td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tb th{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tb .tb-aw21{border-color:#ffffff;font-weight:bold;text-align:center;vertical-align:top}
-        .tc  {border-collapse:collapse;border-spacing:0;}
-            .tc td{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tc th{border-color:black;border-style:solid;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tc .tc-baqh{text-align:center;vertical-align:top}
-            .tc .tc-0lax{text-align:left;vertical-align:top}
-        .tg  {border-collapse:collapse;border-spacing:0;}
-            .tg td{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg th{border-color:black;border-style:hidden;border-width:1px;font-family:'Times New Roman', Times, serif;font-size:12px;
-                font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
-            .tg .tg-vs63{border-color:#ffffff;font-size:x-small;text-align:center;vertical-align:top}
-        </style>
-        <table class="ta">
+    <style>
+        @media print{
+            @page {
+                size: A4 landscape;
+            }
+        }
+        body {
+            font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
+            font-size:10pt; /* Ukuran huruf 12px */
+        }
+        .peserta-rapat table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .peserta-rapat th, .peserta-rapat td {
+            border: 1px solid black;
+            padding: 8px;
+            vertical-align: text-top
+        }
+    </style>
+    <table>
         <thead>
             <tr>
-                <td class="ta-zv4m" rowspan="2"><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;">
-                </td>
-                <td class="ta-zv4m">PT. CITRA MARGA NUSAPHALA PERSADA, Tbk</td>
-            </tr>
-            <tr>
-                <td class="ta-zv4m">Divisi Umum - Dept Pengadaan</td>
+                <td><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;"></td>
+                <td>PT. CITRA MARGA NUSAPHALA PERSADA Tbk.<br>Divisi Umum - Departemen Pengadaan</td>
             </tr>
         </thead>
-        </table>
-        <table class="tb" width="100%">
+    </table>
+    <p style="text-align: center; font-size: 16pt">Daftar Penyedia Jasa / Vendor Blacklist<br>PT. Citra Marga Nusaphala Persada, Tbk<br>Periode : {{ $formattedStartDateBlacklist }} - {{ $formattedEndDateBlacklist }}</p>
+    <div class="peserta-rapat">
+        <table width="100%">
             <thead>
                 <tr>
-                    <th class="tb-aw21">Daftar Penyedia Jasa / Vendor Blacklist</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="tb-aw21">PT. Citra Marga Nusaphala Persada, Tbk</td>
-                </tr>
-                <tr>
-                    <td class="tb-aw21">Periode : {{ $formattedStartDateBlacklist }} - {{ $formattedEndDateBlacklist }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <table class="tc" width="100%">
-            <thead>
-                <tr>
-                    <th class="tc-baqh">No</th>
-                    <th class="tc-baqh">Tgl/Bln/Thn Bergabung</th>
-                    <th class="tc-baqh">Nama Perusahaan</th>
-                    <th class="tc-baqh">Core Business</th>
-                    <th class="tc-baqh">Klasifikasi</th>
-                    <th class="tc-baqh">Alamat Legalitas</th>
-                    <th class="tc-baqh">Alamat Domisili</th>
-                    <th class="tc-baqh">Direktur/PIC</th>
-                    <th class="tc-baqh">No. Telp</th>
-                    <th class="tc-baqh">Email</th>
-                    <th class="tc-baqh">Modal Perusahaan</th>
+                    <th style="width: 1%">No</th>
+                    <th style="width: 9%">Tgl/Bln/Thn Bergabung</th>
+                    <th style="width: 10%">Nama Perusahaan</th>
+                    <th style="width: 10%">Core Business</th>
+                    <th style="width: 10%">Klasifikasi</th>
+                    <th style="width: 10%">Alamat Legalitas</th>
+                    <th style="width: 10%">Alamat Domisili</th>
+                    <th style="width: 10%">Direktur/PIC</th>
+                    <th style="width: 10%">No. Telp</th>
+                    <th style="width: 10%">Email</th>
+                    <th style="width: 10%">Modal Perusahaan</th>
                 </tr>
             </thead>
             <tbody>
                 @if(count($vendors) > 0)
                 @foreach($vendors as $vendor)
                 <tr>
-                    <td class="tc-0lax">{{ $loop->iteration }}</td>
-                    <td class="tc-0lax">{{ $vendor->join_date }}</td>
-                    <td class="tc-0lax">{{ $vendor->name }}</td>
-                    <td class="tc-0lax">{!! $vendor->core_businesses !!}</td>
-                    <td class="tc-0lax">{!! $vendor->classifications !!}</td>
-                    <td class="tc-0lax">{{ $vendor->address }}</td>
-                    <td class="tc-0lax">{{ $vendor->domicility }}</td>
-                    <td class="tc-0lax">{{ $vendor->director }}</td>
-                    <td class="tc-0lax">{{ $vendor->phone }}</td>
-                    <td class="tc-0lax">{{ $vendor->email }}</td>
-                    <td class="tc-0lax">{{ $vendor->capital }}</td>
+                    <td style="text-align: center; width: 1%">{{ $loop->iteration }}</td>
+                    <td style="width: 9%">{{ $vendor->join_date }}</td>
+                    <td style="width: 10%">{{ $vendor->name }}</td>
+                    <td style="width: 10%">{!! $vendor->core_businesses !!}</td>
+                    <td style="width: 10%">{!! $vendor->classifications !!}</td>
+                    <td style="width: 10%">{{ $vendor->address }}</td>
+                    <td style="width: 10%">{{ $vendor->domicility }}</td>
+                    <td style="width: 10%">{{ $vendor->director }}</td>
+                    <td style="width: 10%">{{ $vendor->phone }}</td>
+                    <td style="width: 10%">{{ $vendor->email }}</td>
+                    <td style="width: 10%">{{ $vendor->capital }}</td>
                 </tr>
                 @endforeach
                 @else
                 <tr>
-                    <td class="tc-baqh" colspan="11"><h1>Data tidak ditemukan</h1></td>
+                    <td colspan="11" style="text-align: center;"><h3>Data tidak ditemukan</h3></td>
                 </tr>
                 @endif
             </tbody>
         </table>
-        <table class="tg" width="100%">
-            <thead>
-                <tr>
-                    <th class="tg-vs63">Jakarta, {{ date('d-m-Y') }}</th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-zv4m"></th>
-                    <th class="tg-vs63"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="tg-vs63">Dibuat Oleh,</td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-vs63">Disetujui Oleh,</td>
-                </tr>
-                <tr>
-                    <td class="tg-vs63" rowspan="2"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-vs63" rowspan="2"></td>
-                </tr>
-                <tr>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                </tr>
-                <tr>
-                    <td class="tg-vs63">{{ $creatorName }}</td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-vs63">{{ $supervisorName }}</td>
-                </tr>
-                <tr>
-                    <td class="tg-vs63">{{ $creatorPosition }}</td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-zv4m"></td>
-                    <td class="tg-vs63">{{ $supervisorPosition }}</td>
-                </tr>
-            </tbody>
-        </table>
+    </div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td style="text-align: center; width: 50%">Jakarta, {{ date('d-m-Y') }}<br>Dibuat Oleh,</td>
+                <td style="text-align: center; width: 50%"><br>Disetujui Oleh,</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height:2cm;">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="text-align: center">{{ $creatorName }}<br>{{ $creatorPosition }}</td>
+                <td style="text-align: center">{{ $supervisorName }}<br>{{ $supervisorPosition }}</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

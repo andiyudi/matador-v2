@@ -36,7 +36,7 @@
             <tr style="height:30pt">
                 <td style="vertical-align: top; width: 24%;">Nama Pekerjaan</td>
                 <td style="vertical-align: top; width: 1%;">:</td>
-                <td>{{ $tender->procurement->name }}</td>
+                <td style="text-align: justify">{{ $tender->procurement->name }}</td>
             </tr>
             <tr style="height:15pt">
                 <td style="width: 24%;">No. PP</td>
