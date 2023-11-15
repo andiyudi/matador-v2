@@ -97,6 +97,12 @@ class EvaluationController extends Controller
         $fileCompanyExist = false;
         $fileVendorExist = false;
 
+        // Sorting tenders dan tenderFile berdasarkan created_at secara descending
+        $procurement->tenders = $procurement->tenders->sortByDesc('created_at');
+        foreach ($procurement->tenders as $tender) {
+            $tender->tenderFile = $tender->tenderFile->sortByDesc('created_at');
+        }
+
         // Loop melalui tenders dan businessPartners untuk pengecekan file tender
         foreach ($procurement->tenders as $tender) {
             foreach ($tender->businessPartners as $businessPartner) {

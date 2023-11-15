@@ -35,7 +35,7 @@
                             <td>{{ $file->notes }}</td>
                             <td>
                                 <a href="{{ asset('storage/'.$file->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
-                                @if ($loop->last)
+                                @if ($loop->first)
                                     @can('delete-file-category')
                                         <form action="{{ route('category.destroy', $file->id) }}" method="POST" class="d-inline">
                                             @csrf

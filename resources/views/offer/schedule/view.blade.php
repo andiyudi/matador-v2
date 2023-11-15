@@ -48,11 +48,11 @@
 <p style="text-align: right; margin-bottom: 2px; margin-top: -6px">Jakarta, {{ $tgl }} {{ $bulan }} {{ $thn }}</p>
 <div class="peserta-rapat">
     <table width="100%">
-        <thead>
-            <th width="3%">No</th>
-            <th width="37%">CALON PEMASOK</th>
-            <th width="40%">NAMA</th>
-            <th width="20%">TANDA TANGAN</th>
+        <thead style="text-align: center">
+            <td width="3%">No</td>
+            <td width="37%">CALON PEMASOK</td>
+            <td width="40%">NAMA</td>
+            <td width="20%">TANDA TANGAN</td>
         </thead>
         <tbody>
             @foreach ($tender->businessPartners as $businessPartner)

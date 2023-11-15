@@ -160,7 +160,9 @@ class OfferController extends Controller
             $available_procurements->push($selected_procurement);
 
             // Ambil semua Business Partners yang memiliki business_id sesuai dengan procurement
-            $businessPartners = BusinessPartner::where('business_id', $procurement->business_id)->get();
+            $businessPartners = BusinessPartner::where('business_id', $procurement->business_id)
+            ->where('is_blacklist', '!=', '1')
+            ->get();
 
             // Ambil semua Business untuk dropdown
             $business = Business::all();
@@ -393,7 +395,11 @@ class OfferController extends Controller
     public function detail($id)
     {
         try {
-            $tender = Tender::with(['procurement', 'businessPartners.partner'])->findOrFail($id);
+            $tender = Tender::with(['procurement', 'businessPartners.partner'])
+            ->findOrFail($id)
+            ->load(['tenderFile' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }]);
 
             return view('offer.detail', compact('tender'));
         } catch (\Exception $e) {

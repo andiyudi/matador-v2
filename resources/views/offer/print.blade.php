@@ -63,21 +63,21 @@
     <br>
     <table width="100%">
         <thead>
-            <tr>
-                <th colspan="6">Kualifikasi Calon Penyedia Jasa / Vendor</th>
+            <tr style="text-align: center">
+                <td colspan="6">Kualifikasi Calon Penyedia Jasa / Vendor</td>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th rowspan="2">No</th>
-                <th rowspan="2">Nama Calon Penyedia Jasa / Vendor</th>
-                <th colspan="4">Keterangan</th>
+            <tr style="text-align: center">
+                <td rowspan="2">No</td>
+                <td rowspan="2">Nama Calon Penyedia Jasa / Vendor</td>
+                <td colspan="4">Keterangan</td>
             </tr>
-            <tr>
-                <th>Status</th>
-                <th>PIC</th>
-                <th>No. Telp.</th>
-                <th>Email</th>
+            <tr style="text-align: center">
+                <td>Status</td>
+                <td>PIC</td>
+                <td>No. Telp.</td>
+                <td>Email</td>
             </tr>
             @foreach ($tender->businessPartners as $vendorPivot)
             @php

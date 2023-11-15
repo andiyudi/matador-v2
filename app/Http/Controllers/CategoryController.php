@@ -113,7 +113,9 @@ class CategoryController extends Controller
             'business' => $business,
             'core_business' => $core_business,
         ];
-        $files = BusinessPartnerFiles::where('business_partner_id', $category_id)->get();
+        $files = BusinessPartnerFiles::where('business_partner_id', $category_id)
+        ->orderByDesc('created_at')
+        ->get();
         return view('partner.category.show', compact('files', 'data'));
     }
 

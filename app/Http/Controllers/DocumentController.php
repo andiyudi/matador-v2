@@ -16,7 +16,9 @@ class DocumentController extends Controller
     public function index($partner_id)
     {
         $partner = Partner::find($partner_id);
-        $files = FilesPartner::where('partner_id', $partner_id)->get();
+        $files = FilesPartner::where('partner_id', $partner_id)
+        ->orderByDesc('created_at')
+        ->get();
         return view ('partner.document.index', compact('partner', 'files'));
     }
 

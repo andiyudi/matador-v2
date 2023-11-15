@@ -8,11 +8,6 @@
 </head>
 <body>
     <style>
-        @media print{
-            @page {
-                size: A4 landscape;
-            }
-        }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
             font-size:10pt; /* Ukuran huruf 12px */
@@ -41,19 +36,19 @@
                 <tr>
                     <th rowspan="2">No</th>
                     <th rowspan="2">Unit Kerja</th>
-                    <th rowspan="2">Jumlah Form Penilaian Yang Diserahkan</th>
+                    <th rowspan="2">Jumlah Form <br> Penilaian Yang Diserahkan</th>
                     <th colspan="2">Penilaian</th>
                 </tr>
                 <tr>
-                    <th>Buruk (Tidak Layak: &le; 60)</th>
-                    <th>Baik (Dipertahankan: 61-100)</th>
+                    <th>Buruk <br> &#40;Tidak Layak: &le; 60&#41;</th>
+                    <th>Baik <br> &#40;Dipertahankan: 61-100&#41;</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($divisions as $division)
                 <tr style="text-align: center">
                     <td>{{ $loop->iteration }}</td>
-                    <td style="text-align: justify">{{ $division->name }}</td>
+                    <td style="text-align: left">{{ $division->name }}</td>
                     <td>{{ $jumlahPenilaian[$division->id] }}</td>
                     <td>{{ $jumlahPenilaianBuruk[$division->id] }}</td>
                     <td>{{ $jumlahPenilaianBaik[$division->id] }}</td>
