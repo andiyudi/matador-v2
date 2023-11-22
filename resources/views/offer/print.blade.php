@@ -15,12 +15,11 @@
     .peserta-rapat table {
         border-collapse: collapse;
         width: 100%;
-        table-layout: fixed;
-        word-wrap: break-word;
     }
     .peserta-rapat th, .peserta-rapat td {
         border: 1px solid black;
         padding: 8px;
+        vertical-align: text-top
     }
 </style>
 <table>
