@@ -69,7 +69,7 @@
                     <td style="width: 10%">{{ $vendor->director }}</td>
                     <td style="width: 10%">{{ $vendor->phone }}</td>
                     <td style="width: 10%">{{ $vendor->email }}</td>
-                    <td style="width: 10%">{{ $vendor->capital }}</td>
+                    <td style="width: 10%">Rp. {{ $vendor->capital }},-</td>
                 </tr>
                 @endforeach
                 @else

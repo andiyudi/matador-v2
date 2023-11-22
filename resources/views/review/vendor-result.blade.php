@@ -79,7 +79,7 @@
                 @foreach ($vendorData as $index => $data)
                 <tr style="text-align: center">
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $data['vendorName'] }}</td>
+                    <td style="text-align: left">{{ $data['vendorName'] }}</td>
                     <td>{!! $data['core_business'] !!}</td>
                     <td>{{ $data['grade'] }}</td>
                     <td>{{ $data['jumlah_penilaian'] }}</td>
@@ -128,6 +128,7 @@
             </tbody>
         </table>
     </div>
+    <br>
     <table width="100%">
         <thead>
             <tr>
