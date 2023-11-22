@@ -8,7 +8,7 @@
     <style>
         /* Mengatur margin atas pada setiap halaman */
         @page {
-            margin-top: 2.5cm; /* Atur jarak margin atas sesuai kebutuhan */
+            margin-top: 3cm; /* Atur jarak margin atas sesuai kebutuhan */
         }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */

@@ -15,6 +15,8 @@
     .peserta-rapat table {
         border-collapse: collapse;
         width: 100%;
+        table-layout: fixed;
+        word-wrap: break-word;
     }
     .peserta-rapat th, .peserta-rapat td {
         border: 1px solid black;
@@ -84,8 +86,8 @@
                 $vendor = $vendorPivot->partner;
             @endphp
             <tr>
-                <td style="text-align: center; width: 1%;">{{ $loop->iteration }}.</td>
-                <td style="width: 24%;">{{ $vendor->name }}</td>
+                <td style="text-align: center; width: 2%;">{{ $loop->iteration }}.</td>
+                <td style="width: 23%;">{{ $vendor->name }}</td>
                 <td style="width: 6%;">
                 @if($vendor->status == '0')
                     Registered
@@ -105,6 +107,7 @@
         </tbody>
     </table>
 </div>
+<br>
 <table width="100%">
     <thead>
         <tr>

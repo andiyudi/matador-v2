@@ -8,11 +8,11 @@
     <style>
         /* Mengatur margin atas pada setiap halaman */
         @page {
-            margin-top: 2.5cm; /* Atur jarak margin atas sesuai kebutuhan */
+            margin-top: 3cm; /* Atur jarak margin atas sesuai kebutuhan */
         }
         body {
             font-family: 'Tahoma', sans-serif; /* Arial Narrow */
-            font-size: 10pt; /* Ukuran huruf 12px */
+            font-size: 10pt; /* Ukuran huruf 10px */
         }
         /* CSS untuk memberikan border pada tabel dengan kelas "peserta-rapat" */
         .peserta-rapat table {

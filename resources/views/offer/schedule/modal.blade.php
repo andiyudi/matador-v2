@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="secretaryPosition" class="form-label">Secretary Position</label>
-                            <input type="text" class="form-control" value="Sekretaris PPKH" id="secretaryPosition" placeholder="Enter secretary position" required>
+                            <input type="text" class="form-control" value="SEKRETARIS" id="secretaryPosition" placeholder="Enter secretary position" required>
                         </div>
                         <div class="col mb-3">
                             <label for="leadPosition" class="form-label">Lead Position</label>

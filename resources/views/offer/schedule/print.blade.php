@@ -84,7 +84,7 @@
             <td></td>
         </tr>
         <tr style="text-align: center">
-            <td><u>{{ ucwords(strtolower($secretaryName)) }}</u><br>{{ $secretaryPosition }}</td>
+            <td><u>{{ ucwords(strtolower($secretaryName)) }}</u><br>{{ ucwords(strtolower($secretaryPosition)) }} PPKH</td>
             <td><u>{{ ucwords(strtolower($leadName)) }}</u><br>{{ ucwords(strtolower($leadPosition)) }} PPKH</td>
         </tr>
     </tbody>

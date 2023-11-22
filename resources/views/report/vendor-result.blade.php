@@ -15,11 +15,13 @@
         }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
-            font-size:10pt; /* Ukuran huruf 12px */
+            font-size:10pt; /* Ukuran huruf 10px */
         }
         .peserta-rapat table {
             border-collapse: collapse;
             width: 100%;
+            table-layout: fixed;
+            word-wrap: break-word;
         }
         .peserta-rapat th, .peserta-rapat td {
             border: 1px solid black;
@@ -40,24 +42,24 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <th style="width: 1%">No</th>
+                    <th style="width: 2%">No</th>
                     <th style="width: 9%">Tgl/Bln/Thn Bergabung</th>
                     <th style="width: 10%">Nama Perusahaan</th>
                     <th style="width: 10%">Core Business</th>
                     <th style="width: 10%">Klasifikasi</th>
                     <th style="width: 10%">Alamat Legalitas</th>
                     <th style="width: 10%">Alamat Domisili</th>
-                    <th style="width: 10%">Direktur/PIC</th>
+                    <th style="width: 10%">Direktur/ PIC</th>
                     <th style="width: 10%">No. Telp</th>
                     <th style="width: 10%">Email</th>
-                    <th style="width: 10%">Modal Perusahaan</th>
+                    <th style="width: 9%">Modal Perusahaan</th>
                 </tr>
             </thead>
             <tbody>
                 @if(count($vendors) > 0)
                 @foreach($vendors as $vendor)
                 <tr>
-                    <td style="text-align: center; width: 1%">{{ $loop->iteration }}</td>
+                    <td style="text-align: center; width: 2%">{{ $loop->iteration }}</td>
                     <td style="width: 9%">{{ $vendor->join_date }}</td>
                     <td style="width: 10%">{{ $vendor->name }}</td>
                     <td style="width: 10%">{!! $vendor->core_businesses !!}</td>
@@ -67,7 +69,7 @@
                     <td style="width: 10%">{{ $vendor->director }}</td>
                     <td style="width: 10%">{{ $vendor->phone }}</td>
                     <td style="width: 10%">{{ $vendor->email }}</td>
-                    <td style="width: 10%">{{ $vendor->capital }}</td>
+                    <td style="width: 9%">{{ $vendor->capital }}</td>
                 </tr>
                 @endforeach
                 @else
@@ -78,6 +80,7 @@
             </tbody>
         </table>
     </div>
+    <br>
     <table width="100%">
         <thead>
             <tr>

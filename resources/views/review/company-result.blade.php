@@ -63,6 +63,7 @@
             </tbody>
         </table>
     </div>
+    <br>
     <table width="100%">
         <thead>
             <tr>

@@ -15,7 +15,7 @@
         }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
-            font-size:10pt; /* Ukuran huruf 12px */
+            font-size:10pt; /* Ukuran huruf 10px */
         }
         .peserta-rapat table {
             border-collapse: collapse;

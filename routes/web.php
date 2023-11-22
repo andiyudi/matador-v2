@@ -16,6 +16,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
@@ -91,6 +92,7 @@ Route::middleware('auth', 'verified')->group(function(){
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);
+    Route::resource('logactivity', LogActivityController::class)->only(['index', 'show']);
 });
 
 Route::prefix('dashboard')->group(function () {

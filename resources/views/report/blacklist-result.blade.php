@@ -15,11 +15,13 @@
         }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
-            font-size:10pt; /* Ukuran huruf 12px */
+            font-size:10pt; /* Ukuran huruf 10px */
         }
         .peserta-rapat table {
             border-collapse: collapse;
             width: 100%;
+            table-layout: fixed;
+            word-wrap: break-word;
         }
         .peserta-rapat th, .peserta-rapat td {
             border: 1px solid black;
@@ -78,6 +80,7 @@
             </tbody>
         </table>
     </div>
+    <br>
     <table width="100%">
         <thead>
             <tr>
