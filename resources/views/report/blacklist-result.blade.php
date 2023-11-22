@@ -42,8 +42,8 @@
         <table width="100%">
             <thead>
                 <tr>
-                    <th style="width: 1%">No</th>
-                    <th style="width: 9%">Tgl/Bln/Thn Bergabung</th>
+                    <th style="width: 4%">No</th>
+                    <th style="width: 6%">Tgl/Bln/Thn Bergabung</th>
                     <th style="width: 10%">Nama Perusahaan</th>
                     <th style="width: 10%">Core Business</th>
                     <th style="width: 10%">Klasifikasi</th>
@@ -59,8 +59,8 @@
                 @if(count($vendors) > 0)
                 @foreach($vendors as $vendor)
                 <tr>
-                    <td style="text-align: center; width: 1%">{{ $loop->iteration }}</td>
-                    <td style="width: 9%">{{ $vendor->join_date }}</td>
+                    <td style="text-align: center; width: 4%">{{ $loop->iteration }}</td>
+                    <td style="width: 6%">{{ $vendor->join_date }}</td>
                     <td style="width: 10%">{{ $vendor->name }}</td>
                     <td style="width: 10%">{!! $vendor->core_businesses !!}</td>
                     <td style="width: 10%">{!! $vendor->classifications !!}</td>
