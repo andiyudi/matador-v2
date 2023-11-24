@@ -40,6 +40,9 @@ class OfferController extends Controller
         ->addColumn('estimation', function ($tender) {
             return $tender->procurement->estimation;
         })
+        ->addColumn('official', function ($tender) {
+            return $tender->procurement->official->initials;
+        })
         ->addColumn('pic_user', function ($tender) {
             return $tender->procurement->pic_user;
         })

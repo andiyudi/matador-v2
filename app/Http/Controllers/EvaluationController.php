@@ -19,6 +19,7 @@ class EvaluationController extends Controller
         if (request()->ajax()) {
         $procurements = Procurement::with('tenders.businessPartners.partner')
         ->where('status', '1')
+        ->orderByDesc('number')
         ->get();
         return DataTables::of($procurements)
         ->editColumn('division', function ($procurement) {

@@ -16,6 +16,7 @@ $title    = 'Tender'
                             <th>Job Name</th>
                             <th>Division</th>
                             <th>Estimation</th>
+                            <th>PIC PP</th>
                             <th>PIC User</th>
                             <th>Vendors</th>
                             <th>Status</th>
@@ -61,6 +62,7 @@ $title    = 'Tender'
                 // { data: 'job_name', name: 'job_name' },
                 { data: 'division', name: 'division' },
                 { data: 'estimation', name: 'estimation' },
+                { data: 'official', name: 'official' },
                 { data: 'pic_user', name: 'pic_user' },
                 { data: 'vendors', name: 'vendors' },
                 { data: 'status', name: 'status' },
