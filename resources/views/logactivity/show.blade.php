@@ -73,11 +73,11 @@ $title    = 'Log Data ' . $log->id
                             </tr>
                             <tr>
                                 <th>Created At</th>
-                                <td>{{ $log->created_at }}</td>
+                                <td>{{ $log->created_at->format('l, d-m-Y H:i:s') }}</td>
                             </tr>
                             <tr>
                                 <th>Updated At</th>
-                                <td>{{ $log->updated_at }}</td>
+                                <td>{{ $log->updated_at->format('l, d-m-Y H:i:s') }}</td>
                             </tr>
                         </tbody>
                     </table>

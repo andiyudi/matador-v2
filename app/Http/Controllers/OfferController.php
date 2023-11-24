@@ -23,7 +23,7 @@ class OfferController extends Controller
     {
         if (request()->ajax()) {
         $tenders = Tender::with(['procurement','businessPartners.partner'])
-        ->orderBy('procurement_id')
+        ->orderBy('procurement_id', 'desc')
         ->orderBy('created_at', 'desc')
         ->get();
 

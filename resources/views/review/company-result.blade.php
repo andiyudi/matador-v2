@@ -29,7 +29,7 @@
             </tr>
         </thead>
     </table>
-    <p style="text-align: center; font-size: 16pt">REKAPITULASI PENILAIAN KINERJA PENYEDIA JASA / VENDOR<br>Terhadap PT. Citra Marga Nusaphala Persada, Tbk<br>Periode Tahun {{ $periodeAwal }} - {{ $periodeAkhir }}</p>
+    <p style="text-align: center; font-size: 16pt">REKAPITULASI PENILAIAN KINERJA PENYEDIA JASA / VENDOR<br>Oleh Masing-Masing Unit Kerja<br>Periode Tahun {{ $periodeAwal }} - {{ $periodeAkhir }}</p>
     <div class="peserta-rapat">
         <table width="100%">
             <thead>
