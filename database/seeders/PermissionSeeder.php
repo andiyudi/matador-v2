@@ -28,6 +28,9 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'submenu-core-business']);
         Permission::create(['name' => 'submenu-classification']);
 
+        Permission::create(['name' => 'report-tender']);
+        Permission::create(['name' => 'report-administration']);
+
         Permission::create(['name' => 'delete-file-category']);
 
         Permission::create(['name' => 'user-index']);

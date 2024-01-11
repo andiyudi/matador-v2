@@ -21,7 +21,7 @@
                 { data: 'blacklist_at', name: 'blacklist_at' },
                 { data: 'can_whitelist_at', name: 'can_whitelist_at' },
                 { data: 'whitelist_at', name: 'whitelist_at' },
-                { data: 'action', name: 'action' },
+                { data: 'action', name: 'action', searchable: false, orderable: false },
             ]
         });
     });

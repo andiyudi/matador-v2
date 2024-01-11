@@ -20,6 +20,7 @@ use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
 use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\AdministrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,7 @@ Route::prefix('offer')->group(function () {
 
 Route::prefix('procurements')->group(function () {
     Route::resource('evaluation', EvaluationController::class)->only(['index', 'show']);
+    Route::resource('administration', AdministrationController::class);
     Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
     Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
 });

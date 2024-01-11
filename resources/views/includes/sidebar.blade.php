@@ -115,6 +115,13 @@
                             </a>
                         </div>
                     </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="{{ route('administration.index') }}">
+                                Administration
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </li>
             @endcan
@@ -209,6 +216,7 @@
                     </span>
                 </a>
                 <div class="dropdown-menu">
+                    @can('report-tender')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
                             <a class="dropdown-item" href="{{ route('report.index') }}">
@@ -223,6 +231,16 @@
                             </a>
                         </div>
                     </div>
+                    @endcan
+                    @can('report-administration')
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Administration Recap
+                            </a>
+                        </div>
+                    </div>
+                    @endcan
                 </div>
             </li>
             @endcan

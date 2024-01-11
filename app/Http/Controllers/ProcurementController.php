@@ -69,6 +69,14 @@ class ProcurementController extends Controller
     {
         $id = decrypt($procurementId);
         $procurement = Procurement::findOrFail($id);
+
+         // Cek status procurement
+        if ($procurement->status != 0) {
+            // Jika status bukan 0, arahkan ke halaman yang sesuai
+            Alert::error('Error','Procurement cannot be edited because already success or canceled.');
+            return redirect()->back();
+        }
+
         $divisions = Division::where('status', '1')->get();
         $officials = Official::where('status', '1')->get();
         return view('procurement.edit', compact('procurement', 'divisions', 'officials'));
