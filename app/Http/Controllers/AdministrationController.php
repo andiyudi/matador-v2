@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Official;
 use App\Models\Procurement;
@@ -22,11 +23,23 @@ class AdministrationController extends Controller
             ->orderByDesc('number')
             ->get();
             return DataTables::of($procurements)
+            ->editColumn('receipt', function ($procurement) {
+                return Carbon::parse($procurement->receipt)->format('d-M-Y');
+            })
             ->editColumn('division', function ($procurement) {
                 return $procurement->division->name;
             })
             ->editColumn('official', function ($procurement) {
                 return $procurement->official->name;
+            })
+            ->editColumn('user_estimate', function ($procurement) {
+                return 'Rp. ' . number_format($procurement->user_estimate, 0, ',', '.');
+            })
+            ->editColumn('technique_estimate', function ($procurement) {
+                return 'Rp. ' . number_format($procurement->technique_estimate, 0, ',', '.');
+            })
+            ->editColumn('deal_nego', function ($procurement) {
+                return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
             })
             ->addColumn('is_selected', function ($procurement) {
                 foreach ($procurement->tenders as $tender) {
@@ -46,7 +59,7 @@ class AdministrationController extends Controller
                 return '<a href="' . $url . '" class="btn btn-sm btn-primary">Administration</a>';
             })
             ->addIndexColumn()
-            ->rawColumns(['vendors', 'action', 'is_selected'])
+            ->rawColumns(['action', 'is_selected'])
             ->make(true);
             }
         return view('procurement.administration.index');
@@ -84,7 +97,11 @@ class AdministrationController extends Controller
         $procurement = Procurement::findOrFail($id);
         $divisions = Division::where('status', '1')->get();
         $officials = Official::where('status', '1')->get();
-        return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials'));
+
+        $tendersCount = $procurement->tendersCount();
+        $procurementStatus = $procurement->status;
+
+        return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus'));
     }
 
     /**
@@ -110,7 +127,8 @@ class AdministrationController extends Controller
             Alert::success('Success', 'Procurement data has been updated.');
             return redirect()->route('administration.index');
         } catch (\Exception $e) {
-            dd($e->getMessage()); // Cetak pesan kesalahan untuk mendiagnosis
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back(); // Cetak pesan kesalahan untuk mendiagnosis
         }
     }
 

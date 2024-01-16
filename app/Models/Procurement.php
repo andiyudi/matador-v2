@@ -47,4 +47,9 @@ class Procurement extends Model
     public function tenders() {
         return $this->hasMany(Tender::class);
     }
+
+    public function tendersCount()
+    {
+        return $this->tenders()->count();
+    }
 }

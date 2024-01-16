@@ -104,6 +104,32 @@ $title    = 'Estimate'
                             </div>
                         </div>
                     </div>
+                    @for ($i = 1; $i <= $tendersCount; $i++)
+                    <div class="row mb-3">
+                        <label for="report_nego_result_{{ $i }}" class="col-sm-2 col-form-label">
+                            Lap. Hasil Nego ke Direksi {{ $i }}
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="report_nego_result_{{ $i }}" name="report_nego_result_{{ $i }}" value="{{ old('report_nego_result_' . $i) }}">
+                        </div>
+                    </div>
+                    @endfor
+                    @if($procurementStatus == '2')
+                    <div class="row mb-3">
+                        <label for="return_to_user" class="col-sm-2 col-form-label">
+                            Tanggal Pengembalian ke User
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="return_to_user" name="return_to_user" value="{{ old('return_to_user') }}">
+                        </div>
+                    </div>
+                    @endif
+                    <div class="row mb-3">
+                        <label for="information" class="col-sm-2 col-form-label">Keterangan</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" name="information" id="information" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('administration.index') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Update</button>
