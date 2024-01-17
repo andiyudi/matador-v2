@@ -18,6 +18,7 @@ $title    = 'Administration'
                             <th>EE User</th>
                             <th>EE Teknik</th>
                             <th>Hasil Negosiasi</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -75,6 +76,7 @@ $title    = 'Administration'
                 { data: 'user_estimate', name: 'user_estimate' },
                 { data: 'technique_estimate', name: 'technique_estimate' },
                 { data: 'deal_nego', name: 'deal_nego' },
+                { data: 'status', name: 'status' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

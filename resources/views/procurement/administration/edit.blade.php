@@ -73,7 +73,7 @@ $title    = 'Estimate'
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                <input type="text" class="form-control currency @error('user_estimate') is-invalid @enderror" id="user_estimate" name="user_estimate" value="{{ old('user_estimate') }}" placeholder="Input EE User">
+                                <input type="text" class="form-control currency @error('user_estimate') is-invalid @enderror" id="user_estimate" name="user_estimate" value="{{ $procurement->user_estimate }}" placeholder="Input EE User">
                                 @error('user_estimate')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -85,7 +85,7 @@ $title    = 'Estimate'
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                <input type="text" class="form-control currency @error('technique_estimate') is-invalid @enderror" id="technique_estimate" name="technique_estimate" value="{{ old('technique_estimate') }}" placeholder="Input EE Teknik">
+                                <input type="text" class="form-control currency @error('technique_estimate') is-invalid @enderror" id="technique_estimate" name="technique_estimate" value="{{ $procurement->technique_estimate }}" placeholder="Input EE Teknik">
                                 @error('technique_estimate')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -97,20 +97,28 @@ $title    = 'Estimate'
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                <input type="text" class="form-control currency @error('deal_nego') is-invalid @enderror" id="deal_nego" name="deal_nego" value="{{ old('deal_nego') }}" placeholder="Input Hasil Negosiasi">
+                                <input type="text" class="form-control currency @error('deal_nego') is-invalid @enderror" id="deal_nego" name="deal_nego" value="{{ $procurement->deal_nego }}" placeholder="Input Hasil Negosiasi">
                                 @error('deal_nego')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
                     </div>
-                    @for ($i = 1; $i <= $tendersCount; $i++)
+                    @php
+                        $tenderIdsKeys = array_keys($tenderData);
+                    @endphp
+                    @for ($i = 0; $i < $tendersCount; $i++)
                     <div class="row mb-3">
-                        <label for="report_nego_result_{{ $i }}" class="col-sm-2 col-form-label">
-                            Lap. Hasil Nego ke Direksi {{ $i }}
+                        @php
+                            $tenderId = $tenderIdsKeys[$i];
+                            $reportNegoResultValue = old('report_nego_result_' . $tenderId, isset($tenderData[$tenderId]) ? $tenderData[$tenderId] : '');
+                        @endphp
+                        <label for="report_nego_result_{{ $tenderId }}" class="col-sm-2 col-form-label">
+                            Lap. Hasil Nego ke Direksi {{ $i + 1 }}
                         </label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="report_nego_result_{{ $i }}" name="report_nego_result_{{ $i }}" value="{{ old('report_nego_result_' . $i) }}">
+                            <input type="date" class="form-control" id="report_nego_result_{{ $tenderId }}" name="report_nego_result_{{ $tenderId }}" value="{{ $reportNegoResultValue }}">
+                            <input type="hidden" name="tender_ids[]" value="{{ $tenderId }}">
                         </div>
                     </div>
                     @endfor
@@ -128,6 +136,51 @@ $title    = 'Estimate'
                         <label for="information" class="col-sm-2 col-form-label">Keterangan</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" name="information" id="information" cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="pic_user" class="col-sm-2 col-form-label">Tender Document</label>
+                        <div class="col-sm-10">
+                            <table class="table table-responsive table-bordered table-striped table-hover" id="document_tender_table">
+                                <thead>
+                                    <tr>
+                                        <th>Nama File</th>
+                                        <th>Type File</th>
+                                        <th>Catatan File</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="document_tender_list">
+                                    @foreach ($procurement->tenders as $tender)
+                                        @foreach ($tender->tenderFile as $tenderFile)
+                                        <tr>
+                                            <td>{{ $tenderFile->name }}</td>
+                                            <td>
+                                                @if ($tenderFile->type === 0)
+                                                File Selected Vendor
+                                                @elseif ($tenderFile->type === 1)
+                                                File Cancelled Tender
+                                                @elseif ($tenderFile->type === 2)
+                                                File Repeat Tender
+                                                @elseif ($tenderFile->type === 3)
+                                                File Selected Vendor From Past Tender
+                                                @elseif ($tenderFile->type === 4)
+                                                File Evaluation CMNP to Vendor
+                                                @elseif ($tenderFile->type === 5)
+                                                File Evaluation Vendor to CMNP
+                                                @else
+                                                Unknown
+                                                @endif
+                                            </td>
+                                            <td>{{ $tenderFile->notes }}</td>
+                                            <td>
+                                                <a href="{{ asset('storage/'.$tenderFile->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">

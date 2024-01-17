@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Tender;
 use App\Models\Division;
 use App\Models\Official;
 use App\Models\Procurement;
@@ -19,7 +20,7 @@ class AdministrationController extends Controller
     {
         if (request()->ajax()) {
             $procurements = Procurement::with('tenders.businessPartners.partner')
-            ->where('status', '!=', '0')
+            // ->where('status', '!=', '0')
             ->orderByDesc('number')
             ->get();
             return DataTables::of($procurements)
@@ -41,6 +42,16 @@ class AdministrationController extends Controller
             ->editColumn('deal_nego', function ($procurement) {
                 return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
             })
+            ->editColumn('status', function ($procurement){
+                if ($procurement->status == 0) {
+                    return '<span class="badge text-bg-info">Process</span>';
+                } elseif ($procurement->status == 1) {
+                    return '<span class="badge text-bg-success">Success</span>';
+                } elseif ($procurement->status == 2) {
+                    return '<span class="badge text-bg-danger">Canceled</span>';
+                }
+                return '<span class="badge text-bg-dark">Unknown</span>';
+            })
             ->addColumn('is_selected', function ($procurement) {
                 foreach ($procurement->tenders as $tender) {
                     $selectedVendor = $tender->businessPartners->first(function ($businessPartner) {
@@ -52,14 +63,14 @@ class AdministrationController extends Controller
                     }
                 }
 
-                return '<span class="badge text-bg-danger">Procurement<br>Canceled</span>'; // Jika tidak ada businessPartner dengan is_selected '1'
+                return ''; // Jika tidak ada businessPartner dengan is_selected '1'
             })
             ->addColumn('action', function ($procurement) {
                 $url = route('administration.edit', ['administration' => $procurement->id]);
                 return '<a href="' . $url . '" class="btn btn-sm btn-primary">Administration</a>';
             })
             ->addIndexColumn()
-            ->rawColumns(['action', 'is_selected'])
+            ->rawColumns(['action', 'is_selected', 'status'])
             ->make(true);
             }
         return view('procurement.administration.index');
@@ -100,8 +111,11 @@ class AdministrationController extends Controller
 
         $tendersCount = $procurement->tendersCount();
         $procurementStatus = $procurement->status;
+        $tenderIds = $procurement->tenders->pluck('id', 'report_nego_result')->toArray();
+        $reportNegoResults = Tender::whereIn('id', $tenderIds)->pluck('report_nego_result', 'id')->toArray();
+        $tenderData = array_combine($tenderIds, $reportNegoResults);
 
-        return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus'));
+        return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus', 'tenderData'));
     }
 
     /**
@@ -123,6 +137,16 @@ class AdministrationController extends Controller
             $procurement->deal_nego = str_replace('.', '', $request->deal_nego);
 
             $procurement->save();
+
+            // Update data di tabel Tender
+            foreach ($request->tender_ids as $tenderId) {
+                $tender = Tender::find($tenderId);
+
+                // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
+                $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);
+
+                $tender->save();
+            }
 
             Alert::success('Success', 'Procurement data has been updated.');
             return redirect()->route('administration.index');
