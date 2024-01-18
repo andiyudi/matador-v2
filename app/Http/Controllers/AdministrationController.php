@@ -111,9 +111,19 @@ class AdministrationController extends Controller
 
         $tendersCount = $procurement->tendersCount();
         $procurementStatus = $procurement->status;
-        $tenderIds = $procurement->tenders->pluck('id', 'report_nego_result')->toArray();
-        $reportNegoResults = Tender::whereIn('id', $tenderIds)->pluck('report_nego_result', 'id')->toArray();
-        $tenderData = array_combine($tenderIds, $reportNegoResults);
+        $tenderIds = $procurement->tenders->pluck('id')->toArray();
+
+        $tenderData = Tender::whereIn('id', $tenderIds)
+            ->get(['id', 'report_nego_result', 'negotiation_result'])
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'report_nego_result' => $item->report_nego_result,
+                    'negotiation_result' => $item->negotiation_result,
+                ];
+            })
+            ->toArray();
+            // dd($tenderData);
 
         return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus', 'tenderData'));
     }
@@ -123,6 +133,7 @@ class AdministrationController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         try {
             $request->validate([
                 'user_estimate' => 'required',
@@ -144,6 +155,7 @@ class AdministrationController extends Controller
 
                 // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
                 $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);
+                $tender->negotiation_result = $request->input('negotiation_result_' . $tenderId);
 
                 $tender->save();
             }

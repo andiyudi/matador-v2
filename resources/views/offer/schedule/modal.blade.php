@@ -203,3 +203,77 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="printUndangan" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="undanganModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <form id="printFormUndangan">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="undanganModalLabel">Print Undangan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="invitationNumber" class="form-label">Number</label>
+                            <input type="text" id="invitationNumber" name="invitationNumber" class="form-control" data-mask="****/Und-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/Und-PPKH-CMNP/****/****" autocomplete="off">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="invitationDate" class="form-label">Invitation Date</label>
+                            <input type="date" class="form-control" id="invitationDate" name="invitationDate" placeholder="Enter invitation date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="meetingDate" class="form-label">Meeting Date</label>
+                            <input type="date" class="form-control" id="meetingDate" name="meetingDate" placeholder="Enter meeting date" required>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="meetingTime" class="form-label">Meeting Time</label>
+                            <input type="text" class="form-control" id="meetingTime" name="meetingTime" placeholder="Enter meeting time" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="meetingLocation" class="form-label">Meeting Location</label>
+                            <textarea name="meetingLocation" id="meetingLocation" class="form-control" cols="30" rows="3" required></textarea>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="meetingAgenda" class="form-label">Meeting Agenda</label>
+                            <textarea name="meetingAgenda" id="meetingAgenda" class="form-control" cols="30" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="zoomId" class="form-label">Zoom ID</label>
+                            <input type="text" class="form-control" name="zoomId" id="zoomId" required>
+                        </div>
+                        <div class="col mb-3">
+                            <label for="zoomPass" class="form-label">Zoom Passcode</label>
+                            <input type="text" class="form-control" name="zoomPass" id="zoomPass" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="selectLeadInvitationName" class="form-label">Creator Name</label>
+                            <select name="selectLeadInvitationName" id="selectLeadInvitationName" class="form-select">
+                                <option value=""></option>
+                            </select>
+                            <input type="hidden" class="form-control" id="leadInvitationName" name="leadInvitationName" value="">
+                        </div>
+                        <div class="col mb-3">
+                            <label for="leadInvitationPosition" class="form-label">Lead Position</label>
+                            <select name="leadInvitationPosition" id="leadInvitationPosition" class="form-select" required>
+                                <option value="TIM">TIM</option>
+                                <option value="KETUA">KETUA</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Print</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

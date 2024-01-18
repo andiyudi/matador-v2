@@ -103,6 +103,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
         </button>
         <ul class="dropdown-menu">
             <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printSchedule" data-tender="{{ json_encode($tender) }}">Schedule</button></li>
+            <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printUndangan" data-tender="{{ json_encode($tender) }}">Undangan</button></li>
             <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printAanwijzing" data-tender="{{ json_encode($tender) }}">Berita Acara Aanwijzing</button></li>
             <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printTinjau" data-tender="{{ json_encode($tender) }}">Berita Acara Peninjauan Lapangan</button></li>
             <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#printBanego" data-tender="{{ json_encode($tender) }}">Berita Acara Negosiasi</button></li>

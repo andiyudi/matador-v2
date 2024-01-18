@@ -108,17 +108,30 @@ $title    = 'Estimate'
                         $tenderIdsKeys = array_keys($tenderData);
                     @endphp
                     @for ($i = 0; $i < $tendersCount; $i++)
+                    @php
+                        $tenderId = $tenderIdsKeys[$i];
+                        $idTender = old('id_' . $tenderId, isset($tenderData[$tenderId]['id']) ? $tenderData[$tenderId]['id'] : '');
+                        $reportNegoResultValue = old('report_nego_result_' . $tenderId, isset($tenderData[$tenderId]['report_nego_result']) ? $tenderData[$tenderId]['report_nego_result'] : '');
+                        $negoResultValue = old('negotiation_result_' . $tenderId, isset($tenderData[$tenderId]['negotiation_result']) ? $tenderData[$tenderId]['negotiation_result'] : '');
+                    @endphp
                     <div class="row mb-3">
-                        @php
-                            $tenderId = $tenderIdsKeys[$i];
-                            $reportNegoResultValue = old('report_nego_result_' . $tenderId, isset($tenderData[$tenderId]) ? $tenderData[$tenderId] : '');
-                        @endphp
-                        <label for="report_nego_result_{{ $tenderId }}" class="col-sm-2 col-form-label">
-                            Lap. Hasil Nego ke Direksi {{ $i + 1 }}
+                        <label for="negotiation_result_{{ $tenderId }}" class="col-sm-2 col-form-label">
+                            Hasil Nego (ke-{{ $i + 1 }})
                         </label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" id="report_nego_result_{{ $tenderId }}" name="report_nego_result_{{ $tenderId }}" value="{{ $reportNegoResultValue }}">
-                            <input type="hidden" name="tender_ids[]" value="{{ $tenderId }}">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">Rp.</span>
+                                <input type="text" class="form-control currency" id="negotiation_result_{{ $idTender }}" name="negotiation_result_{{ $idTender }}" value="{{ $negoResultValue }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="report_nego_result_{{ $tenderId }}" class="col-sm-2 col-form-label">
+                            Laporan Hasil Nego (ke-{{ $i + 1 }}) ke Direksi
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="report_nego_result_{{ $idTender }}" name="report_nego_result_{{ $idTender }}" value="{{ $reportNegoResultValue }}">
+                            <input type="hidden" name="tender_ids[]" value="{{ $idTender }}">
                         </div>
                     </div>
                     @endfor
@@ -193,17 +206,28 @@ $title    = 'Estimate'
     </div>
 </div>
 <script>
-    document.addEventListener('input', function (e) {
-        if (e.target.classList.contains('currency')) {
-            // Hapus karakter selain digit dan koma
-            const rawValue = e.target.value.replace(/[^\d,]/g, '');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Temukan semua elemen dengan class 'currency'
+        const currencyInputs = document.querySelectorAll('.currency');
 
-            // Konversi nilai ke format mata uang
+        // Tambahkan event listener untuk setiap elemen
+        currencyInputs.forEach(function (input) {
+            input.addEventListener('input', function (e) {
+                // Hapus karakter selain digit dan koma
+                const rawValue = e.target.value.replace(/[^\d,]/g, '');
+
+                // Konversi nilai ke format mata uang
+                const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
+
+                // Setel nilai input yang sudah diformat
+                e.target.value = formattedValue;
+            });
+
+            // Format nilai mata uang saat halaman dimuat
+            const rawValue = input.value.replace(/[^\d,]/g, '');
             const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
-
-            // Setel nilai input yang sudah diformat
-            e.target.value = formattedValue;
-        }
+            input.value = formattedValue;
+        });
     });
 </script>
 @endsection
