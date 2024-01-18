@@ -153,9 +153,10 @@ class AdministrationController extends Controller
             foreach ($request->tender_ids as $tenderId) {
                 $tender = Tender::find($tenderId);
 
+                $negotiationResult = str_replace('.', '', $request->input('negotiation_result_' . $tenderId));
                 // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
                 $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);
-                $tender->negotiation_result = $request->input('negotiation_result_' . $tenderId);
+                $tender->negotiation_result = $negotiationResult;
 
                 $tender->save();
             }
