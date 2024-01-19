@@ -20,7 +20,6 @@ class AdministrationController extends Controller
     {
         if (request()->ajax()) {
             $procurements = Procurement::with('tenders.businessPartners.partner')
-            // ->where('status', '!=', '0')
             ->orderByDesc('number')
             ->get();
             return DataTables::of($procurements)
@@ -53,6 +52,13 @@ class AdministrationController extends Controller
                 return '<span class="badge text-bg-dark">Unknown</span>';
             })
             ->addColumn('is_selected', function ($procurement) {
+                if ($procurement->status == "2") {
+                    return '<span class="badge rounded-pill text-bg-danger">Canceled</span>';
+                } elseif ($procurement->status == "0") {
+                    return '<span class="badge rounded-pill text-bg-info">Process</span>';
+                }
+
+                // Pengecekan is_selected pada tender
                 foreach ($procurement->tenders as $tender) {
                     $selectedVendor = $tender->businessPartners->first(function ($businessPartner) {
                         return $businessPartner->pivot->is_selected === '1';
@@ -63,11 +69,17 @@ class AdministrationController extends Controller
                     }
                 }
 
-                return ''; // Jika tidak ada businessPartner dengan is_selected '1'
+                return '<span class="badge text-bg-dark">Unknown</span>'; // Jika tidak ada businessPartner dengan is_selected '1'
             })
+
             ->addColumn('action', function ($procurement) {
-                $url = route('administration.edit', ['administration' => $procurement->id]);
-                return '<a href="' . $url . '" class="btn btn-sm btn-primary">Administration</a>';
+                $editUrl = route('administration.edit', ['administration' => $procurement->id]);
+                $uploadUrl = route('administration.create');
+
+                $editButton = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Administration</a>';
+                $uploadButton = '<a href="' . $uploadUrl . '" class="btn btn-sm btn-secondary">Upload</a>';
+
+                return $editButton . ' ' . $uploadButton;
             })
             ->addIndexColumn()
             ->rawColumns(['action', 'is_selected', 'status'])
@@ -123,7 +135,6 @@ class AdministrationController extends Controller
                 ];
             })
             ->toArray();
-            // dd($tenderData);
 
         return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus', 'tenderData'));
     }
@@ -146,19 +157,29 @@ class AdministrationController extends Controller
             $procurement->user_estimate = str_replace('.', '', $request->user_estimate);
             $procurement->technique_estimate = str_replace('.', '', $request->technique_estimate);
             $procurement->deal_nego = str_replace('.', '', $request->deal_nego);
+            $procurement->information = $request->information;
+            $procurement->return_to_user = $request->return_to_user;
+            $procurement->cancellation_memo = $request->cancellation_memo;
 
             $procurement->save();
 
-            // Update data di tabel Tender
-            foreach ($request->tender_ids as $tenderId) {
-                $tender = Tender::find($tenderId);
+            // Update data di tabel Tender jika $request->tender_ids ada
+            if ($request->has('tender_ids')) {
+                foreach ($request->tender_ids as $tenderId) {
+                    $tender = Tender::find($tenderId);
 
-                $negotiationResult = str_replace('.', '', $request->input('negotiation_result_' . $tenderId));
-                // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
-                $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);
-                $tender->negotiation_result = $negotiationResult;
+                    if ($tender) {
+                        $negotiationResult = str_replace('.', '', $request->input('negotiation_result_' . $tenderId));
 
-                $tender->save();
+                        // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
+                        $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);
+                        $tender->negotiation_result = $negotiationResult;
+
+                        $tender->save();
+                    } else {
+                        return response()->json(['message' => 'Tender not found'], 404);// Handle jika $tender tidak ditemukan
+                    }
+                }
             }
 
             Alert::success('Success', 'Procurement data has been updated.');
