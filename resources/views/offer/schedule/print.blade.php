@@ -61,7 +61,9 @@
     &#160;{{ $tender->note }}
 <table>
     <thead>
-        @foreach ($tender->businessPartners as $businessPartner)
+        @foreach ($tender->businessPartners->sortBy(function($businessPartner) {
+            return strtotime($businessPartner->pivot->start_hour);
+        }) as $businessPartner)
         <tr>
             <td>{{ $loop->iteration }}&#46;&#41;&#32;{{ $businessPartner->partner->name }}</td>
             <td>&emsp;{{ date('H:i', strtotime($businessPartner->pivot->start_hour)) }}&#32;&#45;&#32;{{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}</td>

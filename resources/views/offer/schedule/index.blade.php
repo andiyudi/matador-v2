@@ -62,7 +62,21 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                         <th width="15%">End Hour</th>
                     </thead>
                     <tbody>
-                        @foreach ($tender->businessPartners as $businessPartner)
+                        @foreach ($tender->businessPartners->sortBy(function($businessPartner) {
+                            return strtotime($businessPartner->pivot->start_hour);
+                        }) as $businessPartner)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}.</td>
+                                <td>{{ $businessPartner->partner->name }}</td>
+                                <td>
+                                    {{ date('H:i', strtotime($businessPartner->pivot->start_hour)) }}
+                                </td>
+                                <td>
+                                    {{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                        {{-- @foreach ($tender->businessPartners as $businessPartner)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}.</td>
                             <td>{{ $businessPartner->partner->name }}</td>
@@ -73,7 +87,7 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                                 {{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}
                             </td>
                         </tr>
-                        @endforeach
+                        @endforeach --}}
                     </tbody>
                 </table>
                 <div class="row mb-3">
