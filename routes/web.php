@@ -19,8 +19,9 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\LogActivityController;
 use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\CoreBusinessController;
-use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\AdministrationController;
+use App\Http\Controllers\ClassificationController;
+use App\Http\Controllers\RecapitulationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('review', [ReviewController::class, 'index'])->name('review.index');
     Route::get('review-vendor', [ReviewController::class, 'vendor'])->name('review.vendor');
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
+    Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
+    Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
 });
 
 Route::get('/', function () {

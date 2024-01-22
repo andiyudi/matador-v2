@@ -41,16 +41,6 @@ class AdministrationController extends Controller
             ->editColumn('deal_nego', function ($procurement) {
                 return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
             })
-            ->editColumn('status', function ($procurement){
-                if ($procurement->status == 0) {
-                    return '<span class="badge text-bg-info">Process</span>';
-                } elseif ($procurement->status == 1) {
-                    return '<span class="badge text-bg-success">Success</span>';
-                } elseif ($procurement->status == 2) {
-                    return '<span class="badge text-bg-danger">Canceled</span>';
-                }
-                return '<span class="badge text-bg-dark">Unknown</span>';
-            })
             ->addColumn('is_selected', function ($procurement) {
                 if ($procurement->status == "2") {
                     return '<span class="badge rounded-pill text-bg-danger">Canceled</span>';

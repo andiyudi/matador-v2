@@ -235,9 +235,16 @@
                     @can('report-administration')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
-                                Administration Recap
-                            </a>
+                            <div class="dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                                    Administration Recap
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a href="{{ route('recap.process-nego') }}" class="dropdown-item">
+                                        Recap Process Nego
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endcan
