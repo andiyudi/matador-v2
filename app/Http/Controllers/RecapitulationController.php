@@ -59,7 +59,20 @@ class RecapitulationController extends Controller
         })
         ->get();
 
+        $reportNegoResults = [];
         foreach ($procurements as $procurement) {
+
+            foreach ($procurement->tenders as $tender) {
+                $reportNegoResult = $tender->report_nego_result;
+                // Check if $reportNegoResult is not null
+                if ($reportNegoResult !== null) {
+                    // Add $reportNegoResult to the array using procurement_id as key
+                    $reportNegoResults[$procurement->id][] = $reportNegoResult;
+                    // Store the latest report_nego_result in the $procurement object
+                    $procurement->latest_report_nego_result = $reportNegoResult;
+                }
+            }
+
             if ($procurement->status == "2") {
                 $procurement->is_selected = 'Canceled';
             } elseif ($procurement->status == "0") {
@@ -77,7 +90,6 @@ class RecapitulationController extends Controller
                         break;
                     }
                 }
-
                 if (!$isSelected) {
                     $procurement->is_selected = 'Unknown';
                 }

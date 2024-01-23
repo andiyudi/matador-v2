@@ -47,16 +47,16 @@
             <thead>
                 <thead>
                     <tr>
-                        <th rowspan="2" style="text-align: center; width: 4%">No</th>
-                        <th rowspan="2" style="text-align: center; width: 6%">TTPP</th>
-                        <th rowspan="2" style="text-align: center; width: 4%">No PP</th>
+                        <th rowspan="2" style="text-align: center; width: 2%">No</th>
+                        <th rowspan="2" style="text-align: center; width: 8%">TTPP</th>
+                        <th rowspan="2" style="text-align: center; width: 5%">No PP</th>
                         <th rowspan="2" style="text-align: center; width: 20%">Nama Pekerjaan</th>
-                        <th rowspan="2" style="text-align: center; width: 5%">Divisi</th>
-                        <th rowspan="2" style="text-align: center; width: 4%">PIC Pengadaan</th>
-                        <th rowspan="2" style="text-align: center; width: 10%">Mitra Kerja / Vendor</th>
-                        <th colspan="3" style="text-align: center; width: 21%">Perbandingan Nilai PP</th>
-                        <th rowspan="2" style="text-align: center; width: 6%">Tgl Memo Ke Direksi</th>
-                        <th rowspan="2" style="text-align: center; width: 20%">Keterangan</th>
+                        <th rowspan="2" style="text-align: center; width: 4%">Divisi</th>
+                        <th rowspan="2" style="text-align: center; width: 7%">PIC Pengadaan</th>
+                        <th rowspan="2" style="text-align: center; width: 8%">Mitra Kerja / Vendor</th>
+                        <th colspan="3" style="text-align: center; width: 30%">Perbandingan Nilai PP</th>
+                        <th rowspan="2" style="text-align: center; width: 8%">Tgl Memo Ke Direksi</th>
+                        <th rowspan="2" style="text-align: center; width: 8%">Keterangan</th>
                     </tr>
                     <tr>
                         <th>EE User</th>
@@ -69,19 +69,23 @@
                 @foreach($procurements as $procurement)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $procurement->receipt }}</td>
+                    <td>{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                     <td>{{ $procurement->number }}</td>
                     <td>{{ $procurement->name }}</td>
                     <td>{{ $procurement->division->code }}</td>
                     <td>{{ $procurement->official->initials }}</td>
                     <td>{{ $procurement->is_selected }}</td>
-                    <td>Rp. {{ $procurement->user_estimate }},-</td>
-                    <td>Rp. {{ $procurement->technique_estimate }},-</td>
-                    <td>Rp. {{ $procurement->deal_nego }},-</td>
-                    <td>{{ $procurement->pic_user }}</td>
+                    <td>Rp. {{ $procurement->user_estimate ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }},-</td>
+                    <td>Rp. {{ $procurement->technique_estimate ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }},-</td>
+                    <td>Rp. {{ $procurement->deal_nego ? number_format($procurement->deal_nego, 0, ',', '.') : '0' }},-</td>
+                    <td>{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>
                     <td>{{ $procurement->information }}</td>
                 </tr>
                 @endforeach
+                <tr>
+                    <td colspan="5"><strong>GRAND TOTAL</strong></td>
+                    <td colspan="7"><strong>{{ count($procurements) }} DOKUMEN</strong></td>
+                </tr>
                 @else
                 <tr>
                     <td colspan="12" style="text-align: center;"><h3>Data tidak ditemukan</h3></td>

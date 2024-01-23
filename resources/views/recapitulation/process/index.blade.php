@@ -92,8 +92,8 @@ $title    = 'Masih Dalam Proses Negosiasi'
                 // Menampilkan SweetAlert untuk memberi tahu user bahwa kedua input harus diisi
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error',
-                    text: 'Both start and end dates must be filled.',
+                    title: 'Failed',
+                    text: 'Start period and End periode is required',
                 });
                 return false;
             }

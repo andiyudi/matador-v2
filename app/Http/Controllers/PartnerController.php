@@ -102,6 +102,7 @@ class PartnerController extends Controller
         $vendor->grade = $request->grade;
         $vendor->join_date = $request->join_date;
         $vendor->reference = $request->reference;
+        $vendor->expired_at = date('Y') . '-12-31';
         $vendor->save();
 
         Alert::success('Success', 'Vendor data successfully stored');
