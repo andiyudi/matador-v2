@@ -34,7 +34,7 @@ $title    = 'Roles'
                                 <a href="{{ route('role.edit', $item->id) }}" type="button" class="btn btn-warning btn-pill btn-sm">Edit</a>
                                 @endcan
                                 @can('role-delete')
-                                <form action="{{ route('role.destroy', $item->id) }}" method="POST" class="inline-block">
+                                <form action="{{ route('role.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')" class="inline-block">
                                     @method("DELETE")
                                     @csrf
                                     <button class="btn btn-danger btn-pill btn-sm">Delete</button>

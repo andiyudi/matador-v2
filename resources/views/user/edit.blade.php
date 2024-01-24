@@ -60,6 +60,15 @@ $title    = 'Users'
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <label for="is_active" class="col-sm-2 col-form-label">Active</label>
+                    <div class="col-sm-10">
+                        <select class="form-control select" name="is_active" id="is_active">
+                            <option value="0">Disable</option>
+                            <option value="1">Enable</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a type="button" href="{{ route('user.index') }}" class="btn btn-secondary">Back</a>
                     <button type="submit" class="btn btn-success">Update</button>

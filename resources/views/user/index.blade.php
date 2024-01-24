@@ -16,6 +16,7 @@ $title    = 'Users'
                             <th>Email</th>
                             <th>Username</th>
                             <th>Roles</th>
+                            <th>Active</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -34,11 +35,16 @@ $title    = 'Users'
                                 @endif
                             </td>
                             <td>
+                                <span class="badge bg-{{ $user->is_active ? 'success' : 'danger' }}">
+                                    {{ $user->is_active ? 'Enable' : 'Disable' }}
+                                </span>
+                            </td>
+                            <td>
                                 @can('user-edit')
                                 <a href="{{ route('user.edit', $user->id) }}" type="button" class="btn btn-warning btn-pill btn-sm">Edit</a>
                                 @endcan
                                 @can('user-delete')
-                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" class="inline-block">
+                                <form action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')" class="inline-block">
                                     @method("DELETE")
                                     @csrf
                                     <button class="btn btn-danger btn-pill btn-sm">Delete</button>

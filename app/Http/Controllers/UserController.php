@@ -79,6 +79,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // dd($request->all());
         $validate = $request->validate([
             'name' => 'required',
             'username' => 'required',
@@ -90,12 +91,14 @@ class UserController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'is_active' => $request->is_active,
             ]);
         } else {
             $user->update([
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
+                'is_active' => $request->is_active,
             ]);
         }
 
