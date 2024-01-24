@@ -115,8 +115,9 @@ $title    = 'Estimate'
                             </div>
                         </div>
                     @endfor
+                    @if($tendersCount > 0)
                     <div class="row mb-3">
-                        <label for="deal_nego" class="col-sm-2 col-form-label required">Hasil Negosiasi Final</label>
+                        <label for="deal_nego" class="col-sm-2 col-form-label">Hasil Negosiasi Final</label>
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1">Rp.</span>
@@ -124,6 +125,17 @@ $title    = 'Estimate'
                             </div>
                         </div>
                     </div>
+                    @endif
+                    @if($procurementStatus == '1')
+                    <div class="row mb-3">
+                        <label for="director_approval" class="col-sm-2 col-form-label">
+                            Tanggal Persetujuan Direksi
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="director_approval" name="director_approval" value="{{ old('director_approval', $procurement->director_approval) }}">
+                        </div>
+                    </div>
+                    @endif
                     @if($procurementStatus == '2')
                     <div class="row mb-3">
                         <label for="return_to_user" class="col-sm-2 col-form-label">

@@ -61,18 +61,12 @@ class AdministrationController extends Controller
 
                 return '<span class="badge text-bg-dark">Unknown</span>'; // Jika tidak ada businessPartner dengan is_selected '1'
             })
-
-            ->addColumn('action', function ($procurement) {
-                $editUrl = route('administration.edit', ['administration' => $procurement->id]);
-                $uploadUrl = route('administration.create');
-
-                $editButton = '<a href="' . $editUrl . '" class="btn btn-sm btn-primary">Administration</a>';
-                $uploadButton = '<a href="' . $uploadUrl . '" class="btn btn-sm btn-secondary">Upload</a>';
-
-                return $editButton . ' ' . $uploadButton;
+            ->addColumn('action', function ($procurement){
+                $route = 'administration';
+                return view('procurement.administration.action', compact('route', 'procurement'));
             })
             ->addIndexColumn()
-            ->rawColumns(['action', 'is_selected', 'status'])
+            ->rawColumns(['is_selected'])
             ->make(true);
             }
         return view('procurement.administration.index');
@@ -139,17 +133,19 @@ class AdministrationController extends Controller
             $request->validate([
                 'user_estimate' => 'required',
                 'technique_estimate' => 'required',
-                'deal_nego' => 'required',
             ]);
 
             $procurement = Procurement::find($id);
 
             $procurement->user_estimate = str_replace('.', '', $request->user_estimate);
             $procurement->technique_estimate = str_replace('.', '', $request->technique_estimate);
-            $procurement->deal_nego = str_replace('.', '', $request->deal_nego);
+            if ($request->has('deal_nego')) {
+                $procurement->deal_nego = str_replace('.', '', $request->deal_nego);
+            }
             $procurement->information = $request->information;
             $procurement->return_to_user = $request->return_to_user;
             $procurement->cancellation_memo = $request->cancellation_memo;
+            $procurement->director_approval = $request->director_approval;
 
             $procurement->save();
 
