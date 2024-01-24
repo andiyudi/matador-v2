@@ -19,17 +19,6 @@ $title    = 'Roles';
                         @enderror
                     </div>
                 </div>
-                {{-- <div class="row mb-3">
-                    <label for="permission" class="col-sm-2 col-form-label required">Permissions</label>
-                    <div class="col-sm-10">
-                        @foreach ($permission as $item)
-                        <div class="w-full mx-2">
-                            <input type="checkbox" name="permission[]" id="check-{{ $item->id }}" value="{{ $item->name }}">
-                            <label for="check-{{ $item->id }}">{{ $item->name }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                </div> --}}
                 <div class="row mb-3">
                     <label for="permission" class="col-sm-2 col-form-label required">Permissions</label>
                     <div class="col-sm-10">

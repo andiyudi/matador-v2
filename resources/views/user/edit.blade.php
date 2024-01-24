@@ -38,6 +38,7 @@ $title    = 'Users'
                         @enderror
                     </div>
                 </div>
+                @if ($user->id != 1)
                 <div class="row mb-3">
                     <label for="roles" class="col-sm-2 col-form-label required">Roles</label>
                     <div class="col-sm-10">
@@ -69,6 +70,7 @@ $title    = 'Users'
                         </select>
                     </div>
                 </div>
+                @endif
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <a type="button" href="{{ route('user.index') }}" class="btn btn-secondary">Back</a>
                     <button type="submit" class="btn btn-success">Update</button>

@@ -19,7 +19,7 @@ $title    = 'Roles'
                     </thead>
                     <tbody>
                         @forelse ($roles as $item)
-                        <tr class="text-center">
+                        <tr class="text-left">
                             <td>{{  $loop->iteration }}</td>
                             <td>{{  $item->name }}</td>
                             <td>
@@ -30,20 +30,23 @@ $title    = 'Roles'
                                 @endif
                             </td>
                             <td>
+                                <div class="d-grid gap-2 mx-auto">
                                 @can('role-edit')
                                 <a href="{{ route('role.edit', $item->id) }}" type="button" class="btn btn-warning btn-pill btn-sm">Edit</a>
                                 @endcan
-                                @can('role-delete')
-                                <form action="{{ route('role.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')" class="inline-block">
-                                    @method("DELETE")
-                                    @csrf
-                                    <button class="btn btn-danger btn-pill btn-sm">Delete</button>
-                                </form>
-                                @endcan
+                                @if($item->id != 1)
+                                    @can('role-delete')
+                                    <form action="{{ route('role.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')" class="inline-block">
+                                        @method("DELETE")
+                                        @csrf
+                                        <button class="btn btn-danger btn-pill btn-sm">Delete</button>
+                                    </form>
+                                    @endcan
+                                @endif
+                                </div>
                             </td>
                         </tr>
                         @empty
-
                         @endforelse
                     </tbody>
                 </table>
