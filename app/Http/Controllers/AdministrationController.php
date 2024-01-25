@@ -41,6 +41,22 @@ class AdministrationController extends Controller
             ->editColumn('deal_nego', function ($procurement) {
                 return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
             })
+            ->editColumn('user_percentage', function ($procurement) {
+                // Pastikan bahwa user_percentage tidak null sebelum memformat
+                if ($procurement->user_percentage !== null) {
+                    return number_format($procurement->user_percentage, 2, ',', '.') . '%';
+                } else {
+                    return '';
+                }
+            })
+            ->editColumn('technique_percentage', function ($procurement) {
+                // Pastikan bahwa technique_percentage tidak null sebelum memformat
+                if ($procurement->technique_percentage !== null) {
+                    return number_format($procurement->technique_percentage, 2, ',', '.') . '%';
+                } else {
+                    return '';
+                }
+            })
             ->addColumn('is_selected', function ($procurement) {
                 if ($procurement->status == "2") {
                     return '<span class="badge rounded-pill text-bg-danger">Canceled</span>';
@@ -146,6 +162,38 @@ class AdministrationController extends Controller
             $procurement->return_to_user = $request->return_to_user;
             $procurement->cancellation_memo = $request->cancellation_memo;
             $procurement->director_approval = $request->director_approval;
+            $procurement->target_day = $request->target_day;
+            $procurement->finish_day = $request->finish_day;
+            $procurement->off_day = $request->off_day;
+            $procurement->difference_day = $request->difference_day;
+            $procurement->op_number = $request->op_number;
+            $procurement->contract_number = $request->contract_number;
+            if ($request->has('contract_value')) {
+                $procurement->contract_value = str_replace('.', '', $request->contract_value);
+            }
+            $procurement->contract_date = $request->contract_date;
+
+            // Menghitung persentase perbedaan antara user_estimate dan deal_nego
+            if ($request->has('deal_nego')) {
+                $userEstimate = floatval(str_replace('.', '', $request->user_estimate));
+                $dealNego = floatval(str_replace('.', '', $request->deal_nego));
+
+                $userEstimatePercentage = number_format(($userEstimate - $dealNego) / $userEstimate * 100, 2);
+                $procurement->user_percentage = $userEstimatePercentage;
+            } else {
+                $procurement->user_percentage = null; // Atau berikan nilai default jika tidak diperlukan
+            }
+
+            // Menghitung persentase perbedaan antara technique_estimate dan deal_nego
+            if ($request->has('deal_nego')) {
+                $techniqueEstimate = floatval(str_replace('.', '', $request->technique_estimate));
+                $dealNego = floatval(str_replace('.', '', $request->deal_nego));
+
+                $techniqueEstimatePercentage = number_format(($techniqueEstimate - $dealNego) / $techniqueEstimate * 100, 2);
+                $procurement->technique_percentage = $techniqueEstimatePercentage;
+            } else {
+                $procurement->technique_percentage = null; // Atau berikan nilai default jika tidak diperlukan
+            }
 
             $procurement->save();
 

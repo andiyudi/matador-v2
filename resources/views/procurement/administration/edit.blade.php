@@ -135,6 +135,37 @@ $title    = 'Estimate'
                             <input type="date" class="form-control" id="director_approval" name="director_approval" value="{{ old('director_approval', $procurement->director_approval) }}">
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label for="op_number" class="col-sm-2 col-form-label">
+                            Nomor OP
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="op_number" name="op_number" value="{{ old('op_number', $procurement->op_number) }}">
+                        </div>
+                        <label for="contract_number" class="col-sm-2 col-form-label">
+                            Nomor Kontrak
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="contract_number" name="contract_number" value="{{ old('contract_number', $procurement->contract_number) }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="contract_value" class="col-sm-2 col-form-label">
+                            Nilai Kontrak
+                        </label>
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">Rp.</span>
+                                <input type="text" class="form-control currency" id="contract_value" name="contract_value" value="{{ old('contract_value', $procurement->contract_value) }}">
+                            </div>
+                        </div>
+                        <label for="contract_date" class="col-sm-2 col-form-label">
+                            Tanggal Kontrak
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="contract_date" name="contract_date" value="{{ old('contract_date', $procurement->contract_date) }}">
+                        </div>
+                    </div>
                     @endif
                     @if($procurementStatus == '2')
                     <div class="row mb-3">
@@ -149,6 +180,27 @@ $title    = 'Estimate'
                         <label for="cancellation_memo" class="col-sm-2 col-form-label">Tanggal Memo Pembatalan</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" name="cancellation_memo" id="cancellation_memo" cols="30" rows="3">{{ $procurement->cancellation_memo }}</textarea>
+                        </div>
+                    </div>
+                    @endif
+                    @if ($procurementStatus == '1' || $procurementStatus == '2')
+                    <div class="row mb-3">
+                        <label for="tender_day" class="col-sm-2 col-form-label">Waktu Penyelesaian Tender</label>
+                        <label for="target_day" class="col-sm-1 col-form-label">Target &#40;A&#41;</label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" name="target_day" id="target_day" value="{{ $procurement->target_day ?? 30 }}" min="1">
+                        </div>
+                        <label for="finish_day" class="col-sm-2 col-form-label">Selesai &#40;B&#41;</label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" id="finish_day" name="finish_day" value="{{ $procurement->finish_day ?? 0 }}" min="1">
+                        </div>
+                        <label for="off_day" class="col-sm-1 col-form-label">Libur &#40;C&#41;</label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" name="off_day" id="off_day" value="{{ $procurement->off_day ?? 0 }}" min="1">
+                        </div>
+                        <label for="difference_day" class="col-sm-2 col-form-label">Selisih &#40;A&#45;B&#43;C&#41;</label>
+                        <div class="col-sm-1">
+                            <input type="number" class="form-control" id="difference_day" name="difference_day" value="{{ $procurement->difference_day ?? 0 }}">
                         </div>
                     </div>
                     @endif
@@ -212,38 +264,5 @@ $title    = 'Estimate'
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Temukan semua elemen dengan class 'currency'
-        const currencyInputs = document.querySelectorAll('.currency');
-
-        // Tambahkan event listener untuk setiap elemen
-        currencyInputs.forEach(function (input) {
-            input.addEventListener('input', function (e) {
-                // Hapus karakter selain digit dan koma
-                const rawValue = e.target.value.replace(/[^\d,]/g, '');
-
-                // Konversi nilai ke format mata uang
-                const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
-
-                // Setel nilai input yang sudah diformat
-                e.target.value = formattedValue;
-            });
-
-            // Format nilai mata uang saat halaman dimuat
-            const rawValue = input.value.replace(/[^\d,]/g, '');
-            const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
-            input.value = formattedValue;
-        });
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Mendengarkan perubahan pada input negotiation_result
-        $('.negotiation-result').on('input', function() {
-            var selectedValue = $(this).val();
-            $('#deal_nego').val(selectedValue);
-        });
-    });
-</script>
+@include('procurement.administration.script')
 @endsection
