@@ -196,7 +196,7 @@ $title    = 'Estimate'
                         </div>
                         <label for="off_day" class="col-sm-1 col-form-label">Libur &#40;C&#41;</label>
                         <div class="col-sm-1">
-                            <input type="number" class="form-control" name="off_day" id="off_day" value="{{ $procurement->off_day ?? 0 }}" min="1">
+                            <input type="number" class="form-control" name="off_day" id="off_day" value="{{ $procurement->off_day ?? 0 }}">
                         </div>
                         <label for="difference_day" class="col-sm-2 col-form-label">Selisih &#40;A&#45;B&#43;C&#41;</label>
                         <div class="col-sm-1">

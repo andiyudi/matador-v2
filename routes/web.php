@@ -54,7 +54,15 @@ Route::prefix('offer')->group(function () {
 
 Route::prefix('procurements')->group(function () {
     Route::resource('evaluation', EvaluationController::class)->only(['index', 'show']);
-    Route::resource('administration', AdministrationController::class);
+    Route::get('administration', [AdministrationController::class, 'index'])->name('administration.index');
+    Route::get('administration/{procurement_id}/create', [AdministrationController::class, 'create'])->name('administration.create');
+    Route::post('administration/store', [AdministrationController::class, 'store'])->name('administration.store');
+    Route::get('administration/{procurement_id}', [AdministrationController::class, 'show'])->name('administration.show');
+    Route::get('administration/{procurement_id}/edit', [AdministrationController::class, 'edit'])->name('administration.edit');
+    Route::put('administration/{procurement_id}/update', [AdministrationController::class, 'update'])->name('administration.update');
+    Route::get('administration/{procurement_id}/change', [AdministrationController::class, 'change'])->name('administration.change');
+    Route::put('administration/{procurement_id}/save', [AdministrationController::class, 'save'])->name('administration.save');
+    Route::delete('administration/{file_id}/destroy', [AdministrationController::class, 'destroy'])->name('administration.destroy');
     Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
     Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
 });

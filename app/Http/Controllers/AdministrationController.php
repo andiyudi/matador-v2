@@ -8,6 +8,8 @@ use App\Models\Division;
 use App\Models\Official;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use App\Models\ProcurementFile;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -91,9 +93,10 @@ class AdministrationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $procurement= Procurement::find($id);
+        return view('procurement.administration.create', compact('procurement'));
     }
 
     /**
@@ -101,15 +104,50 @@ class AdministrationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $this->validate($request, [
+                'file' => 'required',
+                'id_procurement' => 'required',
+                'type' => 'required|in:0,1,2',
+            ]);
+
+            $procurement_id = Procurement::findOrFail($request->id_procurement);
+            if ($request->hasFile('file')){
+                $file = $request->file('file');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('procurement_files', $name, 'public');
+
+                $filePartner = new ProcurementFile();
+
+                $filePartner->procurement_id    = $procurement_id->id;
+                $filePartner->name              = $name;
+                $filePartner->path              = $path;
+                $filePartner->type              = $request->type;
+                $filePartner->notes             = $request->notes;
+
+                $filePartner->save();
+                Alert::success('Success','File added successfully');
+                return redirect()->route('administration.show', $procurement_id);
+            } else {
+                Alert::error('Error', 'No file uploaded.');
+            }
+
+        } catch (\Throwable $th) {
+            Alert::error('Error', 'Failed to add File: ' . $th->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $procurement = Procurement::find($id);
+        $files = ProcurementFile::where('procurement_id', $id)
+        ->orderByDesc('created_at')
+        ->get();
+        return view('procurement.administration.show', compact('procurement', 'files'));
     }
 
     /**
@@ -227,8 +265,50 @@ class AdministrationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($file_id)
     {
-        //
+        $file = ProcurementFile::findOrFail($file_id);
+
+        // Delete the file from storage
+        Storage::disk('public')->delete($file->path);
+
+        // Delete the file record from the database
+        $file->delete();
+
+        Alert::success('Success','File deleted successfully');
+        return redirect()->back();
+    }
+
+    public function change($id)
+    {
+        $procurement = Procurement::findOrFail($id);
+        $divisions = Division::where('status', '1')->get();
+        $officials = Official::where('status', '1')->get();
+
+        $tendersCount = $procurement->tendersCount();
+        $tenderIds = $procurement->tenders->pluck('id')->toArray();
+
+        $tenderData = Tender::whereIn('id', $tenderIds)
+            ->get(['id', 'aanwijzing', 'open_tender'])
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'aanwijzing' => $item->aanwijzing,
+                    'open_tender' => $item->open_tender,
+                    // 'review_technique_in' => $item->review_technique_in,
+                    // 'review_technique_out' => $item->review_technique_out,
+                ];
+            })
+            ->toArray();
+
+        return view('procurement.administration.change', compact('procurement', 'divisions', 'officials', 'tendersCount', 'tenderData'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function save(Request $request, $id)
+    {
+        // dd($request->all());
     }
 }

@@ -57,6 +57,7 @@ class RecapitulationController extends Controller
                 $query->whereBetween('receipt', [$startDateTtpp, $endDateTtpp]);
             }
         })
+        ->where('status', '0')
         ->get();
 
         $reportNegoResults = [];

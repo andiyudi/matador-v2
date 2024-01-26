@@ -52,4 +52,9 @@ class Procurement extends Model
     {
         return $this->tenders()->count();
     }
+
+    public function procurementFile()
+    {
+        return $this->hasMany(ProcurementFile::class);
+    }
 }
