@@ -103,23 +103,127 @@ $title    = 'Monitoring'
                             $idTender = old('id_' . $tenderId, isset($tenderData[$tenderId]['id']) ? $tenderData[$tenderId]['id'] : '');
                             $aanwijzingValue = old('aanwijzing_' . $tenderId, isset($tenderData[$tenderId]['aanwijzing']) ? $tenderData[$tenderId]['aanwijzing'] : '');
                             $openTenderValue = old('open_tender_' . $tenderId, isset($tenderData[$tenderId]['open_tender']) ? $tenderData[$tenderId]['open_tender'] : '');
+                            $reviewTechniqueInValue = old('review_technique_in_' . $tenderId, isset($tenderData[$tenderId]['review_technique_in']) ? $tenderData[$tenderId]['review_technique_in'] : '');
+                            $reviewTechniqueOutValue = old('review_technique_out_' . $tenderId, isset($tenderData[$tenderId]['review_technique_out']) ? $tenderData[$tenderId]['review_technique_out'] : '');
                         @endphp
                         <div class="row mb-3">
-                            <label for="open_tender_{{ $tenderId }}" class="col-sm-2 col-form-label">
-                                Aanwijzing (ke-{{ $i + 1 }})
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control " id="open_tender_{{ $idTender }}" name="open_tender_{{ $idTender }}" value="{{ $aanwijzingValue }}">
-                            </div>
-                            <label for="aanwijzing_{{ $tenderId }}" class="col-sm-2 col-form-label">
-                                Tender (Pembukaan Harga) (ke-{{ $i + 1 }})
-                            </label>
-                            <div class="col-sm-4">
-                                <input type="date" class="form-control" id="aanwijzing_{{ $idTender }}" name="aanwijzing_{{ $idTender }}" value="{{ $openTenderValue }}">
+                            <div class="col-sm-3">
                                 <input type="hidden" name="tender_ids[]" value="{{ $idTender }}">
+                                <label for="aanwijzing_{{ $tenderId }}" class="col-form-label">
+                                    Aanwijzing (ke-{{ $i + 1 }})
+                                </label>
+                                <input type="date" class="form-control" id="aanwijzing_{{ $idTender }}" name="aanwijzing_{{ $idTender }}" value="{{ $aanwijzingValue }}">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="open_tender_{{ $tenderId }}" class="col-form-label">
+                                    Tender (Pembukaan Harga) (ke-{{ $i + 1 }})
+                                </label>
+                                <input type="date" class="form-control" id="open_tender_{{ $idTender }}" name="open_tender_{{ $idTender }}" value="{{ $openTenderValue }}">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="review_technique_out_{{ $tenderId }}" class="col-form-label">
+                                    Review Teknik Keluar (ke-{{ $i + 1 }})
+                                </label>
+                                <input type="date" class="form-control" id="review_technique_out_{{ $idTender }}" name="review_technique_out_{{ $idTender }}" value="{{ $reviewTechniqueOutValue }}">
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="review_technique_in_{{ $tenderId }}" class="col-form-label">
+                                    Review Teknik Masuk (ke-{{ $i + 1 }})
+                                </label>
+                                <input type="date" class="form-control" id="review_technique_in_{{ $idTender }}" name="review_technique_in_{{ $idTender }}" value="{{ $reviewTechniqueInValue }}">
                             </div>
                         </div>
                     @endfor
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label for="disposition_second_tender" class="col-form-label">
+                                Disposisi Untuk Nego Ulang
+                            </label>
+                            <input type="date" class="form-control" id="disposition_second_tender" name="disposition_second_tender" value="{{ $procurement->disposition_second_tender }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="renegotiation_result" class="col-form-label">
+                                Hasil Nego Ulang
+                            </label>
+                            <input type="date" class="form-control" id="renegotiation_result" name="renegotiation_result" value="{{ $procurement->renegotiation_result }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="tender_result" class="col-form-label">
+                                Laporan Hasil Tender
+                            </label>
+                            <input type="date" class="form-control" id="tender_result" name="tender_result" value="{{ $procurement->tender_result }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="director_agreement" class="col-form-label">
+                                Persetujuan
+                            </label>
+                            <input type="date" class="form-control" id="director_agreement" name="director_agreement" value="{{ $procurement->director_agreement }}">
+                        </div>
+                    </div>
+                    @if($statusProcurement == '1')
+                    <div class="row mb-3">
+                        <div class="col-sm-3">
+                            <label for="legal_accept" class="col-form-label">
+                                Terima Dari Biro Hukum
+                            </label>
+                            <input type="date" class="form-control" id="legal_accept" name="legal_accept" value="{{ $procurement->legal_accept }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="general_accept" class="col-form-label">
+                                Paraf Mandiv Umum
+                            </label>
+                            <input type="date" class="form-control" id="general_accept" name="general_accept" value="{{ $procurement->general_accept }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="user_accept" class="col-form-label">
+                                Paraf User
+                            </label>
+                            <input type="date" class="form-control" id="user_accept" name="user_accept" value="{{ $procurement->user_accept }}">
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="vendor_accept" class="col-form-label">
+                                Ttd Vendor
+                            </label>
+                            <input type="date" class="form-control" id="vendor_accept" name="vendor_accept" value="{{ $procurement->vendor_accept }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="director_accept" class="col-sm-2 col-form-label">
+                            Diserahkan Ke Biro Hukum Untuk Ttd Direksi
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="director_accept" name="director_accept" value="{{ $procurement->director_accept }}">
+                        </div>
+                        <label for="contract_from_legal" class="col-sm-2 col-form-label">
+                            Final Kontrak Dari Biro Hukum
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="contract_from_legal" name="contract_from_legal" value="{{ $procurement->contract_from_legal }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="contract_to_vendor" class="col-sm-2 col-form-label">
+                            Final Kontrak / OP Diserahkan Ke Vendor
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="contract_to_vendor" name="contract_to_vendor" value="{{ $procurement->contract_to_vendor }}">
+                        </div>
+                        <label for="contract_to_user" class="col-sm-2 col-form-label">
+                            Final Kontrak Diserahkan Ke User
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="date" class="form-control" id="contract_to_user" name="contract_to_user" value="{{ $procurement->contract_to_user }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="input_sap" class="col-sm-2 col-form-label">
+                            Input SAP (PO)
+                        </label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="input_sap" name="input_sap" value="{{ old('input_sap', $procurement->input_sap) }}">
+                        </div>
+                    </div>
+                    @endif
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('administration.index') }}" class="btn btn-secondary">Back</a>
                         <button type="submit" class="btn btn-success">Save</button>

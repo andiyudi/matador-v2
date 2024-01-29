@@ -11,7 +11,7 @@ $title    = 'Documentation '. $procurement->number;
                 <form id="procurementDocsForm" action="{{ route('administration.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
-                        <input type="text" name="id_procurement" value="{{ $procurement->id }}">
+                        <input type="hidden" name="id_procurement" value="{{ $procurement->id }}">
                         <label for="type" class="col-sm-2 col-form-label required">Type File</label>
                         <div class="col-sm-10">
                             <select class="form-control @error('type') is-invalid @enderror" id="type" name="type">

@@ -286,22 +286,23 @@ class AdministrationController extends Controller
         $officials = Official::where('status', '1')->get();
 
         $tendersCount = $procurement->tendersCount();
+        $statusProcurement = $procurement->status;
         $tenderIds = $procurement->tenders->pluck('id')->toArray();
 
         $tenderData = Tender::whereIn('id', $tenderIds)
-            ->get(['id', 'aanwijzing', 'open_tender'])
+            ->get(['id', 'aanwijzing', 'open_tender', 'review_technique_in', 'review_technique_out'])
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
                     'aanwijzing' => $item->aanwijzing,
                     'open_tender' => $item->open_tender,
-                    // 'review_technique_in' => $item->review_technique_in,
-                    // 'review_technique_out' => $item->review_technique_out,
+                    'review_technique_in' => $item->review_technique_in,
+                    'review_technique_out' => $item->review_technique_out,
                 ];
             })
             ->toArray();
 
-        return view('procurement.administration.change', compact('procurement', 'divisions', 'officials', 'tendersCount', 'tenderData'));
+        return view('procurement.administration.change', compact('procurement', 'divisions', 'officials', 'tendersCount', 'statusProcurement', 'tenderData'));
     }
 
     /**
@@ -309,6 +310,54 @@ class AdministrationController extends Controller
      */
     public function save(Request $request, $id)
     {
-        // dd($request->all());
+        // dd($id);
+        try {
+            $procurement = Procurement::find($id);
+
+            $procurement->ppoe_accepted = $request->ppoe_accepted;
+            $procurement->division_disposition = $request->division_disposition;
+            $procurement->departement_disposition = $request->departement_disposition;
+            $procurement->vendor_offer = $request->vendor_offer;
+            $procurement->disposition_second_tender = $request->disposition_second_tender;
+            $procurement->renegotiation_result = $request->renegotiation_result;
+            $procurement->tender_result = $request->tender_result;
+            $procurement->director_agreement = $request->director_agreement;
+            $procurement->legal_accept = $request->legal_accept;
+            $procurement->general_accept = $request->general_accept;
+            $procurement->user_accept = $request->user_accept;
+            $procurement->vendor_accept = $request->vendor_accept;
+            $procurement->director_accept = $request->director_accept;
+            $procurement->contract_from_legal = $request->contract_from_legal;
+            $procurement->contract_to_vendor = $request->contract_to_vendor;
+            $procurement->contract_to_user = $request->contract_to_user;
+            $procurement->input_sap = $request->input_sap;
+
+            $procurement->save();
+
+            // Update data di tabel Tender jika $request->tender_ids ada
+            if ($request->has('tender_ids')) {
+                foreach ($request->tender_ids as $tenderId) {
+                    $tender = Tender::find($tenderId);
+
+                    if ($tender) {
+                        // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
+                        $tender->aanwijzing = $request->input('aanwijzing_' . $tenderId);
+                        $tender->open_tender = $request->input('open_tender_' . $tenderId);
+                        $tender->review_technique_in = $request->input('review_technique_in_' . $tenderId);
+                        $tender->review_technique_out = $request->input('review_technique_out_' . $tenderId);
+
+                        $tender->save();
+                    } else {
+                        return response()->json(['message' => 'Tender not found'], 404);// Handle jika $tender tidak ditemukan
+                    }
+                }
+            }
+
+            Alert::success('Success', 'Procurement data has been updated.');
+            return redirect()->route('administration.index');
+        } catch (\Exception $e) {
+            Alert::error('Error', $e->getMessage());
+            return redirect()->back(); // Cetak pesan kesalahan untuk mendiagnosis
+        }
     }
 }
