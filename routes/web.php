@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
@@ -85,6 +86,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
     Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
+    Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
+    Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
+
 });
 
 Route::get('/', function () {
