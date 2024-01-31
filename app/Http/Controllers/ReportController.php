@@ -20,7 +20,7 @@ class ReportController extends Controller
         $startDate = $request->input('startDate');
         $endDate = $request->input('endDate');
 
-        $startDate = Carbon::createFromFormat('m-Y', $startDate)->startOfMonth();
+        $startDate = Carbon::createFromFormat('!m-Y', $startDate)->startOfMonth();
         $endDate = Carbon::createFromFormat('m-Y', $endDate)->endOfMonth();
 
         $vendors = Partner::with(['businesses' => function ($query) {
@@ -101,7 +101,7 @@ class ReportController extends Controller
         $startDateBlacklist = $request->input('startDateBlacklist');
         $endDateBlacklist = $request->input('endDateBlacklist');
 
-        $startDateBlacklist = Carbon::createFromFormat('m-Y', $startDateBlacklist)->startOfMonth();
+        $startDateBlacklist = Carbon::createFromFormat('!m-Y', $startDateBlacklist)->startOfMonth();
         $endDateBlacklist = Carbon::createFromFormat('m-Y', $endDateBlacklist)->endOfMonth();
 
         $vendors = Partner::with(['businesses' => function ($query) {

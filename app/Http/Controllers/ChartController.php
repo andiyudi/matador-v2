@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Official;
 use App\Models\Procurement;
@@ -97,4 +98,35 @@ class ChartController extends Controller
             ->rawColumns(['is_selected'])
             ->toJson();
     }
+
+    public function barChart(Request $request)
+    {
+        $procurements = Procurement::with('tenders.businessPartners.partner')
+            ->orderByDesc('number')
+            ->where('status', '1');
+
+        // Filter by division
+        if ($request->filled('division')) {
+            $procurements->where('division_id', $request->division);
+        }
+
+        // Filter by official
+        if ($request->filled('official')) {
+            $procurements->where('official_id', $request->official);
+        }
+
+        $chartData = $procurements->get()->groupBy(function ($item) {
+            return Carbon::parse($item->receipt)->format('M Y');
+        })->map(function ($groupedItems) {
+            return [
+                'labels' => $groupedItems->pluck('receipt')->first(),
+                'userValues' => $groupedItems->sum(fn($item) => (float) str_replace(['Rp. ', '.', ','], '', $item['user_estimate'])),
+                'dealNegoValues' => $groupedItems->sum(fn($item) => (float) str_replace(['Rp. ', '.', ','], '', $item['deal_nego'])),
+            ];
+        });
+
+        return response()->json(['chartData' => $chartData]);
+    }
+
+
 }

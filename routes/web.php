@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
+    Route::get('chart/bar-chart', [ChartController::class, 'barChart'])->name('chart.barChart');
 
 });
 

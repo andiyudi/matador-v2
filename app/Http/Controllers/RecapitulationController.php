@@ -26,8 +26,9 @@ class RecapitulationController extends Controller
         $division = $request->input('division');
         $startDateTtpp = $request->input('startDateTtpp');
         $endDateTtpp = $request->input('endDateTtpp');
+        // dd($startDateTtpp, $endDateTtpp);
 
-        $startDateTtpp = Carbon::createFromFormat('m-Y', $startDateTtpp)->startOfMonth();
+        $startDateTtpp = Carbon::createFromFormat('!m-Y', $startDateTtpp)->startOfMonth();
         $endDateTtpp = Carbon::createFromFormat('m-Y', $endDateTtpp)->endOfMonth();
 
         $startDateCarbon = Carbon::parse($startDateTtpp);
