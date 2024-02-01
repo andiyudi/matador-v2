@@ -101,31 +101,22 @@ class ChartController extends Controller
 
     public function barChart(Request $request)
     {
-        $procurements = Procurement::with('tenders.businessPartners.partner')
-            ->orderByDesc('number')
-            ->where('status', '1');
+        $procurementsData = Procurement::where('status', '1')
 
-        // Filter by division
-        if ($request->filled('division')) {
-            $procurements->where('division_id', $request->division);
-        }
+        ->when($request->division, function ($query) use ($request){
+            return $query->where('division_id', $request->division);
+        })
 
-        // Filter by official
-        if ($request->filled('official')) {
-            $procurements->where('official_id', $request->official);
-        }
+        ->when($request->official, function ($query) use ($request){
+            return $query->where('official_id', $request->official);
+        })
 
-        $chartData = $procurements->get()->groupBy(function ($item) {
-            return Carbon::parse($item->receipt)->format('M Y');
-        })->map(function ($groupedItems) {
-            return [
-                'labels' => $groupedItems->pluck('receipt')->first(),
-                'userValues' => $groupedItems->sum(fn($item) => (float) str_replace(['Rp. ', '.', ','], '', $item['user_estimate'])),
-                'dealNegoValues' => $groupedItems->sum(fn($item) => (float) str_replace(['Rp. ', '.', ','], '', $item['deal_nego'])),
-            ];
-        });
+        ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year, ROUND(AVG(user_percentage), 2) as user_percentages')
+        ->groupBy('month_year')
+        ->orderBy('month_year', 'desc')
+        ->get();
 
-        return response()->json(['chartData' => $chartData]);
+        return response()->json(['procurementsData' =>$procurementsData]);
     }
 
 

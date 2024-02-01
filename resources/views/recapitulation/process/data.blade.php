@@ -45,25 +45,24 @@
     <div class="peserta-rapat">
         <table width="100%">
             <thead>
-                <thead>
-                    <tr>
-                        <th rowspan="2" style="text-align: center; width: 2%">No</th>
-                        <th rowspan="2" style="text-align: center; width: 8%">TTPP</th>
-                        <th rowspan="2" style="text-align: center; width: 5%">No PP</th>
-                        <th rowspan="2" style="text-align: center; width: 20%">Nama Pekerjaan</th>
-                        <th rowspan="2" style="text-align: center; width: 4%">Divisi</th>
-                        <th rowspan="2" style="text-align: center; width: 7%">PIC Pengadaan</th>
-                        <th rowspan="2" style="text-align: center; width: 8%">Mitra Kerja / Vendor</th>
-                        <th colspan="3" style="text-align: center; width: 30%">Perbandingan Nilai PP</th>
-                        <th rowspan="2" style="text-align: center; width: 8%">Tgl Memo Ke Direksi</th>
-                        <th rowspan="2" style="text-align: center; width: 8%">Keterangan</th>
-                    </tr>
-                    <tr>
-                        <th>EE User</th>
-                        <th>EE Teknik</th>
-                        <th>Hasil Negosiasi</th>
-                    </tr>
-                </thead>
+                <tr>
+                    <th rowspan="2" style="text-align: center; width: 2%">No</th>
+                    <th rowspan="2" style="text-align: center; width: 8%">TTPP</th>
+                    <th rowspan="2" style="text-align: center; width: 5%">No PP</th>
+                    <th rowspan="2" style="text-align: center; width: 20%">Nama Pekerjaan</th>
+                    <th rowspan="2" style="text-align: center; width: 4%">Divisi</th>
+                    <th rowspan="2" style="text-align: center; width: 7%">PIC Pengadaan</th>
+                    <th rowspan="2" style="text-align: center; width: 8%">Mitra Kerja / Vendor</th>
+                    <th colspan="3" style="text-align: center; width: 30%">Perbandingan Nilai PP</th>
+                    <th rowspan="2" style="text-align: center; width: 8%">Tgl Memo Ke Direksi</th>
+                    <th rowspan="2" style="text-align: center; width: 8%">Keterangan</th>
+                </tr>
+                <tr>
+                    <th>EE User</th>
+                    <th>EE Teknik</th>
+                    <th>Hasil Negosiasi</th>
+                </tr>
+            </thead>
             <tbody>
                 @if(count($procurements) > 0)
                 @foreach($procurements as $procurement)

@@ -11,8 +11,8 @@ $title    = 'Charts';
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="division-filter" class="col-sm-3 form-label">Division:</label>
-                        <select id="division-filter" class="form-select">
+                        <label for="division" class="col-sm-3 form-label">Division:</label>
+                        <select id="division" class="form-select" name="division">
                             <option value="">All Divisions</option>
                             @foreach ($divisions as $division)
                             <option value="{{ $division->id }}">{{ $division->name }}</option>
@@ -20,8 +20,8 @@ $title    = 'Charts';
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="official-filter" class="col-sm-3 form-label">Official:</label>
-                        <select id="official-filter" class="form-select">
+                        <label for="official" class="col-sm-3 form-label">Official:</label>
+                        <select id="official" class="form-select" name="official">
                             <option value="">All Officials</option>
                             @foreach ($officials as $official)
                             <option value="{{ $official->id }}">{{ $official->name }}</option>
@@ -44,9 +44,18 @@ $title    = 'Charts';
                         <th>Selesai</th>
                     </thead>
                 </table>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <canvas id="barChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 mt-3">
+        <div class="card">
+            <div class="card-body">
+                <h3>Charts</h3>
+                <div class="row mb-3">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <canvas id="barChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,8 +73,8 @@ $title    = 'Charts';
             ajax: {
                 url: route('chart.procurementsData'),
                 data: function (d) {
-                    d.division = $('#division-filter').val();
-                    d.official = $('#official-filter').val();
+                    d.division = $('#division').val();
+                    d.official = $('#official').val();
                     // Add more filters if needed
                 },
                 // dataSrc: 'tableData.data' // Specify the data source for DataTables
@@ -85,66 +94,130 @@ $title    = 'Charts';
             ],
         });
         // Event listener for Division dropdown
-        $('#division-filter').on('change', function () {
+        $('#division').on('change', function () {
             dataTable.ajax.reload();
         });
 
         // Event listener for Official dropdown
-        $('#official-filter').on('change', function () {
+        $('#official').on('change', function () {
             dataTable.ajax.reload();
         });
     });
 </script>
+
 <script>
-    // Ajax request to get data from backend
-    $.ajax({
-        url: route('chart.barChart'),
-        type: 'GET',
-        data: {
-            division: $('#division-filter').val(),
-            official: $('#official-filter').val(),
-            // ... add more filters if needed
-        },
-        success: function (data) {
-            var colorPalette = [
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                // ... tambahkan warna sesuai kebutuhan
-            ];
+    $(document).ready(function() {
 
-            // Data received from backend
-            var chartData = data.chartData;
+    let chart;
 
-            // Membuat struktur data yang sesuai untuk Chart.js
-            var labels = Object.keys(chartData);
-            var userValues = Object.values(chartData).map(item => item.userValues);
-            var dealNegoValues = Object.values(chartData).map(item => item.dealNegoValues);
+    function getData(){
+        $.ajax({
+            url: route('chart.barChart'),
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                'division' : $("#division").val(),
+                'official' : $("#official").val(),
+            },
+            success:function(data){
 
-            // Create bar chart
-            var ctxBar = document.getElementById('barChart');
-            var barChart = new Chart(ctxBar, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'User Estimate',
-                            data: userValues,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                        },
-                        {
-                            label: 'Deal Nego',
-                            data: dealNegoValues,
+                const procurementsData = data.procurementsData;
+
+                const ctx = document.getElementById('barChart').getContext('2d');
+
+                if (chart){
+                    chart.destroy();
+                }
+                let labels = [];
+                let dataEEUser = [];
+                let dataDealNego = [];
+                let dataUserPercentage = [];
+
+                if (procurementsData.length > 0) {
+                    labels = procurementsData.map(item => item.month_year);
+                    dataEEUser = procurementsData.map(item => item.user_estimates);
+                    dataDealNego = procurementsData.map(item => item.deal_negos);
+                    dataUserPercentage = procurementsData.map(item => item.user_percentages);
+                }
+
+                chart = new Chart(ctx,{
+                    type:'scatter',
+                    data:{
+                        labels: labels,
+                        datasets: [
+                            {
+                            type: 'bar',
+                            label: 'EE User',
+                            data: dataEEUser,
                             backgroundColor: 'rgba(255, 99, 132, 0.2)',
                             borderColor: 'rgba(255, 99, 132, 1)',
                             borderWidth: 1,
+                            yAxisID: 'left-y-axis',
+                            },
+                            {
+                            type: 'bar',
+                            label: 'Hasil Negosiasi',
+                            data: dataDealNego,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            yAxisID: 'left-y-axis',
+                            },
+                            {
+                            type: 'line',
+                            label: '% User',
+                            data: dataUserPercentage,
+                            borderColor: 'rgb(75, 192, 192)',
+                            lineTension: 0,
+                            fill: false,
+                            borderColor: 'orange',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            pointBorderColor: 'orange',
+                            pointBackgroundColor: 'rgba(255,150,0,0.5)',
+                            pointRadius: 5,
+                            pointHoverRadius: 10,
+                            pointHitRadius: 30,
+                            pointBorderWidth: 2,
+                            pointStyle: 'rectRounded',
+                            yAxisID: 'right-y-axis',
+                            },
+                        ]
+                    },
+                    options:{
+                        responsive:true,
+                        scales:{
+                            'left-y-axis': {
+                                type: 'linear',
+                                position: 'left'
+                            },
+                            'right-y-axis': {
+                                type: 'linear',
+                                position: 'right'
+                            },
+                            y: {
+                                beginAtZero: true,
+                            }
                         },
-                    ],
-                },
-            });
-        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                            },
+                        },
+                    }
+                })
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    }
+    getData();
+      // Tambahkan event listener untuk pembaruan ketika filter diubah
+    $('#division, #official').on('change', function() {
+        getData();
     });
+});
 </script>
 @endsection
