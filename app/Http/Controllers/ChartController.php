@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Official;
@@ -15,7 +16,12 @@ class ChartController extends Controller
     {
         $divisions = Division::where('status', '1')->get();
         $officials = Official::where('status', '1')->get();
-        return view('procurement.chart.index', compact('divisions', 'officials'));
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::where('status', '1')
+            ->pluck(DB::raw('YEAR(receipt) as year'))
+            ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+            ->unique();
+        return view('procurement.chart.index', compact('divisions', 'officials', 'years', 'currentYear'));
     }
 
     public function procurementsData(Request $request)
@@ -93,6 +99,12 @@ class ChartController extends Controller
                 if ($request->filled('official')) {
                     $query->where('official_id', $request->official);
                 }
+
+                if ($request->filled('year')) {
+                    $year = $request->year;
+
+                    $query->whereRaw('YEAR(receipt) = ?', [$year]);
+                }
             })
             ->addIndexColumn()
             ->rawColumns(['is_selected'])
@@ -109,6 +121,12 @@ class ChartController extends Controller
 
         ->when($request->official, function ($query) use ($request){
             return $query->where('official_id', $request->official);
+        })
+
+        ->when($request->year, function ($query) use ($request){
+            $year = $request->year;
+
+            return $query->whereRaw('YEAR(receipt) = ?', [$year]);
         })
 
         ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year, ROUND(AVG(user_percentage), 2) as user_percentages')

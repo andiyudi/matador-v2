@@ -10,7 +10,7 @@ $title    = 'Charts';
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="division" class="col-sm-3 form-label">Division:</label>
                         <select id="division" class="form-select" name="division">
                             <option value="">All Divisions</option>
@@ -19,12 +19,20 @@ $title    = 'Charts';
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="official" class="col-sm-3 form-label">Official:</label>
                         <select id="official" class="form-select" name="official">
                             <option value="">All Officials</option>
                             @foreach ($officials as $official)
                             <option value="{{ $official->id }}">{{ $official->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="year" class="col-sm-3 form-label">Tahun:</label>
+                        <select id="year" class="form-select" name="year">
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -75,6 +83,7 @@ $title    = 'Charts';
                 data: function (d) {
                     d.division = $('#division').val();
                     d.official = $('#official').val();
+                    d.year = $('#year').val();
                     // Add more filters if needed
                 },
                 // dataSrc: 'tableData.data' // Specify the data source for DataTables
@@ -102,6 +111,9 @@ $title    = 'Charts';
         $('#official').on('change', function () {
             dataTable.ajax.reload();
         });
+        $('#year').on('change', function () {
+            dataTable.ajax.reload();
+        });
     });
 </script>
 
@@ -109,6 +121,7 @@ $title    = 'Charts';
     $(document).ready(function() {
 
     let chart;
+    Chart.register(ChartDataLabels);
 
     function getData(){
         $.ajax({
@@ -118,6 +131,7 @@ $title    = 'Charts';
             data: {
                 'division' : $("#division").val(),
                 'official' : $("#official").val(),
+                'year' : $("#year").val(),
             },
             success:function(data){
 
@@ -195,14 +209,25 @@ $title    = 'Charts';
                                 type: 'linear',
                                 position: 'right'
                             },
-                            y: {
-                                beginAtZero: true,
-                            }
                         },
                         plugins: {
                             legend: {
                                 display: true,
                                 position: 'bottom',
+                            },
+                            datalabels: {
+                                display: true,
+                                align: 'top',
+                                anchor: 'end',
+                                formatter: function (value, context) {
+                                    if (context.dataset.label === 'EE User' || context.dataset.label === 'Hasil Negosiasi') {
+                                        return 'Rp. ' + (value || 0).toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+                                    } else if (context.dataset.label === '% User') {
+                                        return (value || 0) + '%';
+                                    } else {
+                                        return value || 0;
+                                    }
+                                }
                             },
                         },
                     }
@@ -215,7 +240,7 @@ $title    = 'Charts';
     }
     getData();
       // Tambahkan event listener untuk pembaruan ketika filter diubah
-    $('#division, #official').on('change', function() {
+    $('#division, #official, #year').on('change', function() {
         getData();
     });
 });
