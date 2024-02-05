@@ -113,29 +113,43 @@ class ChartController extends Controller
 
     public function barChart(Request $request)
     {
+        $year = $request->year ?? Carbon::now()->year;
+
+        // Dapatkan semua nama bulan dalam satu tahun
+        $allMonths = array_map(function($month) use ($year) {
+            return date("F-Y", strtotime("$year-$month-01"));
+        }, range(1, 12));
+
+        // Ambil data dari database
         $procurementsData = Procurement::where('status', '1')
+            ->when($request->division, function ($query) use ($request){
+                return $query->where('division_id', $request->division);
+            })
+            ->when($request->official, function ($query) use ($request){
+                return $query->where('official_id', $request->official);
+            })
+            ->when($request->year, function ($query) use ($request){
+                $year = $request->year;
+                return $query->whereRaw('YEAR(receipt) = ?', [$year]);
+            })
+            ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year, ROUND(AVG(user_percentage), 2) as user_percentages')
+            ->groupBy('month_year')
+            ->orderBy('month_year', 'desc')
+            ->get();
 
-        ->when($request->division, function ($query) use ($request){
-            return $query->where('division_id', $request->division);
-        })
+        // Inisialisasi array dengan nilai nol untuk semua bulan
+        $result = array_fill_keys($allMonths, ['user_estimates' => 0, 'deal_negos' => 0, 'user_percentages' => 0]);
 
-        ->when($request->official, function ($query) use ($request){
-            return $query->where('official_id', $request->official);
-        })
+        // Isi array dengan data yang diterima dari database
+        foreach ($procurementsData as $data) {
+            $result[$data->month_year] = [
+                'user_estimates' => $data->user_estimates,
+                'deal_negos' => $data->deal_negos,
+                'user_percentages' => $data->user_percentages,
+            ];
+        }
 
-        ->when($request->year, function ($query) use ($request){
-            $year = $request->year;
-
-            return $query->whereRaw('YEAR(receipt) = ?', [$year]);
-        })
-
-        ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year, ROUND(AVG(user_percentage), 2) as user_percentages')
-        ->groupBy('month_year')
-        ->orderBy('month_year', 'desc')
-        ->get();
-
-        return response()->json(['procurementsData' =>$procurementsData]);
+        return response()->json(['procurementsData' => $result]);
     }
-
 
 }
