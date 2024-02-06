@@ -16,7 +16,7 @@
                     Print
                 </a>
                 <a class="dropdown-item" href="{{ route('schedule.index', $tender->id) }}" target="_blank">Schedule</a>
-                <a class="dropdown-item" href="#">Report</a>
+                <a class="dropdown-item" href="{{ route('negotiation.index', $tender->id) }}" target="_blank">Report</a>
                 <a class="dropdown-item" href="{{ route($route.'.view', $tender->id) }}">Decision</a>
             @else
                 <a class="dropdown-item" href="{{ route($route.'.detail', $tender->id) }}">Detail</a>
