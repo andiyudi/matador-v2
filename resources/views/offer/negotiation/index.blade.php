@@ -8,7 +8,30 @@ $title    = 'Negotiation '. $tender->procurement->number;
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Vendor</th>
+                                <th>Pengambilan Dokumen</th>
+                                <th>Aanwijzing</th>
+                                <th>Penawaran Harga</th>
+                                <th>Hasil Negosiasi</th>
+                            </tr>
+                        </thead>
+                        {{-- @foreach($tender->negotiations as $negotiation)
+                            <tbody>
+                                <tr>
+                                    <td>{{ $negotiation->businessPartner->partner->name }}</td>
+                                    <td>{{ $negotiation->document_pickup }}</td>
+                                    <td>{{ $negotiation->aanwijzing }}</td>
+                                    <td>Rp. {{ number_format($negotiation->quotation, 0, ',', '.') }}</td>
+                                    <td>Rp. {{ number_format($negotiation->nego_price, 0, ',', '.') }}</td>
+                                </tr>
+                            </tbody>
+                        @endforeach --}}
+                    </table>
+                </div>
             </div>
         </div>
     </div>

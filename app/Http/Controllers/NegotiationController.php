@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tender;
 use App\Models\Negotiation;
 use Illuminate\Http\Request;
+use App\Models\BusinessPartnerTender;
 
 class NegotiationController extends Controller
 {
@@ -31,8 +32,34 @@ class NegotiationController extends Controller
      */
     public function store(Request $request, $id)
     {
-        dd($request->all());
+        // dd($request->all());
+        // Loop through business partners to save negotiations
+        foreach ($request->nego_price as $businessPartnerId => $negoPrices) {
+            // Ubah $negoPrices menjadi array jika tidak array
+            $negoPrices = is_array($negoPrices) ? $negoPrices : [$negoPrices];
+
+            // Cari business_partner_tender_id berdasarkan tender_id dan business_partner_id
+            $businessPartnerTender = BusinessPartnerTender::where('tender_id', $id)
+                ->where('business_partner_id', $businessPartnerId)
+                ->first();
+
+            if ($businessPartnerTender) {
+                foreach ($negoPrices as $negoPrice) {
+                    // Ubah format currency menjadi double
+                    $negoPrice = str_replace('.', '', $negoPrice); // Menghapus koma dari format currency
+
+                    // Simpan data negosiasi untuk setiap vendor
+                    $negotiation = new Negotiation();
+                    $negotiation->business_partner_tender_id = $businessPartnerTender->id;
+                    $negotiation->nego_price = $negoPrice;
+                    $negotiation->save();
+                }
+            }
+        }
+
+        return redirect()->route('negotiation.index', $id)->with('success', 'Negotiations saved successfully.');
     }
+
 
     /**
      * Display the specified resource.

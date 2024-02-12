@@ -30,13 +30,13 @@ $title    = 'Create Data Negotiation '. $tender->procurement->number;
                                 <td>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                        <input type="text" id="quotation_{{ $businessPartner->id }}" name="quotation_{{ $businessPartner->id }}" class="form-control currency">
+                                        <input type="text" id="quotation_{{ $businessPartner->id }}" name="quotation_{{ $businessPartner->id }}" class="form-control currency" value="0">
                                     </div>
                                 </td>
                                 <td>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">Rp.</span>
-                                        <input type="text" id="nego_price_{{ $businessPartner->id }}" name="nego_price[{{ $businessPartner->id }}][]" class="form-control currency">
+                                        <input type="text" id="nego_price_{{ $businessPartner->id }}" name="nego_price[{{ $businessPartner->id }}][]" class="form-control currency" value="0">
                                     </div>
                                 </td>
                                 <td>
@@ -61,7 +61,7 @@ $title    = 'Create Data Negotiation '. $tender->procurement->number;
         var businessPartnerId = $(this).data('business-partner-id');
         var newRow = '<tr>' +
             '<td colspan="4"></td>' + // Untuk kolom Nama Vendor, kosong karena ini akan ditambahkan melalui PHP
-            '<td><div class="input-group"><span class="input-group-text" id="basic-addon1">Rp.</span><input type="text" name="nego_price[' + businessPartnerId + '][]" class="form-control currency"></div></td>' +
+            '<td><div class="input-group"><span class="input-group-text" id="basic-addon1">Rp.</span><input type="text" name="nego_price[' + businessPartnerId + '][]" class="form-control currency" value="0"></div></td>' +
             '<td><button type="button" class="btn btn-danger btn-sm remove-negotiation">Hapus</button></td>' +
             '</tr>';
 
