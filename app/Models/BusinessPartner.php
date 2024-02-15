@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Partner;
 use App\Models\Business;
+use App\Models\Negotiation;
 use Spatie\Activitylog\LogOptions;
 use App\Models\BusinessPartnerFiles;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,13 @@ class BusinessPartner extends Model
     public function tenders()
     {
         return $this->belongsToMany(Tender::class, 'business_partner_tender')
-        ->withPivot('start_hour', 'end_hour', 'is_selected', 'value_cost')
+        ->withPivot('start_hour', 'end_hour', 'is_selected', 'value_cost', 'document_pickup', 'aanwijzing_date', 'quotation')
         ->withTimestamp();
     }
+
+    public function negotiations()
+    {
+        return $this->hasMany(Negotiation::class, 'business_partner_id');
+    }
+
 }

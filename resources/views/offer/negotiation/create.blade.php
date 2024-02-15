@@ -26,7 +26,7 @@ $title    = 'Create Data Negotiation '. $tender->procurement->number;
                             <tr>
                                 <td>{{ $businessPartner->partner->name }}</td>
                                 <td><input type="date" id="document_pickup_{{ $businessPartner->id }}" name="document_pickup_{{ $businessPartner->id }}" class="form-control"></td>
-                                <td><input type="date" id="aanwijzing_{{ $businessPartner->id }}" name="aanwijzing_{{ $businessPartner->id }}" class="form-control"></td>
+                                <td><input type="date" id="aanwijzing_date_{{ $businessPartner->id }}" name="aanwijzing_date_{{ $businessPartner->id }}" class="form-control"></td>
                                 <td>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1">Rp.</span>

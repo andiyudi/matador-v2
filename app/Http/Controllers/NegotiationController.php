@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Tender;
 use App\Models\Negotiation;
 use Illuminate\Http\Request;
+use App\Models\BusinessPartner;
 use App\Models\BusinessPartnerTender;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class NegotiationController extends Controller
 {
@@ -15,7 +17,26 @@ class NegotiationController extends Controller
     public function index($id)
     {
         $tender = Tender::findOrFail($id);
-        return view ('offer.negotiation.index', compact('tender'));
+        $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
+        // Mengambil nilai nego_price terendah untuk tender ini
+        $minNegoPrice = Negotiation::where('tender_id', $tender->id)
+        ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
+        ->min('nego_price');
+
+        // Mendapatkan business partner yang memiliki nego_price terendah
+        $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
+            ->where('nego_price', $minNegoPrice)
+            ->get();
+
+        $businessPartnersNames = [];
+        foreach ($businessPartnersWithMinNegoPrice as $negotiation) {
+            $businessPartner = BusinessPartner::find($negotiation->business_partner_id);
+            if ($businessPartner) {
+                $businessPartnersNames[] = $businessPartner->partner->name;
+            }
+        }
+
+        return view('offer.negotiation.index', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount'));
     }
 
     /**
@@ -50,23 +71,33 @@ class NegotiationController extends Controller
 
                     // Simpan data negosiasi untuk setiap vendor
                     $negotiation = new Negotiation();
+                    $negotiation->tender_id = $id;
+                    $negotiation->business_partner_id = $businessPartnerId;
                     $negotiation->business_partner_tender_id = $businessPartnerTender->id;
                     $negotiation->nego_price = $negoPrice;
                     $negotiation->save();
                 }
             }
+            // Atur nilai kolom aanwijzing, document_pickup, dan quotation pada business_partner_tender
+            $businessPartnerTender->aanwijzing_date = $request->input('aanwijzing_date_' . $businessPartnerId);
+            $businessPartnerTender->document_pickup = $request->input('document_pickup_' . $businessPartnerId);
+            // Ubah format currency quotation menjadi double
+            $quotation = str_replace('.', '', $request->input('quotation_' . $businessPartnerId));
+            $businessPartnerTender->quotation = $quotation;
+            $businessPartnerTender->save();
         }
 
-        return redirect()->route('negotiation.index', $id)->with('success', 'Negotiations saved successfully.');
+        Alert::success('Success', 'Negotiations saved successfully.');
+        return redirect()->route('negotiation.index', $id);
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(Negotiation $negotiation)
+    public function show($id)
     {
-        //
+        dd($id);
     }
 
     /**
@@ -88,8 +119,8 @@ class NegotiationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Negotiation $negotiation)
+    public function destroy($id)
     {
-        //
+        dd($id);
     }
 }

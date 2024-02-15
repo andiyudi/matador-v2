@@ -15,7 +15,17 @@ class BusinessPartnerTender extends Model
         'id',
     ];
 
-    public function negotiation()
+    public function tender()
+    {
+        return $this->belongsTo(Tender::class);
+    }
+
+    public function businessPartner()
+    {
+        return $this->belongsTo(BusinessPartner::class);
+    }
+
+    public function negotiations()
     {
         return $this->hasMany(Negotiation::class, 'business_partner_tender_id');
     }

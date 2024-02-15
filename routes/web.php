@@ -55,6 +55,8 @@ Route::prefix('offer')->group(function () {
     Route::get('{tender_id}/negotiation', [NegotiationController::class, 'index'])->name('negotiation.index');
     Route::get('{tender_id}/negotiation/create', [NegotiationController::class, 'create'])->name('negotiation.create');
     Route::post('{tender_id}/negotiation/store', [NegotiationController::class, 'store'])->name('negotiation.store');
+    Route::delete('{tender_id}/negotiation/destroy', [NegotiationController::class, 'destroy'])->name('negotiation.destroy');
+    Route::get('{tender_id}/negotiation/show', [NegotiationController::class, 'show'])->name('negotiation.show');
 });
 
 Route::prefix('procurements')->group(function () {

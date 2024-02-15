@@ -76,18 +76,6 @@ $title    = 'Jadwal Lelang '. $tender->procurement->name;
                                 </td>
                             </tr>
                         @endforeach
-                        {{-- @foreach ($tender->businessPartners as $businessPartner)
-                        <tr>
-                            <td class="text-center">{{ $loop->iteration }}.</td>
-                            <td>{{ $businessPartner->partner->name }}</td>
-                            <td>
-                                {{ date('H:i', strtotime($businessPartner->pivot->start_hour)) }}
-                            </td>
-                            <td>
-                                {{ date('H:i', strtotime($businessPartner->pivot->end_hour)) }}
-                            </td>
-                        </tr>
-                        @endforeach --}}
                     </tbody>
                 </table>
                 <div class="row mb-3">

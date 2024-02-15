@@ -8,10 +8,12 @@ $title    = 'Negotiation '. $tender->procurement->number;
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                @if($negotiationCount > 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Nama Vendor</th>
                                 <th>Pengambilan Dokumen</th>
                                 <th>Aanwijzing</th>
@@ -19,24 +21,50 @@ $title    = 'Negotiation '. $tender->procurement->number;
                                 <th>Hasil Negosiasi</th>
                             </tr>
                         </thead>
-                        {{-- @foreach($tender->negotiations as $negotiation)
+                        @foreach($tender->businessPartners as $businessPartner)
                             <tbody>
                                 <tr>
-                                    <td>{{ $negotiation->businessPartner->partner->name }}</td>
-                                    <td>{{ $negotiation->document_pickup }}</td>
-                                    <td>{{ $negotiation->aanwijzing }}</td>
-                                    <td>Rp. {{ number_format($negotiation->quotation, 0, ',', '.') }}</td>
-                                    <td>Rp. {{ number_format($negotiation->nego_price, 0, ',', '.') }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $businessPartner->partner->name }}</td>
+                                    <td>{{ $businessPartner->pivot->document_pickup }}</td>
+                                    <td>{{ $businessPartner->pivot->aanwijzing_date }}</td>
+                                    <td>Rp. {{ number_format($businessPartner->pivot->quotation, 0, ',', '.') }}</td>
+                                    <td>
+                                        @php
+                                            $negoPrices = $businessPartner->negotiations->pluck('nego_price')->map(function($price) {
+                                                return $price == 0 ? '<span class="badge bg-danger">GUGUR</span>' : 'Rp. ' . number_format($price, 0, ',', '.');
+                                            })->implode('<br>');
+                                        @endphp
+                                        {!! $negoPrices !!}
+                                    </td>
                                 </tr>
                             </tbody>
-                        @endforeach --}}
+                        @endforeach
                     </table>
+                    <br>
+                    <h3>Hasil negosiasi terendah incl. PPN adalah sebesar Rp. {{ number_format($minNegoPrice, 0, ',', '.') }}</h3>
+                    <p>Atas nama vendor:</p>
+                    <ul>
+                        @foreach($businessPartnersNames as $name)
+                            <li>{{ $name }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('page-action')
+@if($negotiationCount == 0)
 <a href="{{ route('negotiation.create', $tender->id) }}" class="btn btn-primary mb-3">Add Negotiation Data</a>
+@else
+<a href="{{ route('negotiation.show', $tender->id) }}" class="btn btn-info mb-3">Print Negotiation Data</a>
+<form action="{{ route('negotiation.destroy', $tender->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger mb-3">Delete Negotiation Data</button>
+</form>
+@endif
 @endpush
