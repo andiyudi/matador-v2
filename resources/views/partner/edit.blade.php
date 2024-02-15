@@ -11,12 +11,21 @@ $title    = 'Vendors'
                 <form action="{{ route('partner.update',  ['partner' => $partner->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    <div class="mb-3">
-                        <label for="name" class="form-label required">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $partner->name }}">
-                        @error('name')
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="name" class="form-label required">Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $partner->name }}">
+                            @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="npwp" class="form-label required">NPWP</label>
+                            <input type="text" class="form-control @error('npwp') is-invalid @enderror" id="npwp" name="npwp" value="{{ $partner->npwp }}">
+                            @error('npwp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col mb-3">

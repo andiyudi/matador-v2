@@ -77,6 +77,7 @@ class PartnerController extends Controller
        // validasi input
         $validatedData = $request->validate([
             'name' => 'required|unique:partners',
+            'npwp' => 'required',
             'address' => 'required',
             'domicility' => 'required',
             'area' => 'required',
@@ -92,6 +93,7 @@ class PartnerController extends Controller
         // simpan data vendor
         $vendor = new Partner;
         $vendor->name = $request->name;
+        $vendor->npwp = $request->npwp;
         $vendor->address = $request->address;
         $vendor->domicility = $request->domicility;
         $vendor->area = $request->area;
@@ -133,6 +135,7 @@ class PartnerController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|unique:partners,name,'.$partner->id,
+            'npwp' => 'required',
             'address' => 'required',
             'domicility' => 'required',
             'area' => 'required',
@@ -146,6 +149,7 @@ class PartnerController extends Controller
         ]);
         $partner->update([
             'name' => $validatedData['name'],
+            'npwp' => $validatedData['npwp'],
             'address' => $validatedData['address'],
             'domicility' => $validatedData['domicility'],
             'area' => $validatedData['area'],

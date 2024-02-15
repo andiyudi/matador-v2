@@ -8,12 +8,21 @@ $title    = 'Vendors'
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $partner->name }}" disabled>
-                    @error('name')
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $partner->name }}" disabled>
+                        @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                        @enderror
+                    </div>
+                    <div class="col mb-3">
+                        <label for="npwp" class="form-label">NPWP</label>
+                        <input type="text" class="form-control @error('npwp') is-invalid @enderror" id="npwp" name="npwp" value="{{ $partner->npwp }}">
+                        @error('npwp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col mb-3">

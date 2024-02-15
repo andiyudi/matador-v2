@@ -10,14 +10,23 @@ $title    = 'Vendors'
             <div class="card-body">
                 <form action="{{ route('partner.store') }}" method="POST">
                     @csrf
-                    <div class="mb-3">
-                        <label for="name" class="form-label required">Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Vendor Name">
-                        @error('name')
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="name" class="form-label required">Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" placeholder="Input Vendor Name">
+                            @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="npwp" class="form-label required">NPWP</label>
+                            <input type="text" class="form-control @error('npwp') is-invalid @enderror" id="npwp" name="npwp" value="{{ old('npwp') }}" placeholder="Input NPWP">
+                            @error('npwp')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
-                    <!-- Alamat -->
+                        <!-- Alamat -->
                     <div class="row">
                         <div class="col mb-3">
                             <label for="address" class="form-label required">Address</label>
