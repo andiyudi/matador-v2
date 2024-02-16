@@ -31,8 +31,8 @@ $title    = 'Negotiation '. $tender->procurement->number;
                                     <td>Rp. {{ number_format($businessPartner->pivot->quotation, 0, ',', '.') }}</td>
                                     <td>
                                         @php
-                                            $negoPrices = $businessPartner->negotiations->pluck('nego_price')->map(function($price) {
-                                                return $price == 0 ? '<span class="badge bg-danger">GUGUR</span>' : 'Rp. ' . number_format($price, 0, ',', '.');
+                                            $negoPrices = $businessPartner->negotiations->pluck('nego_price')->sortDesc()->map(function($price) {
+                                                return 'Rp. ' . number_format($price, 0, ',', '.');
                                             })->implode('<br>');
                                         @endphp
                                         {!! $negoPrices !!}
@@ -60,11 +60,14 @@ $title    = 'Negotiation '. $tender->procurement->number;
 @if($negotiationCount == 0)
 <a href="{{ route('negotiation.create', $tender->id) }}" class="btn btn-primary mb-3">Add Negotiation Data</a>
 @else
-<a href="{{ route('negotiation.show', $tender->id) }}" class="btn btn-info mb-3">Print Negotiation Data</a>
-<form action="{{ route('negotiation.destroy', $tender->id) }}" method="POST">
+@if(!$multipleBusinessPartners)
+<a href="{{ route('negotiation.show', $tender->id) }}" class="btn btn-info mb-3">Print</a>
+@endif
+<a href="{{ route('negotiation.edit', $tender->id) }}" class="btn btn-warning mb-3">Edit</a>
+<form action="{{ route('negotiation.destroy', $tender->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')">
     @csrf
     @method('DELETE')
-    <button type="submit" class="btn btn-danger mb-3">Delete Negotiation Data</button>
+    <button type="submit" class="btn btn-danger mb-3">Delete</button>
 </form>
 @endif
 @endpush
