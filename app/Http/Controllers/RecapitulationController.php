@@ -62,8 +62,31 @@ class RecapitulationController extends Controller
         ->get();
 
         $reportNegoResults = [];
-        foreach ($procurements as $procurement) {
+        $emptyDealNegos = 0;
+        $dealNegos = 0;
+        $documentsPic = []; //isi dengan data official id yg sudah di group by pada procurement
 
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+
+        foreach ($procurements as $procurement) {
+            // Ambil ID resmi dari procurement
+            $officialId = $procurement->official->initials;
+
+            // Jika ID resmi belum ada di array, tambahkan dan inisialisasi jumlah procurement menjadi 1
+            if (!isset($documentsPic[$officialId])) {
+                $documentsPic[$officialId] = 1;
+            } else {
+                // Jika sudah ada, tambahkan jumlah procurement
+                $documentsPic[$officialId]++;
+            }
+            if ($procurement->deal_nego == null){
+                $emptyDealNegos++;
+            } else {
+                $dealNegos++;
+            }
             foreach ($procurement->tenders as $tender) {
                 $reportNegoResult = $tender->report_nego_result;
                 // Check if $reportNegoResult is not null
@@ -98,6 +121,6 @@ class RecapitulationController extends Controller
             }
         }
 
-        return view('recapitulation.process.data', compact('logoBase64', 'procurements', 'formattedStartDate', 'formattedEndDate', 'formattedDate'));
+        return view('recapitulation.process.data', compact('logoBase64', 'procurements', 'formattedStartDate', 'formattedEndDate', 'formattedDate','emptyDealNegos', 'dealNegos', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
 }

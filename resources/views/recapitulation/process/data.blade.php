@@ -23,10 +23,47 @@
             table-layout: fixed;
             word-wrap: break-word;
         }
-        .peserta-rapat th, .peserta-rapat td {
+        .peserta-rapat th {
+            background-color:rgb(20, 55, 85);
+            color : white;
             border: 1px solid black;
             padding: 8px;
             vertical-align: middle;
+        } .peserta-rapat td {
+            border: 1px solid black;
+            padding: 8px;
+            vertical-align: middle;
+        }
+        .peserta-rapat tbody tr:last-child {
+            border-top: 3px double black; /* Adjust border thickness and color as needed */
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .col-md-4 {
+            width: 48%; /* Sesuaikan lebar div dengan tabel di dalamnya */
+        }
+        .col-md-8 {
+            width: 69%; /* Sesuaikan lebar div dengan tabel di dalamnya */
+        }
+        .blue-column, .black-column {
+            width: 15%; /* Menyesuaikan lebar kolom dengan kolom No pada peserta rapat */
+        }
+        .total-column {
+            background-color:deepskyblue;
+        }
+        .document-pic table {
+            border-collapse: collapse; /* Menyatukan batas seluruhnya */
+            width: 100%;
+            font-size:8pt;
+        }
+        .document-pic th,
+        .document-pic td {
+            border: 1px solid black; /* Batas individual */
+            padding: 3px;
+            vertical-align: middle;
+            text-align: center;
         }
     </style>
     <table>
@@ -93,5 +130,66 @@
             </tbody>
         </table>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="document-position" style="width: 48%;">
+                <tr>
+                    <td class="blue-column" style="background: blue"></td>
+                    <td><strong>Dokumen di Direksi</strong></td>
+                    <td><strong>:&nbsp;&nbsp;</strong></td>
+                    <td><strong>{{ $dealNegos }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="black-column" style="background: black"></td>
+                    <td><strong>Dokumen di Pengadaan</strong></td>
+                    <td><strong>:&nbsp;&nbsp;</strong></td>
+                    <td><strong>{{ $emptyDealNegos }}</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <div class="document-pic">
+                <table style="width: 20%;">
+                @php
+                    $totalDocuments = 0;
+                @endphp
+                @foreach($documentsPic as $officialId => $count)
+                    <tr>
+                        <td style="width: 50%"><strong>{{ $officialId }}</strong></td>
+                        <td style="width: 50%"><strong>{{ $count }}</strong></td>
+                    </tr>
+                @php
+                    $totalDocuments += $count;
+                @endphp
+                @endforeach
+                <tr class="total-column">
+                    <td><strong>TOTAL</strong></td>
+                    <td><strong>{{ $totalDocuments }}</strong></td>
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td style="text-align: center; width: 25%">Jakarta, {{ date('d-m-Y') }}<br>Dibuat Oleh,</td>
+                <td style="width: 50%"></td>
+                <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="height:2cm;">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
+                <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

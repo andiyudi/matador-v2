@@ -55,6 +55,7 @@ $title    = 'Charts';
             </div>
         </div>
     </div>
+    @can('dashboard-administration')
     <div class="col-md-12 mt-3">
         <div class="card">
             <div class="card-body">
@@ -69,6 +70,7 @@ $title    = 'Charts';
             </div>
         </div>
     </div>
+    @endcan
 </div>
 @endsection
 @push('after-script')

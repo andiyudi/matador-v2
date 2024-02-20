@@ -4,69 +4,6 @@
 $pretitle = 'Application';
 $title    = 'Dashboard'
 @endphp
-@if(auth()->user()->hasRole('Developer'))
-    @can('dashboard-chart')
-        <div class="row row-deck row-cards mb-3">
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="doughnutChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="pieChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="myChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="densityChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="areaChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="lineChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="barChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="multipleAxes" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="scatterChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endcan
-@endif
     <div class="row row-deck row-cards">
         <div class="col-12">
             <div class="row row-cards">
@@ -345,6 +282,69 @@ $title    = 'Dashboard'
             </div>
         </div>
     </div>
+    @if(auth()->user()->hasRole('Developer'))
+    @can('dashboard-chart')
+        <div class="row row-deck row-cards mb-3">
+            <div class="col-12">
+                <div class="row row-cards">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="doughnutChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="pieChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="myChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row row-cards">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="densityChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="areaChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="lineChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row row-cards">
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="barChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="multipleAxes" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <canvas id="scatterChart" width="50" height="50"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endcan
+@endif
 <script>
     // Fungsi untuk mengambil data jumlah vendor terdaftar, aktif, dan kedaluwarsa melalui API
     function fetchDataVendor() {
