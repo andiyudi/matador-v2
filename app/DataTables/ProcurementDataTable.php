@@ -28,13 +28,13 @@ class ProcurementDataTable extends DataTable
         ->editColumn('receipt', function ($data) {
             return Carbon::parse($data->receipt)->format('d-m-Y');
         })
-        ->addColumn('division_code', function ($data) {
+        ->editColumn('division_id', function ($data) {
             return $data->division->code;
         })
-        ->addColumn('official_initials', function ($data) {
+        ->editColumn('official_id', function ($data) {
             return $data->official->initials;
         })
-        ->addColumn('status', function ($data) {
+        ->editColumn('status', function ($data) {
             if ($data->status == 0) {
                 return '<span class="badge text-bg-info">Process</span>';
             } elseif ($data->status == 1) {
@@ -93,9 +93,9 @@ class ProcurementDataTable extends DataTable
             Column::make('receipt')->title('TTPP'),
             Column::make('number')->title('No PP'),
             Column::make('name')->title('Nama Pekerjaan'),
-            Column::make('division_code')->title('Divisi'),
-            Column::make('official_initials')->title('PIC Pengadaan'),
-            Column::make('status')->title('Status Dokumen PP')->orderable(false)->searchable(false),
+            Column::make('division_id')->title('Divisi'),
+            Column::make('official_id')->title('PIC Pengadaan'),
+            Column::make('status')->title('Status Dokumen PP'),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

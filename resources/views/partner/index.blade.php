@@ -48,9 +48,9 @@ $title    = 'Vendors'
                 { data: 'director', name: 'director' },
                 { data: 'phone', name: 'phone' },
                 { data: 'grade', name: 'grade' },
-                { data: 'status', name: 'email' },
+                { data: 'status', name: 'status' },
                 { data: 'expired_at', name: 'expired_at' },
-                { data: 'action', name: 'action' },
+                { data: 'action', name: 'action', searchable: false, orderable: false },
             ]
         });
     });

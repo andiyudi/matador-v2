@@ -248,19 +248,59 @@
                                 </a>
                                 <div class="dropdown-menu">
                                     <a href="{{ route('recap.process-nego') }}" class="dropdown-item">
-                                        Recap Process Nego
+                                        Negotiation Process
                                     </a>
                                     <a href="#" class="dropdown-item">
-                                        Matrix Compare Cost
+                                        Comparison Matrix
                                     </a>
                                     <a href="#" class="dropdown-item">
                                         Efficiency Cost
                                     </a>
                                     <a href="#" class="dropdown-item">
-                                        Cancel Recap
+                                        Request Cancelled
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <div class="dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                                    Documentation Recap
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a href="#" class="dropdown-item">
+                                        Based On Value
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Based On Division
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Based On Approval
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Based On Request
+                                    </a>
+                                    <a href="#" class="dropdown-item">
+                                        Based On Compare
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Tender Vendor Selected
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="#">
+                                Monitoring Process
+                            </a>
                         </div>
                     </div>
                     @endcan
