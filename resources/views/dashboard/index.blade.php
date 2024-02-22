@@ -4,37 +4,35 @@
 $pretitle = 'Application';
 $title    = 'Dashboard'
 @endphp
-    <div class="row row-deck row-cards">
-        <div class="col-12">
-            <div class="row row-cards">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <span class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sum" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M18 16v2a1 1 0 0 1 -1 1h-11l6 -7l-6 -7h11a1 1 0 0 1 1 1v2"></path>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-medium">
-                                        Total All Vendors
-                                    </div>
-                                    <div class="text-secondary" id="totalVendor">
-                                        Loading...
-                                    </div>
-                                </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-sum" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M18 16v2a1 1 0 0 1 -1 1h-11l6 -7l-6 -7h11a1 1 0 0 1 1 1v2"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col">
+                            <div class="font-weight-medium">
+                                Total All Vendors
+                            </div>
+                            <div class="text-secondary" id="totalVendor">
+                                Loading...
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-info text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/shopping-cart -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-registered" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -53,14 +51,14 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-success text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-checkbox" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -78,14 +76,14 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-warning text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-facebook -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-square-rounded-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -102,43 +100,39 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <div class="row row-cards">
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <span class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
-                                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
-                                        </svg>
-                                    </span>
-                                </div>
-                                <div class="col">
-                                    <div class="font-weight-medium">
-                                        Total All Procurements
-                                    </div>
-                                    <div class="text-secondary" id="totalProcurement">
-                                        Loading...
-                                    </div>
-                                </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <span class="bg-primary text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/currency-dollar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="col">
+                            <div class="font-weight-medium">
+                                Total All Procurements
+                            </div>
+                            <div class="text-secondary" id="totalProcurement">
+                                Loading...
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-info text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/shopping-cart -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-time" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -158,14 +152,14 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-success text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -184,14 +178,14 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="card card-sm">
-                    <div class="card-body">
-                        <div class="row align-items-center">
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="row align-items-center">
                         <div class="col-auto">
                             <span class="bg-danger text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-facebook -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -210,139 +204,135 @@ $title    = 'Dashboard'
                                 Loading...
                             </div>
                         </div>
-                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-3">
+        <div class="col">
+            <div class="card h-100">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <h1>Last 5 Vendors Data</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Vendor Name</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody  id="latestVendorsTable">
+                                <tr id="loadingRow">
+                                    <td colspan="4" class="text-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <h1>Last 5 Procurements Data</h1>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Job Name</th>
+                                    <th>Procurement</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody  id="latestProcurementTable">
+                                <tr id="loadingRow">
+                                    <td colspan="4" class="text-center">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Data will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    @if(auth()->user()->hasRole('Developer'))
+    @can('dashboard-chart')
+    <div class="row row-deck row-cards mb-3">
+        <div class="col-12">
+            <div class="row row-cards">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="doughnutChart" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="pieChart" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="myChart" width="50" height="50"></canvas>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12">
             <div class="row row-cards">
-                <div class="col-sm-6 col-lg-6">
-                    <div class="card card-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <h1>Last 5 Vendors Data</h1>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Vendor Name</th>
-                                                <th>Grade</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody  id="latestVendorsTable">
-                                            <tr id="loadingRow">
-                                                <td colspan="4" class="text-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="densityChart" width="50" height="50"></canvas>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-6">
-                    <div class="card card-sm">
-                        <div class="card-body">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <h1>Last 5 Procurements Data</h1>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Job Name</th>
-                                                <th>Number</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody  id="latestProcurementTable">
-                                            <tr id="loadingRow">
-                                                <td colspan="4" class="text-center">
-                                                    <div class="spinner-border" role="status">
-                                                        <span class="visually-hidden">Loading...</span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <!-- Data will be populated dynamically -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="areaChart" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="lineChart" width="50" height="50"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="row row-cards">
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="barChart" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="multipleAxes" width="50" height="50"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <canvas id="scatterChart" width="50" height="50"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @if(auth()->user()->hasRole('Developer'))
-    @can('dashboard-chart')
-        <div class="row row-deck row-cards mb-3">
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="doughnutChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="pieChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="myChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="densityChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="areaChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="lineChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="barChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="multipleAxes" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <canvas id="scatterChart" width="50" height="50"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     @endcan
 @endif
 <script>

@@ -40,8 +40,8 @@ $title    = 'Charts';
                 <table id="dashboard-table" class="table table-responsive table-bordered table-striped table-hover" width="100%">
                     <thead>
                         <th>No</th>
-                        <th>Nama</th>
-                        <th>Mitra Kerja</th>
+                        <th>Nama Pekerjaan</th>
+                        <th>Vendor</th>
                         <th>EE User</th>
                         <th>Hasil</th>
                         <th>% User</th>

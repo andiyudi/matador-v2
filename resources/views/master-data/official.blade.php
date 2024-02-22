@@ -32,10 +32,10 @@ $title    = 'Official'
                                 @endif
                             </td>
                             <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editOfficialModal" data-official-id="{{ $official->id }}" data-official-name="{{ $official->name }}" data-official-initials="{{ $official->initials }}" data-official-status="{{ $official->status }}">
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editOfficialModal" data-official-id="{{ $official->id }}" data-official-name="{{ $official->name }}" data-official-initials="{{ $official->initials }}" data-official-status="{{ $official->status }}">
                                     Edit
                                 </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteOfficialModal" data-official-id="{{ $official->id }}">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteOfficialModal" data-official-id="{{ $official->id }}">
                                     Delete
                                 </button>
                             </td>

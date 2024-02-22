@@ -12,9 +12,9 @@ $title    = 'Administration'
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>No. PP</th>
+                            <th>Procurement</th>
                             <th>Detail</th>
-                            <th>Pick Vendor</th>
+                            <th>Vendor</th>
                             <th>EE User</th>
                             <th>EE Teknik</th>
                             <th>Hasil Negosiasi</th>

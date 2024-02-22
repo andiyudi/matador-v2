@@ -14,7 +14,7 @@ $title    = 'Roles';
                 <div class="row mb-3">
                     <label for="name" class="col-sm-2 col-form-label required">Roles Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name', $role->name) }}">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name', $role->name) }}" @if($role->id == 1) disabled @endif>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

@@ -1,4 +1,4 @@
-<div class="table-actions">
+<div class="d-grid gap-2 mx-auto">
     @if($data->is_blacklist == 0)
         <a href="{{ route($route.'.edit', $data->id) }}" class="btn btn-sm btn-dark action">Blacklist</a>
     @else

@@ -21,6 +21,11 @@ class ClassificationController extends Controller
                 ->addColumn('core_business_name', function (Business $classification) {
                     return $classification->parent->name;
                 })
+                ->filterColumn('core_business_name', function($query, $keyword) {
+                    $query->whereHas('parent', function($q) use ($keyword) {
+                        $q->where('name', 'like', "%$keyword%");
+                    });
+                })
                 ->addColumn('action', 'classification.action')
                 ->toJson();
         }

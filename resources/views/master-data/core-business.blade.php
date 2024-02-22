@@ -22,10 +22,10 @@ $title    = 'Core Business'
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $coreBusiness->name }}</td>
                             <td>
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}" data-corebusiness-name="{{ $coreBusiness->name }}">
                                     Edit
                                 </button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteCoreBusinessModal" data-corebusiness-id="{{ $coreBusiness->id }}">
                                     Delete
                                 </button>
                             </td>

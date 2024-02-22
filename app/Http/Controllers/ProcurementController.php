@@ -122,7 +122,7 @@ class ProcurementController extends Controller
             Alert::success('Success', 'Procurement data has been deleted.');
             return redirect()->route('procurements.index');
         } catch (\Exception $e) {
-            Alert::error($e->getMessage());
+            Alert::error('Error', $e->getMessage());
             return redirect()->back()->with('error', 'Failed to delete procurement data: ' . $e->getMessage());
         }
     }

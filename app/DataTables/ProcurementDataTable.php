@@ -90,8 +90,8 @@ class ProcurementDataTable extends DataTable
     {
         return [
             Column::make('DT_RowIndex')->title('No')->orderable(false)->searchable(false),
-            Column::make('receipt')->title('TTPP'),
-            Column::make('number')->title('No PP'),
+            Column::make('receipt')->title('Receipt Date'),
+            Column::make('number')->title('Procurement'),
             Column::make('name')->title('Nama Pekerjaan'),
             Column::make('division_id')->title('Divisi'),
             Column::make('official_id')->title('PIC Pengadaan'),
