@@ -18,7 +18,7 @@ $title    = 'Vendors'
                     </div>
                     <div class="col mb-3">
                         <label for="npwp" class="form-label">NPWP</label>
-                        <input type="text" class="form-control @error('npwp') is-invalid @enderror" id="npwp" name="npwp" value="{{ $partner->npwp }}">
+                        <input type="text" class="form-control @error('npwp') is-invalid @enderror" id="npwp" name="npwp" value="{{ $partner->npwp }}" disabled>
                         @error('npwp')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

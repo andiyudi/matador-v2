@@ -41,6 +41,7 @@ Route::prefix('offer')->group(function () {
     Route::get('{offer}/detail', [OfferController::class, 'detail'])->name('offer.detail');
     Route::put('{offer}/decision', [OfferController::class, 'decision'])->name('offer.decision');
     Route::post('{offer}/company', [OfferController::class, 'company'])->name('offer.company');
+    Route::post('{offer}/change', [OfferController::class, 'change'])->name('offer.change');
     Route::get('official', [OfferController::class, 'official'])->name('offer.official');
     Route::get('schedule/{tender_id}', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('schedule/{tender_id}/create', [ScheduleController::class, 'create'])->name('schedule.create');

@@ -28,7 +28,7 @@ class ReportController extends Controller
         }])
         // $vendors = Partner::with('businesses')
             ->where('status', $status)
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('updated_at', [$startDate, $endDate])
             ->get();
 
         //sembunyikan vendor yg tidak memiliki business partner is_blacklist = 0 kurang dari 1
@@ -108,7 +108,7 @@ class ReportController extends Controller
             $query->where('is_blacklist', "1");
         }])
         // $vendors = Partner::with('businesses')
-            ->whereBetween('created_at', [$startDateBlacklist, $endDateBlacklist])
+            ->whereBetween('updated_at', [$startDateBlacklist, $endDateBlacklist])
             ->get();
 
         //sembunyikan vendor yg tidak memiliki business partner is_blacklist = 1 kurang dari 1

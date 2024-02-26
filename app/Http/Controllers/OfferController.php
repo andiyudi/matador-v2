@@ -11,6 +11,7 @@ use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\Models\BusinessPartner;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -408,6 +409,44 @@ class OfferController extends Controller
         } catch (\Exception $e) {
             Alert::error($e->getMessage());
             return redirect()->back()->with('error', 'Failed to fetch tender data: ' . $e->getMessage());
+        }
+    }
+
+    public function change(Request $request)
+    {
+        try {
+            // Validasi request
+            $request->validate([
+                'newDocument' => 'required|file', // Sesuaikan ukuran file maksimum dengan kebutuhan Anda
+                'tender_file_id' => 'required|exists:tender_files,id' // Pastikan tender_file_id yang diberikan ada dalam database
+            ]);
+
+            // Mendapatkan ID dokumen tender dari request
+            $tenderFileId = $request->input('tender_file_id');
+
+            // Mengambil data dokumen tender dari database
+            $tenderFile = TenderFile::findOrFail($tenderFileId);
+
+            // Simpan dokumen baru
+            $file = $request->file('newDocument');
+            $name = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('tender_partner', $name, 'public');
+
+            // Hapus dokumen sebelumnya dari penyimpanan
+            Storage::delete($tenderFile->path);
+
+            // Memperbarui data dokumen tender dengan dokumen baru
+            $tenderFile->name = $name;
+            $tenderFile->path = $path;
+            $tenderFile->save();
+
+            // Memberikan respons sukses
+            Alert::success('Success', 'Document updated successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            // Jika terjadi kesalahan, tangani di sini
+            Alert::error('Error', 'Failed to update document: ' . $e->getMessage());
+            return redirect()->back();
         }
     }
 }

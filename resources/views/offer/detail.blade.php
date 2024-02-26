@@ -126,7 +126,12 @@ $title    = 'Tender'
                                                 @endif
                                             </td>
                                             <td>{{ $tenderFile->notes }}</td>
-                                            <td><a href="{{ asset('storage/'.$tenderFile->path) }}" class="btn btn-sm btn-info" target="_blank">View</a></td>
+                                            <td>
+                                                <div class="d-grid gap-2 mx-auto">
+                                                    <a href="{{ asset('storage/'.$tenderFile->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                                    <a href="#" class="btn btn-sm btn-danger" data-id="{{ $tenderFile->id }}" data-bs-toggle="modal" data-bs-target="#changeDocumentModal">Change</a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -141,4 +146,36 @@ $title    = 'Tender'
         </div>
     </div>
 </div>
+<div class="modal fade" id="changeDocumentModal" aria-hidden="true" aria-labelledby="changeDocumentModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeDocumentModalLabel">Change Document</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="changeDocumentForm" action="{{ route('offer.change', $tender->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="tender_file_id" id="tender_file_id">
+                    <div class="mb-3">
+                        <label for="newDocument" class="form-label">New Document</label>
+                        <input class="form-control" type="file" id="newDocument" name="newDocument">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    // Menangani klik pada tombol "Change"
+    $('a.btn-danger').click(function(){
+        var tenderFileId = $(this).data('id');
+        console.log(tenderFileId);
+        $('#tender_file_id').val(tenderFileId); // Mengatur nilai tender_file_id pada input tersembunyi di dalam modal
+    });
+</script>
+
 @endsection
