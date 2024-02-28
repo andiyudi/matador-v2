@@ -1,7 +1,7 @@
 @extends('layouts.template')
 @section('content')
 @php
-$pretitle = 'Rekapitulasi PP';
+$pretitle = 'Rekapitulasi Permintaan';
 $title    = 'Masih Dalam Proses Negosiasi';
 @endphp
 <div class="row justify-content-center">

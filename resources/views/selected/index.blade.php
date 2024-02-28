@@ -1,8 +1,8 @@
 @extends('layouts.template')
 @section('content')
 @php
-$pretitle = 'Efisiensi Biaya';
-$title    = 'Perseroan';
+$pretitle = 'Daftar Mitra Kerja';
+$title    = 'Pemenang Tender';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">
@@ -11,12 +11,7 @@ $title    = 'Perseroan';
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label required" for="">Pilih Periode</label>
-                            <div class="input-group input-daterange">
-                                <select class="form-select" id="" name="">
-                                    <option value="">2024</option>
-                                </select>
-                            </div>
+                            <label class="form-label" for="">Sort : Divisi, No PP, Semester</label>
                         </div>
                     </div>
                     <div class="col-md-6">

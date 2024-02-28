@@ -270,19 +270,19 @@
                                     Documentation Recap
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('documentation.value') }}" class="dropdown-item">
                                         Based On Value
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('documentation.division') }}" class="dropdown-item">
                                         Based On Division
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('documentation.approval') }}" class="dropdown-item">
                                         Based On Approval
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('documentation.request') }}" class="dropdown-item">
                                         Based On Request
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('documentation.compare') }}" class="dropdown-item">
                                         Based On Compare
                                     </a>
                                 </div>
@@ -291,14 +291,14 @@
                     </div>
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('monitoring.selected')}}">
                                 Tender Vendor Selected
                             </a>
                         </div>
                     </div>
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('monitoring.process')}}">
                                 Monitoring Process
                             </a>
                         </div>
