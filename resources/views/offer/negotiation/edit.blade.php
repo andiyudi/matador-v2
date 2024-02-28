@@ -24,7 +24,7 @@ $title    = 'Edit Data Negotiation '. $tender->procurement->number;
                         </thead>
                         @foreach($tender->businessPartners as $businessPartner)
                         @php
-                            $negotiations = $businessPartner->negotiations->sortByDesc('nego_price');
+                            $negotiations = $businessPartner->negotiations->sortBy('id');
                         @endphp
                             @foreach ($negotiations as $index => $negotiation)
                                 @if ($index === 0)

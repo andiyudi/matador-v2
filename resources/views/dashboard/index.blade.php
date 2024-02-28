@@ -226,7 +226,7 @@ $title    = 'Dashboard'
                                 </tr>
                             </thead>
                             <tbody  id="latestVendorsTable">
-                                <tr id="loadingRow">
+                                <tr id="loadingRowVendor">
                                     <td colspan="4" class="text-center">
                                         <div class="spinner-border" role="status">
                                             <span class="visually-hidden">Loading...</span>
@@ -256,7 +256,7 @@ $title    = 'Dashboard'
                                 </tr>
                             </thead>
                             <tbody  id="latestProcurementTable">
-                                <tr id="loadingRow">
+                                <tr id="loadingRowProcurement">
                                     <td colspan="4" class="text-center">
                                         <div class="spinner-border" role="status">
                                             <span class="visually-hidden">Loading...</span>
@@ -442,8 +442,12 @@ $title    = 'Dashboard'
             .then(data => {
                 if (data.success) {
                     populateTable(data.data, 'latestVendorsTable');
-                    table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
-                    loadingRow.style.display = 'none'; // Sembunyikan pesan loading
+                    var table = document.getElementById('latestVendorsTable'); // Mendapatkan referensi ke elemen tabel
+                    var loadingRow = document.getElementById('loadingRowVendor'); // Mendapatkan referensi ke elemen baris loading
+                    if (table && loadingRow) {
+                        table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
+                        loadingRow.style.display = 'none'; // Sembunyikan pesan loading
+                    }
                 } else {
                     console.log(data.message); // Display error message if any
                 }
@@ -460,8 +464,13 @@ $title    = 'Dashboard'
             .then(data => {
                 if (data.success) {
                     populateTable(data.data, 'latestProcurementTable');
-                    table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
-                    loadingRow.style.display = 'none'; // Sembunyikan pesan loading
+                    var table = document.getElementById('latestProcurementTable'); // Mendapatkan referensi ke elemen tabel
+                    var loadingRow = document.getElementById('loadingRowProcurement'); // Mendapatkan referensi ke elemen baris loading
+                    // Memeriksa apakah table dan loadingRow ada sebelum mengakses properti style
+                    if (table && loadingRow) {
+                        table.style.display = 'table'; // Tampilkan tabel setelah data diperoleh
+                        loadingRow.style.display = 'none'; // Sembunyikan pesan loading
+                    }
                 } else {
                     console.log(data.message); // Display error message if any
                 }
