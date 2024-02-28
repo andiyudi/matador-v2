@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Edit Data';
-$title    = 'Procurements'
+$title    = 'Procurements';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

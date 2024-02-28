@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Detail';
-$title    = 'Log Data ' . $log->id
+$title    = 'Log Data ' . $log->id;
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

@@ -250,13 +250,13 @@
                                     <a href="{{ route('recap.process-nego') }}" class="dropdown-item">
                                         Negotiation Process
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('recap.comparison-matrix') }}" class="dropdown-item">
                                         Comparison Matrix
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('recap.efficiency-cost') }}" class="dropdown-item">
                                         Efficiency Cost
                                     </a>
-                                    <a href="#" class="dropdown-item">
+                                    <a href="{{ route('recap.request-cancelled') }}" class="dropdown-item">
                                         Request Cancelled
                                     </a>
                                 </div>

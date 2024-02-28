@@ -123,4 +123,19 @@ class RecapitulationController extends Controller
 
         return view('recapitulation.process.data', compact('logoBase64', 'procurements', 'formattedStartDate', 'formattedEndDate', 'formattedDate','emptyDealNegos', 'dealNegos', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
+
+    public function getComparisonMatrix ()
+    {
+        return view ('recapitulation.matrix.index');
+    }
+
+    public function getEfficiencyCost ()
+    {
+        return view ('recapitulation.efficiency.index');
+    }
+
+    public function getRequestCancelled ()
+    {
+        return view ('recapitulation.cancel.index');
+    }
 }

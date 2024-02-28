@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Rekapitulasi PP';
-$title    = 'Masih Dalam Proses Negosiasi'
+$title    = 'Masih Dalam Proses Negosiasi';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

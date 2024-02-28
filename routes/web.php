@@ -95,6 +95,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
     Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
+    Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
+    Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
+    Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
     Route::get('chart/bar-chart', [ChartController::class, 'barChart'])->name('chart.barChart');
@@ -115,7 +118,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('offer', OfferController::class);
 });
 
-Route::middleware('auth', 'verified')->group(function(){
+Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('user', UserController::class);
     Route::resource('role', RoleController::class);
     Route::resource('permission', PermissionController::class);

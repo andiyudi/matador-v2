@@ -1,8 +1,8 @@
 @extends('layouts.template')
 @section('content')
 @php
-$pretitle = 'Data';
-$title    = 'Title';
+$pretitle = 'Rekapitulasi Permintaan';
+$title    = 'Berdasarkan Divisi';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

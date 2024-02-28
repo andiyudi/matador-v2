@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Data Vendor';
-$title    = 'ISO Report'
+$title    = 'ISO Report';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

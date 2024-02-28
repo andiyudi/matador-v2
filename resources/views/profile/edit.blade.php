@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Change';
-$title    = 'Password'
+$title    = 'Password';
 @endphp
 <div class="row justify-content-center">
     <div class="col-md-12">

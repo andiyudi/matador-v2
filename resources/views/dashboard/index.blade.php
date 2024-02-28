@@ -2,7 +2,7 @@
 @section('content')
 @php
 $pretitle = 'Application';
-$title    = 'Dashboard'
+$title    = 'Dashboard';
 @endphp
     <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
         <div class="col">
