@@ -36,7 +36,8 @@ $title    = 'Tender';
 <script id="details-template" type="text/x-handlebars-template">
     <table class="table">
         <tr>
-            <td>Job Name :</td>
+            <td>Job Name</td>
+            <td>:</td>
             <td>@{{job_name}}</td>
         </tr>
     </table>
