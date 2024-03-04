@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('partners', function (Blueprint $table) {
-            $table->string('npwp')->default(NULL)->after('name');
+            $table->string('npwp')->nullable()->default(NULL)->after('name');
+            $table->date('start_deed')->nullable()->default(NULL)->after('expired_at');
+            $table->date('end_deed')->nullable()->default(NULL)->after('start_deed');
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('partners', function (Blueprint $table) {
             $table->dropColumn('npwp');
+            $table->dropColumn('start_deed');
+            $table->dropColumn('end_deed');
         });
     }
 };

@@ -108,7 +108,7 @@ class AdministrationController extends Controller
             $this->validate($request, [
                 'file' => 'required',
                 'id_procurement' => 'required',
-                'type' => 'required|in:0,1,2',
+                'type' => 'required|in:0,1,2,3,4,5',
             ]);
 
             $procurement_id = Procurement::findOrFail($request->id_procurement);

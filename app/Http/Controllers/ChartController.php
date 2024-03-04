@@ -132,7 +132,7 @@ class ChartController extends Controller
                 $year = $request->year;
                 return $query->whereRaw('YEAR(receipt) = ?', [$year]);
             })
-            ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year, ROUND(AVG(user_percentage), 2) as user_percentages')
+            ->selectRaw ('SUM(user_estimate) as user_estimates, SUM(deal_nego) as deal_negos, DATE_FORMAT(receipt, "%M-%Y") as month_year')
             ->groupBy('month_year')
             ->orderBy('month_year', 'desc')
             ->get();
@@ -142,10 +142,11 @@ class ChartController extends Controller
 
         // Isi array dengan data yang diterima dari database
         foreach ($procurementsData as $data) {
+            $user_percentage = $data->user_estimates != 0 ? round((($data->user_estimates - $data->deal_negos) / $data->user_estimates) * 100, 2) : 0;
             $result[$data->month_year] = [
                 'user_estimates' => $data->user_estimates,
                 'deal_negos' => $data->deal_negos,
-                'user_percentages' => $data->user_percentages,
+                'user_percentages' => $user_percentage,
             ];
         }
 

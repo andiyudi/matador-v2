@@ -25,29 +25,31 @@ $title    = 'Documentation '. $procurement->number;
                             <td>{{ $file->name }}</td>
                             <td>
                                 @if ($file->type === 0)
-                                    Legalitas
+                                    User Document
                                 @elseif ($file->type === 1)
-                                    Compro
+                                    Procurement Document
                                 @elseif ($file->type === 2)
-                                    Hasil Survey
+                                    Tender Document
                                 @elseif ($file->type === 3)
-                                    Hasil Survey
+                                    Decision Document
                                 @elseif ($file->type === 4)
-                                    Hasil Survey
+                                    Contract Document
                                 @elseif ($file->type === 5)
-                                    Hasil Survey
+                                    Other Document
                                 @else
                                     Unknown Type
                                 @endif
                             </td>
                             <td>{{ $file->notes }}</td>
                             <td>
-                                <a href="{{ asset('storage/'.$file->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
-                                <form action="{{ route('administration.destroy', ['file_id' => $file->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                </form>
+                                <div class="d-grid gap-2 d-md-flex">
+                                    <a href="{{ asset('storage/'.$file->path) }}" class="btn btn-sm btn-info" target="_blank">View</a>
+                                    <form action="{{ route('administration.destroy', ['file_id' => $file->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this file?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
