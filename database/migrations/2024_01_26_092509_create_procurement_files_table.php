@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('procurement_id');
             $table->string('name');
-            $table->tinyInteger('type')->comment('0: User Document, 1: Procurement Document, 2: Tender Document, 3: Decision Document, 4: Contract Document, 5: Other Document');
+            // $table->tinyInteger('type')->comment('0: User Document, 1: Procurement Document, 2: Tender Document, 3: Decision Document, 4: Contract Document, 5: Other Document');
+            $table->unsignedBigInteger('definition_id');
             $table->string('path');
             $table->string('notes');
             $table->timestamps();
 
             $table->foreign('procurement_id')->references('id')->on('procurements')->onDelete('cascade');
+            $table->foreign('definition_id')->references('id')->on('definitions')->onDelete('cascade');
         });
     }
 

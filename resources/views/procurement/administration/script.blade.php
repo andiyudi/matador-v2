@@ -29,6 +29,12 @@
         $('.negotiation-result').on('input', function() {
             var selectedValue = $(this).val();
             $('#deal_nego').val(selectedValue);
+            $('#contract_value').val(selectedValue);
+        });
+
+        $('#deal_nego').on('input', function() {
+            var selectedValue = $(this).val();
+            $('#contract_value').val(selectedValue);
         });
     });
 </script>

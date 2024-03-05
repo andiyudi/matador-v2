@@ -14,7 +14,13 @@ $title    = 'Documentation '. $procurement->number;
                         <input type="hidden" name="id_procurement" value="{{ $procurement->id }}">
                         <label for="type" class="col-sm-2 col-form-label required">Type File</label>
                         <div class="col-sm-10">
-                            <select class="form-control @error('type') is-invalid @enderror" id="type" name="type">
+                            <select name="definition_id" class="form-control" id="definition_id">
+                                    <option value=""selected disabled>Select Type File</option>
+                                @foreach($definitionFileProcurements as $definitionFileProcurement)
+                                    <option value="{{ $definitionFileProcurement->id }}">{{ $definitionFileProcurement->name }}</option>
+                                @endforeach
+                            </select>
+                            {{-- <select class="form-control @error('type') is-invalid @enderror" id="type" name="type">
                                 <option value="">Select Type File</option>
                                 <option value="0">User Document</option>
                                 <option value="1">Procurement Document</option>
@@ -25,7 +31,7 @@ $title    = 'Documentation '. $procurement->number;
                             </select>
                             @error('type')
                                 <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            @enderror --}}
                         </div>
                     </div>
                     <div class="row mb-3">

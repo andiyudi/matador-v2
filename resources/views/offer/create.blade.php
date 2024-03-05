@@ -92,6 +92,7 @@ $title    = 'Tender';
                                         <th>Director</th>
                                         <th>Phone</th>
                                         <th>Email</th>
+                                        <th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody id="selected_partners_list">

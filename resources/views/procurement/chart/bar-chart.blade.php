@@ -35,7 +35,7 @@
                 const maxDataValuePercentage = Math.max(...dataUserPercentage);
                 const orderOfMagnitudePercentage = Math.pow(10, Math.floor(Math.log10(maxDataValuePercentage)));
                 const stepPercentage = orderOfMagnitudePercentage / 5;
-                const maxAxisValuePercentage = Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage;
+                const maxAxisValuePercentage = (Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage).toFixed(2);
 
                 chart = new Chart(ctx,{
                     type:'scatter',

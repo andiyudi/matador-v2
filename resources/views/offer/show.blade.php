@@ -56,6 +56,7 @@ $title    = 'Tender';
                                         <th>Director</th>
                                         <th>Phone</th>
                                         <th>Email</th>
+                                        <th>End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody id="selected_partners_list">
@@ -76,6 +77,7 @@ $title    = 'Tender';
                                             <td>{{ $businessPartner->partner->director }}</td>
                                             <td>{{ $businessPartner->partner->phone }}</td>
                                             <td>{{ $businessPartner->partner->email }}</td>
+                                            <td>{{ $businessPartner->partner->end_deed ? \Carbon\Carbon::parse($businessPartner->partner->end_deed)->format('d-m-Y') : '' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

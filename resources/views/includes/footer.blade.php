@@ -31,7 +31,7 @@
             </li>
             <li class="list-inline-item">
                 <a href="#" class="link-secondary" rel="noopener">
-                v2.0.0
+                v2.0.1
                 </a>
             </li>
             </ul>

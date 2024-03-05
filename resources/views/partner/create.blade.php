@@ -95,6 +95,23 @@ $title    = 'Vendors';
                             @enderror
                         </div>
                     </div>
+                    <!-- Start & End deed -->
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="start_deed" class="form-label required">Start Date</label>
+                            <input type="date" class="form-control @error('start_deed') is-invalid @enderror" id="start_deed" name="start_deed" value="{{ old('start_deed')}}">
+                            @error('start_deed')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col mb-3">
+                            <label for="end_deed" class="form-label required">End Date</label>
+                            <input type="date" class="form-control @error('end_deed') is-invalid @enderror" id="end_deed" name="end_deed" value="{{ old('end_deed')}}">
+                            @error('end_deed')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                     <!-- Modal dan Grade -->
                     <div class="row">
                         <div class="col mb-3">

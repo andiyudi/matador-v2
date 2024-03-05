@@ -88,6 +88,8 @@ class PartnerController extends Controller
             'grade' => 'required',
             'join_date' => 'required',
             'reference' => 'required',
+            'start_deed' => 'required',
+            'end_deed' => 'required',
         ]);
 
         // simpan data vendor
@@ -104,6 +106,8 @@ class PartnerController extends Controller
         $vendor->grade = $request->grade;
         $vendor->join_date = $request->join_date;
         $vendor->reference = $request->reference;
+        $vendor->start_deed = $request->start_deed;
+        $vendor->end_deed = $request->end_deed;
         $vendor->expired_at = date('Y') . '-12-31';
         $vendor->save();
 
@@ -146,6 +150,8 @@ class PartnerController extends Controller
             'grade' => 'required',
             'reference' => 'required',
             'join_date' => 'required',
+            'start_deed' => 'required',
+            'end_deed' => 'required',
         ]);
         $partner->update([
             'name' => $validatedData['name'],
@@ -160,6 +166,8 @@ class PartnerController extends Controller
             'grade' => $validatedData['grade'],
             'reference' => $validatedData['reference'],
             'join_date' => $validatedData['join_date'],
+            'start_deed' => $validatedData['start_deed'],
+            'end_deed' => $validatedData['end_deed'],
         ]);
 
         Alert::success('Success', 'Vendor data successfully updated');

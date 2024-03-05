@@ -66,9 +66,19 @@ class NegotiationController extends Controller
                 ->first();
 
             if ($businessPartnerTender) {
+                // Validasi document_pickup dan aanwijzing_date
+                if (empty($request->input('document_pickup_' . $businessPartnerId)) || empty($request->input('aanwijzing_date_' . $businessPartnerId))) {
+                    Alert::error('Error', 'Please fill in all required fields.');
+                    return redirect()->back()->withInput();
+                }
                 foreach ($negoPrices as $negoPrice) {
                     // Ubah format currency menjadi double
                     $negoPrice = str_replace('.', '', $negoPrice); // Menghapus koma dari format currency
+
+                    if ($negoPrice > 0 && $request->input('quotation_' . $businessPartnerId) == 0) {
+                        Alert::error('Error', 'Quotation cannot be 0 if the negotiation price is greater than 0.');
+                        return redirect()->back()->withInput();
+                    }
 
                     // Simpan data negosiasi untuk setiap vendor
                     $negotiation = new Negotiation();

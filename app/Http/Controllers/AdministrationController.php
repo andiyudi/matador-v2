@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tender;
 use App\Models\Division;
 use App\Models\Official;
+use App\Models\Definition;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use App\Models\ProcurementFile;
@@ -95,8 +96,9 @@ class AdministrationController extends Controller
      */
     public function create($id)
     {
+        $definitionFileProcurements = Definition::all();
         $procurement= Procurement::find($id);
-        return view('procurement.administration.create', compact('procurement'));
+        return view('procurement.administration.create', compact('definitionFileProcurements','procurement'));
     }
 
     /**
@@ -108,7 +110,7 @@ class AdministrationController extends Controller
             $this->validate($request, [
                 'file' => 'required',
                 'id_procurement' => 'required',
-                'type' => 'required|in:0,1,2,3,4,5',
+                'definition_id' => 'required',
             ]);
 
             $procurement_id = Procurement::findOrFail($request->id_procurement);
@@ -122,7 +124,7 @@ class AdministrationController extends Controller
                 $filePartner->procurement_id    = $procurement_id->id;
                 $filePartner->name              = $name;
                 $filePartner->path              = $path;
-                $filePartner->type              = $request->type;
+                $filePartner->definition_id     = $request->definition_id;
                 $filePartner->notes             = $request->notes;
 
                 $filePartner->save();
@@ -147,7 +149,12 @@ class AdministrationController extends Controller
         $files = ProcurementFile::where('procurement_id', $id)
         ->orderByDesc('created_at')
         ->get();
-        return view('procurement.administration.show', compact('procurement', 'files'));
+
+        $definitions = [];
+        foreach ($files as $file) {
+            $definitions[$file->id] = Definition::find($file->definition_id);
+        }
+        return view('procurement.administration.show', compact('procurement', 'files', 'definitions'));
     }
 
     /**

@@ -24,18 +24,8 @@ $title    = 'Documentation '. $procurement->number;
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $file->name }}</td>
                             <td>
-                                @if ($file->type === 0)
-                                    User Document
-                                @elseif ($file->type === 1)
-                                    Procurement Document
-                                @elseif ($file->type === 2)
-                                    Tender Document
-                                @elseif ($file->type === 3)
-                                    Decision Document
-                                @elseif ($file->type === 4)
-                                    Contract Document
-                                @elseif ($file->type === 5)
-                                    Other Document
+                                @if (isset($definitions[$file->id]))
+                                    {{ $definitions[$file->id]->name }}
                                 @else
                                     Unknown Type
                                 @endif

@@ -15,6 +15,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OfficialController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DefinitionController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\PermissionController;
@@ -118,6 +119,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('definitions', DefinitionController::class);
     Route::resource('officials', OfficialController::class);
     Route::resource('divisions', DivisionController::class);
     Route::resource('procurements', ProcurementController::class);

@@ -73,6 +73,15 @@
                         </div>
                     </div>
                     @endcan
+                    @can('submenu-definition')
+                    <div class="dropdown-menu-columns">
+                        <div class="dropdown-menu-column">
+                            <a class="dropdown-item" href="{{ route('definitions.index') }}">
+                                Definition
+                            </a>
+                        </div>
+                    </div>
+                    @endcan
                     @can('submenu-core-business')
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">

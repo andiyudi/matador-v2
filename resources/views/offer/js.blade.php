@@ -102,6 +102,11 @@ document.addEventListener("DOMContentLoaded", function () {
                             } else {
                                 partnerStatus = 'Unknown';
                             }
+                            let formattedEndDeed = ''; // Inisialisasi dengan string kosong
+                            if (partner.partner.end_deed) {
+                                const endDeedDate = new Date(partner.partner.end_deed);
+                                formattedEndDeed = `${endDeedDate.getDate()}-${endDeedDate.getMonth() + 1}-${endDeedDate.getFullYear()}`;
+                            }
                             const row = `
                                 <tr>
                                     <td>
@@ -112,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <td>${partner.partner.director}</td>
                                     <td>${partner.partner.phone}</td>
                                     <td>${partner.partner.email}</td>
+                                    <td>${formattedEndDeed}</td>
                                 </tr>
                             `;
                             selectedPartnersList.append(row);

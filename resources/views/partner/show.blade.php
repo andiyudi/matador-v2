@@ -90,6 +90,22 @@ $title    = 'Vendors';
                 </div>
                 <div class="row">
                     <div class="col mb-3">
+                        <label for="start_deed" class="form-label">Start Date</label>
+                        <input type="date" class="form-control @error('start_deed') is-invalid @enderror" id="start_deed" name="start_deed" value="{{ $partner->start_deed }}" disabled>
+                        @error('start_deed')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col mb-3">
+                        <label for="end_deed" class="form-label">End Date</label>
+                        <input type="date" class="form-control @error('end_deed') is-invalid @enderror" id="end_deed" name="end_deed" value="{{ $partner->end_deed }}" disabled>
+                        @error('end_deed')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
                         <label for="capital" class="form-label">Capital</label>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">Rp.</span>
