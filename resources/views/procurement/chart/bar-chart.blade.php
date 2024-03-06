@@ -37,6 +37,40 @@
                 const stepPercentage = orderOfMagnitudePercentage / 5;
                 const maxAxisValuePercentage = (Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage).toFixed(2);
 
+                const bgColor = {
+                    id: 'bgColor',
+                    beforeDraw: (chart, steps, options) => {
+                        const { ctx, width, height} = chart;
+                        ctx.fillStyle = options.backgroundColor;
+                        ctx.fillRect(0, 0, width, height);
+                        ctx.restore();
+                    }
+                }
+
+                const logo = new Image();
+                logo.src = '/assets/logo/cmnplogo.png';
+
+                const logoImage = {
+                    id: 'logoImage',
+                    beforeDraw(charts, args, options){
+                    const { ctx, chartArea: { top, bottom, left, right }} = chart;
+                    //console.log(ctx.canvas.offsetWidth);
+                    //console.log(ctx.canvas.offsetHeight);
+                    // console.log(left);
+                    // console.log(right);
+                    const logoWidth = 30;
+                    const logoHeight = 30;
+                    ctx.save();
+                    ctx.globalAlpha = 1.0;
+                        if (logo.complete){
+                        ctx.drawImage(logo, ctx.canvas.offsetWidth - logoWidth, ctx.canvas.offsetHeight - logoHeight, logoWidth, logoHeight);
+                        } else {
+                            logo.onload = () => chart.draw();
+                        }
+                    ctx.restore();
+                    }
+                }
+
                 chart = new Chart(ctx,{
                     type:'scatter',
                     data:{
@@ -142,8 +176,12 @@
                                     return colorMap[datasetIndex] || 'orange'
                                 })
                             },
+                            bgColor: {
+                                backgroundColor: 'white',
+                            },
                         },
-                    }
+                    },
+                    plugins: [bgColor, logoImage],
                 })
             },
             error: function(error){
@@ -163,4 +201,15 @@
         getData();
     });
 });
+function downloadPDF(){
+    const canvas = document.getElementById('barChart');
+    //create image
+    const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
+    //image must go to PDF
+    let pdf = new jsPDF('landscape');
+    pdf.setFontSize(12);
+    pdf.addImage(canvasImage, 'JPEG', 15, 15, 280, 150);
+    pdf.text(20,10, "Divisi Umum - Departemen Pengadaan");
+    pdf.save('barChart.pdf');
+}
 </script>

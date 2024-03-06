@@ -18,10 +18,11 @@ class NegotiationController extends Controller
     {
         $tender = Tender::findOrFail($id);
         $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
+
         // Mengambil nilai nego_price terendah untuk tender ini
         $minNegoPrice = Negotiation::where('tender_id', $tender->id)
-        ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
-        ->min('nego_price');
+            ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
+            ->min('nego_price');
 
         // Mendapatkan business partner yang memiliki nego_price terendah
         $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
@@ -38,8 +39,27 @@ class NegotiationController extends Controller
 
         $multipleBusinessPartners = count($businessPartnersNames) > 1; // Check if more than one business partner
 
-        return view('offer.negotiation.index', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners'));
+        // Mendapatkan daftar business partners dengan urutan tertentu
+        $businessPartners = $tender->businessPartners->sortBy(function($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '>', 0)->min('nego_price');
+        });
+
+        // Memisahkan business partners dengan nego_price 0
+        $businessPartnersWithZeroPrice = $businessPartners->filter(function ($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+        });
+
+        // Menghapus business partners dengan nego_price 0 dari daftar utama
+        $businessPartners = $businessPartners->reject(function ($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+        });
+
+        // Menggabungkan kembali business partners dengan nego_price 0 di akhir daftar
+        $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice);
+
+        return view('offer.negotiation.index', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners', 'businessPartners'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -75,9 +95,25 @@ class NegotiationController extends Controller
                     // Ubah format currency menjadi double
                     $negoPrice = str_replace('.', '', $negoPrice); // Menghapus koma dari format currency
 
-                    if ($negoPrice > 0 && $request->input('quotation_' . $businessPartnerId) == 0) {
-                        Alert::error('Error', 'Quotation cannot be 0 if the negotiation price is greater than 0.');
+                    // Ubah format currency quotation menjadi double
+                    $quotation = str_replace('.', '', $request->input('quotation_' . $businessPartnerId));
+
+                    // Validasi
+                    if ($quotation == 0 && $negoPrice != 0) {
+                        Alert::error('Error', 'Negotiation price can only be 0 if the quotation is 0.');
                         return redirect()->back()->withInput();
+                    }
+
+                    if ($quotation != 0) {
+                        if ($negoPrice > $quotation) {
+                            Alert::error('Error', 'Negotiation price cannot be greater than quotation.');
+                            return redirect()->back()->withInput();
+                        }
+
+                        if ($negoPrice == 0) {
+                            Alert::error('Error', 'Negotiation price cannot be 0 if the quotation is not 0.');
+                            return redirect()->back()->withInput();
+                        }
                     }
 
                     // Simpan data negosiasi untuk setiap vendor
@@ -89,11 +125,10 @@ class NegotiationController extends Controller
                     $negotiation->save();
                 }
             }
+
             // Atur nilai kolom aanwijzing, document_pickup, dan quotation pada business_partner_tender
             $businessPartnerTender->aanwijzing_date = $request->input('aanwijzing_date_' . $businessPartnerId);
             $businessPartnerTender->document_pickup = $request->input('document_pickup_' . $businessPartnerId);
-            // Ubah format currency quotation menjadi double
-            $quotation = str_replace('.', '', $request->input('quotation_' . $businessPartnerId));
             $businessPartnerTender->quotation = $quotation;
             $businessPartnerTender->save();
         }
@@ -101,7 +136,6 @@ class NegotiationController extends Controller
         Alert::success('Success', 'Negotiations saved successfully.');
         return redirect()->route('negotiation.index', $id);
     }
-
 
     /**
      * Display the specified resource.
@@ -136,12 +170,38 @@ class NegotiationController extends Controller
                 ->first();
 
             if ($businessPartnerTender) {
+                if (empty($request->input('document_pickup_' . $businessPartnerId)) || empty($request->input('aanwijzing_date_' . $businessPartnerId))) {
+                    Alert::error('Error', 'Please fill in all required fields.');
+                    return redirect()->back()->withInput();
+                }
+                // Ubah format currency quotation menjadi double
+                $quotation = str_replace('.', '', $request->input('quotation_' . $businessPartnerId));
                 // Mendapatkan ID semua negosiasi yang terkait dengan business partner ini
                 $existingNegotiationIds = $businessPartnerTender->negotiations->pluck('id')->toArray();
 
                 foreach ($negoPrices as $negotiationId => $negoPrice) {
                     // Ubah format currency menjadi double
                     $negoPrice = str_replace('.', '', $negoPrice);
+
+                    if ($quotation != 0) {
+                        // Validasi nego_price yang tidak boleh lebih besar dari quotation
+                        if ($negoPrice > $quotation) {
+                            Alert::error('Error', 'Negotiation price cannot be greater than quotation.');
+                            return redirect()->back()->withInput();
+                        }
+
+                        // Validasi nego_price yang tidak boleh 0 jika quotation tidak sama dengan 0
+                        if ($negoPrice == 0) {
+                            Alert::error('Error', 'Negotiation price cannot be 0 if the quotation is not 0.');
+                            return redirect()->back()->withInput();
+                        }
+                    } else {
+                        // Validasi nego_price yang boleh 0 jika quotation = 0
+                        if ($negoPrice != 0) {
+                            Alert::error('Error', 'Negotiation price can only be 0 if the quotation is 0.');
+                            return redirect()->back()->withInput();
+                        }
+                    }
 
                     if (in_array($negotiationId, $existingNegotiationIds)) {
                         // Jika negosiasi dengan ID ini sudah ada, update nilainya
@@ -162,23 +222,22 @@ class NegotiationController extends Controller
                     }
                 }
 
-                // Hapus negosiasi yang sudah tidak ada dalam permintaan dari database
-                Negotiation::whereIn('id', $existingNegotiationIds)->delete();
-            }
+            // Hapus negosiasi yang sudah tidak ada dalam permintaan dari database
+            Negotiation::whereIn('id', $existingNegotiationIds)->delete();
 
-            // Atur nilai kolom aanwijzing, document_pickup, dan quotation pada business_partner_tender
+                // Atur nilai kolom aanwijzing, document_pickup, dan quotation pada business_partner_tender
             $businessPartnerTender->aanwijzing_date = $request->input('aanwijzing_date_' . $businessPartnerId);
             $businessPartnerTender->document_pickup = $request->input('document_pickup_' . $businessPartnerId);
 
-            // Ubah format currency quotation menjadi double
-            $quotation = str_replace('.', '', $request->input('quotation_' . $businessPartnerId));
             $businessPartnerTender->quotation = $quotation;
             $businessPartnerTender->save();
+            }
         }
 
         Alert::success('Success', 'Negotiations updated successfully.');
         return redirect()->route('negotiation.index', $id);
     }
+
 
     /**
      * Remove the specified resource from storage.

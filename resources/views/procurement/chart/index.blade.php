@@ -64,6 +64,9 @@ $title    = 'Charts';
                     <div class="row">
                         <div class="col-lg-12">
                             <canvas id="barChart"></canvas>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <button class="btn btn-pill btn-sm btn-outline-primary" type="button" onclick="downloadPDF()">Download Chart</button>
+                            </div>
                         </div>
                     </div>
                 </div>

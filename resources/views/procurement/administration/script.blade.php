@@ -36,6 +36,12 @@
             var selectedValue = $(this).val();
             $('#contract_value').val(selectedValue);
         });
+
+         // Memeriksa apakah deal_nego sudah ada saat halaman dimuat pertama kali
+        var dealNegoValue = $('#deal_nego').val();
+        if (dealNegoValue) {
+            $('#contract_value').val(dealNegoValue);
+        }
     });
 </script>
 <script>

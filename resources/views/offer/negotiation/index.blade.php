@@ -21,22 +21,26 @@ $title    = 'Negotiation '. $tender->procurement->number;
                                 <th>Hasil Negosiasi</th>
                             </tr>
                         </thead>
-                        @foreach($tender->businessPartners as $businessPartner)
+                        @foreach($businessPartners as $businessPartner)
                             <tbody>
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $businessPartner->partner->name }}</td>
                                     <td>{{ $businessPartner->pivot->document_pickup }}</td>
                                     <td>{{ $businessPartner->pivot->aanwijzing_date }}</td>
-                                    <td>Rp. {{ number_format($businessPartner->pivot->quotation, 0, ',', '.') }}</td>
-                                    <td>
-                                        @php
-                                            $negoPrices = $businessPartner->negotiations->pluck('nego_price')->sortDesc()->map(function($price) {
-                                                return 'Rp. ' . number_format($price, 0, ',', '.');
-                                            })->implode('<br>');
-                                        @endphp
-                                        {!! $negoPrices !!}
-                                    </td>
+                                    @if($businessPartner->pivot->quotation == 0 && $businessPartner->negotiations->pluck('nego_price')->contains(0))
+                                        <td colspan="2" class="text-center"><span class="badge rounded-pill text-bg-danger">GUGUR</span></td>
+                                    @else
+                                        <td>Rp. {{ number_format($businessPartner->pivot->quotation, 0, ',', '.') }}</td>
+                                        <td>
+                                            @php
+                                                $negoPrices = $businessPartner->negotiations->pluck('nego_price')->sortDesc()->map(function($price) {
+                                                    return 'Rp. ' . number_format($price, 0, ',', '.');
+                                                })->implode('<br>');
+                                            @endphp
+                                            {!! $negoPrices !!}
+                                        </td>
+                                    @endif
                                 </tr>
                             </tbody>
                         @endforeach

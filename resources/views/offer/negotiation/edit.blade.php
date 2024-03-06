@@ -72,7 +72,7 @@ $title    = 'Edit Data Negotiation '. $tender->procurement->number;
                     </table>
                     <div class="d-grid gap-2 mt-3 d-md-flex justify-content-md-end">
                         <a type="button" href="{{ route('negotiation.index', $tender->id) }}" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="submit" class="btn btn-success" onclick="this.disabled=true; this.innerHTML='Processing...'; this.form.submit();">Update</button>
                     </div>
                 </form>
             </div>
