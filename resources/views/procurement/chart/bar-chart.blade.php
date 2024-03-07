@@ -47,30 +47,6 @@
                     }
                 }
 
-                const logo = new Image();
-                logo.src = '/assets/logo/cmnplogo.png';
-
-                const logoImage = {
-                    id: 'logoImage',
-                    beforeDraw(charts, args, options){
-                    const { ctx, chartArea: { top, bottom, left, right }} = chart;
-                    //console.log(ctx.canvas.offsetWidth);
-                    //console.log(ctx.canvas.offsetHeight);
-                    // console.log(left);
-                    // console.log(right);
-                    const logoWidth = 30;
-                    const logoHeight = 30;
-                    ctx.save();
-                    ctx.globalAlpha = 1.0;
-                        if (logo.complete){
-                        ctx.drawImage(logo, ctx.canvas.offsetWidth - logoWidth, ctx.canvas.offsetHeight - logoHeight, logoWidth, logoHeight);
-                        } else {
-                            logo.onload = () => chart.draw();
-                        }
-                    ctx.restore();
-                    }
-                }
-
                 chart = new Chart(ctx,{
                     type:'scatter',
                     data:{
@@ -181,7 +157,7 @@
                             },
                         },
                     },
-                    plugins: [bgColor, logoImage],
+                    plugins: [bgColor],
                 })
             },
             error: function(error){
@@ -203,13 +179,17 @@
 });
 function downloadPDF(){
     const canvas = document.getElementById('barChart');
+    const logoBase64Input = document.getElementById('logoBase64');
+    const logoBase64Value = logoBase64Input.value;
     //create image
     const canvasImage = canvas.toDataURL('image/jpeg', 1.0);
     //image must go to PDF
     let pdf = new jsPDF('landscape');
-    pdf.setFontSize(12);
-    pdf.addImage(canvasImage, 'JPEG', 15, 15, 280, 150);
-    pdf.text(20,10, "Divisi Umum - Departemen Pengadaan");
-    pdf.save('barChart.pdf');
+    pdf.setFontSize(10);
+    pdf.addImage(canvasImage, 'JPEG', 10, 30, 280, 150);
+    pdf.addImage(logoBase64Value, 'JPEG', 5, 5, 20, 10);
+    pdf.text(25, 10, "PT. Citra Marga Nusaphala Persada Tbk.");
+    pdf.text(25, 15, "Divisi Umum - Departemen Pengadaan");
+    pdf.save('diagram-pdf.pdf');
 }
 </script>

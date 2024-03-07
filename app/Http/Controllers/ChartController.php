@@ -21,7 +21,14 @@ class ChartController extends Controller
             ->pluck(DB::raw('YEAR(receipt) as year'))
             ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
             ->unique();
-        return view('procurement.chart.index', compact('divisions', 'officials', 'years', 'currentYear'));
+        // Mengambil path file logo
+        $logoPath = public_path('assets/logo/cmnplogo.jpg');
+
+        // Membaca file logo dan mengonversi menjadi base64
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/jpeg;base64,' . base64_encode($logoData);
+
+        return view('procurement.chart.index', compact('divisions', 'officials', 'years', 'currentYear', 'logoBase64'));
     }
 
     public function procurementsData(Request $request)

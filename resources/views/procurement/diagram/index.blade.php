@@ -2,9 +2,11 @@
 @section('content')
 @php
 $pretitle = 'Procurement Data';
-$title    = 'Charts';
+$title    = 'Diagrams';
 @endphp
-
+@push('after-style')
+@include('includes.after-style')
+@endpush
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
@@ -40,16 +42,11 @@ $title    = 'Charts';
                 <table id="dashboard-table" class="table table-responsive table-bordered table-striped table-hover" width="100%">
                     <thead>
                         <th>No</th>
+                        <th>Procurement</th>
                         <th>Nama Pekerjaan</th>
-                        <th>Vendor</th>
-                        <th>EE User</th>
-                        <th>Hasil</th>
-                        <th>% User</th>
-                        <th>EE Teknik</th>
-                        <th>Selisih</th>
-                        <th>% Teknik</th>
-                        <th>Jumlah</th>
-                        <th>Selesai</th>
+                        <th>Divisi</th>
+                        <th>PIC Pengadaan</th>
+                        <th>Status</th>
                     </thead>
                 </table>
             </div>
@@ -59,14 +56,18 @@ $title    = 'Charts';
     <div class="col-md-12 mt-3">
         <div class="card">
             <div class="card-body">
-                <h3>Charts</h3>
+                <h3>Diagrams</h3>
                 <div class="row mb-3">
                     <div class="row">
                         <div class="col-lg-12">
-                            <canvas id="barChart"></canvas>
-                            <input type="hidden" id="logoBase64" value="{{ $logoBase64 }}">
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                                <button class="btn btn-pill btn-sm btn-outline-cyan" type="button" onclick="downloadPDF()">Download Chart To PDF</button>
+                            <div class="chartCard">
+                                <div class="chartBox">
+                                    <canvas id="pieDiagram"></canvas>
+                                    <input type="hidden" id="logoBase64" value="{{ $logoBase64 }}">
+                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                        <button class="btn btn-pill btn-sm btn-outline-cyan" type="button" onclick="downloadPDF()">Download Diagram To PDF</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,6 +79,6 @@ $title    = 'Charts';
 </div>
 @endsection
 @push('after-script')
-@include('procurement.chart.table')
-@include('procurement.chart.bar-chart')
+@include('procurement.diagram.table')
+@include('procurement.diagram.pie-diagram')
 @endpush

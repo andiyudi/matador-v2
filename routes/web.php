@@ -7,6 +7,7 @@ use App\Http\Controllers\ChartController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\DiagramController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -111,6 +112,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
     Route::get('chart/bar-chart', [ChartController::class, 'barChart'])->name('chart.barChart');
+    Route::get('diagram', [DiagramController::class, 'index'])->name('diagram.index');
+    Route::get('diagram/procurements-data', [DiagramController::class, 'procurementsData'])->name('diagram.procurementsData');
+    Route::get('diagram/pie-diagram', [DiagramController::class, 'pieDiagram'])->name('diagram.pieDiagram');
 
 });
 

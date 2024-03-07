@@ -133,9 +133,19 @@
                     </div>
                     <div class="dropdown-menu-columns">
                         <div class="dropdown-menu-column">
-                            <a class="dropdown-item" href="{{ route('chart.index') }}">
-                                Charts
-                            </a>
+                            <div class="dropend">
+                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false">
+                                    Charts
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a href="{{ route('chart.index') }}" class="dropdown-item">
+                                        User With Negotiation
+                                    </a>
+                                    <a href="{{ route('diagram.index') }}" class="dropdown-item">
+                                        Procurement Request
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
