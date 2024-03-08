@@ -97,15 +97,15 @@ class DiagramController extends Controller
 
         // Mendefinisikan label dan warna untuk setiap status
         $labels = [
-            'Process',
-            'Success',
-            'Canceled',
+            'Procurements In Process',
+            'Successfully Procurements',
+            'Cancelled Procurements',
         ];
 
         $colors = [
-            '#3498db',
-            '#2ecc71',
-            '#e74c3c',
+            'rgba(54, 162, 235, 0.6)', // Process
+            'rgba(75, 192, 102, 0.6)', // Success
+            'rgba(255, 99, 132, 0.6)', // Canceled
         ];
 
         // Menghitung total data
@@ -121,6 +121,18 @@ class DiagramController extends Controller
                 'value' => $count,
                 'percentage' => $percentage, // Menambahkan persentase ke data
                 'color' => $colors[$index]
+            ];
+        }
+
+        // Jika tidak ada data yang cocok, kembalikan data default
+        if (empty($data)) {
+            $data = [
+                [
+                    'label' => 'No Data Available',
+                    'value' => 0,
+                    'percentage' => 0,
+                    'color' => 'rgba(169, 169, 169, 0.6)', // Warna abu-abu
+                ]
             ];
         }
 

@@ -190,6 +190,6 @@ function downloadPDF(){
     pdf.addImage(logoBase64Value, 'JPEG', 5, 5, 20, 10);
     pdf.text(25, 10, "PT. Citra Marga Nusaphala Persada Tbk.");
     pdf.text(25, 15, "Divisi Umum - Departemen Pengadaan");
-    pdf.save('diagram-pdf.pdf');
+    pdf.save('chart-pdf.pdf');
 }
 </script>

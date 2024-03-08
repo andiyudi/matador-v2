@@ -2,7 +2,7 @@
     .chartCard {
     width: 100%;
     height: auto;
-    background: rgba(54, 162, 235, 0.2);
+    background: rgba(239, 239, 240, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,22 +12,11 @@
 
 .chartBox {
     width: 100%; /* Sesuaikan lebar sesuai kebutuhan */
-    max-width: 700px; /* Sesuaikan lebar maksimum sesuai kebutuhan */
-    height: 400px; /* Sesuaikan tinggi sesuai kebutuhan */
     padding: 20px;
     border-radius: 20px;
-    border: solid 3px rgba(54, 162, 235, 1);
-    background: white;
+    border: solid 3px rgba(218, 223, 225, 0.2);
+    background: rgba(232, 236, 241, 0.2);
 }
-.chartBox button {
-    margin-top: 10px; /* Atur jarak antara tombol dan diagram */
-    color: white; /* Atur warna teks */
-    background-color: rgba(54, 162, 235, 1); /* Atur warna latar belakang */
-    border: none; /* Hilangkan border */
-    border-radius: 5px; /* Atur sudut border */
-    padding: 5px 10px; /* Atur padding */
-}
-
 
     @media (min-width: 768px) {
         .chartCard {

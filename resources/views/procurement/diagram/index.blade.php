@@ -4,9 +4,6 @@
 $pretitle = 'Procurement Data';
 $title    = 'Diagrams';
 @endphp
-@push('after-style')
-@include('includes.after-style')
-@endpush
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="card">
