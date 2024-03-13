@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
     Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
+    Route::get('recap-comparison-matrix-data', [RecapitulationController::class, 'getComparisonMatrixData'])->name('recap.comparison-matrix-data');
     Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
     Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
     Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');

@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 error: function (error) {
                     console.error('Error fetching partners:', error);
-                    alert('Error fetching partners: ' + error.responseText);
+                    //alert('Error fetching partners: ' + error.responseText);
                 }
             });
         });

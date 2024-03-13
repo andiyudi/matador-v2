@@ -13,8 +13,10 @@ $title    = 'Perbandingan';
                         <div class="form-group">
                             <label class="form-label required" for="">Pilih Periode</label>
                             <div class="input-group input-daterange">
-                                <select class="form-select" id="" name="">
-                                    <option value="">2024</option>
+                                <select id="year" class="form-select" name="year">
+                                    @foreach ($years as $year)
+                                        <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -22,16 +24,52 @@ $title    = 'Perbandingan';
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3 mt-4">
-                                <button class="btn btn-secondary me-md-2" type="button" id="">Search</button>
+                                <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
                                 <button class="btn btn-primary me-md-2" type="button" id="" data-toggle="modal" data-target="#">Print</button>
                                 <button type="reset" class="btn btn-success">Export</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <iframe id="" src="" style="width: 100%; height: 500px; border: none;"></iframe>
+                <iframe id="searchComparisonMatrix" src="" style="width: 100%; height: 500px; border: none;"></iframe>
             </div>
         </div>
     </div>
 </div>
+<script>
+$(document).ready(function() {
+
+$('#searchBtn').on('click', function() {
+    if (!isValidInput()) {
+        return;
+    }
+    updateIframe();
+});
+
+function isValidInput() {
+    var year = $('#year').val();
+
+    if (!year) {
+        // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed',
+            text: 'Please select a year',
+        });
+        return false;
+    }
+
+    return true;
+}
+
+function updateIframe() {
+    var year = $('#year').val();
+
+    var iframeSrc = '{{ route('recap.comparison-matrix-data') }}?year=' + year;
+    console.log(iframeSrc);
+    $('#searchComparisonMatrix').attr('src', iframeSrc);
+}
+});
+
+</script>
 @endsection

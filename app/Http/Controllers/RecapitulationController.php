@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecapitulationController extends Controller
 {
@@ -125,7 +126,76 @@ class RecapitulationController extends Controller
 
     public function getComparisonMatrix ()
     {
-        return view ('recapitulation.matrix.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::where('status', '1')
+            ->pluck(DB::raw('YEAR(receipt) as year'))
+            ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+            ->unique();
+        return view ('recapitulation.matrix.index', compact('currentYear', 'years'));
+    }
+
+    public function getComparisonMatrixData(Request $request)
+    {
+        // Ambil tahun dari request
+        $year = $request->input('year');
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = $i; // Menggunakan angka bulan
+            $monthsName[]=Carbon::create($year, $i)->translatedFormat('F');
+        }
+
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+
+        // Mengumpulkan procurement untuk setiap bulan dalam months
+        $procurementsByMonth = [];
+        foreach ($months as $month) {
+            $procurementsByMonth[$month] = Procurement::with('tenders.businessPartners.partner')
+                ->whereYear('receipt', $year)
+                ->whereMonth('receipt', $month) // Menggunakan angka bulan
+                ->where('status', '1')
+                ->orderBy('number')
+                ->get();
+        }
+
+        // Membuat array untuk menyimpan isSelectedArray untuk setiap bulan
+        $isSelectedArrayByMonth = [];
+
+        foreach ($procurementsByMonth as $month => $procurements) {
+            $isSelectedArray = [];
+
+            foreach ($procurements as $procurement) {
+                $selectedPartnerName = null; // Default is_selected to null
+                $reportNegoResults = []; // Inisialisasi array untuk menyimpan hasil negosiasi
+
+                foreach ($procurement->tenders as $tender) {
+                    if (is_array($tender->report_nego_result) || is_object($tender->report_nego_result)) {
+                        // Memasukkan nilai report_nego_result ke dalam array $reportNegoResults
+                        foreach ($tender->report_nego_result as $report) {
+                            $reportNegoResults[] = $report;
+                        }
+                    }
+                    dd($procurement);
+
+                    foreach ($tender->businessPartners as $businessPartner) {
+                        if ($businessPartner->pivot->is_selected === '1') {
+                            $selectedPartnerName = $businessPartner->partner->name;
+                        }
+                    }
+                }
+
+                $isSelectedArray[$procurement->id] = [
+                    'selected_partner' => $selectedPartnerName,
+                    'report_nego_results' => $reportNegoResults, // Menyimpan semua hasil negosiasi dalam array
+                ];
+            }
+
+            $isSelectedArrayByMonth[$month] = $isSelectedArray;
+        }
+
+        return view('recapitulation.matrix.data', compact('year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName'));
     }
 
     public function getEfficiencyCost ()
