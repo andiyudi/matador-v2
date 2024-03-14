@@ -101,7 +101,7 @@ class RecapitulationController extends Controller
             if ($procurement->status == "2") {
                 $procurement->is_selected = 'Canceled';
             } elseif ($procurement->status == "0") {
-                $procurement->is_selected = 'Process';
+                $procurement->is_selected = '';
             } else {
                 $isSelected = false;
                 foreach ($procurement->tenders as $tender) {
@@ -162,22 +162,28 @@ class RecapitulationController extends Controller
 
         // Membuat array untuk menyimpan isSelectedArray untuk setiap bulan
         $isSelectedArrayByMonth = [];
-
+        $documentsPic = [];
         foreach ($procurementsByMonth as $month => $procurements) {
             $isSelectedArray = [];
 
             foreach ($procurements as $procurement) {
                 $selectedPartnerName = null; // Default is_selected to null
                 $reportNegoResults = []; // Inisialisasi array untuk menyimpan hasil negosiasi
+                $officialId = $procurement->official->initials;
+
+                // Jika ID resmi belum ada di array, tambahkan dan inisialisasi jumlah procurement menjadi 1
+                if (!isset($documentsPic[$officialId])) {
+                    $documentsPic[$officialId] = 1;
+                } else {
+                    // Jika sudah ada, tambahkan jumlah procurement
+                    $documentsPic[$officialId]++;
+                }
 
                 foreach ($procurement->tenders as $tender) {
-                    if (is_array($tender->report_nego_result) || is_object($tender->report_nego_result)) {
-                        // Memasukkan nilai report_nego_result ke dalam array $reportNegoResults
-                        foreach ($tender->report_nego_result as $report) {
-                            $reportNegoResults[] = $report;
-                        }
+                    $reportNegoResult = $tender->report_nego_result;
+                    if ($reportNegoResult !== null) {
+                        $reportNegoResults[] = $reportNegoResult;
                     }
-                    dd($procurement);
 
                     foreach ($tender->businessPartners as $businessPartner) {
                         if ($businessPartner->pivot->is_selected === '1') {
@@ -191,11 +197,12 @@ class RecapitulationController extends Controller
                     'report_nego_results' => $reportNegoResults, // Menyimpan semua hasil negosiasi dalam array
                 ];
             }
-
             $isSelectedArrayByMonth[$month] = $isSelectedArray;
         }
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
 
-        return view('recapitulation.matrix.data', compact('year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName'));
+        return view('recapitulation.matrix.data', compact('year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName', 'documentsPic', 'stafName', 'stafPosition'));
     }
 
     public function getEfficiencyCost ()

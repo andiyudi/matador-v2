@@ -111,9 +111,24 @@
                     <td>{{ $procurement->division->code }}</td>
                     <td>{{ $procurement->official->initials }}</td>
                     <td>{{ $procurement->is_selected }}</td>
-                    <td>Rp. {{ $procurement->user_estimate ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }},-</td>
-                    <td>Rp. {{ $procurement->technique_estimate ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }},-</td>
-                    <td>Rp. {{ $procurement->deal_nego ? number_format($procurement->deal_nego, 0, ',', '.') : '0' }},-</td>
+                    <td>
+                        @if ($procurement->user_estimate !== null)
+                            {{ number_format($procurement->user_estimate, 0, '.', '.') }}
+                        @endif
+                    </td>
+                    {{-- <td>Rp. {{ $procurement->user_estimate ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }},-</td> --}}
+                    <td>
+                        @if ($procurement->technique_estimate !== null)
+                            {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
+                        @endif
+                    </td>
+                    {{-- <td>Rp. {{ $procurement->technique_estimate ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }},-</td> --}}
+                    <td>
+                        @if ($procurement->deal_nego !== null)
+                            {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                        @endif
+                    </td>
+                    {{-- <td>Rp. {{ $procurement->deal_nego ? number_format($procurement->deal_nego, 0, ',', '.') : '0' }},-</td> --}}
                     <td>{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>
                     <td>{{ $procurement->information }}</td>
                 </tr>

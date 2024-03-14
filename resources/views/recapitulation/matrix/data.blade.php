@@ -39,13 +39,10 @@
             justify-content: space-between;
         }
         .col-md-4 {
-            width: 48%; /* Sesuaikan lebar div dengan tabel di dalamnya */
+            width: 43%; /* Sesuaikan lebar div dengan tabel di dalamnya */
         }
         .col-md-8 {
             width: 69%; /* Sesuaikan lebar div dengan tabel di dalamnya */
-        }
-        .blue-column, .black-column {
-            width: 15%; /* Menyesuaikan lebar kolom dengan kolom No pada peserta rapat */
         }
         .total-column {
             background-color:deepskyblue;
@@ -54,6 +51,7 @@
             border-collapse: collapse; /* Menyatukan batas seluruhnya */
             width: 100%;
             font-size:8pt;
+            /* margin-top: 50px; */
         }
         .document-pic th,
         .document-pic td {
@@ -116,89 +114,240 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    $grandTotalFinishDay = $grandTotalOffDay = $grandTotalDifferenceDay = $grandTotalUserEstimate = $grandTotalDealNego = $grandTotalTechniqueEstimate = 0;
+                @endphp
                 @foreach ($months as $index => $month)
+                    @php
+                        $totalFinishDay = $totalOffDay = $totalDifferenceDay = $totalUserEstimate = $totalDealNego = $totalTechniqueEstimate = 0;
+                    @endphp
                     <tr>
-                        <td colspan="27" style="background-color: yellow;"><strong>{{ $monthsName[$index] }}</strong></td>
+                        <td colspan="27" style="background-color: yellow;"><strong>{{ strtoupper($monthsName[$index]) }}</strong></td>
                     </tr>
                     @if(isset($procurementsByMonth[$month]) && count($procurementsByMonth[$month]) > 0)
                         @foreach ($procurementsByMonth[$month] as $index => $procurement)
-                            <tr>
+                            @php
+                            // Tambahkan nilai dari setiap baris data ke variabel total
+                                $totalFinishDay += $procurement->finish_day;
+                                $totalOffDay += $procurement->off_day;
+                                $totalDifferenceDay += $procurement->difference_day;
+                                $totalUserEstimate += $procurement->user_estimate;
+                                $totalDealNego += $procurement->deal_nego;
+                                $totalTechniqueEstimate += $procurement->technique_estimate;
+                            @endphp
+                            <tr style="text-align: center">
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ Carbon\Carbon::parse($procurement->receipt)->format('d-M-y') }}</td>
                                 <td>{{ $procurement->number }}</td>
                                 <td>{{ $procurement->op_number }}</td>
                                 <td>{{ $procurement->contract_number }}</td>
-                                <td>{{ $procurement->contract_date }}</td>
+                                <td>
+                                    @if ($procurement->contract_date)
+                                        {{ \Carbon\Carbon::parse($procurement->contract_date)->format('d-M-y') }}
+                                    @endif
+                                </td>
                                 <td>{{ $procurement->name }}</td>
                                 <td>{{ $procurement->division->code }}</td>
                                 <td>{{ $procurement->official->initials }}</td>
                                 <td>{{ $isSelectedArrayByMonth[$month][$procurement->id]['selected_partner'] }}</td>
                                 @if (count($isSelectedArrayByMonth[$month][$procurement->id]['report_nego_results']) > 0)
-                                    @foreach ($isSelectedArrayByMonth[$month][$procurement->id]['report_nego_results'] as $report)
-                                        <td>{{ $report }}</td>
-                                    @endforeach
+                                    @php
+                                        $reportNegoResults = $isSelectedArrayByMonth[$month][$procurement->id]['report_nego_results'];
+                                        $count = count($reportNegoResults);
+                                    @endphp
+                                    @if ($count == 1)
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td>
+                                        <td></td> <!-- Kolom kosong untuk report nego result kedua -->
+                                    @elseif ($count == 2)
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[1])->format('d-M-y') }}</td>
+                                    @else
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 2])->format('d-M-y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 1])->format('d-M-y') }}</td>
+                                    @endif
                                 @else
                                     <td></td> <!-- Kolom kosong untuk report nego result pertama -->
                                     <td></td> <!-- Kolom kosong untuk report nego result kedua -->
                                 @endif
-                                <td>{{ $procurement->director_approval }}</td>
+                                <td>
+                                    @if ($procurement->contract_date)
+                                        {{ \Carbon\Carbon::parse($procurement->director_approval)->format('d-M-y') }}
+                                    @endif
+                                </td>
                                 <td>{{ $procurement->target_day }}</td>
                                 <td>{{ $procurement->finish_day }}</td>
                                 <td>{{ $procurement->off_day }}</td>
                                 <td>{{ $procurement->difference_day }}</td>
-                                <td>{{ $procurement->user_estimate }}</td>
-                                <td>{{ $procurement->deal_nego }}</td>
-                                <td>{{ $procurement->user_estimate-$procurement->deal_nego }}</td>
-                                <td>{{ $procurement->user_percentage }}%</td>
-                                <td>{{ $procurement->technique_estimate }}</td>
-                                <td>{{ $procurement->deal_nego }}</td>
-                                <td>{{ $procurement->technique_estimate-$procurement->deal_nego }}</td>
-                                <td>{{ $procurement->technique_percentage }}%</td>
+                                <td>
+                                    @if ($procurement->user_estimate !== null)
+                                        {{ number_format($procurement->user_estimate, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->deal_nego !== null)
+                                        {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->user_estimate !== null && $procurement->deal_nego !== null)
+                                        {{ number_format($procurement->user_estimate - $procurement->deal_nego, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->user_percentage !== null)
+                                        {{ str_replace('.', ',', number_format($procurement->user_percentage, 2)) }}%
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->technique_estimate !== null)
+                                        {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->deal_nego !== null)
+                                        {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->technique_estimate !== null && $procurement->deal_nego !== null)
+                                        {{ number_format($procurement->technique_estimate - $procurement->deal_nego, 0, '.', '.') }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($procurement->technique_percentage !== null)
+                                        {{ str_replace('.', ',', number_format($procurement->technique_percentage, 2)) }}%
+                                    @endif
+                                </td>
                                 <td>{{ $procurement->estimation }}</td>
                                 <td>{{ $procurement->information }}</td>
                             </tr>
                         @endforeach
+                        @php
+                        // Tambahkan nilai dari setiap baris data ke variabel grand total
+                            $grandTotalFinishDay += $totalFinishDay;
+                            $grandTotalOffDay += $totalOffDay;
+                            $grandTotalDifferenceDay += $totalDifferenceDay;
+                            $grandTotalUserEstimate += $totalUserEstimate;
+                            $grandTotalDealNego += $totalDealNego;
+                            $grandTotalTechniqueEstimate += $totalTechniqueEstimate;
+                        @endphp
+                        <tr style="background-color:floralwhite; text-align:center; font-weight:bold">
+                            <td colspan="7">TOTAL</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{ $totalFinishDay > 0 ? $totalFinishDay : '' }}</td>
+                            <td>{{ $totalOffDay > 0 ? $totalOffDay : '' }}</td>
+                            <td>{{ $totalDifferenceDay > 0 ? $totalDifferenceDay : '' }}</td>
+                            @php
+                                // Hitung persentase selisih terhadap total user estimate
+                                $percentageDifference = ($totalUserEstimate != 0) ? (($totalUserEstimate - $totalDealNego) / $totalUserEstimate) * 100 : 0;
+                            @endphp
+                            <td>{{ $totalUserEstimate > 0 ? number_format($totalUserEstimate, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalDealNego > 0 ? number_format($totalDealNego, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalUserEstimate - $totalDealNego > 0 ? number_format($totalUserEstimate - $totalDealNego, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalUserEstimate > 0 && $totalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifference, 2)) . '%' : '' }}</td>
+                            @php
+                            // Hitung persentase selisih terhadap total user estimate
+                                $percentageDifferenceTechnique = ($totalTechniqueEstimate != 0) ? (($totalTechniqueEstimate - $totalDealNego) / $totalTechniqueEstimate) * 100 : 0;
+                            @endphp
+                            <td>{{ $totalTechniqueEstimate > 0 ? number_format($totalTechniqueEstimate, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalDealNego > 0 ? number_format($totalDealNego, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalTechniqueEstimate - $totalDealNego > 0 ? number_format($totalTechniqueEstimate - $totalDealNego, 0, '.', '.') : '' }}</td>
+                            <td>{{ $totalTechniqueEstimate > 0 && $totalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceTechnique, 2)) . '%' : '' }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     @else
-                        <tr>
-                            <td colspan="27">Data tidak ditemukan</td>
+                        <tr style="background-color:ghostwhite">
+                            <td colspan="27"></td>
                         </tr>
                     @endif
                 @endforeach
+                <tr style="background-color:whitesmoke; text-align:center; font-weight:bold">
+                    <td colspan="7">GRAND TOTAL (JANUARI-DESEMBER)</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ $grandTotalFinishDay > 0 ? $grandTotalFinishDay : '' }}</td>
+                    <td>{{ $grandTotalOffDay > 0 ? $grandTotalOffDay : '' }}</td>
+                    <td>{{ $grandTotalDifferenceDay > 0 ? $grandTotalDifferenceDay : '' }}</td>
+                    <td>{{ $grandTotalUserEstimate > 0 ? number_format($grandTotalUserEstimate, 0, '.', '.') : '' }}</td>
+                    <td>{{ $grandTotalDealNego > 0 ? number_format($grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                    <td>{{ $grandTotalUserEstimate - $grandTotalDealNego > 0 ? number_format($grandTotalUserEstimate - $grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                    <td>
+                        @php
+                            $percentageDifferenceGrand = ($grandTotalUserEstimate != 0) ? (($grandTotalUserEstimate - $grandTotalDealNego) / $grandTotalUserEstimate) * 100 : 0;
+                        @endphp
+                        {{ $grandTotalUserEstimate > 0 && $grandTotalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceGrand, 2)) . '%' : '' }}
+                    </td>
+                    <td>{{ $grandTotalTechniqueEstimate > 0 ? number_format($grandTotalTechniqueEstimate, 0, '.', '.') : '' }}</td>
+                    <td>{{ $grandTotalDealNego > 0 ? number_format($grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                    <td>{{ $grandTotalTechniqueEstimate - $grandTotalDealNego > 0 ? number_format($grandTotalTechniqueEstimate - $grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                    <td>
+                        @php
+                            $percentageDifferenceTechniqueGrand = ($grandTotalTechniqueEstimate != 0) ? (($grandTotalTechniqueEstimate - $grandTotalDealNego) / $grandTotalTechniqueEstimate) * 100 : 0;
+                        @endphp
+                        {{ $grandTotalTechniqueEstimate > 0 && $grandTotalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceTechniqueGrand, 2)) . '%' : '' }}
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>
     <br>
     <div class="row">
         <div class="col-md-4">
-
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td style="text-align: left; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
+                        <td style="width: 50%"></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:1cm;">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong><u>{{ $stafName }}</u></strong><br>{{ $stafPosition }}</td>
+                        <td style="text-align: center"><br></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col-md-8">
             <div class="document-pic">
                 <table style="width: 20%;">
-
+                @php
+                    $totalDocuments = 0;
+                @endphp
+                @foreach($documentsPic as $officialId => $count)
+                    <tr>
+                        <td style="width: 38%"><strong>{{ $officialId }}</strong></td>
+                        <td style="width: 62%"><strong>{{ $count }}</strong></td>
+                    </tr>
+                @php
+                    $totalDocuments += $count;
+                @endphp
+                @endforeach
+                    <tr class="total-column">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>{{ $totalDocuments }}</strong></td>
+                    </tr>
                 </table>
             </div>
         </div>
     </div>
-    <br>
-    <table width="100%">
-        <thead>
-            <tr>
-                <td style="text-align: center; width: 25%">Jakarta, {{ date('d-m-Y') }}<br>Dibuat Oleh,</td>
-                <td style="width: 50%"></td>
-                <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr style="height:2cm;">
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td style="text-align: center"><br></td>
-                <td style="text-align: center"><br></td>
-            </tr>
-        </tbody>
-    </table>
 </body>
 </html>
