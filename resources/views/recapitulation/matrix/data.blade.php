@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Rekap PP Masih Dalam Proses Negosiasi</title>
+    <title>Matriks Perbandingan Rekap All Done</title>
 </head>
 <body>
     <style>
@@ -38,11 +38,11 @@
             display: flex;
             justify-content: space-between;
         }
-        .col-md-4 {
-            width: 43%; /* Sesuaikan lebar div dengan tabel di dalamnya */
+        .col-md-3 {
+            width: 50%; /* Sesuaikan lebar div dengan tabel di dalamnya */
         }
-        .col-md-8 {
-            width: 69%; /* Sesuaikan lebar div dengan tabel di dalamnya */
+        .col-md-6 {
+            width: 75%; /* Sesuaikan lebar div dengan tabel di dalamnya */
         }
         .total-column {
             background-color:deepskyblue;
@@ -306,11 +306,11 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <table width="100%">
                 <thead>
                     <tr>
-                        <td style="text-align: left; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
+                        <td style="text-align: center; width: 50%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
                         <td style="width: 50%"></td>
                     </tr>
                 </thead>
@@ -320,15 +320,15 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td style="text-align: left"><strong><u>{{ $stafName }}</u></strong><br>{{ $stafPosition }}</td>
+                        <td style="text-align: center"><strong><u>{{ $stafName }}</u></strong><br>{{ $stafPosition }}</td>
                         <td style="text-align: center"><br></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="document-pic">
-                <table style="width: 20%;">
+                <table style="width: 22%;">
                 @php
                     $totalDocuments = 0;
                 @endphp
@@ -347,6 +347,26 @@
                     </tr>
                 </table>
             </div>
+        </div>
+        <div class="col-md-3">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td style="width: 50%"></td>
+                        <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="height:1cm;">
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center"><br></td>
+                        <td style="text-align: center"><strong><u>{{ $managerName }}</u></strong><br>{{ $managerPosition }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
