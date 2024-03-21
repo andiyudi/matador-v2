@@ -237,10 +237,90 @@ class RecapitulationController extends Controller
                                                 ->selectRaw('SUM(user_estimate) as total_user_estimate, SUM(deal_nego) as total_deal_nego')
                                                 ->first();
         }
-        return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData'));
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+        $data = [
+            'stafName' => $stafName,
+            'stafPosition' => $stafPosition,
+            'managerName' => $managerName,
+            'managerPosition' => $managerPosition,
+        ];
+        return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData', 'data'));
     }
     public function getRequestCancelled ()
     {
-        return view ('recapitulation.cancel.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::where('status', '2')
+            ->pluck(DB::raw('YEAR(receipt) as year'))
+            ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+            ->unique();
+        return view ('recapitulation.cancel.index', compact('currentYear', 'years'));
+    }
+    public function getRequestCancelledData (Request $request)
+    {
+        // dd($request->all());
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        //filter data
+        $year = $request->input('year');
+        $number = $request->input('number');
+        $name = $request->input('name');
+        $valueCost = $request->input('valueCost');
+        $returnToUser = $request->input('returnToUser');
+        $cancellationMemo = $request->input('cancellationMemo');
+        //take data
+        $procurements = Procurement::where('status', '2')
+            ->when($year, function ($query) use ($year) {
+                $query->whereYear('receipt', $year);
+            })
+            ->when($number, function ($query) use ($number) {
+                $query->where('number', 'like', '%' . $number . '%');
+            })
+            ->when($name, function ($query) use ($name) {
+                $query->where('name', 'like', '%' . $name . '%');
+            })
+            ->when($valueCost === '0', function ($query) {
+                $query->whereBetween('user_estimate', [0, 100000000]); // 0 s.d < 100 Juta
+            })
+            ->when($valueCost === '1', function ($query) {
+                $query->whereBetween('user_estimate', [100000000, 1000000000]); // >= 100 Juta s.d < 1 Miliar
+            })
+            ->when($valueCost === '2', function ($query) {
+                $query->where('user_estimate', '>', 1000000000); // >= 1 Miliar
+            })
+            ->when($returnToUser, function ($query) use ($returnToUser) {
+                $query->where('return_to_user', $returnToUser);
+            })
+            ->when($cancellationMemo, function ($query) use ($cancellationMemo) {
+                $query->where('cancellation_memo', 'like', '%' . $cancellationMemo . '%');
+            })
+            ->get();
+            // dd($procurements);
+        $documentsPic = [];
+        foreach ($procurements as $procurement) {
+            // Ambil ID resmi dari procurement
+            $officialId = $procurement->official->initials;
+            // Jika ID resmi belum ada di array, tambahkan dan inisialisasi jumlah procurement menjadi 1
+            if (!isset($documentsPic[$officialId])) {
+                $documentsPic[$officialId] = 1;
+            } else {
+                // Jika sudah ada, tambahkan jumlah procurement
+                $documentsPic[$officialId]++;
+            }
+        }
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+        $data = [
+            'stafName' => $stafName,
+            'stafPosition' => $stafPosition,
+            'managerName' => $managerName,
+            'managerPosition' => $managerPosition,
+        ];
+        return view ('recapitulation.cancel.data', compact ('logoBase64', 'year', 'procurements', 'documentsPic', 'data'));
     }
 }

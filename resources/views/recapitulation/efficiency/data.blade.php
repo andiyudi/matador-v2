@@ -153,8 +153,8 @@
                 <td></td>
             </tr>
             <tr>
-                {{-- <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
-                <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td> --}}
+                <td style="text-align: center">{{ $data['stafName'] }}<br>{{ $data['stafPosition'] }}</td>
+                <td style="text-align: center">{{ $data['managerName'] }}<br>{{ $data['managerPosition'] }}</td>
             </tr>
         </tbody>
     </table>

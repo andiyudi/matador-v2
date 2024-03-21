@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
     Route::get('recap-efficiency-cost-data', [RecapitulationController::class, 'getEfficiencyCostData'])->name('recap.efficiency-cost-data');
     Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
+    Route::get('recap-request-cancelled-data', [RecapitulationController::class, 'getRequestCancelledData'])->name('recap.request-cancelled-data');
     Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');

@@ -137,13 +137,15 @@
                             @endphp
                             <tr style="text-align: center">
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ Carbon\Carbon::parse($procurement->receipt)->format('d-M-y') }}</td>
+                                {{-- <td>{{ Carbon\Carbon::parse($procurement->receipt)->format('d-M-y') }}</td> --}}
+                                <td>{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                                 <td>{{ $procurement->number }}</td>
                                 <td>{{ $procurement->op_number }}</td>
                                 <td>{{ $procurement->contract_number }}</td>
                                 <td>
                                     @if ($procurement->contract_date)
-                                        {{ \Carbon\Carbon::parse($procurement->contract_date)->format('d-M-y') }}
+                                        {{ $procurement->contract_date ? date('d-M-Y', strtotime($procurement->contract_date)) : '' }}
+                                        {{-- {{ \Carbon\Carbon::parse($procurement->contract_date)->format('d-M-y') }} --}}
                                     @endif
                                 </td>
                                 <td>{{ $procurement->name }}</td>
@@ -156,22 +158,28 @@
                                         $count = count($reportNegoResults);
                                     @endphp
                                     @if ($count == 1)
-                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td> --}}
+                                        <td>{{ $reportNegoResults[0] ? date('d-M-Y', strtotime($reportNegoResults[0])) : '' }}</td>
                                         <td></td> <!-- Kolom kosong untuk report nego result kedua -->
                                     @elseif ($count == 2)
-                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[1])->format('d-M-y') }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::parse($reportNegoResults[0])->format('d-M-y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[1])->format('d-M-y') }}</td> --}}
+                                        <td>{{ $reportNegoResults[0] ? date('d-M-Y', strtotime($reportNegoResults[0])) : '' }}</td>
+                                        <td>{{ $reportNegoResults[1] ? date('d-M-Y', strtotime($reportNegoResults[1])) : '' }}</td>
                                     @else
-                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 2])->format('d-M-y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 1])->format('d-M-y') }}</td>
+                                        {{-- <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 2])->format('d-M-y') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($reportNegoResults[$count - 1])->format('d-M-y') }}</td> --}}
+                                        <td>{{ $reportNegoResults[$count - 2] ? date('d-M-Y', strtotime($reportNegoResults[$count - 2])) : '' }}</td>
+                                        <td>{{ $reportNegoResults[$count - 1] ? date('d-M-Y', strtotime($reportNegoResults[$count - 1])) : '' }}</td>
                                     @endif
                                 @else
                                     <td></td> <!-- Kolom kosong untuk report nego result pertama -->
                                     <td></td> <!-- Kolom kosong untuk report nego result kedua -->
                                 @endif
                                 <td>
-                                    @if ($procurement->contract_date)
-                                        {{ \Carbon\Carbon::parse($procurement->director_approval)->format('d-M-y') }}
+                                    @if ($procurement->director_approval)
+                                        {{ $procurement->director_approval ? date('d-M-Y', strtotime($procurement->director_approval)) : '' }}
+                                        {{-- {{ \Carbon\Carbon::parse($procurement->director_approval)->format('d-M-y') }} --}}
                                     @endif
                                 </td>
                                 <td>{{ $procurement->target_day }}</td>
