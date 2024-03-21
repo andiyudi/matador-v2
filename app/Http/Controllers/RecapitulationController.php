@@ -209,9 +209,36 @@ class RecapitulationController extends Controller
 
     public function getEfficiencyCost ()
     {
-        return view ('recapitulation.efficiency.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::where('status', '1')
+            ->pluck(DB::raw('YEAR(receipt) as year'))
+            ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+            ->unique();
+        return view ('recapitulation.efficiency.index', compact('currentYear', 'years'));
     }
 
+    public function getEfficiencyCostData (Request $request)
+    {
+        // dd($request->all());
+        $logoPath = public_path('assets/logo/cmnplogo.png');
+        $logoData = file_get_contents($logoPath);
+        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        $year = $request->input('year');
+        $months = [];
+        $monthsName = [];
+        $procurementData=[];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = $i; // Menggunakan angka bulan
+            $monthsName[] = Carbon::create($year, $i)->translatedFormat('F');
+            // Filter procurement berdasarkan tahun dan bulan
+            $procurementData[$i] = Procurement::whereYear('receipt', $year)
+                                                ->whereMonth('receipt', $i)
+                                                ->where('status', '1')
+                                                ->selectRaw('SUM(user_estimate) as total_user_estimate, SUM(deal_nego) as total_deal_nego')
+                                                ->first();
+        }
+        return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData'));
+    }
     public function getRequestCancelled ()
     {
         return view ('recapitulation.cancel.index');

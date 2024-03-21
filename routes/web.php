@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
     Route::get('recap-comparison-matrix-data', [RecapitulationController::class, 'getComparisonMatrixData'])->name('recap.comparison-matrix-data');
     Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
+    Route::get('recap-efficiency-cost-data', [RecapitulationController::class, 'getEfficiencyCostData'])->name('recap.efficiency-cost-data');
     Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
     Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');

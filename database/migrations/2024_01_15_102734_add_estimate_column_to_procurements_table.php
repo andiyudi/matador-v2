@@ -46,6 +46,7 @@ return new class extends Migration
             $table->date('contract_to_vendor')->nullable()->default(NULL)->after('contract_from_legal');
             $table->date('contract_to_user')->nullable()->default(NULL)->after('contract_to_vendor');
             $table->date('input_sap')->nullable()->default(NULL)->after('contract_to_user');
+            $table->boolean('is_done')->default(0)->after('input_sap');
         });
     }
 
@@ -89,6 +90,7 @@ return new class extends Migration
             $table->dropColumn('contract_to_vendor');
             $table->dropColumn('contract_to_user');
             $table->dropColumn('input_sap');
+            $table->dropColumn('is_done');
         });
     }
 };
