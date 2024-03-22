@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Models\Division;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use App\Exports\ProcessNegoExport;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RecapitulationController extends Controller
 {
@@ -122,6 +124,14 @@ class RecapitulationController extends Controller
         }
 
         return view('recapitulation.process.data', compact('logoBase64', 'procurements', 'formattedStartDate', 'formattedEndDate', 'formattedDate','emptyDealNegos', 'dealNegos', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+    }
+
+    public function getProcessNegoExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'recap-process-nego-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new ProcessNegoExport, $fileName);
     }
 
     public function getComparisonMatrix ()

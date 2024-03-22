@@ -99,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
     Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
+    Route::get('recap-process-nego-excel', [RecapitulationController::class, 'getProcessNegoExcel'])->name('recap.process-nego-excel');
     Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
     Route::get('recap-comparison-matrix-data', [RecapitulationController::class, 'getComparisonMatrixData'])->name('recap.comparison-matrix-data');
     Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');

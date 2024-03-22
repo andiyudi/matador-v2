@@ -48,74 +48,13 @@ $title    = 'Masih Dalam Proses Negosiasi';
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
                     <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
                     <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
-                    <button type="reset" class="btn btn-success">Export</button>
+                    <a href="{{ route('recap.process-nego-excel') }}" class="btn btn-success">Export</a>
                 </div>
                 <iframe id="searchRecapProcessNego" src="" style="width: 100%; height: 500px; border: none;"></iframe>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        var startDateInputTtpp = $('#startDateTtpp');
-        var endDateInputTtpp = $('#endDateTtpp');
-
-        startDateInputTtpp.datepicker({
-            format: 'mm-yyyy',
-            startView: 'months',
-            minViewMode: 'months',
-            autoclose:true,
-        });
-
-        endDateInputTtpp.datepicker({
-            format: 'mm-yyyy',
-            startView: 'months',
-            minViewMode: 'months',
-            autoclose:true,
-            startDate: startDateInputTtpp.val()
-        }).on('show', function() {
-            $(this).datepicker('setStartDate', startDateInputTtpp.val());
-        });
-
-        $('#searchBtn').on('click', function() {
-            if (!isValidInput()) {
-                return;
-            }
-            updateIframe();
-        });
-
-        function isValidInput() {
-            var startDateTtpp = $('#startDateTtpp').val();
-            var endDateTtpp = $('#endDateTtpp').val();
-
-            if (!startDateTtpp || !endDateTtpp) {
-                // Menampilkan SweetAlert untuk memberi tahu user bahwa kedua input harus diisi
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Failed',
-                    text: 'Start period and End periode is required',
-                });
-                return false;
-            }
-
-            return true;
-        }
-
-        function updateIframe() {
-        var number = $('#number').val();
-        var name = $('#name').val();
-        var division = $('#division-filter').val();
-        var startDateTtpp = $('#startDateTtpp').val();
-        var endDateTtpp = $('#endDateTtpp').val();
-
-        var iframeSrc = '{{ route('recap.process-nego-data') }}?number=' + number +
-            '&name=' + name +
-            '&division=' + division +
-            '&startDateTtpp=' + startDateTtpp +
-            '&endDateTtpp=' + endDateTtpp;
-        console.log(iframeSrc);
-        $('#searchRecapProcessNego').attr('src', iframeSrc);
-        }
-    });
-</script>
+@include('recapitulation.process.modal')
+@include('recapitulation.process.script')
 @endsection
