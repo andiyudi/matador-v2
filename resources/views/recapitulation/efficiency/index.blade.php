@@ -25,8 +25,8 @@ $title    = 'Perseroan';
                         <div class="form-group">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3 mt-4">
                                 <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
-                                <button class="btn btn-primary me-md-2" type="button" id="" data-toggle="modal" data-target="#">Print</button>
-                                <button type="reset" class="btn btn-success">Export</button>
+                                <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
+                                <a href="{{ route('recap.efficiency-cost-excel') }}" class="btn btn-success">Export</a>
                             </div>
                         </div>
                     </div>
@@ -36,40 +36,6 @@ $title    = 'Perseroan';
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-
-    $('#searchBtn').on('click', function() {
-        if (!isValidInput()) {
-            return;
-        }
-        updateIframe();
-    });
-
-    function isValidInput() {
-        var year = $('#year').val();
-
-        if (!year) {
-            // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed',
-                text: 'Please select a year',
-            });
-            return false;
-        }
-
-        return true;
-    }
-
-    function updateIframe() {
-        var year = $('#year').val();
-
-        var iframeSrc = '{{ route('recap.efficiency-cost-data') }}?year=' + year;
-        console.log(iframeSrc);
-        $('#searchEfficiencyCost').attr('src', iframeSrc);
-    }
-    });
-
-    </script>
+@include('recapitulation.efficiency.modal')
+@include('recapitulation.efficiency.script')
 @endsection

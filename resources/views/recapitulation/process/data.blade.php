@@ -16,7 +16,53 @@
             </tr>
         </thead>
     </table>
+    <p style="text-align: center; font-size: 14pt">
+        REKAPITULASI PP MASIH DALAM PROSES NEGOSIASI<br>
+        PERIODE {{ strtoupper($formattedStartDate) }} - {{ strtoupper($formattedEndDate) }}<br>
+        UPDATE : {{ strtoupper($formattedDate) }}
+    </p>
     @include('recapitulation.process.result')
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="document-position" style="width: 48%;">
+                <tr>
+                    <td class="blue-column" style="background: blue"></td>
+                    <td><strong>Dokumen di Direksi</strong></td>
+                    <td><strong>:&nbsp;&nbsp;</strong></td>
+                    <td><strong>{{ $dealNegos }}</strong></td>
+                </tr>
+                <tr>
+                    <td class="black-column" style="background: black"></td>
+                    <td><strong>Dokumen di Pengadaan</strong></td>
+                    <td><strong>:&nbsp;&nbsp;</strong></td>
+                    <td><strong>{{ $emptyDealNegos }}</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <div class="document-pic">
+                <table style="width: 20%;">
+                @php
+                    $totalDocuments = 0;
+                @endphp
+                @foreach($documentsPic as $officialId => $count)
+                    <tr>
+                        <td style="width: 50%"><strong>{{ $officialId }}</strong></td>
+                        <td style="width: 50%"><strong>{{ $count }}</strong></td>
+                    </tr>
+                @php
+                    $totalDocuments += $count;
+                @endphp
+                @endforeach
+                <tr class="total-column">
+                    <td><strong>TOTAL</strong></td>
+                    <td><strong>{{ $totalDocuments }}</strong></td>
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     <br>
     <table width="100%">
         <thead>

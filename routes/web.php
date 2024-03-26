@@ -102,10 +102,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-process-nego-excel', [RecapitulationController::class, 'getProcessNegoExcel'])->name('recap.process-nego-excel');
     Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
     Route::get('recap-comparison-matrix-data', [RecapitulationController::class, 'getComparisonMatrixData'])->name('recap.comparison-matrix-data');
+    Route::get('recap-comparison-matrix-excel', [RecapitulationController::class, 'getComparisonMatrixExcel'])->name('recap.comparison-matrix-excel');
     Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
     Route::get('recap-efficiency-cost-data', [RecapitulationController::class, 'getEfficiencyCostData'])->name('recap.efficiency-cost-data');
+    Route::get('recap-efficiency-cost-excel', [RecapitulationController::class, 'getEfficiencyCostExcel'])->name('recap.efficiency-cost-excel');
     Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
     Route::get('recap-request-cancelled-data', [RecapitulationController::class, 'getRequestCancelledData'])->name('recap.request-cancelled-data');
+    Route::get('recap-request-cancelled-excel', [RecapitulationController::class, 'getRequestCancelledExcel'])->name('recap.request-cancelled-excel');
     Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');

@@ -48,8 +48,8 @@ $title    = 'Dibatalkan';
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label required" for="">Pilih Periode</label>
-                            <div class="input-group input-daterange">
+                            <label class="form-label required" for="year">Pilih Periode</label>
+                            <div class="input-group">
                                 <select class="form-select" id="year" name="year">
                                     @foreach ($years as $year)
                                         <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
@@ -62,57 +62,13 @@ $title    = 'Dibatalkan';
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
                     <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
                     <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
-                    <button type="reset" class="btn btn-success">Export</button>
+                    <a href="{{ route('recap.request-cancelled-excel') }}" class="btn btn-success">Export</a>
                 </div>
                 <iframe id="searchRequestCancelled" src="" style="width: 100%; height: 500px; border: none;"></iframe>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-
-    $('#searchBtn').on('click', function() {
-        if (!isValidInput()) {
-            return;
-        }
-        updateIframe();
-    });
-
-    function isValidInput() {
-        var year = $('#year').val();
-
-        if (!year) {
-            // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed',
-                text: 'Please select a year',
-            });
-            return false;
-        }
-
-        return true;
-    }
-
-    function updateIframe() {
-        var year = $('#year').val();
-        var number = $('#number').val();
-        var name = $('#name').val();
-        var returnToUser = $('#return_to_user').val();
-        var cancellationMemo = $('#cancellation_memo').val();
-        var valueCost = $('#value_cost').val();
-
-        var iframeSrc = '{{ route('recap.request-cancelled-data') }}?year=' + year +
-        '&number=' + number +
-        '&name=' + name +
-        '&returnToUser=' + returnToUser +
-        '&cancellationMemo=' + cancellationMemo +
-        '&valueCost=' + valueCost;
-        console.log(iframeSrc);
-        $('#searchRequestCancelled').attr('src', iframeSrc);
-    }
-    });
-
-    </script>
+@include('recapitulation.cancel.modal')
+@include('recapitulation.cancel.script')
 @endsection

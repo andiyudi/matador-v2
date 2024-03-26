@@ -1,8 +1,3 @@
-<p style="text-align: center; font-size: 14pt">
-    REKAPITULASI PP MASIH DALAM PROSES NEGOSIASI<br>
-    PERIODE {{ strtoupper($formattedStartDate) }} - {{ strtoupper($formattedEndDate) }}<br>
-    UPDATE : {{ strtoupper($formattedDate) }}
-</p>
 <div class="peserta-rapat">
     <table width="100%">
         <thead>
@@ -40,19 +35,16 @@
                         {{ number_format($procurement->user_estimate, 0, '.', '.') }}
                     @endif
                 </td>
-                {{-- <td>Rp. {{ $procurement->user_estimate ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }},-</td> --}}
                 <td>
                     @if ($procurement->technique_estimate !== null)
                         {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
                     @endif
                 </td>
-                {{-- <td>Rp. {{ $procurement->technique_estimate ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }},-</td> --}}
                 <td>
                     @if ($procurement->deal_nego !== null)
                         {{ number_format($procurement->deal_nego, 0, '.', '.') }}
                     @endif
                 </td>
-                {{-- <td>Rp. {{ $procurement->deal_nego ? number_format($procurement->deal_nego, 0, ',', '.') : '0' }},-</td> --}}
                 <td>{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>
                 <td>{{ $procurement->information }}</td>
             </tr>
@@ -69,45 +61,3 @@
         </tbody>
     </table>
 </div>
-<br>
-<div class="row">
-    <div class="col-md-4">
-        <table class="document-position" style="width: 48%;">
-            <tr>
-                <td class="blue-column" style="background: blue"></td>
-                <td><strong>Dokumen di Direksi</strong></td>
-                <td><strong>:&nbsp;&nbsp;</strong></td>
-                <td><strong>{{ $dealNegos }}</strong></td>
-            </tr>
-            <tr>
-                <td class="black-column" style="background: black"></td>
-                <td><strong>Dokumen di Pengadaan</strong></td>
-                <td><strong>:&nbsp;&nbsp;</strong></td>
-                <td><strong>{{ $emptyDealNegos }}</strong></td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-md-8">
-        <div class="document-pic">
-            <table style="width: 20%;">
-            @php
-                $totalDocuments = 0;
-            @endphp
-            @foreach($documentsPic as $officialId => $count)
-                <tr>
-                    <td style="width: 50%"><strong>{{ $officialId }}</strong></td>
-                    <td style="width: 50%"><strong>{{ $count }}</strong></td>
-                </tr>
-            @php
-                $totalDocuments += $count;
-            @endphp
-            @endforeach
-            <tr class="total-column">
-                <td><strong>TOTAL</strong></td>
-                <td><strong>{{ $totalDocuments }}</strong></td>
-            </tr>
-            </table>
-        </div>
-    </div>
-</div>
-

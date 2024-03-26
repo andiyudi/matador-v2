@@ -11,8 +11,8 @@ $title    = 'Perbandingan';
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label required" for="">Pilih Periode</label>
-                            <div class="input-group input-daterange">
+                            <label class="form-label required" for="year">Pilih Periode</label>
+                            <div class="input-group">
                                 <select id="year" class="form-select" name="year">
                                     @foreach ($years as $year)
                                         <option value="{{ $year }}" @if ($year == $currentYear) selected @endif>{{ $year }}</option>
@@ -25,8 +25,8 @@ $title    = 'Perbandingan';
                         <div class="form-group">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3 mt-4">
                                 <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
-                                <button class="btn btn-primary me-md-2" type="button" id="" data-toggle="modal" data-target="#">Print</button>
-                                <button type="reset" class="btn btn-success">Export</button>
+                                <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
+                                <a href="{{ route('recap.comparison-matrix-excel') }}" class="btn btn-success">Export</a>
                             </div>
                         </div>
                     </div>
@@ -36,40 +36,6 @@ $title    = 'Perbandingan';
         </div>
     </div>
 </div>
-<script>
-$(document).ready(function() {
-
-$('#searchBtn').on('click', function() {
-    if (!isValidInput()) {
-        return;
-    }
-    updateIframe();
-});
-
-function isValidInput() {
-    var year = $('#year').val();
-
-    if (!year) {
-        // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
-        Swal.fire({
-            icon: 'error',
-            title: 'Failed',
-            text: 'Please select a year',
-        });
-        return false;
-    }
-
-    return true;
-}
-
-function updateIframe() {
-    var year = $('#year').val();
-
-    var iframeSrc = '{{ route('recap.comparison-matrix-data') }}?year=' + year;
-    console.log(iframeSrc);
-    $('#searchComparisonMatrix').attr('src', iframeSrc);
-}
-});
-
-</script>
+@include('recapitulation.matrix.modal')
+@include('recapitulation.matrix.script')
 @endsection

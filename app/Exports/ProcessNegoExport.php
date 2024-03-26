@@ -10,9 +10,6 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class ProcessNegoExport implements FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function view():View
     {
         $number = Request::input('number');

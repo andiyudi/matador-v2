@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Exports\ProcessNegoExport;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EfficiencyCostExport;
+use App\Exports\ComparisonMatrixExport;
+use App\Exports\RequestCancelledExport;
 
 class RecapitulationController extends Controller
 {
@@ -217,6 +220,14 @@ class RecapitulationController extends Controller
         return view('recapitulation.matrix.data', compact('year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
 
+    public function getComparisonMatrixExcel(Request $request)
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'recap-comparison-matrix-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new ComparisonMatrixExport, $fileName);
+    }
+
     public function getEfficiencyCost ()
     {
         $currentYear = Carbon::now()->year;
@@ -258,6 +269,14 @@ class RecapitulationController extends Controller
             'managerPosition' => $managerPosition,
         ];
         return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData', 'data'));
+    }
+
+    public function getEfficiencyCostExcel (Request $request)
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'recap-efficiency-cost-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new EfficiencyCostExport, $fileName);
     }
     public function getRequestCancelled ()
     {
@@ -332,5 +351,13 @@ class RecapitulationController extends Controller
             'managerPosition' => $managerPosition,
         ];
         return view ('recapitulation.cancel.data', compact ('logoBase64', 'year', 'procurements', 'documentsPic', 'data'));
+    }
+
+    public function getRequestCancelledExcel (Request $request)
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'recap-request-cancelled-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new RequestCancelledExport, $fileName);
     }
 }
