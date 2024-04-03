@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
             <button class="btn btn-secondary me-md-2" type="button" id="">Search</button>
             <button class="btn btn-primary me-md-2" type="button" id="" data-toggle="modal" data-target="#">Print</button>
             <button type="reset" class="btn btn-success">Export</button>

@@ -72,7 +72,7 @@
                                     {{-- {{ \Carbon\Carbon::parse($procurement->contract_date)->format('d-M-y') }} --}}
                                 @endif
                             </td>
-                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: left">{{ $procurement->name }}</td>
                             <td>{{ $procurement->division->code }}</td>
                             <td>{{ $procurement->official->initials }}</td>
                             <td>{{ $isSelectedArrayByMonth[$month][$procurement->id]['selected_partner'] }}</td>

@@ -23,30 +23,30 @@
             @if(count($procurements) > 0)
             @foreach($procurements as $procurement)
             <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
-                <td>{{ $procurement->number }}</td>
+                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                <td style="text-align: center;">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                <td style="text-align: center;">{{ $procurement->number }}</td>
                 <td>{{ $procurement->name }}</td>
-                <td>{{ $procurement->division->code }}</td>
-                <td>{{ $procurement->official->initials }}</td>
-                <td>{{ $procurement->is_selected }}</td>
-                <td>
+                <td style="text-align: center;">{{ $procurement->division->code }}</td>
+                <td style="text-align: center;">{{ $procurement->official->initials }}</td>
+                <td style="text-align: center;">{{ $procurement->is_selected }}</td>
+                <td style="text-align: right;">
                     @if ($procurement->user_estimate !== null)
                         {{ number_format($procurement->user_estimate, 0, '.', '.') }}
                     @endif
                 </td>
-                <td>
+                <td style="text-align: right;">
                     @if ($procurement->technique_estimate !== null)
                         {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
                     @endif
                 </td>
-                <td>
+                <td style="text-align: right;">
                     @if ($procurement->deal_nego !== null)
                         {{ number_format($procurement->deal_nego, 0, '.', '.') }}
                     @endif
                 </td>
-                <td>{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>
-                <td>{{ $procurement->information }}</td>
+                <td style="text-align: center;">{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>
+                <td style="text-align: center;">{{ $procurement->information }}</td>
             </tr>
             @endforeach
             <tr>

@@ -10,10 +10,10 @@ $title    = 'Berdasarkan Divisi';
             <div class="card-body">
                 <ul class="nav nav-tabs nav-justified" id="divisionTabs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="matrixTab" data-bs-toggle="tab" data-bs-target="#matrixContent" type="button" role="tab" aria-controls="matrixContent" aria-selected="true">12.1 Sort : Divisi, No PP, PIC Pengadaan</button>
+                        <button class="nav-link active" id="matrixTab" data-bs-toggle="tab" data-bs-target="#matrixContent" type="button" role="tab" aria-controls="matrixContent" aria-selected="true">Monthly Recapitulation</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="recapTab" data-bs-toggle="tab" data-bs-target="#recapContent" type="button" role="tab" aria-controls="recapContent" aria-selected="false">12.2 Sort : Monthly, Semester</button>
+                        <button class="nav-link" id="recapTab" data-bs-toggle="tab" data-bs-target="#recapContent" type="button" role="tab" aria-controls="recapContent" aria-selected="false">Annual Recapitulation</button>
                     </li>
                 </ul>
                 <div class="tab-content mt-3" id="divisionTabsContent">
