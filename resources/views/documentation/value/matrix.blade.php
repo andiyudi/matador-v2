@@ -1,6 +1,6 @@
 <div class="tab-pane fade show active" id="matrixContent" role="tabpanel" aria-labelledby="matrixTab">
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="value" class="form-label">Nilai Pekerjaan</label>
                 <select class="form-select" name="value" id="value">
@@ -11,40 +11,16 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="number" class="form-label">Masukkan No PP</label>
                 <input type="text" name="number" id="number" class="form-control">
             </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="month" class="form-label">Pilih Bulan</label>
-                <select class="form-select" name="month" id="month">
-                    <option disabled selected>Pilih Bulan</option>
-                    <option value="1">Januari</option>
-                    <option value="2">Februari</option>
-                    <option value="3">Maret</option>
-                    <option value="4">April</option>
-                    <option value="5">Mei</option>
-                    <option value="6">Juni</option>
-                    <option value="7">Juli</option>
-                    <option value="8">Agustus</option>
-                    <option value="9">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">Nevember</option>
-                    <option value="12">Desember</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="year" class="form-label required">Periode</label>
-                <select class="form-select" name="year" id="year">
-                    <option selected>2024</option>
-                </select>
+        <div class="col-md-4">
+            <label class="form-label required" for="period">Pilih Periode</label>
+            <div class="input-daterange">
+                <input type="text" class="form-control" id="period" name="period" placeholder="Periode">
             </div>
         </div>
     </div>
@@ -57,3 +33,15 @@
     </div>
     <iframe id="searchResultsVendor" src="" style="width: 100%; height: 500px; border: none;"></iframe>
 </div>
+<script>
+    $(document).ready(function() {
+        var period = $('#period');
+
+        period.datepicker({
+            format: 'mm-yyyy',
+            startView: 'months',
+            minViewMode: 'months',
+            autoclose:true,
+        });
+    });
+</script>
