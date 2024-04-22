@@ -26,12 +26,12 @@
     </div>
     <div class="form-group">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
-            <button class="btn btn-secondary me-md-2" type="button" id="">Search</button>
+            <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
             <button class="btn btn-primary me-md-2" type="button" id="" data-toggle="modal" data-target="#">Print</button>
             <button type="reset" class="btn btn-success">Export</button>
         </div>
     </div>
-    <iframe id="searchResultsVendor" src="" style="width: 100%; height: 500px; border: none;"></iframe>
+    <iframe id="searchValueMonthly" src="" style="width: 100%; height: 500px; border: none;"></iframe>
 </div>
 <script>
     $(document).ready(function() {
@@ -43,5 +43,39 @@
             minViewMode: 'months',
             autoclose:true,
         });
+
+        $('#searchBtn').on('click', function() {
+            if (!isValidInput()) {
+                return;
+            }
+            updateIframe();
+        });
+
+        function isValidInput() {
+            var period = $('#period').val();
+
+            if (!period) {
+                // Menampilkan SweetAlert untuk memberi tahu user bahwa kedua input harus diisi
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Period is required',
+                });
+                return false;
+            }
+
+            return true;
+        }
+        function updateIframe() {
+        var period = $('#period').val();
+        var number = $('#number').val();
+        var value = $('#value').val();
+        //tampilan data
+        var iframeSrc = '{{ route('documentation.value-monthly-data') }}?period=' + period +
+            '&number=' + number +
+            '&value=' + value;
+        console.log(iframeSrc);
+        $('#searchValueMonthly').attr('src', iframeSrc);
+        }
     });
 </script>

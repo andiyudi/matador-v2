@@ -110,6 +110,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recap-request-cancelled-data', [RecapitulationController::class, 'getRequestCancelledData'])->name('recap.request-cancelled-data');
     Route::get('recap-request-cancelled-excel', [RecapitulationController::class, 'getRequestCancelledExcel'])->name('recap.request-cancelled-excel');
     Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');
+    Route::get('documentation-value-monthly-data', [DocumentationController::class, 'basedOnValueMonthlyData'])->name('documentation.value-monthly-data');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');
     Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');

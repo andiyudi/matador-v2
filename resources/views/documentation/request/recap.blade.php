@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active" id="recapContent" role="tabpanel" aria-labelledby="recapTab">
+<div class="tab-pane fade" id="recapContent" role="tabpanel" aria-labelledby="recapTab">
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-group">
