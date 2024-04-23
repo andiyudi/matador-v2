@@ -64,7 +64,7 @@ class DocumentationController extends Controller
         // Eksekusi query untuk mendapatkan hasilnya
         $procurements = $query->get();
         // dd($procurements);
-        return view ('documentation.value.matrix-monthly', compact('logoBase64', 'procurements', 'periodFormatted'));
+        return view ('documentation.value.matrix-monthly', compact('logoBase64', 'procurements', 'periodFormatted', 'monthName'));
     }
 
 
