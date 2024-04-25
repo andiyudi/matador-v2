@@ -24,7 +24,7 @@
             word-wrap: break-word;
         }
         .peserta-rapat th {
-            background-color:rgb(130, 195, 250);
+            background-color:rgb(200, 255, 255);
             border: 1px solid black;
             padding: 8px;
             vertical-align: middle;
@@ -113,9 +113,40 @@
                     <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI 0 s.d <  100 JUTA</td>
                 </tr>
             @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate < 100000000 && $procurement->status != '2')
+                @if ($procurement->user_estimate < 100000000 && $procurement->status != '2')
+                    <tr>
+                        <td style="text-align: center">{{ ++$countTable1 }}</td>
+                        <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                        <td style="text-align: center">{{ $procurement->number }}</td>
+                        <td>{{ $procurement->name }}</td>
+                        <td style="text-align: center">{{ $procurement->division->code }}</td>
+                        <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                        <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                        <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        @php
+                            $totalUserEstimate1 += $procurement->user_estimate;
+                            $totalTechniqueEstimate1 += $procurement->technique_estimate;
+                            $totalBerkas1++;
+                        @endphp
+                    </tr>
+                @endif
+            @endforeach
+            @foreach($procurements as $procurement)
+                @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
+                    @php
+                            $cancelCount1++;
+                    @endphp
+                @endif
+            @endforeach
+            @if ( $cancelCount1 > 0)
+            <tr>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+            </tr>
+            @endif
+            @foreach($procurements as $procurement)
+                @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
                 <tr>
-                    <td style="text-align: center">{{ ++$countTable1 }}</td>
+                    <td style="text-align: center">{{ ++$cancelTable1 }}</td>
                     <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                     <td style="text-align: center">{{ $procurement->number }}</td>
                     <td>{{ $procurement->name }}</td>
@@ -124,43 +155,12 @@
                     <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
                     <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
                     @php
-                        $totalUserEstimate1 += $procurement->user_estimate;
-                        $totalTechniqueEstimate1 += $procurement->technique_estimate;
-                        $totalBerkas1++;
+                        $totalUserEstimateCancel1 += $procurement->user_estimate;
+                        $totalTechniqueEstimateCancel1 += $procurement->technique_estimate;
+                        $totalBerkasCancel1++;
                     @endphp
                 </tr>
-            @endif
-            @endforeach
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
-            @php
-                    $cancelCount1++;
-            @endphp
-            @endif
-            @endforeach
-            @if ( $cancelCount1 > 0)
-            <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
-            </tr>
-            @endif
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
-            <tr>
-                <td style="text-align: center">{{ ++$cancelTable1 }}</td>
-                <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
-                <td style="text-align: center">{{ $procurement->number }}</td>
-                <td>{{ $procurement->name }}</td>
-                <td style="text-align: center">{{ $procurement->division->code }}</td>
-                <td style="text-align: center">{{ $procurement->official->initials }}</td>
-                <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-                <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                @php
-                    $totalUserEstimateCancel1 += $procurement->user_estimate;
-                    $totalTechniqueEstimateCancel1 += $procurement->technique_estimate;
-                    $totalBerkasCancel1++;
-                @endphp
-            </tr>
-            @endif
+                @endif
             @endforeach
             <tr style="text-align: center">
                 <td colspan="4"><strong>JUMLAH</strong></td>
@@ -334,7 +334,7 @@
         </tbody>
         <tfoot>
             <tr style="text-align: center">
-                <td colspan="4"><strong>JUMLAH PP {{ strtoupper($monthName) }}</strong></td>
+                <td colspan="4"><strong>TOTAL PP {{ strtoupper($monthName) }}</strong></td>
                 <td>{{ $totalBerkas1 + $totalBerkas2 + $totalBerkas3 + $totalBerkasCancel1 + $totalBerkasCancel2 + $totalBerkasCancel3 }}</td>
                 <td>BERKAS</td>
                 <td style="text-align: right">{{ number_format($totalUserEstimate1 + $totalUserEstimate2 + $totalUserEstimate3 + $totalUserEstimateCancel1 + $totalUserEstimateCancel2 + $totalUserEstimateCancel3, 0, ',', '.') }}</td>

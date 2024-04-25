@@ -312,13 +312,13 @@ class RecapitulationController extends Controller
                 $query->where('name', 'like', '%' . $name . '%');
             })
             ->when($valueCost === '0', function ($query) {
-                $query->whereBetween('user_estimate', [0, 100000000]); // 0 s.d < 100 Juta
+                $query->whereBetween('user_estimate', [0, 99999999]); // 0 s.d < 100 Juta
             })
             ->when($valueCost === '1', function ($query) {
-                $query->whereBetween('user_estimate', [100000000, 1000000000]); // >= 100 Juta s.d < 1 Miliar
+                $query->whereBetween('user_estimate', [100000000, 999999999]); // >= 100 Juta s.d < 1 Miliar
             })
             ->when($valueCost === '2', function ($query) {
-                $query->where('user_estimate', '>', 1000000000); // >= 1 Miliar
+                $query->where('user_estimate', '>=', 1000000000); // >= 1 Miliar
             })
             ->when($returnToUser, function ($query) use ($returnToUser) {
                 $query->where('return_to_user', $returnToUser);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+// use App\Models\Division;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,7 @@ class DocumentationController extends Controller
 {
     public function basedOnValue ()
     {
+        // $divisions = Division::where('status', '1')->get();
         return view ('documentation.value.index');
     }
 
@@ -21,6 +23,7 @@ class DocumentationController extends Controller
         $period = $request->input('period');
         $number = $request->input('number');
         $value = $request->input('value');
+        // $divisi = $request->input('divisi');
         $bulan = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -56,9 +59,9 @@ class DocumentationController extends Controller
         if ($value === '0') {
             $query->where('user_estimate', '<', 100000000); // Kurang dari 100 juta
         } elseif ($value === '1') {
-            $query->whereBetween('user_estimate', [100000000, 1000000000]); // Antara 100 juta dan 1 miliar
+            $query->whereBetween('user_estimate', [100000000, 999999999]); // Antara 100 juta dan 1 miliar
         } elseif ($value === '2') {
-            $query->where('user_estimate', '>', 1000000000); // Lebih dari 1 miliar
+            $query->where('user_estimate', '>=', 1000000000); // Lebih dari 1 miliar
         }
         $query->whereNotNull('user_estimate');
         // Eksekusi query untuk mendapatkan hasilnya

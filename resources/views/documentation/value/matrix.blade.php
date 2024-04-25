@@ -11,6 +11,19 @@
                 </select>
             </div>
         </div>
+        {{-- <div class="col-md-6">
+            <div class="form-group">
+                <label for="value" class="form-label">Divisi</label>
+                <select class="form-control select2" name="divisi" id="divisi">
+                    <option disabled selected>Pilih Divisi</option>
+                    @foreach($divisions as $division)
+                    <option value="{{ $division->id }}">{{ $division->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3"> --}}
         <div class="col-md-4">
             <div class="form-group">
                 <label for="number" class="form-label">Masukkan No PP</label>
@@ -70,9 +83,11 @@
         var period = $('#period').val();
         var number = $('#number').val();
         var value = $('#value').val();
+        // var divisi = $('#divisi').val();
         //tampilan data
         var iframeSrc = '{{ route('documentation.value-monthly-data') }}?period=' + period +
             '&number=' + number +
+            // '&divisi=' + divisi +
             '&value=' + value;
         console.log(iframeSrc);
         $('#searchValueMonthly').attr('src', iframeSrc);
