@@ -33,36 +33,30 @@
             padding: 8px;
             vertical-align: middle;
         }
-        .peserta-rapat tbody tr:last-child {
+        .peserta-rapat tfoot tr {
             border-bottom: 3px double black; /* Adjust border thickness and color as needed */
         }
-        .row {
-            display: flex;
-            justify-content: space-between;
+        .total {
+            margin-top: 0; /* Menaikkan posisi tabel sebanyak 100px */
         }
-        .col-md-4 {
-            width: 48%; /* Sesuaikan lebar div dengan tabel di dalamnya */
-        }
-        .col-md-8 {
-            width: 69%; /* Sesuaikan lebar div dengan tabel di dalamnya */
-        }
-        .blue-column, .black-column {
-            width: 15%; /* Menyesuaikan lebar kolom dengan kolom No pada peserta rapat */
-        }
-        .total-column {
-            background-color:deepskyblue;
-        }
-        .document-pic table {
-            border-collapse: collapse; /* Menyatukan batas seluruhnya */
+        .total table {
+            border-collapse: collapse;
             width: 100%;
-            font-size:8pt;
+            table-layout: fixed;
+            word-wrap: break-word;
         }
-        .document-pic th,
-        .document-pic td {
-            border: 1px solid black; /* Batas individual */
-            padding: 3px;
+        .total th {
+            background-color:rgb(255, 255, 255);
+            border-left: 1px solid white; /* Atur border kiri */
+            border-top: 1px solid white; /* Hanya border atas */
+            border-right: 1px solid white; /* Atur border kanan */
+            border-bottom: 1px solid black; /* Atur border kanan */
+            padding: 8px;
+        }
+        .total td {
+            border: 1px solid black;
+            padding: 8px;
             vertical-align: middle;
-            text-align: center;
         }
     </style>
 <table>
@@ -80,19 +74,23 @@
 </p>
 <div class="peserta-rapat">
     @php
-    $countTable1 = $countTable2 = $countTable3 = 0; // untuk nomor urut dokumen per value
-    $cancelTable1 = $cancelTable2 = $cancelTable3 = 0; // untuk nomor urut dokumen cancel per value
-    $cancelCount1 = $cancelCount2 = $cancelCount3 = 0; // untuk hitung data dokumen cancel per value
-    $totalBerkas1 = $totalBerkas2 = $totalBerkas3 = 0; // untuk hitung jumlah data dokumen per value
-    $totalBerkasCancel1 = $totalBerkasCancel2 = $totalBerkasCancel3 = 0; // untuk hitung jumlah data dokumen cancel per value
-    $totalUserEstimate1 = $totalUserEstimate2 = $totalUserEstimate3 = 0; // untuk hitung total user estimate per value
-    $totalUserEstimateCancel1 = $totalUserEstimateCancel2 = $totalUserEstimateCancel3 = 0; // untuk hitung total user estimate cancel per value
-    $totalTechniqueEstimate1 = $totalTechniqueEstimate2 = $totalTechniqueEstimate3 = 0; // untuk hitung total technique estimate per value
-    $totalTechniqueEstimateCancel1 = $totalTechniqueEstimateCancel2 = $totalTechniqueEstimateCancel3 = 0; // untuk hitung total technique estimate cancel per value
-@endphp
-
-    <!-- Table untuk dokumen PP dengan nilai < 100 Juta -->
-    <table width="100%">
+        $noUrut1 = $noUrut2 = $noUrut3 = 0;
+        $noProject1 = $noProject2 = $noProject3 = 0;
+        $noUrutCancel1 = $noUrutCancel2 = $noUrutCancel3 = 0;
+        $noProjectCancel1 = $noProjectCancel2 = $noProjectCancel3 = 0;
+        $data1 = $data2 = $data3 = false;
+        $dataProject1 = $dataProject2 = $dataProject3 = false;
+        $dataCancel1 = $dataCancel2 = $dataCancel3 = false;
+        $dataProjectCancel1 = $dataProjectCancel2 = $dataProjectCancel3 = false;
+        $jumlahBerkas1 = $jumlahBerkas2 = $jumlahBerkas3 = 0;
+        $jumlahBerkasProject1 = $jumlahBerkasProject2 = $jumlahBerkasProject3 = 0;
+        $jumlahUserEstimate1 = $jumlahUserEstimate2 = $jumlahUserEstimate3 = 0;
+        $jumlahUserEstimateProject1 = $jumlahUserEstimateProject2 = $jumlahUserEstimateProject3 = 0;
+        $jumlahTechniqueEstimate1 = $jumlahTechniqueEstimate2 = $jumlahTechniqueEstimate3 = 0;
+        $jumlahTechniqueEstimateProject1 = $jumlahTechniqueEstimateProject2 = $jumlahTechniqueEstimateProject3 = 0;
+    @endphp
+    <!-- Table value 1  < 100 JUTA-->
+    <table>
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
@@ -109,71 +107,171 @@
             </tr>
         </thead>
         <tbody>
+            <tr>
+                <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI 0 s.d <  100 JUTA</td>
+            </tr>
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate < 100000000 && $procurement->status != '2' && $procurement->division_id != 13)
+            @php
+                $data1 = true;
+                $jumlahBerkas1++;
+                $jumlahUserEstimate1 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate1 += $procurement->technique_estimate;
+            @endphp
+            <tr>
+                <td style="text-align: center">{{ ++$noUrut1 }}</td>
+                <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                <td style="text-align: center">{{ $procurement->number }}</td>
+                <td>{{ $procurement->name }}</td>
+                <td style="text-align: center">{{ $procurement->division->code }}</td>
+                <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+            </tr>
+            @endif
+            @if ($procurement->user_estimate < 100000000 && $procurement->status == '2' && $procurement->division_id != 13)
+            @php
+                $dataCancel1 = true;
+            @endphp
+            @endif
+            @endforeach
+            @if (!$data1)
                 <tr>
-                    <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI 0 s.d <  100 JUTA</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
                 </tr>
-            @foreach($procurements as $procurement)
-                @if ($procurement->user_estimate < 100000000 && $procurement->status != '2')
-                    <tr>
-                        <td style="text-align: center">{{ ++$countTable1 }}</td>
-                        <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
-                        <td style="text-align: center">{{ $procurement->number }}</td>
-                        <td>{{ $procurement->name }}</td>
-                        <td style="text-align: center">{{ $procurement->division->code }}</td>
-                        <td style="text-align: center">{{ $procurement->official->initials }}</td>
-                        <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-                        <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                        @php
-                            $totalUserEstimate1 += $procurement->user_estimate;
-                            $totalTechniqueEstimate1 += $procurement->technique_estimate;
-                            $totalBerkas1++;
-                        @endphp
-                    </tr>
-                @endif
-            @endforeach
-            @foreach($procurements as $procurement)
-                @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
-                    @php
-                            $cancelCount1++;
-                    @endphp
-                @endif
-            @endforeach
-            @if ( $cancelCount1 > 0)
+            @endif
+            @if($dataCancel1)
             <tr>
                 <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
             </tr>
             @endif
-            @foreach($procurements as $procurement)
-                @if ($procurement->user_estimate < 100000000 && $procurement->status == '2')
-                <tr>
-                    <td style="text-align: center">{{ ++$cancelTable1 }}</td>
-                    <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
-                    <td style="text-align: center">{{ $procurement->number }}</td>
-                    <td>{{ $procurement->name }}</td>
-                    <td style="text-align: center">{{ $procurement->division->code }}</td>
-                    <td style="text-align: center">{{ $procurement->official->initials }}</td>
-                    <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-                    <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                    @php
-                        $totalUserEstimateCancel1 += $procurement->user_estimate;
-                        $totalTechniqueEstimateCancel1 += $procurement->technique_estimate;
-                        $totalBerkasCancel1++;
-                    @endphp
-                </tr>
-                @endif
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate < 100000000 && $procurement->status == '2' && $procurement->division_id != 13)
+            @php
+                $jumlahBerkas1++;
+                $jumlahUserEstimate1 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate1 += $procurement->technique_estimate;
+            @endphp
+            <tr>
+                <td style="text-align: center">{{ ++$noUrutCancel1 }}</td>
+                <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                <td style="text-align: center">{{ $procurement->number }}</td>
+                <td>{{ $procurement->name }}</td>
+                <td style="text-align: center">{{ $procurement->division->code }}</td>
+                <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+            </tr>
+            @endif
             @endforeach
+        </tbody>
+        <tfoot>
             <tr style="text-align: center">
                 <td colspan="4"><strong>JUMLAH</strong></td>
-                <td>{{ $totalBerkas1 + $totalBerkasCancel1 }}</td>
+                <td>{{ $jumlahBerkas1 }}</td> <!-- Hitung jumlah berkas data + cancel -->
                 <td>BERKAS</td>
-                <td style="text-align: right">{{ number_format($totalUserEstimate1 + $totalUserEstimateCancel1, 0, ',', '.') }}</td>
-                <td style="text-align: right">{{ number_format($totalTechniqueEstimate1 + $totalTechniqueEstimateCancel1, 0, ',', '.') }}</td>
+                <td style="text-align: right">{{ number_format($jumlahUserEstimate1, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                <td style="text-align: right">{{ number_format($jumlahTechniqueEstimate1, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
             </tr>
-        </tbody>
+        </tfoot>
     </table>
+    @foreach ($procurements as $procurement)
+        @if ($procurement->user_estimate < 100000000 && $procurement->division_id == 13)
+            @if (!$dataProject1) <!-- Hanya tampilkan jika data proyek belum ditampilkan -->
+                @php
+                    $dataProject1 = true; // Set variabel untuk menandai bahwa data proyek sudah ditampilkan
+                @endphp
+                <strong style="font-size: 14pt">PROYEK {{ $procurement->division->name }}</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="3%" style="text-align: center">No</th>
+                            <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
+                            <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                            <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
+                            <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
+                            <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
+                            <th colspan="2" style="text-align: center">Nilai PP</th>
+                        </tr>
+                        <tr>
+                            <th>EE User</th>
+                            <th>EE Teknik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PROYEK {{ $procurement->division->name }} NILAI 0 s.d <  100 JUTA</td>
+                        </tr>
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate < 100000000 && $procurement->status != '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject1++;
+                            $jumlahUserEstimateProject1 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject1 += $procurement->technique_estimate;
+                        @endphp
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProject1 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate < 100000000 && $procurement->status == '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject1++;
+                            $jumlahUserEstimateProject1 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject1 += $procurement->technique_estimate;
+                        @endphp
+                        @if (!$dataProjectCancel1)
+                        @php
+                            $dataProjectCancel1 = true; // Set variabel untuk menandai bahwa pesan "PP DIBATALKAN" sudah ditampilkan
+                        @endphp
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProjectCancel1 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr style="text-align: center">
+                            <td colspan="4"><strong>JUMLAH</strong></td>
+                            <td>{{ $jumlahBerkasProject1 }}</td> <!-- Hitung jumlah berkas data + cancel -->
+                            <td>BERKAS</td>
+                            <td style="text-align: right">{{ number_format($jumlahUserEstimateProject1, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                            <td style="text-align: right">{{ number_format($jumlahTechniqueEstimateProject1, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
+                        </tr>
+                    </tfoot>
+                </table>
+            @endif
+        @endif
+    @endforeach
     <br>
-    <!-- Table untuk dokumen PP dengan nilai >= 100 Juta dan < 1 Miliar -->
-    <table width="100%">
+    <!-- Table value 2  >= 100 JUTA s.d < 1 M-->
+    <table>
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
@@ -193,41 +291,16 @@
             <tr>
                 <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI &#8805; 100 JUTA s.d < 1 M</td>
             </tr>
-        @foreach($procurements as $procurement)
-        @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status != '2')
-        <tr>
-            <td style="text-align: center">{{ ++$countTable2 }}</td>
-            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
-            <td style="text-align: center">{{ $procurement->number }}</td>
-            <td>{{ $procurement->name }}</td>
-            <td style="text-align: center">{{ $procurement->division->code }}</td>
-            <td style="text-align: center">{{ $procurement->official->initials }}</td>
-            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status != '2' && $procurement->division_id != 13)
             @php
-                $totalUserEstimate2 += $procurement->user_estimate;
-                $totalTechniqueEstimate2 += $procurement->technique_estimate;
-                $totalBerkas2++;
+                $data2 = true;
+                $jumlahBerkas2++;
+                $jumlahUserEstimate2 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate2 += $procurement->technique_estimate;
             @endphp
-        </tr>
-        @endif
-        @endforeach
-        @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status == '2')
-            @php
-                    $cancelCount2++;
-            @endphp
-            @endif
-            @endforeach
-            @if ( $cancelCount2 > 0)
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
-            </tr>
-            @endif
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status == '2')
-            <tr>
-                <td style="text-align: center">{{ ++$cancelTable2 }}</td>
+                <td style="text-align: center">{{ ++$noUrut2 }}</td>
                 <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                 <td style="text-align: center">{{ $procurement->number }}</td>
                 <td>{{ $procurement->name }}</td>
@@ -235,26 +308,151 @@
                 <td style="text-align: center">{{ $procurement->official->initials }}</td>
                 <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
                 <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                @php
-                    $totalUserEstimateCancel2 += $procurement->user_estimate;
-                    $totalTechniqueEstimateCancel2 += $procurement->technique_estimate;
-                    $totalBerkasCancel2++;
-                @endphp
+            </tr>
+            @endif
+            @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status == '2' && $procurement->division_id != 13)
+            @php
+                $dataCancel2 = true;
+            @endphp
+            @endif
+            @endforeach
+            @if (!$data2)
+                <tr>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                </tr>
+            @endif
+            @if($dataCancel2)
+            <tr>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+            </tr>
+            @endif
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status == '2' && $procurement->division_id != 13)
+            @php
+                $jumlahBerkas2++;
+                $jumlahUserEstimate2 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate2 += $procurement->technique_estimate;
+            @endphp
+            <tr>
+                <td style="text-align: center">{{ ++$noUrutCancel2 }}</td>
+                <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                <td style="text-align: center">{{ $procurement->number }}</td>
+                <td>{{ $procurement->name }}</td>
+                <td style="text-align: center">{{ $procurement->division->code }}</td>
+                <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
             </tr>
             @endif
             @endforeach
-        <tr style="text-align: center">
-            <td colspan="4"><strong>JUMLAH</strong></td>
-            <td>{{ $totalBerkas2 + $totalBerkasCancel2 }}</td>
-            <td>BERKAS</td>
-            <td style="text-align: right">{{ number_format($totalUserEstimate2 + $totalUserEstimateCancel2, 0, ',', '.') }}</td>
-            <td style="text-align: right">{{ number_format($totalTechniqueEstimate2 + $totalTechniqueEstimateCancel2, 0, ',', '.') }}</td>
-        </tr>
-    </tbody>
+        </tbody>
+        <tfoot>
+            <tr style="text-align: center">
+                <td colspan="4"><strong>JUMLAH</strong></td>
+                <td>{{ $jumlahBerkas2 }}</td> <!-- Hitung jumlah berkas data + cancel -->
+                <td>BERKAS</td>
+                <td style="text-align: right">{{ number_format($jumlahUserEstimate2, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                <td style="text-align: right">{{ number_format($jumlahTechniqueEstimate2, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
+            </tr>
+        </tfoot>
     </table>
+    @foreach ($procurements as $procurement)
+        @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->division_id == 13)
+            @if (!$dataProject2) <!-- Hanya tampilkan jika data proyek belum ditampilkan -->
+                @php
+                    $dataProject2 = true; // Set variabel untuk menandai bahwa data proyek sudah ditampilkan
+                @endphp
+                <strong style="font-size: 14pt">PROYEK {{ $procurement->division->name }}</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="3%" style="text-align: center">No</th>
+                            <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
+                            <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                            <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
+                            <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
+                            <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
+                            <th colspan="2" style="text-align: center">Nilai PP</th>
+                        </tr>
+                        <tr>
+                            <th>EE User</th>
+                            <th>EE Teknik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PROYEK {{ $procurement->division->name }} NILAI &#8805; 100 JUTA s.d < 1 M</td>
+                        </tr>
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status != '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject2++;
+                            $jumlahUserEstimateProject2 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject2 += $procurement->technique_estimate;
+                        @endphp
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProject2 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status == '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject2++;
+                            $jumlahUserEstimateProject2 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject2 += $procurement->technique_estimate;
+                        @endphp
+                        @if (!$dataProjectCancel2)
+                        @php
+                            $dataProjectCancel2 = true; // Set variabel untuk menandai bahwa pesan "PP DIBATALKAN" sudah ditampilkan
+                        @endphp
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProjectCancel2 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr style="text-align: center">
+                            <td colspan="4"><strong>JUMLAH</strong></td>
+                            <td>{{ $jumlahBerkasProject2 }}</td> <!-- Hitung jumlah berkas data + cancel -->
+                            <td>BERKAS</td>
+                            <td style="text-align: right">{{ number_format($jumlahUserEstimateProject2, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                            <td style="text-align: right">{{ number_format($jumlahTechniqueEstimateProject2, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
+                        </tr>
+                    </tfoot>
+                </table>
+            @endif
+        @endif
+    @endforeach
     <br>
-    <!-- Table untuk dokumen PP dengan nilai >= 1 Miliar -->
-    <table width="100%">
+    <!-- Table value 3  >= 1 M -->
+    <table>
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
@@ -274,10 +472,16 @@
             <tr>
                 <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI &#8805; 1 M</td>
             </tr>
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate >= 1000000000 && $procurement->status != '2')
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate >= 1000000000 && $procurement->status != '2' && $procurement->division_id != 13)
+            @php
+                $data3 = true;
+                $jumlahBerkas3++;
+                $jumlahUserEstimate3 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate3 += $procurement->technique_estimate;
+            @endphp
             <tr>
-                <td style="text-align: center">{{ ++$countTable3 }}</td>
+                <td style="text-align: center">{{ ++$noUrut3 }}</td>
                 <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                 <td style="text-align: center">{{ $procurement->number }}</td>
                 <td>{{ $procurement->name }}</td>
@@ -285,30 +489,40 @@
                 <td style="text-align: center">{{ $procurement->official->initials }}</td>
                 <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
                 <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                @php
-                    $totalUserEstimate3 += $procurement->user_estimate;
-                    $totalTechniqueEstimate3 += $procurement->technique_estimate;
-                    $totalBerkas3++;
-                @endphp
             </tr>
             @endif
-            @endforeach
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate >= 1000000000 && $procurement->status == '2')
+            @if ($procurement->user_estimate >= 1000000000 && $procurement->status == '2' && $procurement->division_id != 13)
             @php
-                    $cancelCount3++;
+                $dataCancel3 = true;
             @endphp
             @endif
             @endforeach
-            @if ( $cancelCount3 > 0)
+            @if (!$data3)
+                <tr>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                    <td style="text-align: center;">-</td>
+                </tr>
+            @endif
+            @if($dataCancel3)
             <tr>
                 <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
             </tr>
             @endif
-            @foreach($procurements as $procurement)
-            @if ($procurement->user_estimate >= 1000000000 && $procurement->status == '2')
+            @foreach ($procurements as $procurement)
+            @if ($procurement->user_estimate >= 1000000000 && $procurement->status == '2' && $procurement->division_id != 13)
+            @php
+                $jumlahBerkas3++;
+                $jumlahUserEstimate3 += $procurement->user_estimate;
+                $jumlahTechniqueEstimate3 += $procurement->technique_estimate;
+            @endphp
             <tr>
-                <td style="text-align: center">{{ ++$cancelTable3 }}</td>
+                <td style="text-align: center">{{ ++$noUrutCancel3 }}</td>
                 <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                 <td style="text-align: center">{{ $procurement->number }}</td>
                 <td>{{ $procurement->name }}</td>
@@ -316,31 +530,132 @@
                 <td style="text-align: center">{{ $procurement->official->initials }}</td>
                 <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
                 <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
-                @php
-                    $totalUserEstimateCancel3 += $procurement->user_estimate;
-                    $totalTechniqueEstimateCancel3 += $procurement->technique_estimate;
-                    $totalBerkasCancel3++;
-                @endphp
             </tr>
             @endif
             @endforeach
-            <tr style="text-align: center">
-                <td colspan="4"><strong>JUMLAH</strong></td>
-                <td>{{ $totalBerkas3 + $totalBerkasCancel3 }}</td>
-                <td>BERKAS</td>
-                <td style="text-align: right">{{ number_format($totalUserEstimate3 + $totalUserEstimateCancel3, 0, ',', '.') }}</td>
-                <td style="text-align: right">{{ number_format($totalTechniqueEstimate3 + $totalTechniqueEstimateCancel3, 0, ',', '.') }}</td>
-            </tr>
         </tbody>
         <tfoot>
             <tr style="text-align: center">
-                <td colspan="4"><strong>TOTAL PP {{ strtoupper($monthName) }}</strong></td>
-                <td>{{ $totalBerkas1 + $totalBerkas2 + $totalBerkas3 + $totalBerkasCancel1 + $totalBerkasCancel2 + $totalBerkasCancel3 }}</td>
+                <td colspan="4"><strong>JUMLAH</strong></td>
+                <td>{{ $jumlahBerkas3 }}</td> <!-- Hitung jumlah berkas data + cancel -->
                 <td>BERKAS</td>
-                <td style="text-align: right">{{ number_format($totalUserEstimate1 + $totalUserEstimate2 + $totalUserEstimate3 + $totalUserEstimateCancel1 + $totalUserEstimateCancel2 + $totalUserEstimateCancel3, 0, ',', '.') }}</td>
-                <td style="text-align: right">{{ number_format($totalTechniqueEstimate1 + $totalTechniqueEstimate2 + $totalTechniqueEstimate3 + $totalTechniqueEstimateCancel1 + $totalTechniqueEstimateCancel2 + $totalTechniqueEstimateCancel3, 0, ',', '.') }}</td>
+                <td style="text-align: right">{{ number_format($jumlahUserEstimate3, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                <td style="text-align: right">{{ number_format($jumlahTechniqueEstimate3, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
             </tr>
         </tfoot>
+    </table>
+    @foreach ($procurements as $procurement)
+        @if ($procurement->user_estimate >= 1000000000 && $procurement->division_id == 13)
+            @if (!$dataProject3) <!-- Hanya tampilkan jika data proyek belum ditampilkan -->
+                @php
+                    $dataProject3 = true; // Set variabel untuk menandai bahwa data proyek sudah ditampilkan
+                @endphp
+                <strong style="font-size: 14pt">PROYEK {{ $procurement->division->name }}</strong>
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" width="3%" style="text-align: center">No</th>
+                            <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
+                            <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                            <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
+                            <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
+                            <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
+                            <th colspan="2" style="text-align: center">Nilai PP</th>
+                        </tr>
+                        <tr>
+                            <th>EE User</th>
+                            <th>EE Teknik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PROYEK {{ $procurement->division->name }} NILAI &#8805; 1 M</td>
+                        </tr>
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate >= 1000000000 && $procurement->status != '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject3++;
+                            $jumlahUserEstimateProject3 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject3 += $procurement->technique_estimate;
+                        @endphp
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProject3 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                        @foreach ($procurements as $procurement)
+                        @if ($procurement->user_estimate >= 1000000000 && $procurement->status == '2' && $procurement->division_id == 13)
+                        @php
+                            $jumlahBerkasProject3++;
+                            $jumlahUserEstimateProject3 += $procurement->user_estimate;
+                            $jumlahTechniqueEstimateProject3 += $procurement->technique_estimate;
+                        @endphp
+                        @if (!$dataProjectCancel3)
+                        @php
+                            $dataProjectCancel3 = true; // Set variabel untuk menandai bahwa pesan "PP DIBATALKAN" sudah ditampilkan
+                        @endphp
+                        <tr>
+                            <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td style="text-align: center">{{ ++$noProjectCancel3 }}</td>
+                            <td style="text-align: center">{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
+                            <td style="text-align: center">{{ $procurement->number }}</td>
+                            <td>{{ $procurement->name }}</td>
+                            <td style="text-align: center">{{ $procurement->division->code }}</td>
+                            <td style="text-align: center">{{ $procurement->official->initials }}</td>
+                            <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
+                            <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        </tr>
+                        @endif
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr style="text-align: center">
+                            <td colspan="4"><strong>JUMLAH</strong></td>
+                            <td>{{ $jumlahBerkasProject3 }}</td> <!-- Hitung jumlah berkas data + cancel -->
+                            <td>BERKAS</td>
+                            <td style="text-align: right">{{ number_format($jumlahUserEstimateProject3, 0, ',', '.') }}</td> <!-- Hitung jumlah user estimate data + cancel -->
+                            <td style="text-align: right">{{ number_format($jumlahTechniqueEstimateProject3, 0, ',', '.') }}</td> <!-- Hitung jumlah technique data + cancel -->
+                        </tr>
+                    </tfoot>
+                </table>
+            @endif
+        @endif
+    @endforeach
+    <br>
+</div>
+<div class="total">
+    <table>
+        <thead>
+            <tr>
+                <th width="3%" style="text-align: center"></th>
+                <th width="7%" style="text-align: center"></th>
+                <th width="5%" style="text-align: center"></th>
+                <th width="40%" style="text-align: center"></th>
+                <th width="5%" style="text-align: center"></th>
+                <th width="8%" style="text-align: center"></th>
+                <th style="text-align: center"></th>
+                <th style="text-align: center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="text-align: center">
+                <td colspan="4"><strong>TOTAL PP {{ strtoupper($monthName) }}</strong></td>
+                <td>{{ $jumlahBerkas1 + $jumlahBerkas2 + $jumlahBerkas3 + $jumlahBerkasProject1 + $jumlahBerkasProject2 + $jumlahBerkasProject3 }}</td>
+                <td>BERKAS</td>
+                <td style="text-align: right"></td>
+                <td style="text-align: right"></td>
+            </tr>
+        </tbody>
     </table>
 </div>
 </body>
