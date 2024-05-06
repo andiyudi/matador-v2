@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,19 +69,18 @@
 <table>
     <thead>
         <tr>
-            {{-- <td><img src="{{ $logoBase64 }}" alt="Logo" style="max-width: 100px; max-height: 50px;"></td> --}}
             <td><img src={{ url('assets/logo/cmnplogo.png') }} alt="Logo" style="max-width: 100px; max-height: 50px;"></td>
             <td>PT. CITRA MARGA NUSAPHALA PERSADA Tbk.<br>Divisi Umum - Departemen Pengadaan</td>
         </tr>
     </thead>
 </table>
 <p style="text-align: center; font-size: 14pt">
-    REKAPITULASI DOKUMEN PERMINTAAN PEKERJAAN (PP) MASUK<br>
+    REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
     BERDASARKAN NILAI PEKERJAAN<br>
-    PERIODE : {{ strtoupper($periodFormatted) }}
+    PERIODE : JANUARI - DESEMBER
 </p>
-@include('documentation.value.monthly-result')
-<table width="100%">
+{{-- @include('documentation.value.monthly-result') --}}
+{{-- <table width="100%">
     <thead>
         <tr>
             <td style="text-align: center; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
@@ -99,6 +99,6 @@
             <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
         </tr>
     </tbody>
-</table>
+</table> --}}
 </body>
 </html>

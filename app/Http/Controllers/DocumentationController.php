@@ -3,23 +3,25 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-// use App\Models\Division;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BasedOnValueMonthlyDataExport;
 
 class DocumentationController extends Controller
 {
     public function basedOnValue ()
     {
-        // $divisions = Division::where('status', '1')->get();
-        return view ('documentation.value.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::pluck(DB::raw('YEAR(receipt) as year'))
+                ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+                ->unique();
+        return view ('documentation.value.index', compact('years', 'currentYear'));
     }
 
     public function basedOnValueMonthlyData(Request $request)
     {
-        $logoPath = public_path('assets/logo/cmnplogo.png');
-        $logoData = file_get_contents($logoPath);
-        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
         $period = $request->input('period');
         $number = $request->input('number');
         $value = $request->input('value');
@@ -67,9 +69,24 @@ class DocumentationController extends Controller
         // Eksekusi query untuk mendapatkan hasilnya
         $procurements = $query->get();
         // dd($procurements);
-        return view ('documentation.value.matrix-monthly', compact('logoBase64', 'procurements', 'periodFormatted', 'monthName'));
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+        return view ('documentation.value.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
 
+    public function basedOnValueMonthlyExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-valueMonthly-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new BasedOnValueMonthlyDataExport, $fileName);
+    }
+    public function basedOnValueAnnualData(Request $request)
+    {
+        return view ('documentation.value.recap-annual');
+    }
 
     public function basedOnDivision ()
     {
