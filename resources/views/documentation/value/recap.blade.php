@@ -2,8 +2,8 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="nilai" class="form-label">Nilai Pekerjaan</label>
-                <select class="form-select" name="nilai" id="nilai">
+                <label for="work_value" class="form-label">Nilai Pekerjaan</label>
+                <select class="form-select" name="work_value" id="work_value">
                     <option disabled selected>Pilih Nilai Pekerjaan</option>
                     <option value="0">Nilai 0 s.d < 100Jt</option>
                     <option value="1">Nilai &#8805; 100Jt s.d < 1M</option>
@@ -16,15 +16,15 @@
                 <label for="month" class="form-label">Pilih Bulan</label>
                 <select class="form-select" name="month" id="month">
                     <option disabled selected>Pilih Bulan</option>
-                    <option value="01">Januari</option>
-                    <option value="02">Februari</option>
-                    <option value="03">Maret</option>
-                    <option value="04">April</option>
-                    <option value="05">Mei</option>
-                    <option value="06">Juni</option>
-                    <option value="07">Juli</option>
-                    <option value="08">Agustus</option>
-                    <option value="09">September</option>
+                    <option value="1">Januari</option>
+                    <option value="2">Februari</option>
+                    <option value="3">Maret</option>
+                    <option value="4">April</option>
+                    <option value="5">Mei</option>
+                    <option value="6">Juni</option>
+                    <option value="7">Juli</option>
+                    <option value="8">Agustus</option>
+                    <option value="9">September</option>
                     <option value="10">Oktober</option>
                     <option value="11">Nevember</option>
                     <option value="12">Desember</option>
@@ -61,7 +61,8 @@
     });
     function isValidInput() {
         var year = $('#year').val();
-        console.log(year);
+        var month = $('#month').val();
+        var work_value = $('#work_value').val();
         if (!year) {
             // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
             Swal.fire({
@@ -76,8 +77,12 @@
     }
     function updateIframe() {
         var year = $('#year').val();
+        var month = $('#month').val();
+        var work_value = $('#work_value').val();
 
-        var iframeSrc = '{{ route('documentation.value-annual-data') }}?year=' + year;
+        var iframeSrc = '{{ route('documentation.value-annual-data') }}?year=' + year +
+        '&month=' + month +
+        '&work_value=' + work_value;
         console.log(iframeSrc);
         $('#searchValueAnnual').attr('src', iframeSrc);
     }

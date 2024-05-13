@@ -25,7 +25,7 @@
             word-wrap: break-word;
         }
         .peserta-rapat th {
-            background-color:rgb(200, 255, 255);
+            background-color: rgb(199, 199, 199);
             border: 1px solid black;
             padding: 8px;
             vertical-align: middle;
@@ -34,7 +34,7 @@
             padding: 8px;
             vertical-align: middle;
         }
-        .peserta-rapat tbody tr:last-child {
+        .peserta-rapat thead tr:last-child {
             border-bottom: 3px double black; /* Adjust border thickness and color as needed */
         }
         .row {
@@ -77,9 +77,39 @@
 <p style="text-align: center; font-size: 14pt">
     REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
     BERDASARKAN NILAI PEKERJAAN<br>
-    PERIODE : JANUARI - DESEMBER
+    PERIODE : JANUARI - DESEMBER {{ $year }}
 </p>
 {{-- @include('documentation.value.monthly-result') --}}
+<div class="peserta-rapat">
+    <table width="100%">
+        <thead>
+            <tr>
+                <th rowspan="2" width="3%" style="text-align: center">No</th>
+                <th rowspan="2" width="17%" style="text-align: center">Nilai Pekerjaan</th>
+                <th colspan="12" style="text-align: center">Bulan</th>
+            </tr>
+            <tr>
+                @foreach ($monthsName as $monthName)
+                    <th>{{ $monthName }}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Nilai 0 s.d < 100 Juta</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Nilai &#8805; 100Jt s.d < 1 Miliar</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Nilai &#8805; 1M</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {{-- <table width="100%">
     <thead>
         <tr>

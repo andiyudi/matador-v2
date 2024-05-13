@@ -85,9 +85,31 @@ class DocumentationController extends Controller
     }
     public function basedOnValueAnnualData(Request $request)
     {
-        return view ('documentation.value.recap-annual');
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $work_value = $request->input('work_value');
+        $months = [];
+        $monthsName = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $months[] = $i; // Menggunakan angka bulan
+            $monthsName[] = Carbon::create($year, $i)->translatedFormat('M');
+        }
+        $procurements = Procurement::whereYear('receipt', $year)
+                        ->whereNotNull('user_estimate');;
+        if ($month !== 'null') {
+            $procurements->whereMonth('receipt', $month);
+        }
+        if ($work_value === '0') {
+            $procurements->where('user_estimate', '<', 100000000); // Kurang dari 100 juta
+        } elseif ($work_value === '1') {
+            $procurements->whereBetween('user_estimate', [100000000, 999999999]); // Antara 100 juta dan 1 miliar
+        } elseif ($work_value === '2') {
+            $procurements->where('user_estimate', '>=', 1000000000); // Lebih dari 1 miliar
+        }
+        $procurements = $procurements->count();
+        // dd ($procurements);
+        return view('documentation.value.recap-annual', compact('months', 'monthsName', 'year', 'procurements'));
     }
-
     public function basedOnDivision ()
     {
         return view ('documentation.division.index');
