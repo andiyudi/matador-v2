@@ -45,11 +45,45 @@
     <div class="form-group">
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
             <button class="btn btn-secondary me-md-2" type="button" id="btnSearch">Search</button>
-            <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
-            <a href="#" class="btn btn-success">Export</a>
+            <button class="btn btn-primary me-md-2" type="button" id="btnPrint" data-toggle="modal" data-target="#modalPrint">Print</button>
+            <a href="{{ route('documentation.value-annual-excel') }}" class="btn btn-success" id="btnExport">Export</a>
         </div>
     </div>
     <iframe id="searchValueAnnual" src="" style="width: 100%; height: 500px; border: none;"></iframe>
+</div>
+<div class="modal fade" id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="modalPrintLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPrintLabel">Data Pembuat dan Atasan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formPrint">
+                    <div class="form-group">
+                        <label for="creatorName">Nama Pembuat:</label>
+                        <input type="text" class="form-control" id="nameStaf" name="nameStaf">
+                    </div>
+                    <div class="form-group">
+                        <label for="creatorPosition">Jabatan Pembuat:</label>
+                        <input type="text" class="form-control" id="positionStaf" name="positionStaf">
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisorName">Nama Atasan:</label>
+                        <input type="text" class="form-control" id="nameManager" name="nameManager">
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisorPosition">Jabatan Atasan:</label>
+                        <input type="text" class="form-control" id="positionManager" name="positionManager">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="confirmBtnPrint">Cetak</button>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function () {
@@ -86,5 +120,67 @@
         console.log(iframeSrc);
         $('#searchValueAnnual').attr('src', iframeSrc);
     }
+    $('#btnPrint').click(function() {
+            $('#modalPrint').modal('show');
+        });
+        $('#confirmBtnPrint').click(function () {
+        var nameStaf = $('#nameStaf').val();
+        var positionStaf = $('#positionStaf').val();
+        var nameManager = $('#nameManager').val();
+        var positionManager = $('#positionManager').val();
+        var url = $('#searchValueAnnual').attr('src');
+         // Validasi form
+        if (nameStaf === '' || positionStaf === '' || nameManager === '' || positionManager === '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Please complete all fields',
+            });
+            return false;
+        }
+        if (url) {
+            url += '&nameStaf=' + encodeURIComponent(nameStaf);
+            url += '&positionStaf=' + encodeURIComponent(positionStaf);
+            url += '&nameManager=' + encodeURIComponent(nameManager);
+            url += '&positionManager=' + encodeURIComponent(positionManager);
+            Swal.fire({
+                title: 'Print Confirmation',
+                text: 'Are you sure you want to print?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Print',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var printWindow = window.open(url, '_blank');
+                    printWindow.print();
+                    $('#modalPrint').modal('hide');
+                    $('#formPrint')[0].reset();
+                    location.reload();
+                }
+            });
+        }
+    });
+    $('#btnExport').click(function(event) {
+        event.preventDefault(); // Mencegah tindakan default dari tautan
+        // Mendapatkan nilai start periode dan end periode dari input form
+        var year = $('#year').val();
+        var month = $('#month').val();
+        var work_value = $('#work_value').val();
+        // Periksa apakah kedua periode sudah diisi
+        if (!year) {
+            // Menampilkan pesan kesalahan jika salah satu atau kedua periode belum diisi
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Year are required',
+            });
+            return;
+        }
+        // Membuat tautan ekspor dengan menyertakan nilai-nilai start periode dan end periode
+        var exportUrl = $(this).attr('href') + '?year=' + year + '&month=' + month + '&work_value=' + work_value;
+        // Mengarahkan pengguna ke tautan ekspor dengan nilai-nilai filter
+        window.location.href = exportUrl;
+    });
 });
 </script>

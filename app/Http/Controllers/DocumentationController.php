@@ -7,6 +7,7 @@ use App\Models\Procurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BasedOnValueAnnualDataExport;
 use App\Exports\BasedOnValueMonthlyDataExport;
 
 class DocumentationController extends Controller
@@ -88,27 +89,83 @@ class DocumentationController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
         $work_value = $request->input('work_value');
+        $nameStaf = request()->query('nameStaf');
+        $positionStaf = request()->query('positionStaf');
+        $nameManager = request()->query('nameManager');
+        $positionManager = request()->query('positionManager');
         $months = [];
         $monthsName = [];
+        $totalLessThan100M = 0;
+        $totalBetween100MAnd1B = 0;
+        $totalMoreThan1B = 0;
+        $grandTotal = 0;
         for ($i = 1; $i <= 12; $i++) {
             $months[] = $i; // Menggunakan angka bulan
             $monthsName[] = Carbon::create($year, $i)->translatedFormat('M');
         }
-        $procurements = Procurement::whereYear('receipt', $year)
-                        ->whereNotNull('user_estimate');;
+        $procurementsCount = [];
+
         if ($month !== 'null') {
-            $procurements->whereMonth('receipt', $month);
+            // Filter berdasarkan bulan yang diberikan
+            $procurementsBase = Procurement::whereYear('receipt', $year)
+                                        ->whereMonth('receipt', $month)
+                                        ->whereNotNull('user_estimate');
+
+            // Filter berdasarkan work value jika diberikan
+            if ($work_value === '0') {
+                $procurementsCount[$month]['less_than_100M'] = (clone $procurementsBase)->where('user_estimate', '<', 100000000)->count();
+                $totalLessThan100M += $procurementsCount[$month]['less_than_100M'];
+            } elseif ($work_value === '1') {
+                $procurementsCount[$month]['between_100M_and_1B'] = (clone $procurementsBase)->whereBetween('user_estimate', [100000000, 999999999])->count();
+                $totalBetween100MAnd1B += $procurementsCount[$month]['between_100M_and_1B'];
+            } elseif ($work_value === '2') {
+                $procurementsCount[$month]['more_than_1B'] = (clone $procurementsBase)->where('user_estimate', '>=', 1000000000)->count();
+                $totalMoreThan1B += $procurementsCount[$month]['more_than_1B'];
+            } else {
+                $procurementsCount[$month]['less_than_100M'] = (clone $procurementsBase)->where('user_estimate', '<', 100000000)->count();
+                $procurementsCount[$month]['between_100M_and_1B'] = (clone $procurementsBase)->whereBetween('user_estimate', [100000000, 999999999])->count();
+                $procurementsCount[$month]['more_than_1B'] = (clone $procurementsBase)->where('user_estimate', '>=', 1000000000)->count();
+                $totalLessThan100M += $procurementsCount[$month]['less_than_100M'];
+                $totalBetween100MAnd1B += $procurementsCount[$month]['between_100M_and_1B'];
+                $totalMoreThan1B += $procurementsCount[$month]['more_than_1B'];
+            }
+            $grandTotal += array_sum($procurementsCount[$month]);
+        } else {
+            // Hitung untuk setiap bulan dalam setahun
+            foreach ($months as $month) {
+                $procurementsBase = Procurement::whereYear('receipt', $year)
+                                            ->whereMonth('receipt', $month)
+                                            ->whereNotNull('user_estimate');
+
+                // Filter berdasarkan work value jika diberikan
+                if ($work_value === '0') {
+                    $procurementsCount[$month]['less_than_100M'] = (clone $procurementsBase)->where('user_estimate', '<', 100000000)->count();
+                    $totalLessThan100M += $procurementsCount[$month]['less_than_100M'];
+                } elseif ($work_value === '1') {
+                    $procurementsCount[$month]['between_100M_and_1B'] = (clone $procurementsBase)->whereBetween('user_estimate', [100000000, 999999999])->count();
+                    $totalBetween100MAnd1B += $procurementsCount[$month]['between_100M_and_1B'];
+                } elseif ($work_value === '2') {
+                    $procurementsCount[$month]['more_than_1B'] = (clone $procurementsBase)->where('user_estimate', '>=', 1000000000)->count();
+                    $totalMoreThan1B += $procurementsCount[$month]['more_than_1B'];
+                } else {
+                    $procurementsCount[$month]['less_than_100M'] = (clone $procurementsBase)->where('user_estimate', '<', 100000000)->count();
+                    $procurementsCount[$month]['between_100M_and_1B'] = (clone $procurementsBase)->whereBetween('user_estimate', [100000000, 999999999])->count();
+                    $procurementsCount[$month]['more_than_1B'] = (clone $procurementsBase)->where('user_estimate', '>=', 1000000000)->count();
+                    $totalLessThan100M += $procurementsCount[$month]['less_than_100M'];
+                    $totalBetween100MAnd1B += $procurementsCount[$month]['between_100M_and_1B'];
+                    $totalMoreThan1B += $procurementsCount[$month]['more_than_1B'];
+                }
+                $grandTotal += array_sum($procurementsCount[$month]);
+            }
         }
-        if ($work_value === '0') {
-            $procurements->where('user_estimate', '<', 100000000); // Kurang dari 100 juta
-        } elseif ($work_value === '1') {
-            $procurements->whereBetween('user_estimate', [100000000, 999999999]); // Antara 100 juta dan 1 miliar
-        } elseif ($work_value === '2') {
-            $procurements->where('user_estimate', '>=', 1000000000); // Lebih dari 1 miliar
-        }
-        $procurements = $procurements->count();
-        // dd ($procurements);
-        return view('documentation.value.recap-annual', compact('months', 'monthsName', 'year', 'procurements'));
+        return view('documentation.value.recap-annual', compact('months', 'monthsName', 'year', 'procurementsCount', 'totalLessThan100M', 'totalBetween100MAnd1B', 'totalMoreThan1B', 'grandTotal', 'nameStaf', 'positionStaf', 'nameManager', 'positionManager'));
+    }
+    public function basedOnValueAnnualExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-valueAnnual-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new BasedOnValueAnnualDataExport, $fileName);
     }
     public function basedOnDivision ()
     {

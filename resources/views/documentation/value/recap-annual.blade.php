@@ -79,43 +79,13 @@
     BERDASARKAN NILAI PEKERJAAN<br>
     PERIODE : JANUARI - DESEMBER {{ $year }}
 </p>
-{{-- @include('documentation.value.monthly-result') --}}
-<div class="peserta-rapat">
-    <table width="100%">
-        <thead>
-            <tr>
-                <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="17%" style="text-align: center">Nilai Pekerjaan</th>
-                <th colspan="12" style="text-align: center">Bulan</th>
-            </tr>
-            <tr>
-                @foreach ($monthsName as $monthName)
-                    <th>{{ $monthName }}</th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Nilai 0 s.d < 100 Juta</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Nilai &#8805; 100Jt s.d < 1 Miliar</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Nilai &#8805; 1M</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-{{-- <table width="100%">
+@include('documentation.value.annual-result')
+<table width="100%">
     <thead>
         <tr>
-            <td style="text-align: center; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
+            <td style="text-align: center; width: 25%"><br><br>Dibuat Oleh,</td>
             <td style="width: 50%"></td>
-            <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
+            <td style="text-align: center; width: 25%"><br>Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Disetujui Oleh,</td>
         </tr>
     </thead>
     <tbody>
@@ -124,11 +94,11 @@
             <td></td>
         </tr>
         <tr>
-            <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
+            <td style="text-align: center">{{ $nameStaf }}<br>{{ $positionStaf }}</td>
             <td></td>
-            <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
+            <td style="text-align: center">{{ $nameManager }}<br>{{ $positionManager }}</td>
         </tr>
     </tbody>
-</table> --}}
+</table>
 </body>
 </html>

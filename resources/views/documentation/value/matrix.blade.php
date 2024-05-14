@@ -28,7 +28,7 @@
         <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-3">
             <button class="btn btn-secondary me-md-2" type="button" id="searchBtn">Search</button>
             <button class="btn btn-primary me-md-2" type="button" id="printBtn" data-toggle="modal" data-target="#printModal">Print</button>
-            <a href="{{ route('documentation.value-monthly-excel') }}" class="btn btn-success">Export</a>
+            <a href="{{ route('documentation.value-monthly-excel') }}" class="btn btn-success" id="exportBtn">Export</a>
         </div>
     </div>
     <iframe id="searchValueMonthly" src="" style="width: 100%; height: 500px; border: none;"></iframe>
@@ -154,7 +154,7 @@
             });
         }
     });
-    $('a.btn-success').click(function(event) {
+    $('#exportBtn').click(function(event) {
         event.preventDefault(); // Mencegah tindakan default dari tautan
         // Mendapatkan nilai start periode dan end periode dari input form
         var period = $('#period').val();

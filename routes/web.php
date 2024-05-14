@@ -113,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documentation-value-monthly-data', [DocumentationController::class, 'basedOnValueMonthlyData'])->name('documentation.value-monthly-data');
     Route::get('documentation-value-annual-data', [DocumentationController::class, 'basedOnValueAnnualData'])->name('documentation.value-annual-data');
     Route::get('documentation-value-monthly-excel', [DocumentationController::class, 'basedOnValueMonthlyExcel'])->name('documentation.value-monthly-excel');
+    Route::get('documentation-value-annual-excel', [DocumentationController::class, 'basedOnValueAnnualExcel'])->name('documentation.value-annual-excel');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');
     Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');
