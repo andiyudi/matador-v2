@@ -115,6 +115,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documentation-value-monthly-excel', [DocumentationController::class, 'basedOnValueMonthlyExcel'])->name('documentation.value-monthly-excel');
     Route::get('documentation-value-annual-excel', [DocumentationController::class, 'basedOnValueAnnualExcel'])->name('documentation.value-annual-excel');
     Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
+    Route::get('documentation-division-monthly-data', [DocumentationController::class, 'basedOnDivisionMonthlyData'])->name('documentation.division-monthly-data');
+    Route::get('documentation-division-monthly-excel', [DocumentationController::class, 'basedOnDivisionMonthlyExcel'])->name('documentation.division-monthly-excel');
+    Route::get('documentation-division-annual-data', [DocumentationController::class, 'basedOnDivisionAnnualData'])->name('documentation.division-annual-data');
+    Route::get('documentation-division-annual-excel', [DocumentationController::class, 'basedOnDivisionAnnualExcel'])->name('documentation.division-annual-excel');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');
     Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');
     Route::get('documentation-compare', [DocumentationController::class, 'basedOnCompare'])->name('documentation.compare');

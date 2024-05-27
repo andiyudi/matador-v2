@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Division;
+use App\Models\Official;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BasedOnValueAnnualDataExport;
 use App\Exports\BasedOnValueMonthlyDataExport;
+use App\Exports\BasedOnDivisionMonthlyDataExport;
 
 class DocumentationController extends Controller
 {
@@ -169,9 +172,92 @@ class DocumentationController extends Controller
     }
     public function basedOnDivision ()
     {
-        return view ('documentation.division.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::pluck(DB::raw('YEAR(receipt) as year'))
+                ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+                ->unique();
+        $divisions = Division::all();
+        $officials = Official::all();
+        return view ('documentation.division.index', compact('divisions', 'officials', 'years', 'currentYear'));
     }
 
+    public function basedOnDivisionMonthlyData(Request $request)
+    {
+        $period = $request->input('period');
+        $number = $request->input('number');
+        $division = $request->input('division');
+        $official = $request->input('official');
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+
+        $bulan = [
+            '01' => 'Januari',
+            '02' => 'Februari',
+            '03' => 'Maret',
+            '04' => 'April',
+            '05' => 'Mei',
+            '06' => 'Juni',
+            '07' => 'Juli',
+            '08' => 'Agustus',
+            '09' => 'September',
+            '10' => 'Oktober',
+            '11' => 'November',
+            '12' => 'Desember'
+        ];
+        // Pemisahan bulan dan tahun dari input periode
+        list($month, $year) = explode('-', $period);
+        // Konversi angka bulan menjadi nama bulan dalam bahasa Indonesia
+        $monthName = $bulan[$month];
+        // Format objek DateTime sesuai dengan format yang diinginkan
+        $periodFormatted = $monthName . ' ' . $year;
+        // Mulai dengan query dasar dari model procurement
+        $query = Procurement::query()->orderBy('division_id');
+        // Tambahkan kondisi-kondisi tambahan berdasarkan nilai yang diterima
+        if ($month && $year) {
+            $query->whereMonth('receipt', $month)
+                ->whereYear('receipt', $year);
+        }
+        if ($division && $division !== 'null') {
+            $query->where('division_id', $division);
+        }
+        if ($official && $official!== 'null') {
+            $query->where('official_id', $official);
+        }
+        if ($number) {
+            $query->where(function ($query) use ($number) {
+                $query->where('number', 'LIKE', '%' . $number . '%');
+            });
+        }
+        // Eksekusi query untuk mendapatkan hasilnya
+        $procurements = $query->get();
+        // dd($procurements);
+        return view ('documentation.division.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+    }
+    public function basedOnDivisionMonthlyExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-divisionMonthly-excel-' . $dateTime . '.xlsx';
+
+        return Excel::download(new BasedOnDivisionMonthlyDataExport, $fileName);
+    }
+    public function basedOnDivisionAnnualData(Request $request)
+    {
+        // dd($request->all());
+        $year = $request->input('year');
+        $filterType = $request->input('filterType');
+        $filterValue = $request->input('filterValue');
+        // dd($year, $filterType, $filterValue);
+        $nameStaf = request()->query('nameStaf');
+        $positionStaf = request()->query('positionStaf');
+        $nameManager = request()->query('nameManager');
+        $positionManager = request()->query('positionManager');
+    }
+    public function basedOnDivisionAnnualExcel()
+    {
+
+    }
     public function basedOnApproval ()
     {
         return view ('documentation.approval.index');
