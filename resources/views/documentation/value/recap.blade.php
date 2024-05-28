@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="work_value" class="form-label">Nilai Pekerjaan</label>
                 <select class="form-select" name="work_value" id="work_value">
-                    <option disabled selected>Pilih Nilai Pekerjaan</option>
+                    <option value="">Pilih Nilai Pekerjaan</option>
                     <option value="0">Nilai 0 s.d < 100Jt</option>
                     <option value="1">Nilai &#8805; 100Jt s.d < 1M</option>
                     <option value="2">Nilai &#8805; 1M</option>
@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="month" class="form-label">Pilih Bulan</label>
                 <select class="form-select" name="month" id="month">
-                    <option disabled selected>Pilih Bulan</option>
+                    <option value= "">Pilih Bulan</option>
                     <option value="1">Januari</option>
                     <option value="2">Februari</option>
                     <option value="3">Maret</option>

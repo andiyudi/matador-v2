@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="division" class="form-label">Pilih Divisi</label>
                 <select class="form-select" name="division" id="division">
-                    <option disabled selected>Pilih Divisi</option>
+                    <option value="">Pilih Divisi</option>
                     @foreach ($divisions as $division)
                         <option value="{{ $division->id }}">{{ $division->name }}</option>
                     @endforeach
@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="official" class="form-label">PIC Pengadaan</label>
                 <select class="form-select" name="official" id="official">
-                    <option disabled selected>Pilih PIC Pengadaan</option>
+                    <option value="">Pilih PIC Pengadaan</option>
                     @foreach ($officials as $official)
                     <option value="{{ $official->id }}">{{ $official->name }}</option>
                     @endforeach

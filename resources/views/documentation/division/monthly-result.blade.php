@@ -37,8 +37,8 @@
                         <td>{{ $procurement->name }}</td>
                         <td style="text-align: center">{{ $procurement->division->code }}</td>
                         <td style="text-align: center">{{ $procurement->official->initials }}</td>
-                        <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-                        <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                        <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }}</td>
+                        <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }}</td>
                         @php
                             $totalUserEstimate += $procurement->user_estimate;
                             $totalTechniqueEstimate += $procurement->technique_estimate;
@@ -68,8 +68,8 @@
                     <td>{{ $procurement->name }}</td>
                     <td style="text-align: center">{{ $procurement->division->code }}</td>
                     <td style="text-align: center">{{ $procurement->official->initials }}</td>
-                    <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '' }}</td>
-                    <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '' }}</td>
+                    <td style="text-align: right">{{ $procurement->user_estimate !== null ? number_format($procurement->user_estimate, 0, ',', '.') : '0' }}</td>
+                    <td style="text-align: right">{{ $procurement->technique_estimate !== null ? number_format($procurement->technique_estimate, 0, ',', '.') : '0' }}</td>
                     @php
                         $totalUserEstimateCancel += $procurement->user_estimate;
                         $totalTechniqueEstimateCancel += $procurement->technique_estimate;

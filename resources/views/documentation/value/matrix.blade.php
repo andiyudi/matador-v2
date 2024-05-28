@@ -4,7 +4,7 @@
             <div class="form-group">
                 <label for="value" class="form-label">Nilai Pekerjaan</label>
                 <select class="form-select" name="value" id="value">
-                    <option disabled selected>Pilih Nilai Pekerjaan</option>
+                    <option value="">Pilih Nilai Pekerjaan</option>
                     <option value="0">Nilai 0 s.d < 100Jt</option>
                     <option value="1">Nilai &#8805; 100Jt s.d < 1M</option>
                     <option value="2">Nilai &#8805; 1M</option>
