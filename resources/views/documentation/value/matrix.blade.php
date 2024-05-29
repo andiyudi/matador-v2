@@ -83,7 +83,7 @@
 <script>
     $(document).ready(function() {
         $('.select2').select2({
-            placeholder: "Pilih",
+            placeholder: "Pilih Divisi",
             theme: "bootstrap-5",
             selectionCssClass: "select2--small",
             dropdownCssClass: "select2--small",

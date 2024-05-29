@@ -77,48 +77,30 @@
 <p style="text-align: center; font-size: 14pt">
     REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
     BERDASARKAN DIVISI<br>
-    PERIODE : JANUARI - DESEMBER {{ $year }}
-</p>
-<div class="peserta-rapat">
-    <table width="100%">
-        <thead>
-            <tr>
-                <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="17%" style="text-align: center">Nama Divisi</th>
-                <th colspan="12" style="text-align: center">Bulan</th>
-                <th rowspan="2" style="text-align: center">TOTAL</th>
-            </tr>
-            <tr>
-                @foreach ($monthsName as $monthName)
-                    <th>{{ $monthName }}</th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody style="text-align: center">
-            @foreach ($divisions as $division)
-            <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td style="text-align: left">{{ $division->name }}</td>
-                    @foreach($months as $month)
-                        <td>{{ $procurementData[$division->id][$month] }}</td>
-                    @endforeach
-                    <td>{{ $totalPerDivisi[$division->id] }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-        <tfoot style="text-align: center; font-weight: bold">
-            <tr>
-                <td colspan="2">GRAND TOTAL</td>
-                @foreach($months as $month)
-                    <td>{{ $totalPerBulan[$month] }}</td>
-                @endforeach
-                <td>{{ $grandTotal }}</td>
-            </tr>
-        </tfoot>
-    </table>
-</div>
+    @php
+        $bulan = [
+            '1' => 'JANUARI',
+            '2' => 'FEBRUARI',
+            '3' => 'MARET',
+            '4' => 'APRIL',
+            '5' => 'MEI',
+            '6' => 'JUNI',
+            '7' => 'JULI',
+            '8' => 'AGUSTUS',
+            '9' => 'SEPTEMBER',
+            '10' => 'OKTOBER',
+            '11' => 'NOVEMBER',
+            '12' => 'DESEMBER'
+        ];
 
-{{-- @include('documentation.division.annual-result') --}}
+        $selectedStartMonth = isset($start_month) ? $bulan[$start_month] : null;
+        $selectedEndMonth = isset($end_month) ? $bulan[$end_month] : null;
+    @endphp
+    PERIODE: {{ $selectedStartMonth }} - {{ $selectedEndMonth }} {{ $year }}
+</p>
+
+
+@include('documentation.division.annual-result')
 <table width="100%">
     <thead>
         <tr>

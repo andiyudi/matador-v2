@@ -1,9 +1,9 @@
 <div class="tab-pane fade show active" id="matrixContent" role="tabpanel" aria-labelledby="matrixTab">
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <label for="division" class="form-label">Pilih Divisi</label>
-                <select class="form-select" name="division" id="division">
+                <select class="form-select select2" name="division[]" id="division" multiple="multiple">
                     <option value="">Pilih Divisi</option>
                     @foreach ($divisions as $division)
                         <option value="{{ $division->id }}">{{ $division->name }}</option>
@@ -11,7 +11,9 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-6">
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="official" class="form-label">PIC Pengadaan</label>
                 <select class="form-select" name="official" id="official">
@@ -22,15 +24,13 @@
                 </select>
             </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="number" class="form-label">Masukkan No PP</label>
                 <input type="text" name="number" id="number" class="form-control">
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label class="form-label required" for="period">Pilih Periode</label>
                 <div class="input-daterange">
@@ -84,6 +84,12 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Pilih Divisi",
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
         var period = $('#period');
         period.datepicker({
             format: 'mm-yyyy',
@@ -118,10 +124,10 @@
         var official = $('#official').val();
         var division = $('#division').val();
         //tampilan data
-        var iframeSrc = '{{ route('documentation.division-monthly-data') }}?period=' + period +
-            '&number=' + number +
-            '&division=' + division +
-            '&official=' + official;
+        var iframeSrc = '{{ route('documentation.division-monthly-data') }}?period=' + encodeURIComponent(period) +
+            '&number=' + encodeURIComponent(number) +
+            '&division=' + encodeURIComponent(division) +
+            '&official=' + encodeURIComponent(official);
         console.log(iframeSrc);
         $('#searchDivisionMonthly').attr('src', iframeSrc);
         }

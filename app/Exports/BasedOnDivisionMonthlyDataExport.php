@@ -15,8 +15,12 @@ class BasedOnDivisionMonthlyDataExport implements FromView
         $period = Request::input('period');
         $official = Request::input('official');
         $number = Request::input('number');
-        $division = Request::input('division');
-
+        $divisions = Request::input('division');
+        if (is_null($divisions) || $divisions === '') {
+            $divisions = [];
+        } elseif (!is_array($divisions)) {
+            $divisions = explode(',', $divisions);
+        }
         $bulan = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -44,8 +48,9 @@ class BasedOnDivisionMonthlyDataExport implements FromView
             $query->whereMonth('receipt', $month)
                 ->whereYear('receipt', $year);
         }
-        if ($division && $division !== 'null') {
-            $query->where('division_id', $division);
+        if (count($divisions) > 0) {
+            // Tambahkan filter untuk division jika $divisions tidak kosong
+            $query->whereIn('division_id', $divisions); // Sesuaikan dengan kolom yang menyimpan ID divisi
         }
         if ($official && $official!== 'null') {
             $query->where('official_id', $official);

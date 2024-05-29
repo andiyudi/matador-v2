@@ -2,19 +2,23 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="filterType" class="form-label">Pilih Filter</label>
-                <select class="form-select" id="filterType" name="filterType" onchange="selectFilter(this.value)">
-                    <option value="">Pilih Filter</option>
-                    <option value="bulan">Filter Berdasarkan Bulan</option>
-                    <option value="semester">Filter Berdasarkan Semester</option>
+                <label for="start_month" class="form-label required">Pilih Bulan Awal</label>
+                <select class="form-select" name="start_month" id="start_month">
+                    <option value="">Start Month</option>
+                    @foreach ($bulan as $key => $name)
+                        <option value="{{ $key }}" {{ $key == 1 ? 'selected' : '' }}>{{ $name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="filterValue" class="form-label">Pilih Option</label>
-                <select class="form-select" id="filterValue" name="filterValue" onchange="selectValue(this.value)">
-                    <!-- Dropdown 2 isi akan di-generate oleh JavaScript -->
+                <label for="end_month" class="form-label required">Pilih Bulan Akhir</label>
+                <select class="form-select" name="end_month" id="end_month">
+                    <option value="">End Month</option>
+                    @foreach ($bulan as $key => $name)
+                        <option value="{{ $key }}" {{ $key == $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -39,62 +43,6 @@
     <iframe id="searchDivisionAnnual" src="" style="width: 100%; height: 500px; border: none;"></iframe>
 </div>
 <script>
-    function selectFilter(filterType) {
-        var filterValueDropdown = document.getElementById('filterValue');
-        filterValueDropdown.innerHTML = ''; // Bersihkan isi dropdown sebelumnya jika ada
-
-        if (filterType === 'bulan') {
-            var defaultOption = document.createElement("option");
-            defaultOption.setAttribute("value", "");
-            defaultOption.textContent = "Pilih Bulan";
-            defaultOption.setAttribute("disabled", true);
-            defaultOption.setAttribute("selected", true);
-            filterValueDropdown.appendChild(defaultOption);
-
-            // Tambahkan opsi bulan pada dropdown 2
-            var months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            for (var i = 0; i < months.length; i++) {
-                var monthOption = document.createElement("option");
-                monthOption.setAttribute("value", i + 1); // Set nilai bulan menjadi angka 1-12
-                monthOption.textContent = months[i];
-                filterValueDropdown.appendChild(monthOption);
-            }
-        } else if (filterType === 'semester') {
-            var defaultOption = document.createElement("option");
-            defaultOption.setAttribute("value", "");
-            defaultOption.textContent = "Pilih Semester";
-            defaultOption.setAttribute("disabled", true);
-            defaultOption.setAttribute("selected", true);
-            filterValueDropdown.appendChild(defaultOption);
-
-            // Tambahkan opsi semester pada dropdown 2
-            var semesters = ["Ganjil", "Genap"];
-            for (var j = 0; j < semesters.length; j++) {
-                var semesterOption = document.createElement("option");
-                semesterOption.setAttribute("value", j + 1); // Set nilai semester menjadi angka 1-2
-                semesterOption.textContent = semesters[j];
-                filterValueDropdown.appendChild(semesterOption);
-            }
-        }
-         // Set filterValue to be required when filterType is not null
-        if (filterType) {
-            filterValueDropdown.setAttribute("required", true);
-        } else {
-            filterValueDropdown.removeAttribute("required");
-        }
-    }
-
-    function selectValue(filterValue) {
-        var filterType = document.getElementById('filterType').value;
-        var year = document.getElementById('year').value;
-        // Cek apakah opsi yang dipilih bukan opsi "Pilih Salah Satu"
-        if (filterValue !== "") {
-            console.log("Tahun: " + year + ", Type: " + filterType + ", Value: " + filterValue);
-        } else {
-            // Jika opsi "Pilih Salah Satu" dipilih, beri pesan peringatan
-            console.log("Silakan pilih opsi yang valid!");
-        }
-    }
     $(document).ready(function () {
         $('#btnSearch').on('click', function() {
         if (!isValidInput()) {
@@ -104,10 +52,10 @@
     });
     function isValidInput() {
             var year = $('#year').val();
-            var filterType = $('#filterType').val();
-            var filterValue = $('#filterValue').val();
+            var start_month = $('#start_month').val();
+            var end_month = $('#end_month').val();
+
             if (!year) {
-                // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed',
@@ -115,26 +63,54 @@
                 });
                 return false;
             }
-            if (filterType && !filterValue) {
-                // Menampilkan SweetAlert untuk memberi tahu user bahwa filterValue harus diisi jika filterType dipilih
+
+            if (start_month && !end_month) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed',
-                    text: 'Please select a filter value',
+                    text: 'Please select an end month if a start month is selected',
                 });
                 return false;
             }
+
+            if (!start_month && end_month) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select a start month if an end month is selected',
+                });
+                return false;
+            }
+
+            if (!start_month && !end_month) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select start month and end month',
+                });
+                return false;
+            }
+
+            if (start_month && end_month && parseInt(end_month) < parseInt(start_month)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'End month must be greater than or equal to start month',
+                });
+                return false;
+            }
+
             return true;
         }
 
     function updateIframe() {
         var year = $('#year').val();
-        var filterType = $('#filterType').val();
-        var filterValue = $('#filterValue').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
 
         var iframeSrc = '{{ route('documentation.division-annual-data') }}?year=' + year +
-        '&filterType=' + filterType +
-        '&filterValue=' + filterValue;
+        '&start_month=' + start_month +
+        '&end_month=' + end_month;
         console.log(iframeSrc);
         $('#searchDivisionAnnual').attr('src', iframeSrc);
     }
@@ -183,8 +159,8 @@
         event.preventDefault(); // Mencegah tindakan default dari tautan
         // Mendapatkan nilai start periode dan end periode dari input form
         var year = $('#year').val();
-        var filterType = $('#filterType').val();
-        var filterValue = $('#filterValue').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         // Periksa apakah kedua periode sudah diisi
         if (!year) {
             // Menampilkan pesan kesalahan jika salah satu atau kedua periode belum diisi
@@ -196,7 +172,7 @@
             return;
         }
         // Membuat tautan ekspor dengan menyertakan nilai-nilai start periode dan end periode
-        var exportUrl = $(this).attr('href') + '?year=' + year + '&filterType=' + filterType + '&filterValue=' + filterValue;
+        var exportUrl = $(this).attr('href') + '?year=' + year + '&start_month=' + start_month + '&end_month=' + end_month;
         // Mengarahkan pengguna ke tautan ekspor dengan nilai-nilai filter
         window.location.href = exportUrl;
     });
