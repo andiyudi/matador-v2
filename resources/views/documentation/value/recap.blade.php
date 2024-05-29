@@ -13,22 +13,22 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="month" class="form-label">Pilih Bulan</label>
-                <select class="form-select" name="month" id="month">
-                    <option value= "">Pilih Bulan</option>
-                    <option value="1">Januari</option>
-                    <option value="2">Februari</option>
-                    <option value="3">Maret</option>
-                    <option value="4">April</option>
-                    <option value="5">Mei</option>
-                    <option value="6">Juni</option>
-                    <option value="7">Juli</option>
-                    <option value="8">Agustus</option>
-                    <option value="9">September</option>
-                    <option value="10">Oktober</option>
-                    <option value="11">Nevember</option>
-                    <option value="12">Desember</option>
-                </select>
+                <label for="month" class="form-label required">Bulan</label>
+                <div class="input-group input-daterange">
+                    <select class="form-select" name="start_month" id="start_month">
+                        <option value="">Start Month</option>
+                        @foreach ($bulan as $key => $name)
+                            <option value="{{ $key }}" {{ $key == 1 ? 'selected' : '' }}>{{ $name }}</option>
+                        @endforeach
+                    </select>
+                    <span class="input-group-text">to</span>
+                    <select class="form-select" name="end_month" id="end_month">
+                        <option value="">End Month</option>
+                        @foreach ($bulan as $key => $name)
+                            <option value="{{ $key }}" {{ $key == $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -87,6 +87,30 @@
 </div>
 <script>
     $(document).ready(function () {
+        $('#start_month, #end_month').change(function() {
+        var startMonth = parseInt($('#start_month').val());
+        var endMonth = parseInt($('#end_month').val());
+
+        // Validasi jika start month atau end month tidak dipilih
+        if (isNaN(startMonth) || isNaN(endMonth)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'Both start month and end month must be selected.',
+            });
+            return;
+        }
+
+        // Validasi jika end month lebih kecil dari start month
+        if (endMonth < startMonth) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: 'End month must be greater than or equal to start month.',
+            });
+            $('#end_month').val('');
+        }
+    });
         $('#btnSearch').on('click', function() {
         if (!isValidInput()) {
             return;
@@ -95,7 +119,8 @@
     });
     function isValidInput() {
         var year = $('#year').val();
-        var month = $('#month').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         var work_value = $('#work_value').val();
         if (!year) {
             // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
@@ -111,11 +136,13 @@
     }
     function updateIframe() {
         var year = $('#year').val();
-        var month = $('#month').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         var work_value = $('#work_value').val();
 
         var iframeSrc = '{{ route('documentation.value-annual-data') }}?year=' + year +
-        '&month=' + month +
+        '&start_month=' + start_month +
+        '&end_month=' + end_month +
         '&work_value=' + work_value;
         console.log(iframeSrc);
         $('#searchValueAnnual').attr('src', iframeSrc);
@@ -165,7 +192,8 @@
         event.preventDefault(); // Mencegah tindakan default dari tautan
         // Mendapatkan nilai start periode dan end periode dari input form
         var year = $('#year').val();
-        var month = $('#month').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         var work_value = $('#work_value').val();
         // Periksa apakah kedua periode sudah diisi
         if (!year) {
@@ -178,7 +206,7 @@
             return;
         }
         // Membuat tautan ekspor dengan menyertakan nilai-nilai start periode dan end periode
-        var exportUrl = $(this).attr('href') + '?year=' + year + '&month=' + month + '&work_value=' + work_value;
+        var exportUrl = $(this).attr('href') + '?year=' + year + '&start_month=' + start_month + '&end_month=' + end_month + '&work_value=' + work_value;
         // Mengarahkan pengguna ke tautan ekspor dengan nilai-nilai filter
         window.location.href = exportUrl;
     });

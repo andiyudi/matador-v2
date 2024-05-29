@@ -77,7 +77,28 @@
 <p style="text-align: center; font-size: 14pt">
     REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
     BERDASARKAN NILAI PEKERJAAN<br>
-    PERIODE : JANUARI - DESEMBER {{ $year }}
+    @php
+        $bulan = [
+            '1' => 'JANUARI',
+            '2' => 'FEBRUARI',
+            '3' => 'MARET',
+            '4' => 'APRIL',
+            '5' => 'MEI',
+            '6' => 'JUNI',
+            '7' => 'JULI',
+            '8' => 'AGUSTUS',
+            '9' => 'SEPTEMBER',
+            '10' => 'OKTOBER',
+            '11' => 'NOVEMBER',
+            '12' => 'DESEMBER'
+        ];
+
+        $selectedStartMonth = isset($start_month) ? $bulan[$start_month] : null;
+        $selectedEndMonth = isset($end_month) ? $bulan[$end_month] : null;
+    @endphp
+
+    PERIODE: {{ $selectedStartMonth }} - {{ $selectedEndMonth }} {{ $year }}
+
 </p>
 @include('documentation.value.annual-result')
 <table width="100%">

@@ -4,7 +4,17 @@
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
                 <th rowspan="2" width="17%" style="text-align: center">Nilai Pekerjaan</th>
-                <th colspan="12" style="text-align: center">Bulan</th>
+                @php
+                    $selectedStartMonth = isset($start_month) ? intval($start_month) : null;
+                    $selectedEndMonth = isset($end_month) ? intval($end_month) : null;
+                    $colSpan = 1;
+
+                    if ($selectedStartMonth !== null && $selectedEndMonth !== null) {
+                        $colSpan = abs($selectedEndMonth - $selectedStartMonth) + 1;
+                    }
+                @endphp
+
+                <th colspan="{{ $colSpan }}" style="text-align: center">Bulan</th>
                 <th rowspan="2" style="text-align: center">TOTAL</th>
             </tr>
             <tr>

@@ -15,7 +15,12 @@ class BasedOnValueMonthlyDataExport implements FromView
         $period = Request::input('period');
         $number = Request::input('number');
         $value = Request::input('value');
-
+        $divisions = Request::input('division');
+        if (is_null($divisions) || $divisions === '') {
+            $divisions = [];
+        } elseif (!is_array($divisions)) {
+            $divisions = explode(',', $divisions);
+        }
         $bulan = [
             '01' => 'Januari',
             '02' => 'Februari',
@@ -62,6 +67,10 @@ class BasedOnValueMonthlyDataExport implements FromView
             $query->whereBetween('user_estimate', [100000000, 999999999]);
         } elseif ($value === '2') {
             $query->where('user_estimate', '>=', 1000000000);
+        }
+        if (count($divisions) > 0) {
+            // Tambahkan filter untuk division jika $divisions tidak kosong
+            $query->whereIn('division_id', $divisions); // Sesuaikan dengan kolom yang menyimpan ID divisi
         }
 
         // Eksekusi query untuk mendapatkan hasilnya

@@ -1,5 +1,18 @@
 <div class="tab-pane fade show active" id="matrixContent" role="tabpanel" aria-labelledby="matrixTab">
     <div class="row mb-3">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="division" class="form-label">Pilih Divisi</label>
+                <select class="form-select select2" name="division[]" id="division" multiple="multiple">
+                    <option value="">Pilih Divisi</option>
+                    @foreach ($divisions as $division)
+                        <option value="{{ $division->id }}">{{ $division->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="value" class="form-label">Nilai Pekerjaan</label>
@@ -69,6 +82,12 @@
 </div>
 <script>
     $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Pilih",
+            theme: "bootstrap-5",
+            selectionCssClass: "select2--small",
+            dropdownCssClass: "select2--small",
+        });
         var period = $('#period');
 
         period.datepicker({
@@ -104,12 +123,12 @@
         var period = $('#period').val();
         var number = $('#number').val();
         var value = $('#value').val();
-        // var divisi = $('#divisi').val();
+        var division = $('#division').val();
         //tampilan data
-        var iframeSrc = '{{ route('documentation.value-monthly-data') }}?period=' + period +
-            '&number=' + number +
-            // '&divisi=' + divisi +
-            '&value=' + value;
+        var iframeSrc = '{{ route('documentation.value-monthly-data') }}?period=' + encodeURIComponent(period) +
+                '&number=' + encodeURIComponent(number) +
+                '&division=' + encodeURIComponent(division) +
+                '&value=' + encodeURIComponent(value);
         console.log(iframeSrc);
         $('#searchValueMonthly').attr('src', iframeSrc);
         }
@@ -160,6 +179,7 @@
         var period = $('#period').val();
         var number = $('#number').val();
         var value = $('#value').val();
+        var division = $('#division').val();
         // Periksa apakah kedua periode sudah diisi
         if (!period) {
             // Menampilkan pesan kesalahan jika salah satu atau kedua periode belum diisi
@@ -171,7 +191,7 @@
             return;
         }
         // Membuat tautan ekspor dengan menyertakan nilai-nilai start periode dan end periode
-        var exportUrl = $(this).attr('href') + '?period=' + period + '&value=' + value + '&number=' + number;
+        var exportUrl = $(this).attr('href') + '?period=' + period + '&value=' + value + '&number=' + number + '&division=' + division;
         // Mengarahkan pengguna ke tautan ekspor dengan nilai-nilai filter
         window.location.href = exportUrl;
     });
