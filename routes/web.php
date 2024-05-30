@@ -120,6 +120,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documentation-division-annual-data', [DocumentationController::class, 'basedOnDivisionAnnualData'])->name('documentation.division-annual-data');
     Route::get('documentation-division-annual-excel', [DocumentationController::class, 'basedOnDivisionAnnualExcel'])->name('documentation.division-annual-excel');
     Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');
+    Route::get('documentation-approval-monthly-data', [DocumentationController::class, 'basedOnApprovalMonthlyData'])->name('documentation.approval-monthly-data');
+    Route::get('documentation-approval-monthly-excel', [DocumentationController::class, 'basedOnApprovalMonthlyExcel'])->name('documentation.approval-monthly-excel');
+    Route::get('documentation-approval-annual-data', [DocumentationController::class, 'basedOnApprovalAnnualData'])->name('documentation.approval-annual-data');
+    Route::get('documentation-approval-annual-excel', [DocumentationController::class, 'basedOnApprovalAnnualExcel'])->name('documentation.approval-annual-excel');
     Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');
     Route::get('documentation-compare', [DocumentationController::class, 'basedOnCompare'])->name('documentation.compare');
     Route::get('monitoring-selected', [MonitoringController::class, 'tenderVendorSelected'])->name('monitoring.selected');

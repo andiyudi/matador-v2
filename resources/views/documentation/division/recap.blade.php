@@ -42,6 +42,40 @@
     </div>
     <iframe id="searchDivisionAnnual" src="" style="width: 100%; height: 500px; border: none;"></iframe>
 </div>
+<div class="modal fade" id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="modalPrintLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalPrintLabel">Data Pembuat dan Atasan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formPrint">
+                    <div class="form-group">
+                        <label for="creatorName">Nama Pembuat:</label>
+                        <input type="text" class="form-control" id="nameStaf" name="nameStaf">
+                    </div>
+                    <div class="form-group">
+                        <label for="creatorPosition">Jabatan Pembuat:</label>
+                        <input type="text" class="form-control" id="positionStaf" name="positionStaf">
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisorName">Nama Atasan:</label>
+                        <input type="text" class="form-control" id="nameManager" name="nameManager">
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisorPosition">Jabatan Atasan:</label>
+                        <input type="text" class="form-control" id="positionManager" name="positionManager">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="confirmBtnPrint">Cetak</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $('#btnSearch').on('click', function() {
@@ -122,7 +156,7 @@
         var positionStaf = $('#positionStaf').val();
         var nameManager = $('#nameManager').val();
         var positionManager = $('#positionManager').val();
-        var url = $('#searchValueAnnual').attr('src');
+        var url = $('#searchDivisionAnnual').attr('src');
          // Validasi form
         if (nameStaf === '' || positionStaf === '' || nameManager === '' || positionManager === '') {
             Swal.fire({

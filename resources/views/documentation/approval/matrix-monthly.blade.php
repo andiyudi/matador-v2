@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Annual Recapitulation by Value</title>
+    <title>Monthly Recapitulation by Approval</title>
 </head>
 <body>
     <style>
@@ -25,8 +24,9 @@
             word-wrap: break-word;
         }
         .peserta-rapat th {
-            background-color: rgb(199, 199, 199);
+            background-color:rgb(40, 125, 250);
             border: 1px solid black;
+            color : white;
             padding: 8px;
             vertical-align: middle;
         } .peserta-rapat td {
@@ -34,7 +34,7 @@
             padding: 8px;
             vertical-align: middle;
         }
-        .peserta-rapat thead tr:last-child {
+        .peserta-rapat tbody tr:last-child {
             border-bottom: 3px double black; /* Adjust border thickness and color as needed */
         }
         .row {
@@ -75,38 +75,19 @@
     </thead>
 </table>
 <p style="text-align: center; font-size: 14pt">
-    REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
-    BERDASARKAN NILAI PEKERJAAN<br>
-    @php
-        $bulan = [
-            '1' => 'JANUARI',
-            '2' => 'FEBRUARI',
-            '3' => 'MARET',
-            '4' => 'APRIL',
-            '5' => 'MEI',
-            '6' => 'JUNI',
-            '7' => 'JULI',
-            '8' => 'AGUSTUS',
-            '9' => 'SEPTEMBER',
-            '10' => 'OKTOBER',
-            '11' => 'NOVEMBER',
-            '12' => 'DESEMBER'
-        ];
-
-        $selectedStartMonth = isset($start_month) ? $bulan[$start_month] : null;
-        $selectedEndMonth = isset($end_month) ? $bulan[$end_month] : null;
-    @endphp
-
-    PERIODE: {{ $selectedStartMonth }} - {{ $selectedEndMonth }} {{ $year }}
-
+    REKAPITULASI HASIL NEGOSIASI PENGADAAN BARANG ( OP ) DAN ATAU JASA ( KONTRAK )<br>
+    PP YANG DISETUJUI DIREKSI<br>
+    PERIODE : {{ strtoupper($periodFormatted) }}
 </p>
-@include('documentation.value.annual-result')
+
+
+@include('documentation.approval.monthly-result')
 <table width="100%">
     <thead>
         <tr>
-            <td style="text-align: center; width: 25%"><br><br>Dibuat Oleh,</td>
+            <td style="text-align: center; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
             <td style="width: 50%"></td>
-            <td style="text-align: center; width: 25%"><br>Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Disetujui Oleh,</td>
+            <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
         </tr>
     </thead>
     <tbody>
@@ -115,9 +96,9 @@
             <td></td>
         </tr>
         <tr>
-            <td style="text-align: center">{{ $nameStaf }}<br>{{ $positionStaf }}</td>
+            <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
             <td></td>
-            <td style="text-align: center">{{ $nameManager }}<br>{{ $positionManager }}</td>
+            <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
         </tr>
     </tbody>
 </table>

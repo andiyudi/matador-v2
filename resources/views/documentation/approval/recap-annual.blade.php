@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Annual Recapitulation by Value</title>
+    <title>Annual Recapitulation by Approval</title>
 </head>
 <body>
     <style>
@@ -76,7 +76,7 @@
 </table>
 <p style="text-align: center; font-size: 14pt">
     REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
-    BERDASARKAN NILAI PEKERJAAN<br>
+    DISETUJUI DIREKSI<br>
     @php
         $bulan = [
             '1' => 'JANUARI',
@@ -96,11 +96,11 @@
         $selectedStartMonth = isset($start_month) ? $bulan[$start_month] : null;
         $selectedEndMonth = isset($end_month) ? $bulan[$end_month] : null;
     @endphp
-
     PERIODE: {{ $selectedStartMonth }} - {{ $selectedEndMonth }} {{ $year }}
-
 </p>
-@include('documentation.value.annual-result')
+
+
+@include('documentation.approval.annual-result')
 <table width="100%">
     <thead>
         <tr>
