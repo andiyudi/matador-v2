@@ -39,13 +39,13 @@
             @foreach ($divisions as $division)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td style="text-align: left">{{ $division->name }}</td>
-                @foreach ($filteredMonths as $month)
-                    <td>{{ $procurementData[$division->id][$month] }}</td>
+                <td>{{ $division->name }}</td>
+                @foreach ($months as $month)
+                    <td>{{ $totalPerDivisionPerBulan[$division->id][$month] ?? 0 }}</td>
                 @endforeach
-                <td>{{ $totalPerDivisi[$division->id] }}</td>
+                <td>{{ $totalPerDivisi[$division->id] ?? 0 }}</td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
         <tfoot style="text-align: center; font-weight: bold">
             <tr>
