@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BasedOnValueAnnualDataExport;
 use App\Exports\BasedOnValueMonthlyDataExport;
+use App\Exports\BasedOnRequestAnnualDataExport;
 use App\Exports\BasedOnApprovalAnnualDataExport;
 use App\Exports\BasedOnDivisionAnnualDataExport;
+use App\Exports\BasedOnRequestMonthlyDataExport;
 use App\Exports\BasedOnApprovalMonthlyDataExport;
 use App\Exports\BasedOnDivisionMonthlyDataExport;
 
@@ -536,10 +538,59 @@ class DocumentationController extends Controller
             'totalPerBulan', 'grandTotal', 'start_month', 'end_month'
         ));
     }
-
-
+    public function basedOnRequestMonthlyExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-requestMonthly-excel-' . $dateTime . '.xlsx';
+        return Excel::download(new BasedOnRequestMonthlyDataExport, $fileName);
+    }
+    public function basedOnRequestAnnualExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-requestAnnual-excel-' . $dateTime . '.xlsx';
+        return Excel::download(new BasedOnRequestAnnualDataExport, $fileName);
+    }
     public function basedOnCompare ()
     {
-        return view ('documentation.compare.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::pluck(DB::raw('YEAR(receipt) as year'))
+                ->merge([$currentYear])
+                ->unique();
+        $divisions = Division::all();
+        $currentMonth = date('n');
+        $bulan = $this->getMonthsArray();
+        return view('documentation.compare.index', compact('years', 'divisions', 'currentMonth', 'currentYear', 'bulan'));
+    }
+    public function basedOnCompareMonthlyData(Request $request)
+    {
+        $period = $request->input('period');
+        $number = $request->input('number');
+        $divisions = $request->input('division');
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+        if (is_null($divisions) || $divisions === '') {
+            $divisions = [];
+        } elseif (!is_array($divisions)) {
+            $divisions = explode(',', $divisions);
+        }
+        list($month, $year) = explode('-', $period);
+        $bulan = $this->getMonthsArray();
+        $monthName = $bulan[$month];
+        $periodFormatted = $monthName . ' ' . $year;
+        $query = Procurement::with('tenders.businessPartners.partner');
+        if ($month && $year) {
+            $query->whereMonth('receipt', $month)
+                ->whereYear('receipt', $year);
+        }
+        if (count($divisions) > 0) {
+            $query->whereIn('division_id', $divisions);
+        }
+        if ($number) {
+            $query->where('number', 'LIKE', '%' . $number . '%');
+        }
+        $procurements = $query->get();
+        return view('documentation.compare.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
 }

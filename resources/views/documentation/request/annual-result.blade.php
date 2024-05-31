@@ -19,16 +19,16 @@
     <table width="100%">
         <thead>
             <tr>
-                <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" style="text-align: center">Bulan</th>
-                <th rowspan="2" style="text-align: center">Total</th>
+                <th width="3%" style="text-align: center">No</th>
+                <th style="text-align: center">BULAN</th>
+                <th style="text-align: center">PERMINTAAN PEKERJAAN (PP) MASUK</th>
             </tr>
         </thead>
         <tbody style="text-align: center">
             @foreach ($monthsRange as $month)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $filteredMonthsName[$month] ?? 'Undefined' }}</td>
+                    <td>{{ strtoupper($filteredMonthsName[$month] ?? 'Undefined') }}</td>
                     <td>{{ $totalPerBulan[$month] ?? '0' }}</td>
                 </tr>
             @endforeach
@@ -40,4 +40,5 @@
             </tr>
         </tfoot>
     </table>
+    <br>
 </div>

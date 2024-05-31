@@ -1,22 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Annual Recapitulation by Division</title>
+    <title>Monthly Recapitulation by Compare</title>
 </head>
 <body>
     <style>
         @media print{
             @page {
-                size: A4 portrait;
+                size: A4 landscape;
             }
         }
         body {
             font-family: 'Arial Narrow', sans-serif; /* Arial Narrow */
-            font-size:14pt; /* Ukuran huruf 10px */
+            font-size:10pt; /* Ukuran huruf 10px */
         }
         .peserta-rapat table {
             border-collapse: collapse;
@@ -25,8 +24,9 @@
             word-wrap: break-word;
         }
         .peserta-rapat th {
-            background-color: rgb(199, 199, 199);
+            background-color:rgb(40, 0, 140);
             border: 1px solid black;
+            color : white;
             padding: 8px;
             vertical-align: middle;
         } .peserta-rapat td {
@@ -34,7 +34,7 @@
             padding: 8px;
             vertical-align: middle;
         }
-        .peserta-rapat thead tr:last-child {
+        .peserta-rapat tbody tr:last-child {
             border-bottom: 3px double black; /* Adjust border thickness and color as needed */
         }
         .row {
@@ -75,37 +75,17 @@
     </thead>
 </table>
 <p style="text-align: center; font-size: 14pt">
-    REKAPITULASI DOKUMEN PERMINTAAN PEKERJAAN (PP) MASUK<br>
-    @php
-        $bulan = [
-        '01' => 'JANUARI',
-        '02' => 'FEBRUARI',
-        '03' => 'MARET',
-        '04' => 'APRIL',
-        '05' => 'MEI',
-        '06' => 'JUNI',
-        '07' => 'JULI',
-        '08' => 'AGUSTUS',
-        '09' => 'SEPTEMBER',
-        '10' => 'OKTOBER',
-        '11' => 'NOVEMBER',
-        '12' => 'DESEMBER'
-    ];
-
-        $selectedStartMonth = isset($start_month) ? $bulan[$start_month] : null;
-        $selectedEndMonth = isset($end_month) ? $bulan[$end_month] : null;
-    @endphp
-    PERIODE: {{ $selectedStartMonth }} - {{ $selectedEndMonth }} {{ $year }}
+    MATRIK PERBANDINGAN<br>
+    NILAI RKAP VS HASIL NEGOSIASI - NILAI VERIFIKASI TEKNIK VS HASIL NEGOSIASI<br>
+    PERIODE : {{ strtoupper($periodFormatted) }}
 </p>
-
-
-@include('documentation.request.annual-result')
+@include('documentation.compare.monthly-result')
 <table width="100%">
     <thead>
         <tr>
-            <td style="text-align: center; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br><br>Dibuat Oleh,</td>
+            <td style="text-align: center; width: 25%">Jakarta, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}<br>Dibuat Oleh,</td>
             <td style="width: 50%"></td>
-            <td style="text-align: center; width: 25%"><br><br>Disetujui Oleh,</td>
+            <td style="text-align: center; width: 25%"><br>Disetujui Oleh,</td>
         </tr>
     </thead>
     <tbody>
@@ -114,9 +94,9 @@
             <td></td>
         </tr>
         <tr>
-            <td style="text-align: center">{{ $nameStaf }}<br>{{ $positionStaf }}</td>
+            <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
             <td></td>
-            <td style="text-align: center">{{ $nameManager }}<br>{{ $positionManager }}</td>
+            <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
         </tr>
     </tbody>
 </table>
