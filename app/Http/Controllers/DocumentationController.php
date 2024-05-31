@@ -279,11 +279,10 @@ class DocumentationController extends Controller
     }
     private function getMonthsName($months)
     {
-        $bulan = $this->getMonthsArray();
+        $allMonths = $this->getMonthsArray(); // Ensure this function returns an array with month names indexed from '01' to '12'
         $monthsName = [];
         foreach ($months as $month) {
-            $formattedMonth = str_pad($month, 2, '0', STR_PAD_LEFT); // Convert to two-digit format
-            $monthsName[] = $bulan[$formattedMonth];
+            $monthsName[$month] = $allMonths[sprintf('%02d', $month)];
         }
         return $monthsName;
     }
@@ -478,8 +477,66 @@ class DocumentationController extends Controller
     }
     public function basedOnRequest ()
     {
-        return view ('documentation.request.index');
+        $currentYear = Carbon::now()->year;
+        $years = Procurement::pluck(DB::raw('YEAR(receipt) as year'))
+                ->merge([$currentYear])
+                ->unique();
+        $divisions = Division::all();
+        $currentMonth = date('n');
+        $bulan = $this->getMonthsArray();
+        return view('documentation.request.index', compact('years', 'divisions', 'currentMonth', 'currentYear', 'bulan'));
     }
+    private function getProcurementsRequestByMonthAndYear($month, $year, $divisions,$number)
+    {
+        $query = Procurement::query()
+            ->whereMonth('receipt', $month)
+            ->whereYear('receipt', $year);
+        if (count($divisions) > 0) {
+            $query->whereIn('division_id', $divisions);
+        }
+        if ($number) {
+            $query->where('number', 'LIKE', '%' . $number . '%');
+        }
+        return $query->get();
+    }
+    public function basedOnRequestMonthlyData(Request $request)
+    {
+        $period = $request->input('period');
+        $number = $request->input('number');
+        $divisions = $this->parseInputToArray($request->input('division'));
+        $official = $request->input('official');
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+        list($month, $year) = explode('-', $period);
+        $bulan = $this->getMonthsArray();
+        $monthName = $bulan[$month];
+        $periodFormatted = $this->formatPeriod($month, $year);
+        $procurements = $this->getProcurementsRequestByMonthAndYear($month, $year, $divisions, $number);
+        return view('documentation.request.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+    }
+    public function basedOnRequestAnnualData(Request $request)
+    {
+        $year = $request->input('year');
+        $start_month = $request->input('start_month');
+        $end_month = $request->input('end_month');
+        $nameStaf = request()->query('nameStaf');
+        $positionStaf = request()->query('positionStaf');
+        $nameManager = request()->query('nameManager');
+        $positionManager = request()->query('positionManager');
+        $months = range($start_month, $end_month);
+        $monthsName = $this->getMonthsName($months);
+        $procurementData = $this->getAnnualProcurementData($year, $start_month, $end_month);
+        $totalPerBulan = $this->calculateTotalPerMonth($procurementData, $months);
+        $grandTotal = array_sum($totalPerBulan);
+        return view('documentation.request.recap-annual', compact(
+            'year', 'months', 'procurementData', 'monthsName',
+            'nameStaf', 'positionStaf', 'nameManager', 'positionManager',
+            'totalPerBulan', 'grandTotal', 'start_month', 'end_month'
+        ));
+    }
+
 
     public function basedOnCompare ()
     {
