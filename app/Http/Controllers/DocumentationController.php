@@ -315,8 +315,6 @@ class DocumentationController extends Controller
         }
         return $totalPerDivisionPerBulan;
     }
-
-
     private function calculateTotalPerDivision($procurementData)
     {
         $totalPerDivisi = [];
@@ -338,33 +336,61 @@ class DocumentationController extends Controller
         }
         return $totalPerBulan;
     }
+    private function initializeProcurementData($divisions, $months)
+    {
+        $data = [];
+        foreach ($divisions as $division) {
+            $data[$division->id] = array_fill_keys($months, 0);
+        }
+        return $data;
+    }
+    private function collectProcurementData($year, $start_month, $end_month, $status = null)
+    {
+        $query = Procurement::select(
+            'division_id',
+            DB::raw('MONTH(receipt) as bulan'),
+            DB::raw('COUNT(*) as total_procurement')
+        )
+        ->whereYear('receipt', $year)
+        ->whereMonth('receipt', '>=', $start_month)
+        ->whereMonth('receipt', '<=', $end_month)
+        ->groupBy('division_id', 'bulan');
 
-    public function basedOnApproval ()
+        if (!is_null($status)) {
+            $query->where('status', $status);
+        }
+        return $query->get();
+    }
+    private function fillProcurementData($procurements, &$data)
+    {
+        foreach ($procurements as $procurement) {
+            $data[$procurement->division_id][$procurement->bulan] = $procurement->total_procurement;
+        }
+    }
+    private function calculateTotals($divisions, $months, $data)
+    {
+        $totalPerDivisi = [];
+        $totalPerBulan = array_fill_keys($months, 0);
+        foreach ($divisions as $division) {
+            $totalPerDivisi[$division->id] = array_sum($data[$division->id]);
+            foreach ($months as $month) {
+                $totalPerBulan[$month] += $data[$division->id][$month];
+            }
+        }
+        $grandTotal = array_sum($totalPerBulan);
+        return compact('totalPerDivisi', 'totalPerBulan', 'grandTotal');
+    }
+    public function basedOnApproval()
     {
         $currentYear = Carbon::now()->year;
         $years = Procurement::pluck(DB::raw('YEAR(receipt) as year'))
-                ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
+                ->merge([$currentYear])
                 ->unique();
         $divisions = Division::all();
-        $bulan = [
-            '1' => 'Januari',
-            '2' => 'Februari',
-            '3' => 'Maret',
-            '4' => 'April',
-            '5' => 'Mei',
-            '6' => 'Juni',
-            '7' => 'Juli',
-            '8' => 'Agustus',
-            '9' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember'
-        ];
-        $currentMonth = date('n'); // Bulan saat ini dalam bentuk angka tanpa leading zero
-        $divisions = Division::all();
-        return view ('documentation.approval.index', compact('divisions', 'bulan', 'currentMonth', 'years', 'currentYear'));
+        $currentMonth = date('n');
+        $bulan = $this->getMonthsArray();
+        return view('documentation.approval.index', compact('years', 'divisions', 'currentMonth', 'currentYear', 'bulan'));
     }
-
     public function basedOnApprovalMonthlyData(Request $request)
     {
         $period = $request->input('period');
@@ -379,56 +405,30 @@ class DocumentationController extends Controller
         } elseif (!is_array($divisions)) {
             $divisions = explode(',', $divisions);
         }
-        $bulan = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember'
-        ];
-        // Pemisahan bulan dan tahun dari input periode
         list($month, $year) = explode('-', $period);
-        // Konversi angka bulan menjadi nama bulan dalam bahasa Indonesia
+        $bulan = $this->getMonthsArray();
         $monthName = $bulan[$month];
-        // Format objek DateTime sesuai dengan format yang diinginkan
         $periodFormatted = $monthName . ' ' . $year;
-        // Mulai dengan query dasar dari model procurement
         $query = Procurement::with('tenders.businessPartners.partner');
-        // Tambahkan kondisi-kondisi tambahan berdasarkan nilai yang diterima
         if ($month && $year) {
             $query->whereMonth('receipt', $month)
                 ->whereYear('receipt', $year);
         }
         if (count($divisions) > 0) {
-            // Tambahkan filter untuk division jika $divisions tidak kosong
-            $query->whereIn('division_id', $divisions); // Sesuaikan dengan kolom yang menyimpan ID divisi
+            $query->whereIn('division_id', $divisions);
         }
         if ($number) {
-            $query->where(function ($query) use ($number) {
-                $query->where('number', 'LIKE', '%' . $number . '%');
-            });
+            $query->where('number', 'LIKE', '%' . $number . '%');
         }
-        // Eksekusi query untuk mendapatkan hasilnya
         $procurements = $query->get();
-        // dd($procurements);
-        return view ('documentation.approval.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+        return view('documentation.approval.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
-
     public function basedOnApprovalMonthlyExcel()
     {
         $dateTime = Carbon::now()->format('dmYHis');
         $fileName = 'basedOn-approvalMonthly-excel-' . $dateTime . '.xlsx';
-
         return Excel::download(new BasedOnApprovalMonthlyDataExport, $fileName);
     }
-
     public function basedOnApprovalAnnualData(Request $request)
     {
         $year = $request->input('year');
@@ -438,101 +438,42 @@ class DocumentationController extends Controller
         $positionStaf = request()->query('positionStaf');
         $nameManager = request()->query('nameManager');
         $positionManager = request()->query('positionManager');
-
         $divisions = Division::all();
-
-        // Filter bulan sesuai dengan start_month dan end_month
         $months = range($start_month, $end_month);
-        $monthsName = [];
-        foreach ($months as $month) {
-            $monthsName[] = Carbon::create($year, $month)->translatedFormat('M');
-        }
-
-        // Fungsi untuk mengumpulkan data procurement berdasarkan status
-        $collectProcurementData = function ($status = null) use ($year, $start_month, $end_month) {
-            $query = Procurement::select(
-                'division_id',
-                DB::raw('MONTH(receipt) as bulan'),
-                DB::raw('COUNT(*) as total_procurement')
-            )
-            ->whereYear('receipt', $year)
-            ->whereMonth('receipt', '>=', $start_month)
-            ->whereMonth('receipt', '<=', $end_month)
-            ->groupBy('division_id', 'bulan');
-
-            if (!is_null($status)) {
-                $query->where('status', $status);
-            }
-
-            return $query->get();
-        };
-
-        // Mendapatkan data procurement untuk semua status dan setiap status
-        $allProcurements = $collectProcurementData();
-        $procurementsStatus1 = $collectProcurementData('1');
-        $procurementsStatus0 = $collectProcurementData('0');
-        $procurementsStatus2 = $collectProcurementData('2');
-
-        // Fungsi untuk menginisialisasi array terstruktur
-        $initializeProcurementData = function ($divisions, $months) {
-            $data = [];
-            foreach ($divisions as $division) {
-                $data[$division->id] = [];
-                foreach ($months as $month) {
-                    $data[$division->id][$month] = 0;
-                }
-            }
-            return $data;
-        };
-
-        // Inisialisasi array terstruktur untuk semua data procurement dan setiap status
-        $procurementDataAll = $initializeProcurementData($divisions, $months);
-        $procurementDataStatus1 = $initializeProcurementData($divisions, $months);
-        $procurementDataStatus0 = $initializeProcurementData($divisions, $months);
-        $procurementDataStatus2 = $initializeProcurementData($divisions, $months);
-
-        // Fungsi untuk mengisi array terstruktur dengan data procurement dari query
-        $fillProcurementData = function ($procurements, &$data) {
-            foreach ($procurements as $procurement) {
-                $data[$procurement->division_id][$procurement->bulan] = $procurement->total_procurement;
-            }
-        };
-
-        // Isi array terstruktur dengan data yang diambil dari database
-        $fillProcurementData($allProcurements, $procurementDataAll);
-        $fillProcurementData($procurementsStatus1, $procurementDataStatus1);
-        $fillProcurementData($procurementsStatus0, $procurementDataStatus0);
-        $fillProcurementData($procurementsStatus2, $procurementDataStatus2);
-
-        // Fungsi untuk menghitung total per divisi dan total per bulan
-        $calculateTotals = function ($divisions, $months, $data) {
-            $totalPerDivisi = [];
-            $totalPerBulan = array_fill($months[0], end($months) - $months[0] + 1, 0);
-
-            foreach ($divisions as $division) {
-                $totalPerDivisi[$division->id] = array_sum($data[$division->id]);
-                foreach ($months as $month) {
-                    $totalPerBulan[$month] += $data[$division->id][$month];
-                }
-            }
-
-            $grandTotal = array_sum($totalPerBulan);
-            return compact('totalPerDivisi', 'totalPerBulan', 'grandTotal');
-        };
-
-        // Hitung total untuk semua data procurement dan setiap status
-        $totalsAll = $calculateTotals($divisions, $months, $procurementDataAll);
-        $totalsStatus1 = $calculateTotals($divisions, $months, $procurementDataStatus1);
-        $totalsStatus0 = $calculateTotals($divisions, $months, $procurementDataStatus0);
-        $totalsStatus2 = $calculateTotals($divisions, $months, $procurementDataStatus2);
-
-        return view('documentation.approval.recap-annual', compact('year', 'months', 'divisions',  'procurementDataAll', 'procurementDataStatus1', 'procurementDataStatus0',  'procurementDataStatus2', 'monthsName', 'nameStaf', 'positionStaf', 'nameManager', 'positionManager', 'totalsAll', 'totalsStatus1', 'totalsStatus0', 'totalsStatus2', 'start_month', 'end_month'));
+        $monthsName = array_map(function ($month) use ($year) {
+            return Carbon::create($year, $month)->translatedFormat('M');
+        }, $months);
+        //Fungsi yang digunakan untuk mengambil semua data procurement
+        $allProcurements = $this->collectProcurementData($year, $start_month, $end_month);
+        $procurementsStatus1 = $this->collectProcurementData($year, $start_month, $end_month, '1');
+        $procurementsStatus0 = $this->collectProcurementData($year, $start_month, $end_month, '0');
+        $procurementsStatus2 = $this->collectProcurementData($year, $start_month, $end_month, '2');
+        // Fungsi ini digunakan untuk menginisialisasi array yang akan digunakan untuk menampung data procurement
+        $procurementDataAll = $this->initializeProcurementData($divisions, $months);
+        $procurementDataStatus1 = $this->initializeProcurementData($divisions, $months);
+        $procurementDataStatus0 = $this->initializeProcurementData($divisions, $months);
+        $procurementDataStatus2 = $this->initializeProcurementData($divisions, $months);
+        // Fungsi ini digunakan untuk memasukkan data procurement ke dalam array yang telah diinisialisasi
+        $this->fillProcurementData($allProcurements, $procurementDataAll);
+        $this->fillProcurementData($procurementsStatus1, $procurementDataStatus1);
+        $this->fillProcurementData($procurementsStatus0, $procurementDataStatus0);
+        $this->fillProcurementData($procurementsStatus2, $procurementDataStatus2);
+        // Fungsi ini digunakan untuk menghitung total per divisi dan bulan
+        $totalsAll = $this->calculateTotals($divisions, $months, $procurementDataAll);
+        $totalsStatus1 = $this->calculateTotals($divisions, $months, $procurementDataStatus1);
+        $totalsStatus0 = $this->calculateTotals($divisions, $months, $procurementDataStatus0);
+        $totalsStatus2 = $this->calculateTotals($divisions, $months, $procurementDataStatus2);
+        return view('documentation.approval.recap-annual', compact(
+            'year', 'months', 'divisions', 'procurementDataAll', 'procurementDataStatus1',
+            'procurementDataStatus0', 'procurementDataStatus2', 'monthsName', 'nameStaf',
+            'positionStaf', 'nameManager', 'positionManager', 'totalsAll', 'totalsStatus1',
+            'totalsStatus0', 'totalsStatus2', 'start_month', 'end_month'
+        ));
     }
     public function basedOnApprovalAnnualExcel()
     {
         $dateTime = Carbon::now()->format('dmYHis');
         $fileName = 'basedOn-approvalAnnual-excel-' . $dateTime . '.xlsx';
-
         return Excel::download(new BasedOnApprovalAnnualDataExport, $fileName);
     }
     public function basedOnRequest ()

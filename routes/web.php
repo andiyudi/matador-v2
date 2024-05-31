@@ -125,7 +125,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documentation-approval-annual-data', [DocumentationController::class, 'basedOnApprovalAnnualData'])->name('documentation.approval-annual-data');
     Route::get('documentation-approval-annual-excel', [DocumentationController::class, 'basedOnApprovalAnnualExcel'])->name('documentation.approval-annual-excel');
     Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');
+    Route::get('documentation-request-monthly-data', [DocumentationController::class, 'basedOnRequestMonthlyData'])->name('documentation.request-monthly-data');
+    Route::get('documentation-request-monthly-excel', [DocumentationController::class, 'basedOnRequestMonthlyExcel'])->name('documentation.request-monthly-excel');
+    Route::get('documentation-request-annual-data', [DocumentationController::class, 'basedOnRequestAnnualData'])->name('documentation.request-annual-data');
+    Route::get('documentation-request-annual-excel', [DocumentationController::class, 'basedOnRequestAnnualExcel'])->name('documentation.request-annual-excel');
     Route::get('documentation-compare', [DocumentationController::class, 'basedOnCompare'])->name('documentation.compare');
+    Route::get('documentation-compare-monthly-data', [DocumentationController::class, 'basedOnCompareMonthlyData'])->name('documentation.compare-monthly-data');
+    Route::get('documentation-compare-monthly-excel', [DocumentationController::class, 'basedOnCompareMonthlyExcel'])->name('documentation.compare-monthly-excel');
+    Route::get('documentation-compare-annual-data', [DocumentationController::class, 'basedOnCompareAnnualData'])->name('documentation.compare-annual-data');
+    Route::get('documentation-compare-annual-excel', [DocumentationController::class, 'basedOnCompareAnnualExcel'])->name('documentation.compare-annual-excel');
     Route::get('monitoring-selected', [MonitoringController::class, 'tenderVendorSelected'])->name('monitoring.selected');
     Route::get('monitoring-process', [MonitoringController::class, 'monitoringProcess'])->name('monitoring.process');
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
