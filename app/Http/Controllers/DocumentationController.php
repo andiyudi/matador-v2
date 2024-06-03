@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\BasedOnValueAnnualDataExport;
 use App\Exports\BasedOnValueMonthlyDataExport;
+use App\Exports\BasedOnCompareAnnualDataExport;
 use App\Exports\BasedOnRequestAnnualDataExport;
 use App\Exports\BasedOnApprovalAnnualDataExport;
+use App\Exports\BasedOnCompareMonthlyDataExport;
 use App\Exports\BasedOnDivisionAnnualDataExport;
 use App\Exports\BasedOnRequestMonthlyDataExport;
 use App\Exports\BasedOnApprovalMonthlyDataExport;
@@ -592,5 +594,75 @@ class DocumentationController extends Controller
         }
         $procurements = $query->get();
         return view('documentation.compare.matrix-monthly', compact('procurements', 'periodFormatted', 'monthName', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+    }
+    public function basedOnCompareAnnualData(Request $request)
+    {
+        $year = $request->input('year');
+        $start_month = $request->input('start_month');
+        $end_month = $request->input('end_month');
+        $nameStaf = request()->query('nameStaf');
+        $positionStaf = request()->query('positionStaf');
+        $nameManager = request()->query('nameManager');
+        $positionManager = request()->query('positionManager');
+        $months = range($start_month, $end_month);
+        $monthsName = $this->getMonthsName($months);
+
+        // Initialize arrays to store aggregated data
+        $userEstimates = [];
+        $techniqueEstimates = [];
+        $dealNegos = [];
+        $userEstimateDiffs = [];
+        $techniqueEstimateDiffs = [];
+        $userEstimatePercentages = [];
+        $techniqueEstimatePercentages = [];
+
+        foreach ($months as $month) {
+            $procurements = Procurement::whereYear('receipt', $year)
+                ->whereMonth('receipt', $month)
+                ->get();
+
+            // Calculate sums
+            $userEstimateSum = $procurements->sum('user_estimate');
+            $techniqueEstimateSum = $procurements->sum('technique_estimate');
+            $dealNegoSum = $procurements->sum('deal_nego');
+
+            // Calculate differences
+            $userEstimateDiff = $userEstimateSum - $dealNegoSum;
+            $techniqueEstimateDiff = $techniqueEstimateSum - $dealNegoSum;
+
+            // Calculate percentages
+            $userEstimatePercentage = $dealNegoSum != 0 ? ($userEstimateDiff / $userEstimateSum) * 100 : 0;
+            $techniqueEstimatePercentage = $dealNegoSum != 0 ? ($techniqueEstimateDiff / $techniqueEstimateSum) * 100 : 0;
+
+            // Store results in arrays
+            $userEstimates[$month] = $userEstimateSum;
+            $techniqueEstimates[$month] = $techniqueEstimateSum;
+            $dealNegos[$month] = $dealNegoSum;
+            $userEstimateDiffs[$month] = $userEstimateDiff;
+            $techniqueEstimateDiffs[$month] = $techniqueEstimateDiff;
+            $userEstimatePercentages[$month] = $userEstimatePercentage;
+            $techniqueEstimatePercentages[$month] = $techniqueEstimatePercentage;
+        }
+
+        return view('documentation.compare.recap-annual', compact(
+            'year', 'months', 'monthsName',
+            'nameStaf', 'positionStaf', 'nameManager', 'positionManager',
+            'start_month', 'end_month',
+            'userEstimates', 'techniqueEstimates', 'dealNegos',
+            'userEstimateDiffs', 'techniqueEstimateDiffs',
+            'userEstimatePercentages', 'techniqueEstimatePercentages'
+        ));
+    }
+    public function basedOnCompareMonthlyExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-compareMonthly-excel-' . $dateTime . '.xlsx';
+        return Excel::download(new BasedOnCompareMonthlyDataExport, $fileName);
+    }
+    public function basedOnCompareAnnualExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-compareAnnual-excel-' . $dateTime . '.xlsx';
+        return Excel::download(new BasedOnCompareAnnualDataExport, $fileName);
     }
 }

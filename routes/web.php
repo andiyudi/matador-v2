@@ -135,6 +135,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documentation-compare-annual-data', [DocumentationController::class, 'basedOnCompareAnnualData'])->name('documentation.compare-annual-data');
     Route::get('documentation-compare-annual-excel', [DocumentationController::class, 'basedOnCompareAnnualExcel'])->name('documentation.compare-annual-excel');
     Route::get('monitoring-selected', [MonitoringController::class, 'tenderVendorSelected'])->name('monitoring.selected');
+    Route::get('monitoring-selected-data', [MonitoringController::class, 'tenderVendorSelectedData'])->name('monitoring.selected-data');
+    Route::get('monitoring-selected-excel', [MonitoringController::class, 'tenderVendorSelectedExcel'])->name('monitoring.selected-excel');
     Route::get('monitoring-process', [MonitoringController::class, 'monitoringProcess'])->name('monitoring.process');
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
