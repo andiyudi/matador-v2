@@ -138,6 +138,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('monitoring-selected-data', [MonitoringController::class, 'tenderVendorSelectedData'])->name('monitoring.selected-data');
     Route::get('monitoring-selected-excel', [MonitoringController::class, 'tenderVendorSelectedExcel'])->name('monitoring.selected-excel');
     Route::get('monitoring-process', [MonitoringController::class, 'monitoringProcess'])->name('monitoring.process');
+    Route::get('monitoring-process-data', [MonitoringController::class, 'monitoringProcessData'])->name('monitoring.process-data');
+    Route::get('monitoring-process-excel', [MonitoringController::class, 'monitoringProcessExcel'])->name('monitoring.process-excel');
     Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
     Route::get('chart/bar-chart', [ChartController::class, 'barChart'])->name('chart.barChart');

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Division;
+use App\Models\Official;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MonitoringProcessDataExport;
 use App\Exports\MonitoringSelectedDataExport;
 
 class MonitoringController extends Controller
@@ -111,6 +113,50 @@ class MonitoringController extends Controller
     }
     public function monitoringProcess()
     {
-        return view ('monitoring.index');
+        $divisions = $this->division();
+        $officials = Official::all();
+        return view ('monitoring.index', compact ('divisions', 'officials'));
+    }
+    public function monitoringProcessData(Request $request)
+    {
+        $period = $request->input('period');
+        $number = $request->input('number');
+        $divisions = $request->input('division');
+        $official = $request->input('official');
+        $stafName = request()->query('stafName');
+        $stafPosition = request()->query('stafPosition');
+        $managerName = request()->query('managerName');
+        $managerPosition = request()->query('managerPosition');
+
+        if (is_null($divisions) || $divisions === '') {
+            $divisions = [];
+        } elseif (!is_array($divisions)) {
+            $divisions = explode(',', $divisions);
+        }
+        list($month, $year) = explode('-', $period);
+        $bulan = $this->getMonthsArray();
+        $monthName = $bulan[$month];
+        // Mulai query Procurement dengan relasi yang diperlukan
+        $procurementQuery = Procurement::with('tenders.businessPartners.partner')
+            ->whereMonth('receipt', $month)
+            ->whereYear('receipt', $year);;
+        if ($number) {
+            $procurementQuery->where('number', 'like', '%' . $number . '%');
+        }
+        if ($official !== null) {
+            $procurementQuery->where('official_id', $official);
+        }
+        if (count($divisions) > 0) {
+            $procurementQuery->whereIn('division_id', $divisions);
+        }
+        $procurements = $procurementQuery->get();
+        // dd($procurements);
+        return view ('monitoring.data', compact ('procurements', 'monthName', 'year', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+    }
+    public function monitoringProcessExcel()
+    {
+        $dateTime = Carbon::now()->format('dmYHis');
+        $fileName = 'basedOn-monitoringProcess-excel-' . $dateTime . '.xlsx';
+        return Excel::download(new MonitoringProcessDataExport, $fileName);
     }
 }
