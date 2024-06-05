@@ -108,7 +108,7 @@ class MonitoringController extends Controller
     public function tenderVendorSelectedExcel()
     {
         $dateTime = Carbon::now()->format('dmYHis');
-        $fileName = 'basedOn-monitoringSelected-excel-' . $dateTime . '.xlsx';
+        $fileName = 'monitoringSelected-excel-' . $dateTime . '.xlsx';
         return Excel::download(new MonitoringSelectedDataExport, $fileName);
     }
     public function monitoringProcess()
@@ -156,7 +156,7 @@ class MonitoringController extends Controller
     public function monitoringProcessExcel()
     {
         $dateTime = Carbon::now()->format('dmYHis');
-        $fileName = 'basedOn-monitoringProcess-excel-' . $dateTime . '.xlsx';
+        $fileName = 'monitoringProcess-excel-' . $dateTime . '.xlsx';
         return Excel::download(new MonitoringProcessDataExport, $fileName);
     }
 }

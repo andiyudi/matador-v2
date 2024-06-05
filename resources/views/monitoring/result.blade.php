@@ -7,19 +7,19 @@
                 <th rowspan="4">No PP</th>
                 <th rowspan="4">Nama Pekerjaan</th>
                 <th rowspan="4">PIC Pengadaan</th>
-                <th rowspan="4">PP + OE Diterima</th>
+                <th rowspan="4">PP &#43; OE Diterima</th>
                 <th colspan="2">Disposisi</th>
-                <th colspan="13">Proses Tender & Negosiasi</th>
-                <th colspan="4" rowspan="3">Waktu Penyelesaian Tender (Hari)</th>
+                <th colspan="13">Proses Tender &#38; Negosiasi</th>
+                <th colspan="4" rowspan="3">Waktu Penyelesaian Tender &#40;Hari&#41;</th>
                 <th colspan="8">Proses Dokumen Kontrak</th>
-                <th rowspan="4">Input SAP (PO)</th>
+                <th rowspan="4">Input SAP &#40;PO&#41;</th>
             </tr>
             <tr>
                 <th rowspan="3">Man. Umum Ke Kadep Pengadaan</th>
                 <th rowspan="3">Kadep Pengadaan Ke Seksi</th>
                 <th rowspan="3">Penawaran Kerjasama Kepada Vendor</th>
                 <th rowspan="2" colspan="2">Aanwijzing</th>
-                <th rowspan="2" colspan="2">Tender (Pembukaan Harga)</th>
+                <th rowspan="2" colspan="2">Tender &#40;Pembukaan Harga&#41;</th>
                 <th colspan="4">Review Teknik</th>
                 <th colspan="4">Direksi</th>
                 <th rowspan="3">Terima Dari Biro Hukum</th>
@@ -28,7 +28,7 @@
                 <th rowspan="3">Ttd Vendor</th>
                 <th rowspan="3">Diserahkan ke Biro Hukum untuk Ttd Direksi</th>
                 <th rowspan="3">Final Kontrak dari Biro Hukum</th>
-                <th rowspan="3">Final Kontrak / OP Diserahkan ke Vendor</th>
+                <th rowspan="3">Final Kontrak &#47; OP Diserahkan ke Vendor</th>
                 <th rowspan="3">Final Kontrak Diserahkan ke User</th>
             </tr>
             <tr>
@@ -48,10 +48,10 @@
                 <th>Masuk</th>
                 <th>Keluar</th>
                 <th>Masuk</th>
-                <th>Target (A)</th>
-                <th>Selesai (B)</th>
-                <th>Libur (C)</th>
-                <th>Selisih (A-B+C)</th>
+                <th>Target &#40;A&#41;</th>
+                <th>Selesai &#40;B&#41;</th>
+                <th>Libur &#40;C&#41;</th>
+                <th>Selisih &#40;A&#45;B&#43;C&#41;</th>
             </tr>
         </thead>
         <tbody>
