@@ -19,7 +19,26 @@
     <p style="text-align: center; font-size: 14pt">
         LAPORAN EFISIENSI BIAYA PERSEROAN<br>
         NILAI PP VS HASIL NEGOSIASI<br>
-        PERIODE JANUARI - DESEMBER {{ $year }}
+        @php
+        $bulan = [
+        '01' => 'JANUARI',
+        '02' => 'FEBRUARI',
+        '03' => 'MARET',
+        '04' => 'APRIL',
+        '05' => 'MEI',
+        '06' => 'JUNI',
+        '07' => 'JULI',
+        '08' => 'AGUSTUS',
+        '09' => 'SEPTEMBER',
+        '10' => 'OKTOBER',
+        '11' => 'NOVEMBER',
+        '12' => 'DESEMBER'
+    ];
+
+        $selectedStartMonthName = isset($start_month) ? $bulan[$start_month] : null;
+        $selectedEndMonthName = isset($end_month) ? $bulan[$end_month] : null;
+    @endphp
+    PERIODE: {{ $selectedStartMonthName }} - {{ $selectedEndMonthName }} {{ $year }}
     </p>
     @include('recapitulation.efficiency.result')
     <br>

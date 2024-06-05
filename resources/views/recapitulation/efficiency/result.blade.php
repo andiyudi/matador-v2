@@ -14,6 +14,20 @@
             </tr>
         </thead>
         @php
+            use Carbon\Carbon;
+
+            // Convert start_month and end_month to integer
+            $selectedStartMonth = isset($start_month) ? intval($start_month) : 1;
+            $selectedEndMonth = isset($end_month) ? intval($end_month) : 12;
+
+            // Generate the range of months
+            $monthsRange = range($selectedStartMonth, $selectedEndMonth);
+
+            // Generate month names for the selected range
+            $filteredMonthsName = [];
+            foreach ($monthsRange as $month) {
+                $filteredMonthsName[$month] = Carbon::create($year, $month)->translatedFormat('F'); // Full month name in Indonesian
+            }
             $total_user_estimate_all = 0;
             $total_deal_nego_all = 0;
             $total_efficiency_all = 0;
@@ -38,7 +52,7 @@
 
                 <tr>
                     <td style="text-align: center">{{ $index + 1 }}</td>
-                    <td style="text-align: center">{{ $monthsName[$index] }}</td>
+                    <td style="text-align: center">{{ $filteredMonthsName[$month] }}</td>
                     <td style="text-align: right">
                         @if($total_user_estimate != 0)
                             {{ number_format($total_user_estimate, 0, '.', '.') }}

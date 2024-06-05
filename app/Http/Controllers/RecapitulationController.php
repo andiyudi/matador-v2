@@ -251,45 +251,65 @@ class RecapitulationController extends Controller
 
     public function getEfficiencyCost ()
     {
+        $bulan = $this->getMonthsArray();
+        $currentMonth = date('n'); // Current month as a number without leading zero
         $currentYear = Carbon::now()->year;
         $years = Procurement::where('status', '1')
             ->pluck(DB::raw('YEAR(receipt) as year'))
             ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
             ->unique();
-        return view ('recapitulation.efficiency.index', compact('currentYear', 'years'));
+        return view ('recapitulation.efficiency.index', compact('currentYear', 'years', 'bulan', 'currentMonth'));
     }
 
-    public function getEfficiencyCostData (Request $request)
+    public function getEfficiencyCostData(Request $request)
     {
+        // Mengambil semua data dari request
         // dd($request->all());
+
+        // Mengambil logo dan mengkonversinya ke base64
         $logoPath = public_path('assets/logo/cmnplogo.png');
         $logoData = file_get_contents($logoPath);
         $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+
+        // Mengambil input tahun, start month dan end month dari request
         $year = $request->input('year');
-        $months = [];
-        $monthsName = [];
-        $procurementData=[];
-        for ($i = 1; $i <= 12; $i++) {
-            $months[] = $i; // Menggunakan angka bulan
-            $monthsName[] = Carbon::create($year, $i)->translatedFormat('F');
+        $start_month = $request->input('start_month');
+        $end_month = $request->input('end_month');
+
+        // Membuat range bulan berdasarkan start month dan end month
+        $months = range($start_month, $end_month);
+
+        // Mendapatkan nama bulan dalam bahasa Indonesia menggunakan fungsi getMonthsName
+        $monthsName = $this->getMonthsName($months);
+
+        $procurementData = [];
+
+        // Iterasi melalui rentang bulan untuk mendapatkan data procurement
+        foreach ($months as $month) {
             // Filter procurement berdasarkan tahun dan bulan
-            $procurementData[$i] = Procurement::whereYear('receipt', $year)
-                                                ->whereMonth('receipt', $i)
-                                                ->where('status', '1')
-                                                ->selectRaw('SUM(user_estimate) as total_user_estimate, SUM(deal_nego) as total_deal_nego')
-                                                ->first();
+            $procurementData[$month] = Procurement::whereYear('receipt', $year)
+                ->whereMonth('receipt', $month)
+                ->where('status', '1')
+                ->selectRaw('SUM(user_estimate) as total_user_estimate, SUM(deal_nego) as total_deal_nego')
+                ->first();
         }
-        $stafName = request()->query('stafName');
-        $stafPosition = request()->query('stafPosition');
-        $managerName = request()->query('managerName');
-        $managerPosition = request()->query('managerPosition');
+
+        // Mengambil data staf dan manager dari query string
+        $stafName = $request->query('stafName');
+        $stafPosition = $request->query('stafPosition');
+        $managerName = $request->query('managerName');
+        $managerPosition = $request->query('managerPosition');
+
+        // Membuat array data untuk view
         $data = [
             'stafName' => $stafName,
             'stafPosition' => $stafPosition,
             'managerName' => $managerName,
             'managerPosition' => $managerPosition,
         ];
-        return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData', 'data'));
+
+        // Mengembalikan view dengan data yang telah di-compact
+        return view('recapitulation.efficiency.data', compact('logoBase64', 'year', 'months', 'monthsName', 'procurementData', 'data', 'start_month', 'end_month'));
     }
 
     public function getEfficiencyCostExcel (Request $request)
