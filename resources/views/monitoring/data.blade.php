@@ -59,9 +59,9 @@
                 <td></td>
             </tr>
             <tr>
-                {{-- <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td> --}}
+                <td style="text-align: center">{{ $stafName }}<br>{{ $stafPosition }}</td>
                 <td></td>
-                {{-- <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td> --}}
+                <td style="text-align: center">{{ $managerName }}<br>{{ $managerPosition }}</td>
             </tr>
         </tbody>
     </table>

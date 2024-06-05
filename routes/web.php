@@ -56,6 +56,7 @@ Route::prefix('offer')->group(function () {
     Route::get('schedule/{tender_id}/show', [ScheduleController::class, 'show'])->name('schedule.show');
     Route::get('schedule/{tender_id}/detail', [ScheduleController::class, 'detail'])->name('schedule.detail');
     Route::get('schedule/{tender_id}/view', [ScheduleController::class, 'view'])->name('schedule.view');
+    Route::get('schedule/{tender_id}/invitation', [ScheduleController::class, 'invitation'])->name('schedule.invitation');
     Route::delete('schedule/{tender_id}/destroy', [ScheduleController::class, 'destroy'])->name('schedule.destroy');
     Route::get('{tender_id}/negotiation', [NegotiationController::class, 'index'])->name('negotiation.index');
     Route::get('{tender_id}/negotiation/create', [NegotiationController::class, 'create'])->name('negotiation.create');

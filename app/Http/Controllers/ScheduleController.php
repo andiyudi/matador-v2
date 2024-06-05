@@ -349,4 +349,10 @@ class ScheduleController extends Controller
             'location', 'tanggal', 'bulan', 'tahun','jumlahVendor', 'terbilangVendor'
         ));
     }
+
+    public function invitation($id)
+    {
+        $tender = Tender::findOrFail($id);
+        return view('offer.schedule.invitation', compact('tender'));
+    }
 }

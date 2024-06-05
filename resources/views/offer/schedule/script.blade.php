@@ -242,3 +242,72 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#printUndangan').on('show.bs.modal', function(event) {
+            var buttonInvitation = $(event.relatedTarget);
+            var tenderData = buttonInvitation.data('tender');
+            var leadInvitationNameSelect = $('#selectLeadInvitationName');
+            leadInvitationNameSelect.empty();
+            $.ajax({
+                url: route("offer.official"),
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $.each(response.data, function(index, official) {
+                        leadInvitationNameSelect.append($('<option>', {
+                            value: official.id,
+                            text: official.name,
+                            selected: official.id == tenderData.procurement.official_id
+                        }));
+                    });
+                    var selectedOfficialName = leadInvitationNameSelect.find('option:selected').text();
+                    $('#leadInvitationName').val(selectedOfficialName);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+            leadInvitationNameSelect.on('change', function() {
+                var leadInvitationName = leadInvitationNameSelect.find('option:selected').text();
+                $('#leadInvitationName').val(leadInvitationName);
+            });
+            $('#printFormUndangan').submit(function (e) {
+            e.preventDefault();
+                var leadInvitationName = $('#leadInvitationName').val();
+                var leadInvitationPosition = $('#leadInvitationPosition').val();
+                var invitationNumber = $('#invitationNumber').val();
+                var invitationDate = $('#invitationDate').val();
+                var meetingDate = $('#meetingDate').val();
+                var meetingTime = $('#meetingTime').val();
+                var meetingLocation = $('#meetingLocation').val();
+                var meetingAgenda = $('#meetingAgenda').val();
+                var zoomId = $('#zoomId').val();
+                var zoomPass = $('#zoomPass').val();
+
+                var buttonInvitation = $(event.relatedTarget);
+                var id = buttonInvitation.data('tender');
+
+                var printUrl = route('schedule.invitation', id) +
+                    '?leadInvitationName=' + encodeURIComponent(leadInvitationName) +
+                    '&leadInvitationPosition=' + encodeURIComponent(leadInvitationPosition) +
+                    '&invitationNumber=' + encodeURIComponent(invitationNumber) +
+                    '&invitationDate=' + encodeURIComponent(invitationDate) +
+                    '&meetingDate=' + encodeURIComponent(meetingDate) +
+                    '&meetingTime=' + encodeURIComponent(meetingTime) +
+                    '&meetingLocation=' + encodeURIComponent(meetingLocation) +
+                    '&meetingAgenda=' + encodeURIComponent(meetingAgenda) +
+                    '&zoomId=' + encodeURIComponent(zoomId) +
+                    '&zoomPass=' + encodeURIComponent(zoomPass);
+
+                window.open(printUrl, '_blank');
+
+                $('#printUndangan').modal('hide');
+
+                $('#printFormUndangan')[0].reset();
+
+                location.reload();
+            });
+        });
+    });
+</script>
