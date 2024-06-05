@@ -9,19 +9,25 @@ $title    = 'Dibatalkan';
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label" for="number">Masukkan No PP</label>
                             <input type="text" class="form-control" name="number" id="number">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label" for="name">Masukkan Nama Pekerjaan</label>
                             <input type="text" class="form-control" name="name" id="name">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label" for="cancellation_memo">Tanggal Memo Pembatalan</label>
+                            <input type="text" class="form-control" id="cancellation_memo" name="cancellation_memo">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label" for="">Nilai Pekerjaan</label>
                             <select class="form-select" id="value_cost" name="value_cost">
@@ -34,19 +40,35 @@ $title    = 'Dibatalkan';
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label" for="return_to_user">Tanggal Pengembalian Ke User</label>
                             <input type="date" class="form-control" id="return_to_user" name="return_to_user">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label class="form-label" for="cancellation_memo">Tanggal Memo Pembatalan</label>
-                            <input type="text" class="form-control" id="cancellation_memo" name="cancellation_memo">
+                            <label for="start_month" class="form-label required">Pilih Bulan Awal</label>
+                            <select class="form-select" name="start_month" id="start_month">
+                                <option value="">Start Month</option>
+                                @foreach ($bulan as $key => $name)
+                                    <option value="{{ $key }}" {{ $key == 1 ? 'selected' : '' }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="end_month" class="form-label required">Pilih Bulan Akhir</label>
+                            <select class="form-select" name="end_month" id="end_month">
+                                <option value="">End Month</option>
+                                @foreach ($bulan as $key => $name)
+                                    <option value="{{ $key }}" {{ $key == $currentMonth ? 'selected' : '' }}>{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="form-label required" for="year">Pilih Periode</label>
                             <div class="input-group">

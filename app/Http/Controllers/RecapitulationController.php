@@ -321,30 +321,42 @@ class RecapitulationController extends Controller
     }
     public function getRequestCancelled ()
     {
+        $bulan = $this->getMonthsArray();
+        $currentMonth = date('n'); // Current month as a number without leading zero
         $currentYear = Carbon::now()->year;
         $years = Procurement::where('status', '2')
             ->pluck(DB::raw('YEAR(receipt) as year'))
             ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
             ->unique();
-        return view ('recapitulation.cancel.index', compact('currentYear', 'years'));
+        return view ('recapitulation.cancel.index', compact('currentYear', 'years', 'bulan', 'currentMonth'));
     }
-    public function getRequestCancelledData (Request $request)
+    public function getRequestCancelledData(Request $request)
     {
-        // dd($request->all());
+        // Mengambil logo dan mengkonversinya ke base64
         $logoPath = public_path('assets/logo/cmnplogo.png');
         $logoData = file_get_contents($logoPath);
         $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
-        //filter data
+
+        // Mengambil input filter dari request
         $year = $request->input('year');
+        $start_month = $request->input('start_month');
+        $end_month = $request->input('end_month');
         $number = $request->input('number');
         $name = $request->input('name');
         $valueCost = $request->input('valueCost');
         $returnToUser = $request->input('returnToUser');
         $cancellationMemo = $request->input('cancellationMemo');
-        //take data
+        $months = range($start_month, $end_month);
+        $monthsName = $this->getMonthsName($months);
+        $startMonthName = $monthsName[$months[0]];
+        $endMonthName = $monthsName[$months[count($months) - 1]];
+        // Query untuk mengambil data procurement dengan filter
         $procurements = Procurement::where('status', '2')
             ->when($year, function ($query) use ($year) {
                 $query->whereYear('receipt', $year);
+            })
+            ->when($start_month && $end_month, function ($query) use ($start_month, $end_month) {
+                $query->whereBetween(\DB::raw('MONTH(receipt)'), [$start_month, $end_month]);
             })
             ->when($number, function ($query) use ($number) {
                 $query->where('number', 'like', '%' . $number . '%');
@@ -368,30 +380,34 @@ class RecapitulationController extends Controller
                 $query->where('cancellation_memo', 'like', '%' . $cancellationMemo . '%');
             })
             ->get();
-            // dd($procurements);
+
+        // Menghitung jumlah procurement per official ID
         $documentsPic = [];
         foreach ($procurements as $procurement) {
-            // Ambil ID resmi dari procurement
             $officialId = $procurement->official->initials;
-            // Jika ID resmi belum ada di array, tambahkan dan inisialisasi jumlah procurement menjadi 1
             if (!isset($documentsPic[$officialId])) {
                 $documentsPic[$officialId] = 1;
             } else {
-                // Jika sudah ada, tambahkan jumlah procurement
                 $documentsPic[$officialId]++;
             }
         }
-        $stafName = request()->query('stafName');
-        $stafPosition = request()->query('stafPosition');
-        $managerName = request()->query('managerName');
-        $managerPosition = request()->query('managerPosition');
+
+        // Mengambil data staf dan manager dari query string
+        $stafName = $request->query('stafName');
+        $stafPosition = $request->query('stafPosition');
+        $managerName = $request->query('managerName');
+        $managerPosition = $request->query('managerPosition');
+
+        // Membuat array data untuk view
         $data = [
             'stafName' => $stafName,
             'stafPosition' => $stafPosition,
             'managerName' => $managerName,
             'managerPosition' => $managerPosition,
         ];
-        return view ('recapitulation.cancel.data', compact ('logoBase64', 'year', 'procurements', 'documentsPic', 'data'));
+
+        // Mengembalikan view dengan data yang telah di-compact
+        return view('recapitulation.cancel.data', compact('logoBase64', 'year', 'procurements', 'documentsPic', 'data', 'startMonthName', 'endMonthName'));
     }
 
     public function getRequestCancelledExcel (Request $request)

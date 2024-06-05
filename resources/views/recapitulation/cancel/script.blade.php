@@ -10,22 +10,61 @@
 
     function isValidInput() {
         var year = $('#year').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
 
         if (!year) {
-            // Menampilkan SweetAlert untuk memberi tahu user bahwa input harus diisi
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed',
-                text: 'Please select a year',
-            });
-            return false;
-        }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select a year',
+                });
+                return false;
+            }
+
+            if (start_month && !end_month) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select an end month if a start month is selected',
+                });
+                return false;
+            }
+
+            if (!start_month && end_month) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select a start month if an end month is selected',
+                });
+                return false;
+            }
+
+            if (!start_month && !end_month) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'Please select start month and end month',
+                });
+                return false;
+            }
+
+            if (start_month && end_month && parseInt(end_month) < parseInt(start_month)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed',
+                    text: 'End month must be greater than or equal to start month',
+                });
+                return false;
+            }
 
         return true;
     }
 
     function updateIframe() {
         var year = $('#year').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         var number = $('#number').val();
         var name = $('#name').val();
         var returnToUser = $('#return_to_user').val();
@@ -33,6 +72,8 @@
         var valueCost = $('#value_cost').val();
 
         var iframeSrc = '{{ route('recap.request-cancelled-data') }}?year=' + year +
+        '&start_month=' + start_month +
+        '&end_month=' + end_month +
         '&number=' + number +
         '&name=' + name +
         '&returnToUser=' + returnToUser +
@@ -86,6 +127,8 @@
         event.preventDefault(); // Mencegah tindakan default dari tautan
         // Mendapatkan nilai start periode dan end periode dari input form
         var year = $('#year').val();
+        var start_month = $('#start_month').val();
+        var end_month = $('#end_month').val();
         var number = $('#number').val();
         var name = $('#name').val();
         var returnToUser = $('#return_to_user').val();
@@ -102,7 +145,7 @@
             return;
         }
         // Membuat tautan ekspor dengan menyertakan nilai-nilai start periode dan end periode
-        var exportUrl = $(this).attr('href') + '?year=' + year + '&returnToUser=' + returnToUser + '&number=' + number + '&name=' + name+ '&cancellationMemo=' + cancellationMemo + '&valueCost=' + valueCost;
+        var exportUrl = $(this).attr('href') + '?year=' + year + '&start_month=' + start_month + '&end_month=' + end_month + '&returnToUser=' + returnToUser + '&number=' + number + '&name=' + name+ '&cancellationMemo=' + cancellationMemo + '&valueCost=' + valueCost;
         // Mengarahkan pengguna ke tautan ekspor dengan nilai-nilai filter
         window.location.href = exportUrl;
     });

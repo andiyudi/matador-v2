@@ -13,6 +13,8 @@ class RequestCancelledExport implements FromView
     {
         //filter data
         $year = Request::input('year');
+        $start_month = Request::input('start_month');
+        $end_month = Request::input('end_month');
         $number = Request::input('number');
         $name = Request::input('name');
         $valueCost = Request::input('valueCost');
@@ -22,6 +24,9 @@ class RequestCancelledExport implements FromView
         $procurements = Procurement::where('status', '2')
             ->when($year, function ($query) use ($year) {
                 $query->whereYear('receipt', $year);
+            })
+            ->when($start_month && $end_month, function ($query) use ($start_month, $end_month) {
+                $query->whereBetween(\DB::raw('MONTH(receipt)'), [$start_month, $end_month]);
             })
             ->when($number, function ($query) use ($number) {
                 $query->where('number', 'like', '%' . $number . '%');

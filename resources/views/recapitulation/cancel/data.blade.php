@@ -18,7 +18,7 @@
     </table>
     <p style="text-align: center; font-size: 14pt">
         REKAPITULASI PP YANG DIBATALKAN<br>
-        PERIODE JANUARI - DESEMBER {{ $year }}
+        PERIODE {{ strtoupper($startMonthName) }} - {{ strtoupper($endMonthName) }} {{ $year }}
     </p>
     @include('recapitulation.cancel.result')
     <br>
