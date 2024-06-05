@@ -136,27 +136,48 @@ class RecapitulationController extends Controller
 
         return Excel::download(new ProcessNegoExport, $fileName);
     }
-
+    private function getMonthsArray()
+    {
+        return [
+            '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni',
+            '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+        ];
+    }
+    private function getMonthsName($months)
+    {
+        $allMonths = $this->getMonthsArray(); // Ensure this function returns an array with month names indexed from '01' to '12'
+        $monthsName = [];
+        foreach ($months as $month) {
+            $monthsName[$month] = $allMonths[sprintf('%02d', $month)];
+        }
+        return $monthsName;
+    }
     public function getComparisonMatrix ()
     {
+        $bulan = $this->getMonthsArray();
+        $currentMonth = date('n'); // Current month as a number without leading zero
         $currentYear = Carbon::now()->year;
         $years = Procurement::where('status', '1')
             ->pluck(DB::raw('YEAR(receipt) as year'))
             ->merge([$currentYear]) // Menambahkan tahun saat ini ke dalam koleksi
             ->unique();
-        return view ('recapitulation.matrix.index', compact('currentYear', 'years'));
+        return view ('recapitulation.matrix.index', compact('currentYear', 'years', 'bulan', 'currentMonth'));
     }
 
     public function getComparisonMatrixData(Request $request)
     {
-        // Ambil tahun dari request
+        // dd($request->all());
         $year = $request->input('year');
-
-        $months = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $months[] = $i; // Menggunakan angka bulan
-            $monthsName[]=Carbon::create($year, $i)->translatedFormat('F');
-        }
+        $start_month = $request->input('start_month');
+        $end_month = $request->input('end_month');
+        $months = range($start_month, $end_month);
+        $monthsName = $this->getMonthsName($months);
+        // dd($monthsName);
+        // $months = [];
+        // for ($i = 1; $i <= 12; $i++) {
+        //     $months[] = $i; // Menggunakan angka bulan
+        //     $monthsName[]=Carbon::create($year, $i)->translatedFormat('F');
+        // }
 
         $logoPath = public_path('assets/logo/cmnplogo.png');
         $logoData = file_get_contents($logoPath);
@@ -217,7 +238,7 @@ class RecapitulationController extends Controller
         $managerName = request()->query('managerName');
         $managerPosition = request()->query('managerPosition');
 
-        return view('recapitulation.matrix.data', compact('year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
+        return view('recapitulation.matrix.data', compact('start_month', 'end_month', 'year', 'logoBase64', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName', 'documentsPic', 'stafName', 'stafPosition', 'managerName', 'managerPosition'));
     }
 
     public function getComparisonMatrixExcel(Request $request)

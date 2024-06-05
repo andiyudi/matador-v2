@@ -39,6 +39,20 @@
         </thead>
         <tbody>
             @php
+                use Carbon\Carbon;
+
+                // Convert start_month and end_month to integer
+                $selectedStartMonth = isset($start_month) ? intval($start_month) : 1;
+                $selectedEndMonth = isset($end_month) ? intval($end_month) : 12;
+
+                // Generate the range of months
+                $monthsRange = range($selectedStartMonth, $selectedEndMonth);
+
+                // Generate month names for the selected range
+                $filteredMonthsName = [];
+                foreach ($monthsRange as $month) {
+                    $filteredMonthsName[$month] = Carbon::create($year, $month)->translatedFormat('F'); // Full month name in Indonesian
+                }
                 $grandTotalFinishDay = $grandTotalOffDay = $grandTotalDifferenceDay = $grandTotalUserEstimate = $grandTotalDealNego = $grandTotalTechniqueEstimate = 0;
             @endphp
             @foreach ($months as $index => $month)
@@ -46,7 +60,7 @@
                     $totalFinishDay = $totalOffDay = $totalDifferenceDay = $totalUserEstimate = $totalDealNego = $totalTechniqueEstimate = 0;
                 @endphp
                 <tr>
-                    <td colspan="27" style="background-color: yellow;"><strong>{{ strtoupper($monthsName[$index]) }}</strong></td>
+                    <td colspan="27" style="background-color: yellow;"><strong>{{ strtoupper($filteredMonthsName[$month] ?? 'Undefined') }}</strong></td>
                 </tr>
                 @if(isset($procurementsByMonth[$month]) && count($procurementsByMonth[$month]) > 0)
                     @foreach ($procurementsByMonth[$month] as $index => $procurement)
@@ -201,7 +215,7 @@
                 @endif
             @endforeach
             <tr style="background-color:whitesmoke; text-align:center; font-weight:bold">
-                <td colspan="7">GRAND TOTAL (JANUARI-DESEMBER)</td>
+                <td colspan="7">GRAND TOTAL ({{ strtoupper($selectedStartMonthName) }} - {{ strtoupper($selectedEndMonthName) }})</td>
                 <td></td>
                 <td></td>
                 <td></td>

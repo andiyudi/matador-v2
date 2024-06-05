@@ -14,18 +14,31 @@ class ComparisonMatrixExport implements FromView
     {
         // Ambil tahun dari request
         $year = Request::input('year');
+        $start_month = Request::input('start_month');
+        $end_month = Request::input('end_month');
+        $months_name = [
+            1 => "Januari",
+            2 => "Februari",
+            3 => "Maret",
+            4 => "April",
+            5 => "Mei",
+            6 => "Juni",
+            7 => "Juli",
+            8 => "Agustus",
+            9 => "September",
+            10 => "Oktober",
+            11 => "November",
+            12 => "Desember"
+        ];
+        $months = range($start_month, $end_month);
+        $selectedStartMonthName = Carbon::create($year, $start_month)->translatedFormat('F');
+        $selectedEndMonthName = Carbon::create($year, $end_month)->translatedFormat('F');
+        // $months = [];
+        // for ($i = 1; $i <= 12; $i++) {
+        //     $months[] = $i; // Menggunakan angka bulan
+        //     $monthsName[]=Carbon::create($year, $i)->translatedFormat('F');
+        // }
 
-        $months = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $months[] = $i; // Menggunakan angka bulan
-            $monthsName[]=Carbon::create($year, $i)->translatedFormat('F');
-        }
-
-        $logoPath = public_path('assets/logo/cmnplogo.png');
-        $logoData = file_get_contents($logoPath);
-        $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
-
-        // Mengumpulkan procurement untuk setiap bulan dalam months
         $procurementsByMonth = [];
         foreach ($months as $month) {
             $procurementsByMonth[$month] = Procurement::with('tenders.businessPartners.partner')
@@ -75,6 +88,6 @@ class ComparisonMatrixExport implements FromView
             }
             $isSelectedArrayByMonth[$month] = $isSelectedArray;
         }
-        return view('recapitulation.matrix.result', compact('year', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'monthsName', 'documentsPic'));
+        return view('recapitulation.matrix.result', compact('year', 'months', 'procurementsByMonth', 'isSelectedArrayByMonth', 'selectedStartMonthName', 'selectedEndMonthName', 'documentsPic'));
     }
 }
