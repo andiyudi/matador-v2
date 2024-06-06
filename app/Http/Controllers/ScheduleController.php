@@ -353,6 +353,33 @@ class ScheduleController extends Controller
     public function invitation($id)
     {
         $tender = Tender::findOrFail($id);
-        return view('offer.schedule.invitation', compact('tender'));
+
+        $invitationNumber = request()->query('invitationNumber');
+        $invitationDate = request()->query('invitationDate');
+        $meetingDate = request()->query('meetingDate');
+        $meetingTime = request()->query('meetingTime');
+        $meetingLocation = request()->query('meetingLocation');
+        $zoomId = request()->query('zoomId');
+        $zoomPass = request()->query('zoomPass');
+        $leadInvitationName = request()->query('leadInvitationName');
+        $leadInvitationPosition = request()->query('leadInvitationPosition');
+
+        $invitationDateCarbon = Carbon::parse($invitationDate);
+        $day = $invitationDateCarbon->format('d');
+        $month = $invitationDateCarbon->getTranslatedMonthName();
+        $year = $invitationDateCarbon->format('Y');
+
+        $formattedDate = $day . " " . $month . " " . $year;
+
+        $carbonMeetingDate = Carbon::parse($meetingDate);
+        $hari = $carbonMeetingDate->translatedFormat('l');
+        $tanggal = $carbonMeetingDate->format('d');
+        $bulan = $carbonMeetingDate->getTranslatedMonthName();
+        $tahun = $carbonMeetingDate->format('Y');
+
+        $meetDate = $hari . ", " . $tanggal . " " . $bulan . " " . $tahun;
+
+
+        return view('offer.schedule.invitation', compact('tender', 'invitationNumber', 'formattedDate', 'meetDate', 'meetingTime', 'meetingLocation', 'zoomId', 'zoomPass', 'leadInvitationName', 'leadInvitationPosition'));
     }
 }

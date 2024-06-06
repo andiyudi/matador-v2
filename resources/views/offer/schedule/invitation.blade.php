@@ -7,99 +7,157 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
+            font-size: 12pt; /* Ukuran huruf 12px */
+            margin: 0;
+            padding: 0;
+        }
+        .page-content {
+            padding: 4cm 2cm 0cm 3cm;
+            box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
+            height: 100%;
         }
         .header {
             display: flex;
             justify-content: space-between;
         }
+        .header div p {
+            margin: 0; /* Menghilangkan margin dari elemen <p> dalam .header */
+            padding: 0; /* Menghilangkan padding dari elemen <p> dalam .header */
+        }
         .content {
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .content .section {
-            margin-bottom: 20px;
+            margin-bottom: 5px;
+            text-align: justify; /* Menambahkan rata kiri dan kanan pada teks */
         }
         .content .no-spacing p {
             margin: 0;
         }
         .perihal {
-            display: flex;
-            align-items: baseline;
+            display: table;
+            width: 100%;
+            margin-bottom: 5px; /* Jarak bawah */
         }
-        .perihal p:first-child {
+        .perihal p {
+            display: table-cell;
+            padding: 0;
+            margin: 0;
+        }
+        .perihal .label {
             white-space: nowrap;
+            width: 1%; /* Menyesuaikan lebar agar sesuai konten */
+            padding-right: 10px; /* Jarak proporsional antara label dan deskripsi */
         }
         .indented {
             margin-left: 30px;
         }
+        .aligned {
+            margin-top: 5px;
+            margin-left: 1.5cm; /* Menjorok ke dalam sebanyak 1.5 cm */
+            width: 90%;
+            display: table;
+        }
         .aligned p {
             margin: 0;
+            display: table-row;
         }
-        .aligned span:first-child {
-            display: inline-block;
-            width: 100px; /* Adjust width as needed */
+        .aligned span {
+            display: table-cell;
+            padding-right: 10px;
+        }
+        .aligned .label {
+            width: 1%; /* Menyesuaikan lebar agar sesuai konten */
         }
         .signature {
-            margin-top: 40px;
+            margin-top: 5px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .no-margin {
+            margin: 0; /* Menghilangkan margin pada elemen <p> */
+        }
+        .page-break {
+            page-break-before: always; /* Menambahkan halaman baru sebelum elemen ini */
         }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <div>
-            <p>Nomor : /Und-PPKH-CMNP/V/2024</p>
-            <p>Lamp : -</p>
+@foreach ($tender->businessPartners as $businessPartner)
+    <div class="page-content page-break">
+        <div class="header">
+            <div>
+                <p>Nomor : &ensp;{{ $invitationNumber }}</p>
+                <p>Lamp : -</p>
+            </div>
+            <div>
+                <p>Jakarta, {{ $formattedDate }}</p>
+            </div>
         </div>
-        <div>
-            <p>Jakarta, 30 Mei 2024</p>
+
+        <div class="content">
+            <div class="section no-spacing">
+                <p>Kepada Yth.</p>
+                <p class="bold">Direksi</p>
+                <p class="bold">{{ $businessPartner->partner->name }}</p>
+                <p>di Tempat</p>
+            </div>
+
+            <div class="section">
+                <p class="bold">Up. Bapak / Ibu {{ ucwords(strtolower($businessPartner->partner->director)) }}</p>
+            </div>
+
+            <div class="section perihal">
+                <p class="label bold">Perihal : </p>
+                <p class="bold">Undangan Rapat Penjelasan Teknis (Aanwijzing) @if ($tender->schedule_type == '1')
+                    dan Klarifikasi serta Negosiasi Kewajaran Harga
+                @endif {{ ucwords(strtolower($tender->procurement->name)) }}</p>
+            </div>
+
+            <div class="section">
+                <p>Dengan Hormat,</p>
+                <p>Dengan ini disampaikan bahwa PT Citra Marga Nusaphala Persada Tbk (“CMNP”) akan mengadakan {{ ucwords(strtolower($tender->procurement->name)) }}. Sehubungan dengan hal tersebut kami Panitia Pengadaan dan Kewajaran Harga (PPKH) mengundang perusahaan Saudara dalam rapat Penjelasan Teknis (Aanwijzing) @if ($tender->schedule_type == '1')
+                    dan Klarifikasi serta Negosiasi Kewajaran Harga
+                @endif yang akan diselenggarakan pada :</p>
+            </div>
+
+            <div class="section aligned">
+                <p>
+                    <span class="label">Hari/Tgl</span><span>:</span><span>{{ $meetDate }}</span>
+                </p>
+                <p>
+                    <span class="label">Waktu</span><span>:</span><span>{{ $meetingTime }}</span>
+                </p>
+                <p>
+                    <span class="label">Tempat</span><span>:</span><span>Ruang Rapat {{ $meetingLocation }} LT.2 Kantor PT. CMNP Tbk<br>
+                    Jalan Yos Sudarso Kav.28 Jakarta 14350</span>
+                </p>
+                <p>
+                    <span class="label">Agenda</span><span>:</span><span>Rapat Penjelasan Teknis (Aanwijzing) @if ($tender->schedule_type == '1')
+                        dan Klarifikasi serta Negosiasi Kewajaran Harga
+                    @endif</span>
+                </p>
+            </div>
+
+            <div class="section">
+                <p>Adapun anggota pendukung lainnya bisa turut hadir secara <span class="bold">Daring Melalui Aplikasi Zoom Meeting</span> dengan Zoom ID : <span class="bold">{{ $zoomId }}</span> dan Passcode : <span class="bold">{{ $zoomPass }}</span>.</p>
+                <p>Demikian undangan ini kami sampaikan atas perhatian dan partisipasinya diucapkan terima kasih.</p>
+            </div>
+
+            <div class="signature">
+                <p>Hormat kami,</p>
+                <br>
+                <br>
+                <br>
+                <p class="bold underline no-margin">{{ ucwords(strtolower($leadInvitationName)) }}</p>
+                <p class="no-margin">{{ ucwords(strtolower($leadInvitationPosition)) }} PPKH</p>
+            </div>
         </div>
     </div>
-
-    <div class="content">
-        <div class="section no-spacing">
-            <p>Kepada Yth.</p>
-            <p>Direksi</p>
-            <p>PT. Meyra Prakarsa Mandiri</p>
-            <p>di Tempat</p>
-        </div>
-
-        <div class="section">
-            <p>Up. Bapak Chandra</p>
-        </div>
-
-        <div class="section perihal">
-            <p>Perihal :</p>
-            <p>Undangan Rapat Penjelasan Teknis (Aanwijzing) dan Klarifikasi serta Negosiasi Kewajaran Harga Pekerjaan Pengadaan Peralatan Patroli</p>
-        </div>
-
-        <div class="section">
-            <p>Dengan Hormat,</p>
-            <p>Dengan ini disampaikan bahwa PT Citra Marga Nusaphala Persada Tbk (“CMNP”) akan mengadakan Pekerjaan Pengadaan Peralatan Patroli. Sehubungan dengan hal tersebut kami Panitia Pengadaan dan Kewajaran Harga (PPKH) mengundang perusahaan Saudara dalam rapat Penjelasan Teknis (Aanwijzing) dan Klarifikasi serta Negosiasi Kewajaran Harga yang akan diselenggarakan pada:</p>
-        </div>
-
-        <div class="section aligned">
-            <p><span>Hari/Tgl :</span> Kamis 06 Juni 2024</p>
-            <p><span>Waktu :</span> 09:30 WIB s/d selesai</p>
-            <p><span>Tempat :</span> Ruang Rapat Nusaphala 04 LT.2 Kantor PT. CMNP Tbk<br>
-            Jalan Yos Sudarso Kav.28 Jakarta 14350</p>
-            <p><span>Agenda :</span> Rapat Penjelasan Teknis (Aanwijzing) dan Klarifikasi serta Negosiasi Kewajaran Harga</p>
-        </div>
-
-        <div class="section">
-            <p>Adapun anggota pendukung lainnya bisa turut hadir secara Daring Melalui Aplikasi Zoom Meeting dengan Zoom ID: 582 973 5145 dan Passcode: Pengadaan 1.</p>
-            <p>Demikian undangan ini kami sampaikan atas perhatian dan partisipasinya diucapkan terima kasih.</p>
-        </div>
-
-        <div class="signature">
-            <p>Hormat kami,</p>
-            <br>
-            <br>
-            <p>Rangga Nopara</p>
-            <p>Tim PPKH</p>
-        </div>
-    </div>
-
+@endforeach
 </body>
 </html>

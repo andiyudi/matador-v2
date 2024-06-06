@@ -281,7 +281,6 @@
                 var meetingDate = $('#meetingDate').val();
                 var meetingTime = $('#meetingTime').val();
                 var meetingLocation = $('#meetingLocation').val();
-                var meetingAgenda = $('#meetingAgenda').val();
                 var zoomId = $('#zoomId').val();
                 var zoomPass = $('#zoomPass').val();
 
@@ -296,7 +295,6 @@
                     '&meetingDate=' + encodeURIComponent(meetingDate) +
                     '&meetingTime=' + encodeURIComponent(meetingTime) +
                     '&meetingLocation=' + encodeURIComponent(meetingLocation) +
-                    '&meetingAgenda=' + encodeURIComponent(meetingAgenda) +
                     '&zoomId=' + encodeURIComponent(zoomId) +
                     '&zoomPass=' + encodeURIComponent(zoomPass);
 
@@ -308,6 +306,19 @@
 
                 location.reload();
             });
+        });
+        const zoomIdSelect = document.getElementById('zoomId');
+        const zoomPassInput = document.getElementById('zoomPass');
+
+        zoomIdSelect.addEventListener('change', function () {
+            const selectedZoomId = this.value;
+            if (selectedZoomId === '582 973 5145') {
+                zoomPassInput.value = 'Pengadaan 1';
+            } else if (selectedZoomId === '582 973 5144') {
+                zoomPassInput.value = 'Pengadaan 2';
+            } else {
+                zoomPassInput.value = ''; // Clear the passcode if no valid Zoom ID is selected
+            }
         });
     });
 </script>

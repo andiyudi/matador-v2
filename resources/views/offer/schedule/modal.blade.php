@@ -217,15 +217,25 @@
                             <label for="invitationNumber" class="form-label">Number</label>
                             <input type="text" id="invitationNumber" name="invitationNumber" class="form-control" data-mask="****/Und-PPKH-CMNP/****/****" data-mask-visible="true" placeholder="****/Und-PPKH-CMNP/****/****" autocomplete="off">
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col mb-3">
                             <label for="invitationDate" class="form-label">Invitation Date</label>
                             <input type="date" class="form-control" id="invitationDate" name="invitationDate" placeholder="Enter invitation date" required>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col mb-3">
                             <label for="meetingDate" class="form-label">Meeting Date</label>
                             <input type="date" class="form-control" id="meetingDate" name="meetingDate" placeholder="Enter meeting date" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="meetingLocation" class="form-label">Meeting Location</label>
+                            <select name="meetingLocation" id="meetingLocation" class="form-select" required>
+                                <option disabled selected>Pilih Ruang Rapat</option>
+                                <option value="Nusaphala 03">Nusaphala 03</option>
+                                <option value="Nusaphala 04">Nusaphala 04</option>
+                            </select>
                         </div>
                         <div class="col mb-3">
                             <label for="meetingTime" class="form-label">Meeting Time</label>
@@ -234,18 +244,12 @@
                     </div>
                     <div class="row">
                         <div class="col mb-3">
-                            <label for="meetingLocation" class="form-label">Meeting Location</label>
-                            <textarea name="meetingLocation" id="meetingLocation" class="form-control" cols="30" rows="3" required></textarea>
-                        </div>
-                        <div class="col mb-3">
-                            <label for="meetingAgenda" class="form-label">Meeting Agenda</label>
-                            <textarea name="meetingAgenda" id="meetingAgenda" class="form-control" cols="30" rows="3" required></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col mb-3">
                             <label for="zoomId" class="form-label">Zoom ID</label>
-                            <input type="text" class="form-control" name="zoomId" id="zoomId" required>
+                            <select name="zoomId" id="zoomId" class="form-select" required>
+                                <option disabled selected>Pilih Zoom ID</option>
+                                <option value="582 973 5145">582 973 5145</option>
+                                <option value="582 973 5144">582 973 5144</option>
+                            </select>
                         </div>
                         <div class="col mb-3">
                             <label for="zoomPass" class="form-label">Zoom Passcode</label>
@@ -277,3 +281,4 @@
         </div>
     </div>
 </div>
+
