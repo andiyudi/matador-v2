@@ -142,7 +142,48 @@ class NegotiationController extends Controller
      */
     public function show($id)
     {
-        dd($id);
+        $tender = Tender::findOrFail($id);
+        $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
+
+        // Mengambil nilai nego_price terendah untuk tender ini
+        $minNegoPrice = Negotiation::where('tender_id', $tender->id)
+            ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
+            ->min('nego_price');
+
+        // Mendapatkan business partner yang memiliki nego_price terendah
+        $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
+            ->where('nego_price', $minNegoPrice)
+            ->get();
+
+        $businessPartnersNames = [];
+        foreach ($businessPartnersWithMinNegoPrice as $negotiation) {
+            $businessPartner = BusinessPartner::find($negotiation->business_partner_id);
+            if ($businessPartner) {
+                $businessPartnersNames[] = $businessPartner->partner->name;
+            }
+        }
+
+        $multipleBusinessPartners = count($businessPartnersNames) > 1; // Check if more than one business partner
+
+        // Mendapatkan daftar business partners dengan urutan tertentu
+        $businessPartners = $tender->businessPartners->sortBy(function($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '>', 0)->min('nego_price');
+        });
+
+        // Memisahkan business partners dengan nego_price 0
+        $businessPartnersWithZeroPrice = $businessPartners->filter(function ($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+        });
+
+        // Menghapus business partners dengan nego_price 0 dari daftar utama
+        $businessPartners = $businessPartners->reject(function ($businessPartner) {
+            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+        });
+
+        // Menggabungkan kembali business partners dengan nego_price 0 di akhir daftar
+        $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice);
+
+        return view('offer.negotiation.show', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners', 'businessPartners'));
     }
 
     /**

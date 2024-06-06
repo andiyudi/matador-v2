@@ -65,7 +65,7 @@ $title    = 'Negotiation '. $tender->procurement->number;
 <a href="{{ route('negotiation.create', $tender->id) }}" class="btn btn-primary mb-3">Add Negotiation Data</a>
 @else
 @if(!$multipleBusinessPartners)
-<a href="{{ route('negotiation.show', $tender->id) }}" class="btn btn-info mb-3">Print</a>
+<a href="{{ route('negotiation.show', $tender->id) }}" class="btn btn-info mb-3" target="_blank">Print</a>
 @endif
 <a href="{{ route('negotiation.edit', $tender->id) }}" class="btn btn-warning mb-3">Edit</a>
 <form action="{{ route('negotiation.destroy', $tender->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this data?')">
