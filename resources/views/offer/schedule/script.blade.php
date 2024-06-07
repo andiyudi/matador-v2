@@ -314,8 +314,8 @@
             const selectedZoomId = this.value;
             if (selectedZoomId === '582 973 5145') {
                 zoomPassInput.value = 'Pengadaan 1';
-            } else if (selectedZoomId === '582 973 5144') {
-                zoomPassInput.value = 'Pengadaan 2';
+            } else if (selectedZoomId === '473 477 1443') {
+                zoomPassInput.value = 'CMNP';
             } else {
                 zoomPassInput.value = ''; // Clear the passcode if no valid Zoom ID is selected
             }

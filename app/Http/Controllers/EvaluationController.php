@@ -56,11 +56,11 @@ class EvaluationController extends Controller
             return 'Ada Kesalahan, Data Tidak Ditemukan'; // Jika tidak ada businessPartner dengan is_selected '1'
         })
         ->addColumn('action', function ($procurement) {
-            $url = route('evaluation.show', ['evaluation' => $procurement->id]);
-            return '<a href="' . $url . '" class="btn btn-sm btn-info">Evaluation</a>';
+            $route = 'evaluation';
+            return view('procurement.evaluation.action', compact('route', 'procurement'));
         })
         ->addIndexColumn()
-        ->rawColumns(['vendors', 'action'])
+        ->rawColumns(['vendors'])
         ->make(true);
         }
         return view('procurement.evaluation.index');
@@ -257,5 +257,11 @@ class EvaluationController extends Controller
             Alert::error($th->getMessage());
             return to_route ('evaluation.show', $id);
         }
+    }
+
+    public function print($id)
+    {
+        dd($id);
+
     }
 }

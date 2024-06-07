@@ -80,6 +80,7 @@ Route::prefix('procurements')->group(function () {
     Route::delete('administration/{file_id}/destroy', [AdministrationController::class, 'destroy'])->name('administration.destroy');
     Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
     Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
+    Route::get('evaluation/{procurement_id}/print', [EvaluationController::class, 'print'])->name('evaluation.print');
 });
 
 Route::prefix('partner')->group(function () {

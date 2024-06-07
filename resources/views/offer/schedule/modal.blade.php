@@ -233,8 +233,10 @@
                             <label for="meetingLocation" class="form-label">Meeting Location</label>
                             <select name="meetingLocation" id="meetingLocation" class="form-select" required>
                                 <option disabled selected>Pilih Ruang Rapat</option>
-                                <option value="Nusaphala 03">Nusaphala 03</option>
-                                <option value="Nusaphala 04">Nusaphala 04</option>
+                                <option value="Nusaphala 1">Nusaphala 1</option>
+                                <option value="Nusaphala 3">Nusaphala 3</option>
+                                <option value="Nusaphala 4">Nusaphala 4</option>
+                                <option value="Nusaphala 8">Nusaphala 8</option>
                             </select>
                         </div>
                         <div class="col mb-3">
@@ -248,7 +250,7 @@
                             <select name="zoomId" id="zoomId" class="form-select" required>
                                 <option disabled selected>Pilih Zoom ID</option>
                                 <option value="582 973 5145">582 973 5145</option>
-                                <option value="582 973 5144">582 973 5144</option>
+                                <option value="473 477 1443">473 477 1443</option>
                             </select>
                         </div>
                         <div class="col mb-3">

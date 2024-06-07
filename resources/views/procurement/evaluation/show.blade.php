@@ -56,7 +56,6 @@ $title    = 'Procurement';
                                         <th>Director</th>
                                         <th>Phone</th>
                                         <th>Email</th>
-                                        <th>Print</th>
                                         <th>Pick Vendor</th>
                                     </tr>
                                 </thead>
@@ -79,9 +78,6 @@ $title    = 'Procurement';
                                             <td>{{ $businessPartner->partner->director }}</td>
                                             <td>{{ $businessPartner->partner->phone }}</td>
                                             <td>{{ $businessPartner->partner->email }}</td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-info" target="_blank">Print</a>
-                                            </td>
                                             <td align="center">
                                                 <input type="checkbox" name="pick_vendor" id="pick_vendor_{{ $businessPartner->partner->id }}" value="{{ $tender->id }}_{{ $businessPartner->partner->id }}" class="form-check-input"
                                                 @if ($businessPartner->pivot->is_selected == '1')
