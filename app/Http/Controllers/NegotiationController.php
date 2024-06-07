@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Tender;
 use App\Models\Negotiation;
 use Illuminate\Http\Request;
@@ -143,47 +144,54 @@ class NegotiationController extends Controller
     public function show($id)
     {
         $tender = Tender::findOrFail($id);
-        $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
 
-        // Mengambil nilai nego_price terendah untuk tender ini
-        $minNegoPrice = Negotiation::where('tender_id', $tender->id)
-            ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
-            ->min('nego_price');
+        $leadName = request()->query('leadName');
+        $leadPosition = request()->query('leadPosition');
+        $date = request()->query('date');
+        $negoDate = Carbon::parse($date);
+        $day = $negoDate->format('d');
+        $month = $negoDate->getTranslatedMonthName();
+        $year = $negoDate->format('Y');
+        $formattedDate = $day . " " . $month . " " . $year;
 
-        // Mendapatkan business partner yang memiliki nego_price terendah
-        $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
-            ->where('nego_price', $minNegoPrice)
-            ->get();
+        $businessPartners = $tender->businessPartners;
 
-        $businessPartnersNames = [];
-        foreach ($businessPartnersWithMinNegoPrice as $negotiation) {
-            $businessPartner = BusinessPartner::find($negotiation->business_partner_id);
-            if ($businessPartner) {
-                $businessPartnersNames[] = $businessPartner->partner->name;
-            }
+        foreach ($businessPartners as $businessPartner) {
+            // Set nilai nego_price pada setiap BusinessPartner
+            $businessPartner->nego_price = Negotiation::where('tender_id', $tender->id)
+                                                        ->where('business_partner_id', $businessPartner->id)
+                                                        ->min('nego_price');
         }
 
-        $multipleBusinessPartners = count($businessPartnersNames) > 1; // Check if more than one business partner
+        // Urutkan $businessPartners berdasarkan nilai nego_price terendah
+        $businessPartners = $businessPartners->sortBy('nego_price');
 
-        // Mendapatkan daftar business partners dengan urutan tertentu
-        $businessPartners = $tender->businessPartners->sortBy(function($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '>', 0)->min('nego_price');
-        });
-
-        // Memisahkan business partners dengan nego_price 0
+        // Filter dan kelompokkan $businessPartners berdasarkan nilai nego_price
         $businessPartnersWithZeroPrice = $businessPartners->filter(function ($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+            return $businessPartner->nego_price == 0;
         });
 
-        // Menghapus business partners dengan nego_price 0 dari daftar utama
         $businessPartners = $businessPartners->reject(function ($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
+            return $businessPartner->nego_price == 0;
         });
 
-        // Menggabungkan kembali business partners dengan nego_price 0 di akhir daftar
-        $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice);
+        // Gabungkan dan atur ulang indeks
+        $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice)->values();
 
-        return view('offer.negotiation.show', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners', 'businessPartners'));
+        // Mendapatkan nilai nego_price terkecil yang bukan 0
+        $minNegoPrice = $businessPartners->where('nego_price', '>', 0)->min('nego_price');
+
+        // Mendapatkan nama business partner yang memiliki nilai nego_price terkecil yang bukan 0
+        $businessPartnerWithMinNegoPrice = $businessPartners->first(function ($businessPartner) use ($minNegoPrice) {
+            return $businessPartner->nego_price == $minNegoPrice;
+        })->partner->name;
+
+        // Konversi kembali ke koleksi objek model
+        $businessPartnersCollection = collect($businessPartners);
+
+        // dd($businessPartners, $minNegoPrice, $businessPartnerWithMinNegoPrice);
+
+        return view('offer.negotiation.show', compact('tender', 'leadName', 'leadPosition', 'formattedDate', 'businessPartners', 'minNegoPrice', 'businessPartnerWithMinNegoPrice'));
     }
 
     /**

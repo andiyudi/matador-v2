@@ -1,10 +1,10 @@
 <style>
     /* styles.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
     line-height: 1;
     margin: 0;
-    font-size: 10pt;
+    font-size: 11pt;
     text-align: justify;
 }
 
@@ -27,7 +27,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #000000;
 }
 
 th, td {
