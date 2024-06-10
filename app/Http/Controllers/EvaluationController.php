@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\TenderFile;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
@@ -261,7 +262,27 @@ class EvaluationController extends Controller
 
     public function print($id)
     {
-        dd($id);
+        $procurement = Procurement::with('tenders.businessPartners.partner')->find($id);
+        $leadDeterminationName = request()->query('leadDeterminationName');
+        $leadDeterminationPosition = request()->query('leadDeterminationPosition');
+        $determinationNumber = request()->query('determinationNumber');
+        $determinationDate = request()->query('determinationDate');
 
+        $determinationDateCarbon = Carbon::parse($determinationDate);
+        $day = $determinationDateCarbon->format('d');
+        $month = $determinationDateCarbon->getTranslatedMonthName();
+        $year = $determinationDateCarbon->format('Y');
+
+        $formattedDate = $day . " " . $month . " " . $year;
+
+        // foreach ($procurement->tenders as $tender) {
+        //     foreach ($tender->businessPartners as $businessPartner) {
+        //         if ($businessPartner->pivot->is_selected == '1') {
+        //             $winner = $businessPartner;
+        //         } else {
+        //             $loser = $businessPartner;
+        //         }
+        //     }
+        return view('procurement.evaluation.print', compact('procurement', 'leadDeterminationName', 'leadDeterminationPosition', 'determinationNumber', 'formattedDate'));
     }
 }
