@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\TenderFile;
+use App\Models\Negotiation;
 use App\Models\Procurement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -275,14 +276,19 @@ class EvaluationController extends Controller
 
         $formattedDate = $day . " " . $month . " " . $year;
 
-        // foreach ($procurement->tenders as $tender) {
-        //     foreach ($tender->businessPartners as $businessPartner) {
-        //         if ($businessPartner->pivot->is_selected == '1') {
-        //             $winner = $businessPartner;
-        //         } else {
-        //             $loser = $businessPartner;
-        //         }
-        //     }
+        foreach ($procurement->tenders as $tender) {
+            foreach ($tender->businessPartners as $businessPartner) {
+                if ($businessPartner->pivot->is_selected == '1') {
+                    $businessPartner->nego_price = Negotiation::where('tender_id', $tender->id)
+                                                        ->where('business_partner_id', $businessPartner->id)
+                                                        ->min('nego_price');
+                } else {
+                    $businessPartner->nego_price = Negotiation::where('tender_id', $tender->id)
+                                                        ->where('business_partner_id', $businessPartner->id)
+                                                        ->min('nego_price');
+                }
+            }
+        }
         return view('procurement.evaluation.print', compact('procurement', 'leadDeterminationName', 'leadDeterminationPosition', 'determinationNumber', 'formattedDate'));
     }
 }

@@ -139,7 +139,7 @@
                         <span class="label">NPWP</span><span>:</span><span>{{ $businessPartner->partner->npwp }}</span>
                     </p>
                     <p>
-                        <span class="label">Harga Penawaran Setelah Negosiasi</span><span>:</span><span>Rp. {{ number_format($businessPartner->nego_price, 0, ',', '.') }}</span>
+                        <span class="label">Harga Penawaran Setelah Negosiasi</span><span>:</span><span>Rp. {{ number_format($businessPartner->nego_price, 0, ',', '.') }},- (incl. PPN)</span>
                     </p>
                 </div>
                 <div class="section">
