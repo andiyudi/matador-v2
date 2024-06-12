@@ -367,4 +367,32 @@ class AdministrationController extends Controller
             return redirect()->back(); // Cetak pesan kesalahan untuk mendiagnosis
         }
     }
+
+    public function done($id)
+    {
+        try {
+            $procurement = Procurement::find($id);
+            $procurement->is_done = 1;
+            $procurement->save();
+            Alert::success('Success', 'Procurement data has been done.');
+            return to_route ('administration.index');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function back($id)
+    {
+        try {
+            $procurement = Procurement::find($id);
+            $procurement->is_done = 0;
+            $procurement->save();
+            Alert::success('Success', 'Procurement data has been rollback.');
+            return to_route ('administration.index');
+        } catch (\Throwable $th) {
+            Alert::error('Error', $th->getMessage());
+            return redirect()->back();
+        }
+    }
 }
