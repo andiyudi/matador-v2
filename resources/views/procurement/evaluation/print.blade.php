@@ -10,29 +10,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            font-size: 14pt; /* Ukuran huruf 12px */
+            font-size: 12pt; /* Ukuran huruf 12px */
             margin: 0;
             padding: 0;
         }
         .page-content {
-            padding: 6cm 2cm 0cm 3cm;
+            padding: 4cm 2cm 0cm 3cm;
             box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
             height: 100%;
         }
         .header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
         }
         .header div p {
             margin: 0; /* Menghilangkan margin dari elemen <p> dalam .header */
             padding: 0; /* Menghilangkan padding dari elemen <p> dalam .header */
         }
         .content {
-            margin-top: 40px;
+            margin-top: 10px;
         }
         .content .section {
-            margin-bottom: 40px;
+            margin-bottom: 5px;
             text-align: justify; /* Menambahkan rata kiri dan kanan pada teks */
         }
         .content .no-spacing p {
@@ -53,13 +52,16 @@
             width: 1%; /* Menyesuaikan lebar agar sesuai konten */
             padding-right: 10px; /* Jarak proporsional antara label dan deskripsi */
         }
+        .regards {
+            margin-top: 40px;
+        }
         .indented {
             margin-left: 30px;
         }
         .aligned {
             margin-top: 5px;
-            margin-left: 1.5cm; /* Menjorok ke dalam sebanyak 1.5 cm */
-            width: 90%;
+            margin-left: 0.3cm; /* Menjorok ke dalam sebanyak 0.3 cm */
+            width: 100%;
             display: table;
         }
         .aligned p {
@@ -71,7 +73,7 @@
             padding-right: 10px;
         }
         .aligned .label {
-            width: 35%; /* Menyesuaikan lebar agar sesuai konten */
+            width: 28%; /* Menyesuaikan lebar agar sesuai konten */
         }
         .signature {
             margin-top: 5px;
@@ -112,7 +114,8 @@
             </div>
 
             <div class="section">
-                <p class="bold">Up. Bapak / Ibu {{ ucwords(strtolower($businessPartner->partner->director)) }}</p>
+                <p class="bold">Up. Bapak / Ibu :<br>
+                    &emsp;&ensp;&nbsp;{{ ucwords(strtolower($businessPartner->partner->director)) }}</p>
             </div>
 
             <div class="section perihal">
@@ -124,7 +127,7 @@
                     {{ ucwords(strtolower($procurement->name)) }}</p>
             </div>
 
-            <div class="section">
+            <div class="section regards">
                 <p>Dengan Hormat,</p>
                 @if($businessPartner->pivot->is_selected == '1')
                 <p>Sehubungan dengan pelaksanaan tender {{ ucwords(strtolower($procurement->name)) }}, dengan ini kami menetapkan Pemenang pekerjaan dimaksud sebagai berikut :</p>

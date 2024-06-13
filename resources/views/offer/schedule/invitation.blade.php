@@ -49,13 +49,16 @@
             width: 1%; /* Menyesuaikan lebar agar sesuai konten */
             padding-right: 10px; /* Jarak proporsional antara label dan deskripsi */
         }
+        .regards {
+            margin-top: 40px;
+        }
         .indented {
             margin-left: 30px;
         }
         .aligned {
             margin-top: 5px;
-            margin-left: 1.5cm; /* Menjorok ke dalam sebanyak 1.5 cm */
-            width: 90%;
+            margin-left: 0.3cm; /* Menjorok ke dalam sebanyak 0.3 cm */
+            width: 100%;
             display: table;
         }
         .aligned p {
@@ -108,7 +111,8 @@
             </div>
 
             <div class="section">
-                <p class="bold">Up. Bapak / Ibu {{ ucwords(strtolower($businessPartner->partner->director)) }}</p>
+                <p class="bold">Up. Bapak / Ibu :<br>
+                    &emsp;&ensp;&nbsp;{{ ucwords(strtolower($businessPartner->partner->director)) }}</p>
             </div>
 
             <div class="section perihal">
@@ -118,7 +122,7 @@
                 @endif {{ ucwords(strtolower($tender->procurement->name)) }}</p>
             </div>
 
-            <div class="section">
+            <div class="section regards">
                 <p>Dengan Hormat,</p>
                 <p>Dengan ini disampaikan bahwa PT Citra Marga Nusaphala Persada Tbk (“CMNP”) akan mengadakan {{ ucwords(strtolower($tender->procurement->name)) }}. Sehubungan dengan hal tersebut kami Panitia Pengadaan dan Kewajaran Harga (PPKH) mengundang perusahaan Saudara dalam rapat Penjelasan Teknis (Aanwijzing) @if ($tender->schedule_type == '1')
                     dan Klarifikasi serta Negosiasi Kewajaran Harga
