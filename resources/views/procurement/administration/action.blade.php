@@ -8,5 +8,6 @@
     @endif
     @else
     <a href="{{ route($route.'.back', ($procurement->id)) }}" class="btn btn-sm btn-outline-orange">Rollback</a>
+    <a href="{{ route($route.'.view', ($procurement->id)) }}" class="btn btn-sm btn-outline-cyan">View</a>
     @endif
 </div>

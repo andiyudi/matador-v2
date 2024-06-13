@@ -20,18 +20,6 @@ $title    = 'Documentation '. $procurement->number;
                                     <option value="{{ $definitionFileProcurement->id }}">{{ $definitionFileProcurement->name }}</option>
                                 @endforeach
                             </select>
-                            {{-- <select class="form-control @error('type') is-invalid @enderror" id="type" name="type">
-                                <option value="">Select Type File</option>
-                                <option value="0">User Document</option>
-                                <option value="1">Procurement Document</option>
-                                <option value="2">Tender Document</option>
-                                <option value="3">Decision Document</option>
-                                <option value="4">Contract Document</option>
-                                <option value="5">Other Document</option>
-                            </select>
-                            @error('type')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror --}}
                         </div>
                     </div>
                     <div class="row mb-3">

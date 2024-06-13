@@ -78,6 +78,7 @@ Route::prefix('procurements')->group(function () {
     Route::get('administration/{procurement_id}/change', [AdministrationController::class, 'change'])->name('administration.change');
     Route::get('administration/{procurement_id}/done', [AdministrationController::class, 'done'])->name('administration.done');
     Route::get('administration/{procurement_id}/back', [AdministrationController::class, 'back'])->name('administration.back');
+    Route::get('administration/{procurement_id}/view', [AdministrationController::class, 'view'])->name('administration.view');
     Route::put('administration/{procurement_id}/save', [AdministrationController::class, 'save'])->name('administration.save');
     Route::delete('administration/{file_id}/destroy', [AdministrationController::class, 'destroy'])->name('administration.destroy');
     Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');

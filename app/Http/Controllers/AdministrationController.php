@@ -395,4 +395,34 @@ class AdministrationController extends Controller
             return redirect()->back();
         }
     }
+
+    public function view($id)
+    {
+        $procurement = Procurement::findOrFail($id);
+        $procurementStatus = $procurement->status;
+        $tendersCount = $procurement->tendersCount();
+        $tenderIds = $procurement->tenders->pluck('id')->toArray();
+
+        $tenderData = Tender::whereIn('id', $tenderIds)
+            ->get(['id', 'report_nego_result', 'negotiation_result'])
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'report_nego_result' => $item->report_nego_result,
+                    'negotiation_result' => $item->negotiation_result,
+                ];
+            })
+            ->toArray();
+
+            $files = ProcurementFile::where('procurement_id', $id)
+            ->orderByDesc('created_at')
+            ->get();
+
+            $definitions = [];
+            foreach ($files as $file) {
+                $definitions[$file->id] = Definition::find($file->definition_id);
+            }
+
+        return view ('procurement.administration.view', compact('procurement', 'procurementStatus', 'tenderData', 'tendersCount', 'files', 'definitions'));
+    }
 }
