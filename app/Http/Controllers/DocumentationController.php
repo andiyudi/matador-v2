@@ -192,7 +192,7 @@ class DocumentationController extends Controller
             ->merge([$currentYear]) // Add the current year to the collection
             ->unique();
         $divisions = Division::all();
-        $officials = Official::all();
+        $officials = Official::where('status', '1')->get();
         $bulan = $this->getMonthsArray();
         $currentMonth = date('n'); // Current month as a number without leading zero
         return view('documentation.division.index', compact('divisions', 'officials', 'years', 'currentYear', 'currentMonth', 'bulan'));

@@ -31,11 +31,11 @@
 
                 const maxDataValue = Math.max(...dataEEUser, ...dataDealNego);
                 const step = calculateStep(maxDataValue); // Define a function to calculate the step based on your logic
-                const maxAxisValue = Math.ceil(maxDataValue / step) * step + step;
+                const maxAxisValue = Math.ceil(maxDataValue / step) * step + step * 5;
                 const maxDataValuePercentage = Math.max(...dataUserPercentage);
                 const orderOfMagnitudePercentage = Math.pow(10, Math.floor(Math.log10(maxDataValuePercentage)));
                 const stepPercentage = orderOfMagnitudePercentage / 5;
-                const maxAxisValuePercentage = (Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage).toFixed(2);
+                const maxAxisValuePercentage = (Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage * 5).toFixed(2);
 
                 const bgColor = {
                     id: 'bgColor',
@@ -133,6 +133,11 @@
                                 display: true,
                                 align: 'top',
                                 anchor: 'end',
+                                offset: 10,
+                                rotation:270,
+                                font: {
+                                    size: 10,
+                                },
                                 formatter: function (value, context) {
                                     if (value !== null && value !== undefined) {
                                         if (context.dataset.label === 'EE User' || context.dataset.label === 'Hasil Negosiasi') {
@@ -149,7 +154,7 @@
                                 color: ((context, args)=>{
                                     const datasetIndex = context.datasetIndex;
                                     const colorMap = ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 102, 1)'];
-                                    return colorMap[datasetIndex] || 'orange'
+                                    return colorMap[datasetIndex] || 'black'
                                 })
                             },
                             bgColor: {

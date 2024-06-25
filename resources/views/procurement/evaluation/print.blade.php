@@ -15,7 +15,7 @@
             padding: 0;
         }
         .page-content {
-            padding: 4cm 2cm 0cm 3cm;
+            padding: 4cm 1cm 0cm 1cm;
             box-sizing: border-box; /* Pastikan padding dihitung dalam ukuran elemen */
             height: 100%;
         }

@@ -114,7 +114,7 @@ class MonitoringController extends Controller
     public function monitoringProcess()
     {
         $divisions = $this->division();
-        $officials = Official::all();
+        $officials = Official::where('status', '1')->get();
         return view ('monitoring.index', compact ('divisions', 'officials'));
     }
     public function monitoringProcessData(Request $request)
