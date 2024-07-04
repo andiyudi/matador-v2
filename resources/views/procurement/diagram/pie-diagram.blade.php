@@ -19,6 +19,7 @@
                     const labels = [];
                     const values = [];
                     const colors = [];
+                    let totalProcurements = 0;
 
                     // Mengekstrak label, nilai, dan warna dari respons JSON
                     if (procurementsData.length === 0) {
@@ -31,8 +32,10 @@
                             labels.push(item.label + " : " + item.value);
                             values.push(item.value);
                             colors.push(item.color);
+                            totalProcurements += item.value;
                         });
                     }
+                    const pieGenerateLabelLegend = Chart.controllers.doughnut.overrides.plugins.legend.labels.generateLabels;
 
                     const ctx = document.getElementById('pieDiagram').getContext('2d');
 
@@ -92,6 +95,22 @@
                                     labels: {
                                         usePointStyle: true,
                                         pointStyle: 'circle',
+                                        generateLabels(chart) {
+                                            const labels = pieGenerateLabelLegend(chart);
+                                            console.log(labels);
+                                            const sorted = labels.sort((a, b) => {
+                                                chart.data.datasets[0].data[a.index] <=
+                                                chart.data.datasets[0].data[b.index]
+                                            })
+                                            const data = sorted.filter((el, index) => index <= 2);
+                                            data.push({
+                                                text: 'Total Procurements: ' + totalProcurements,
+                                                fillStyle: 'rgba(0, 0, 0, 0.6)', // Warna total
+                                                strokeStyle: 'rgba(0, 0, 0, 0.6)',
+                                                hidden: false,
+                                            });
+                                            return data;
+                                        },
                                     },
                                 },
                             },

@@ -33,8 +33,7 @@ class LogActivitiesDataTable extends DataTable
                     $agentData = $properties['agent'];
 
                     // Create a formatted string or HTML representation
-                    $formattedAgent = '<strong>IP:</strong>' . $agentData['ip'] . '<br><strong>URL:</strong>' . $agentData['url'];
-
+                    $formattedAgent = '<div class="agent-wrap"><strong>IP:</strong>' . $agentData['ip'] . '<br><strong>URL:</strong>' . $agentData['url'] . '</div>';
                     // You might want to format the data or do additional processing here
                     return $formattedAgent;
                 }

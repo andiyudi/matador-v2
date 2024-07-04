@@ -28,11 +28,21 @@ class DashboardController extends Controller
 
     public function getProcurementCount(): JsonResponse
     {
-        $processProcurement = Procurement::where('status', '0')->count();
-        $successProcurement = Procurement::where('status', '1')->count();
-        $canceledProcurement = Procurement::where('status', '2')->count();
+        $currentYear = date('Y');
+        $processProcurement = Procurement::where('status', '0')
+                                        ->whereYear('created_at', $currentYear)
+                                        ->count();
 
-        $totalProcurementCount = Procurement::count();
+        $successProcurement = Procurement::where('status', '1')
+                                        ->whereYear('created_at', $currentYear)
+                                        ->count();
+
+        $canceledProcurement = Procurement::where('status', '2')
+                                        ->whereYear('created_at', $currentYear)
+                                        ->count();
+
+        $totalProcurementCount = Procurement::whereYear('created_at', $currentYear)
+                                        ->count();
 
         return response()->json([
             'success' => true,
