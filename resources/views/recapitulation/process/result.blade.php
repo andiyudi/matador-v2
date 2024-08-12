@@ -32,17 +32,29 @@
                 <td style="text-align: center;">{{ $procurement->is_selected }}</td>
                 <td style="text-align: right;">
                     @if ($procurement->user_estimate !== null)
-                        {{ number_format($procurement->user_estimate, 0, '.', '.') }}
+                        @if (fmod($procurement->user_estimate, 1) == 0)
+                            {{ number_format($procurement->user_estimate, 0, ',', '.') }}
+                        @else
+                            {{ number_format($procurement->user_estimate, 2, ',', '.') }}
+                        @endif
                     @endif
                 </td>
                 <td style="text-align: right;">
                     @if ($procurement->technique_estimate !== null)
-                        {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
+                        @if (fmod($procurement->technique_estimate, 1) == 0)
+                            {{ number_format($procurement->technique_estimate, 0, ',', '.') }}
+                        @else
+                            {{ number_format($procurement->technique_estimate, 2, ',', '.') }}
+                        @endif
                     @endif
                 </td>
                 <td style="text-align: right;">
                     @if ($procurement->deal_nego !== null)
-                        {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                        @if (fmod($procurement->deal_nego, 1) == 0)
+                            {{ number_format($procurement->deal_nego, 0, ',', '.') }}
+                        @else
+                            {{ number_format($procurement->deal_nego, 2, ',', '.') }}
+                        @endif
                     @endif
                 </td>
                 <td style="text-align: center;">{{ $procurement->latest_report_nego_result ? date('d-M-Y', strtotime($procurement->latest_report_nego_result)) : '' }}</td>

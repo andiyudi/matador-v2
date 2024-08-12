@@ -45,10 +45,10 @@ class ChartController extends Controller
                 return $procurement->official->initials;
             })
             ->editColumn('user_estimate', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->user_estimate, 0, ',', '.');
+                return 'Rp. ' . number_format($procurement->user_estimate, 2, ',', '.');
             })
             ->editColumn('deal_nego', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
+                return 'Rp. ' . number_format($procurement->deal_nego, 2, ',', '.');
             })
             ->editColumn('user_percentage', function ($procurement) {
                 if ($procurement->user_percentage !== null) {
@@ -58,7 +58,7 @@ class ChartController extends Controller
                 }
             })
             ->editColumn('technique_estimate', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->technique_estimate, 0, ',', '.');
+                return 'Rp. ' . number_format($procurement->technique_estimate, 2, ',', '.');
             })
             ->addColumn('technique_difference', function ($procurement) {
                 $techniqueEstimate = $procurement->technique_estimate;
@@ -68,7 +68,7 @@ class ChartController extends Controller
                 $difference = $techniqueEstimate - $dealNego;
 
                 // return number_format($difference, 2);
-                return 'Rp. ' . number_format($difference, 0, ',', '.');
+                return 'Rp. ' . number_format($difference, 2, ',', '.');
             })
             ->editColumn('technique_percentage', function ($procurement) {
                 // Pastikan bahwa technique_percentage tidak null sebelum memformat

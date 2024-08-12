@@ -29,12 +29,20 @@
                     <td>{{ $procurement->official->initials }}</td>
                     <td style="text-align: right;">
                         @if ($procurement->user_estimate !== null)
-                            {{ number_format($procurement->user_estimate, 0, '.', '.') }}
+                            @if (fmod($procurement->user_estimate, 1) == 0)
+                                {{ number_format($procurement->user_estimate, 0, ',', '.') }}
+                            @else
+                                {{ number_format($procurement->user_estimate, 2, ',', '.') }}
+                            @endif
                         @endif
                     </td>
                     <td style="text-align: right;">
                         @if ($procurement->technique_estimate !== null)
-                            {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
+                            @if (fmod($procurement->technique_estimate, 1) == 0)
+                                {{ number_format($procurement->technique_estimate, 0, ',', '.') }}
+                            @else
+                                {{ number_format($procurement->technique_estimate, 2, ',', '.') }}
+                            @endif
                         @endif
                     </td>
                     <td>{{ $procurement->return_to_user ? date('d-M-Y', strtotime($procurement->return_to_user)) : '' }}</td>

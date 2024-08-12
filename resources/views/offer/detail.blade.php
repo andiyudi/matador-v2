@@ -121,6 +121,8 @@ $title    = 'Tender';
                                                     File Evaluation CMNP to Vendor
                                                 @elseif ($tenderFile->type === 5)
                                                     File Evaluation Vendor to CMNP
+                                                @elseif ($tenderFile->type === 6)
+                                                    File Rollback Tender
                                                 @else
                                                     Unknown
                                                 @endif
@@ -138,11 +140,38 @@ $title    = 'Tender';
                             </table>
                         </div>
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="d-flex justify-content-between">
+                        <a href="#" class="btn btn-danger" data-id="{{ $tender->id }}" data-bs-toggle="modal" data-bs-target="#rollbackDocumentModal">Rollback</a>
                         <a type="button" href="{{ route('offer.index') }}" class="btn btn-secondary">Back</a>
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="rollbackDocumentModal" aria-hidden="true" aria-labelledby="rollbackDocumentModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rollbackDocumentModalLabel">Rollback Tender</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="rollbackDocumentForm" action="{{ route('offer.rollback', $tender->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="rollbackDocument" class="form-label">Rollback Document</label>
+                        <input class="form-control" type="file" id="rollbackDocument" name="rollbackDocument">
+                    </div>
+                    <div class="mt-3">
+                        <label for="rollbackNotes" class="form-label">Rollback Notes</label>
+                        <textarea class="form-control" id="rollbackNotes" name="rollbackNotes" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

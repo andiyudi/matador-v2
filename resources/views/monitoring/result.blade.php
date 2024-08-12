@@ -56,7 +56,15 @@
         </thead>
         <tbody>
             @foreach ($procurements as $procurement)
-                <tr style="text-align: center">
+            @php
+                // Menentukan warna latar belakang berdasarkan status
+                $backgroundColor = $procurement->status == '2'
+                ? 'background-color: rgba(128, 128, 128, 0.4);'  // Warna grey dengan 40% transparansi
+                : '';
+                $fontColor = $procurement->status == '2' ? 'color: red;' : '';
+                $colspan = 25
+            @endphp
+                <tr style="text-align: center; {{ $fontColor }}">
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $procurement->receipt ? date('d-M-Y', strtotime($procurement->receipt)) : '' }}</td>
                     <td>{{ $procurement->number }}</td>
@@ -66,6 +74,11 @@
                     <td>{{ $procurement->division_disposition ? date('d-M-Y', strtotime($procurement->division_disposition)) : '' }}</td>
                     <td>{{ $procurement->departement_disposition ? date('d-M-Y', strtotime($procurement->departement_disposition)) : '' }}</td>
                     <td>{{ $procurement->vendor_offer ? date('d-M-Y', strtotime($procurement->vendor_offer)) : '' }}</td>
+                    @if($procurement->status == '2')
+                    <td colspan="{{ $colspan }}" style="text-align: center; {{ $fontColor }}{{ $backgroundColor }}">
+                        PP DIBATALKAN  {{ $procurement->cancellation_memo }}  {{ $procurement->information }}
+                    </td>
+                    @else
                     @php
                         // Mengumpulkan data untuk kolom Aanwijzing
                         $aanwijzings = [];
@@ -73,8 +86,13 @@
                             $aanwijzings[] = $tender->aanwijzing;
                         }
 
-                        $aanwijzingI = $aanwijzings[count($aanwijzings) - 2] ?? '';
-                        $aanwijzingII = $aanwijzings[count($aanwijzings) - 1] ?? '';
+                        if (count($aanwijzings) == 1) {
+                            $aanwijzingI = $aanwijzings[0];
+                            $aanwijzingII = '';
+                        } else {
+                            $aanwijzingI = $aanwijzings[count($aanwijzings) - 2] ?? '';
+                            $aanwijzingII = $aanwijzings[count($aanwijzings) - 1] ?? '';
+                        }
 
                         // Mengumpulkan data untuk kolom Tender (Pembukaan Harga)
                         $tenderOpenings = [];
@@ -82,8 +100,13 @@
                             $tenderOpenings[] = $tender->open_tender;
                         }
 
-                        $tenderOpeningI = $tenderOpenings[count($tenderOpenings) - 2] ?? '';
-                        $tenderOpeningII = $tenderOpenings[count($tenderOpenings) - 1] ?? '';
+                        if (count($tenderOpenings) == 1) {
+                            $tenderOpeningI = $tenderOpenings[0];
+                            $tenderOpeningII = '';
+                        } else {
+                            $tenderOpeningI = $tenderOpenings[count($tenderOpenings) - 2] ?? '';
+                            $tenderOpeningII = $tenderOpenings[count($tenderOpenings) - 1] ?? '';
+                        }
 
                         // Mengumpulkan data untuk kolom Review Teknik
                         $reviewTechnicalsOut = [];
@@ -91,8 +114,13 @@
                             $reviewTechnicalsOut[] = $tender->review_technique_out;
                         }
 
-                        $reviewTechnicalOutI = $reviewTechnicalsOut[count($reviewTechnicalsOut) - 2] ?? '';
-                        $reviewTechnicalOutII = $reviewTechnicalsOut[count($reviewTechnicalsOut) - 1] ?? '';
+                        if (count($reviewTechnicalsOut) == 1) {
+                            $reviewTechnicalOutI = $reviewTechnicalsOut[0];
+                            $reviewTechnicalOutII = '';
+                        } else {
+                            $reviewTechnicalOutI = $reviewTechnicalsOut[count($reviewTechnicalsOut) - 2] ?? '';
+                            $reviewTechnicalOutII = $reviewTechnicalsOut[count($reviewTechnicalsOut) - 1] ?? '';
+                        }
 
                         // Mengumpulkan data untuk kolom Direksi
                         $reviewTechnicalsIn = [];
@@ -100,8 +128,13 @@
                             $reviewTechnicalsIn[] = $tender->review_technique_in;
                         }
 
-                        $reviewTechnicalInI = $reviewTechnicalsIn[count($reviewTechnicalsIn) - 2] ?? '';
-                        $reviewTechnicalInII = $reviewTechnicalsIn[count($reviewTechnicalsIn) - 1] ?? '';
+                        if (count($reviewTechnicalsIn) == 1) {
+                            $reviewTechnicalInI = $reviewTechnicalsIn[0];
+                            $reviewTechnicalInII = '';
+                        } else {
+                            $reviewTechnicalInI = $reviewTechnicalsIn[count($reviewTechnicalsIn) - 2] ?? '';
+                            $reviewTechnicalInII = $reviewTechnicalsIn[count($reviewTechnicalsIn) - 1] ?? '';
+                        }
                     @endphp
                     <td>{{ $aanwijzingI ? date('d-M-Y', strtotime($aanwijzingI)) : '' }}</td>
                     <td>{{ $aanwijzingII ? date('d-M-Y', strtotime($aanwijzingII)) : '' }}</td>
@@ -129,6 +162,7 @@
                     <td>{{ $procurement->contract_to_user ? date('d-M-Y', strtotime($procurement->contract_to_user)) : '' }}</td>
                     <td>{{ $procurement->input_sap ? date('d-M-Y', strtotime($procurement->input_sap)) : '' }}</td>
                 </tr>
+                @endif
             @endforeach
         </tbody>
     </table>

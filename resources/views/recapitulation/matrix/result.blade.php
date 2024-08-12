@@ -126,17 +126,32 @@
                             <td>{{ $procurement->difference_day }}</td>
                             <td>
                                 @if ($procurement->user_estimate !== null)
-                                    {{ number_format($procurement->user_estimate, 0, '.', '.') }}
+                                    @if (fmod($procurement->user_estimate, 1) == 0)
+                                        {{ number_format($procurement->user_estimate, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($procurement->user_estimate, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
                                 @if ($procurement->deal_nego !== null)
-                                    {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                                    @if (fmod($procurement->deal_nego, 1) == 0)
+                                        {{ number_format($procurement->deal_nego, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($procurement->deal_nego, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
                                 @if ($procurement->user_estimate !== null && $procurement->deal_nego !== null)
-                                    {{ number_format($procurement->user_estimate - $procurement->deal_nego, 0, '.', '.') }}
+                                    @php
+                                        $user_difference = $procurement->user_estimate - $procurement->deal_nego;
+                                    @endphp
+                                    @if (fmod($user_difference, 1) == 0)
+                                        {{ number_format($user_difference, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($user_difference, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
@@ -146,17 +161,32 @@
                             </td>
                             <td>
                                 @if ($procurement->technique_estimate !== null)
-                                    {{ number_format($procurement->technique_estimate, 0, '.', '.') }}
+                                    @if (fmod($procurement->technique_estimate, 1) == 0)
+                                        {{ number_format($procurement->technique_estimate, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($procurement->technique_estimate, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
                                 @if ($procurement->deal_nego !== null)
-                                    {{ number_format($procurement->deal_nego, 0, '.', '.') }}
+                                    @if (fmod($procurement->deal_nego, 1) == 0)
+                                        {{ number_format($procurement->deal_nego, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($procurement->deal_nego, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
                                 @if ($procurement->technique_estimate !== null && $procurement->deal_nego !== null)
-                                    {{ number_format($procurement->technique_estimate - $procurement->deal_nego, 0, '.', '.') }}
+                                    @php
+                                        $technique_difference = $procurement->technique_estimate - $procurement->deal_nego;
+                                    @endphp
+                                    @if (fmod($technique_difference, 1) == 0)
+                                        {{ number_format($technique_difference, 0, ',', '.') }}
+                                    @else
+                                        {{ number_format($technique_difference, 2, ',', '.') }}
+                                    @endif
                                 @endif
                             </td>
                             <td>
@@ -193,18 +223,34 @@
                             // Hitung persentase selisih terhadap total user estimate
                             $percentageDifference = ($totalUserEstimate != 0) ? (($totalUserEstimate - $totalDealNego) / $totalUserEstimate) * 100 : 0;
                         @endphp
-                        <td>{{ $totalUserEstimate > 0 ? number_format($totalUserEstimate, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalDealNego > 0 ? number_format($totalDealNego, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalUserEstimate - $totalDealNego > 0 ? number_format($totalUserEstimate - $totalDealNego, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalUserEstimate > 0 && $totalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifference, 2)) . '%' : '' }}</td>
+                        <td>
+                            {{ fmod($totalUserEstimate, 1) == 0 ? number_format($totalUserEstimate, 0, ',', '.') : number_format($totalUserEstimate, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($totalDealNego, 1) == 0 ? number_format($totalDealNego, 0, ',', '.') : number_format($totalDealNego, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($totalUserEstimate - $totalDealNego, 1) == 0 ? number_format($totalUserEstimate - $totalDealNego, 0, ',', '.') : number_format($totalUserEstimate - $totalDealNego, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($percentageDifference, 1) == 0 ? number_format($percentageDifference, 0, ',', '.') . '%' : number_format($percentageDifference, 2, ',', '.') . '%' }}
+                        </td>
                         @php
-                        // Hitung persentase selisih terhadap total user estimate
+                            // Hitung persentase selisih terhadap total user estimate
                             $percentageDifferenceTechnique = ($totalTechniqueEstimate != 0) ? (($totalTechniqueEstimate - $totalDealNego) / $totalTechniqueEstimate) * 100 : 0;
                         @endphp
-                        <td>{{ $totalTechniqueEstimate > 0 ? number_format($totalTechniqueEstimate, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalDealNego > 0 ? number_format($totalDealNego, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalTechniqueEstimate - $totalDealNego > 0 ? number_format($totalTechniqueEstimate - $totalDealNego, 0, '.', '.') : '' }}</td>
-                        <td>{{ $totalTechniqueEstimate > 0 && $totalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceTechnique, 2)) . '%' : '' }}</td>
+                        <td>
+                            {{ fmod($totalTechniqueEstimate, 1) == 0 ? number_format($totalTechniqueEstimate, 0, ',', '.') : number_format($totalTechniqueEstimate, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($totalDealNego, 1) == 0 ? number_format($totalDealNego, 0, ',', '.') : number_format($totalDealNego, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($totalTechniqueEstimate - $totalDealNego, 1) == 0 ? number_format($totalTechniqueEstimate - $totalDealNego, 0, ',', '.') : number_format($totalTechniqueEstimate - $totalDealNego, 2, ',', '.') }}
+                        </td>
+                        <td>
+                            {{ fmod($percentageDifferenceTechnique, 1) == 0 ? number_format($percentageDifferenceTechnique, 0, ',', '.') . '%' : number_format($percentageDifferenceTechnique, 2, ',', '.') . '%' }}
+                        </td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -226,23 +272,23 @@
                 <td>{{ $grandTotalFinishDay > 0 ? $grandTotalFinishDay : '' }}</td>
                 <td>{{ $grandTotalOffDay > 0 ? $grandTotalOffDay : '' }}</td>
                 <td>{{ $grandTotalDifferenceDay > 0 ? $grandTotalDifferenceDay : '' }}</td>
-                <td>{{ $grandTotalUserEstimate > 0 ? number_format($grandTotalUserEstimate, 0, '.', '.') : '' }}</td>
-                <td>{{ $grandTotalDealNego > 0 ? number_format($grandTotalDealNego, 0, '.', '.') : '' }}</td>
-                <td>{{ $grandTotalUserEstimate - $grandTotalDealNego > 0 ? number_format($grandTotalUserEstimate - $grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                <td>{{ $grandTotalUserEstimate > 0 ? rtrim(rtrim(number_format($grandTotalUserEstimate, 2, ',', '.'), '0'), ',') : '' }}</td>
+                <td>{{ $grandTotalDealNego > 0 ? rtrim(rtrim(number_format($grandTotalDealNego, 2, ',', '.'), '0'), ',') : '' }}</td>
+                <td>{{ $grandTotalUserEstimate - $grandTotalDealNego !== 0 ? rtrim(rtrim(number_format($grandTotalUserEstimate - $grandTotalDealNego, 2, ',', '.'), '0'), ',') : '' }}</td>
                 <td>
                     @php
                         $percentageDifferenceGrand = ($grandTotalUserEstimate != 0) ? (($grandTotalUserEstimate - $grandTotalDealNego) / $grandTotalUserEstimate) * 100 : 0;
                     @endphp
-                    {{ $grandTotalUserEstimate > 0 && $grandTotalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceGrand, 2)) . '%' : '' }}
+                    {{ $grandTotalUserEstimate > 0 && $grandTotalDealNego > 0 ? rtrim(rtrim(str_replace('.', ',', number_format($percentageDifferenceGrand, 2)), '0'), ',') . '%' : '' }}
                 </td>
-                <td>{{ $grandTotalTechniqueEstimate > 0 ? number_format($grandTotalTechniqueEstimate, 0, '.', '.') : '' }}</td>
-                <td>{{ $grandTotalDealNego > 0 ? number_format($grandTotalDealNego, 0, '.', '.') : '' }}</td>
-                <td>{{ $grandTotalTechniqueEstimate - $grandTotalDealNego > 0 ? number_format($grandTotalTechniqueEstimate - $grandTotalDealNego, 0, '.', '.') : '' }}</td>
+                <td>{{ $grandTotalTechniqueEstimate > 0 ? rtrim(rtrim(number_format($grandTotalTechniqueEstimate, 2, ',', '.'), '0'), ',') : '' }}</td>
+                <td>{{ $grandTotalDealNego > 0 ? rtrim(rtrim(number_format($grandTotalDealNego, 2, ',', '.'), '0'), ',') : '' }}</td>
+                <td>{{ $grandTotalTechniqueEstimate - $grandTotalDealNego !== 0 ? rtrim(rtrim(number_format($grandTotalTechniqueEstimate - $grandTotalDealNego, 2, ',', '.'), '0'), ',') : '' }}</td>
                 <td>
                     @php
                         $percentageDifferenceTechniqueGrand = ($grandTotalTechniqueEstimate != 0) ? (($grandTotalTechniqueEstimate - $grandTotalDealNego) / $grandTotalTechniqueEstimate) * 100 : 0;
                     @endphp
-                    {{ $grandTotalTechniqueEstimate > 0 && $grandTotalDealNego > 0 ? str_replace('.', ',', number_format($percentageDifferenceTechniqueGrand, 2)) . '%' : '' }}
+                    {{ $grandTotalTechniqueEstimate > 0 && $grandTotalDealNego > 0 ? rtrim(rtrim(str_replace('.', ',', number_format($percentageDifferenceTechniqueGrand, 2)), '0'), ',') . '%' : '' }}
                 </td>
                 <td></td>
                 <td></td>

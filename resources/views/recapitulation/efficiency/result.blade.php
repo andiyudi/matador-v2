@@ -55,17 +55,17 @@
                     <td style="text-align: center">{{ $filteredMonthsName[$month] }}</td>
                     <td style="text-align: right">
                         @if($total_user_estimate != 0)
-                            {{ number_format($total_user_estimate, 0, '.', '.') }}
+                            {{ rtrim(rtrim(number_format($total_user_estimate, 2, ',', '.'), '0'), ',') }}
                         @endif
                     </td>
                     <td style="text-align: right">
                         @if($total_deal_nego != 0)
-                            {{ number_format($total_deal_nego, 0, '.', '.') }}
+                            {{ rtrim(rtrim(number_format($total_deal_nego, 2, ',', '.'), '0'), ',') }}
                         @endif
                     </td>
                     <td style="text-align: right">
                         @if($efficiency != 0)
-                            {{ number_format($efficiency, 0, '.', '.') }}
+                            {{ rtrim(rtrim(number_format($efficiency, 2, ',', '.'), '0'), ',') }}
                         @endif
                     </td>
                     <td style="text-align: center">
@@ -80,17 +80,17 @@
                 <td colspan="2" style="text-align: center; font-weight: bold;">Total</td>
                 <td style="text-align: right; font-weight: bold;">
                     @if($total_user_estimate_all != 0)
-                        {{ number_format($total_user_estimate_all, 0, '.', '.') }}
+                        {{ rtrim(rtrim(number_format($total_user_estimate_all, 2, ',', '.'), '0'), ',') }}
                     @endif
                 </td>
                 <td style="text-align: right; font-weight: bold;">
                     @if($total_deal_nego_all != 0)
-                        {{ number_format($total_deal_nego_all, 0, '.', '.') }}
+                        {{ rtrim(rtrim(number_format($total_deal_nego_all, 2, ',', '.'), '0'), ',') }}
                     @endif
                 </td>
                 <td style="text-align: right; font-weight: bold;">
                     @if($total_efficiency_all != 0)
-                        {{ number_format($total_efficiency_all, 0, '.', '.') }}
+                        {{ rtrim(rtrim(number_format($total_efficiency_all, 2, ',', '.'), '0'), ',') }}
                     @endif
                 </td>
                 <td style="text-align: center; font-weight: bold;">

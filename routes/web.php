@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReviewController;
@@ -39,13 +40,16 @@ use App\Http\Controllers\RecapitulationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::prefix('offer')->group(function () {
+Route::prefix('offer')->middleware('can:menu-tender')->group(function () {
+    Route::get('event', [EventController::class, 'index'])->name('event.index');
+    Route::get('event/show', [EventController::class, 'show'])->name('event.show');
     Route::get('{offer}/print', [OfferController::class, 'print'])->name('offer.print');
     Route::get('{offer}/view', [OfferController::class, 'view'])->name('offer.view');
     Route::get('{offer}/detail', [OfferController::class, 'detail'])->name('offer.detail');
     Route::put('{offer}/decision', [OfferController::class, 'decision'])->name('offer.decision');
     Route::post('{offer}/company', [OfferController::class, 'company'])->name('offer.company');
     Route::post('{offer}/change', [OfferController::class, 'change'])->name('offer.change');
+    Route::post('{offer}/rollback', [OfferController::class, 'rollback'])->name('offer.rollback');
     Route::get('official', [OfferController::class, 'official'])->name('offer.official');
     Route::get('schedule/{tender_id}', [ScheduleController::class, 'index'])->name('schedule.index');
     Route::get('schedule/{tender_id}/create', [ScheduleController::class, 'create'])->name('schedule.create');
@@ -68,25 +72,33 @@ Route::prefix('offer')->group(function () {
 });
 
 Route::prefix('procurements')->group(function () {
-    Route::resource('evaluation', EvaluationController::class)->only(['index', 'show']);
-    Route::get('administration', [AdministrationController::class, 'index'])->name('administration.index');
-    Route::get('administration/{procurement_id}/create', [AdministrationController::class, 'create'])->name('administration.create');
-    Route::post('administration/store', [AdministrationController::class, 'store'])->name('administration.store');
-    Route::get('administration/{procurement_id}', [AdministrationController::class, 'show'])->name('administration.show');
-    Route::get('administration/{procurement_id}/edit', [AdministrationController::class, 'edit'])->name('administration.edit');
-    Route::put('administration/{procurement_id}/update', [AdministrationController::class, 'update'])->name('administration.update');
-    Route::get('administration/{procurement_id}/change', [AdministrationController::class, 'change'])->name('administration.change');
-    Route::get('administration/{procurement_id}/done', [AdministrationController::class, 'done'])->name('administration.done');
-    Route::get('administration/{procurement_id}/back', [AdministrationController::class, 'back'])->name('administration.back');
-    Route::get('administration/{procurement_id}/view', [AdministrationController::class, 'view'])->name('administration.view');
-    Route::put('administration/{procurement_id}/save', [AdministrationController::class, 'save'])->name('administration.save');
-    Route::delete('administration/{file_id}/destroy', [AdministrationController::class, 'destroy'])->name('administration.destroy');
-    Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
-    Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
-    Route::get('evaluation/{procurement_id}/print', [EvaluationController::class, 'print'])->name('evaluation.print');
+    // Group routes with 'can:menu-tender' middleware
+    Route::middleware('can:menu-tender')->group(function () {
+        Route::resource('evaluation', EvaluationController::class)->only(['index', 'show']);
+        Route::put('evaluation/{procurement_id}/company', [EvaluationController::class, 'company'])->name('evaluation.company');
+        Route::put('evaluation/{procurement_id}/vendor', [EvaluationController::class, 'vendor'])->name('evaluation.vendor');
+        Route::get('evaluation/{procurement_id}/print', [EvaluationController::class, 'print'])->name('evaluation.print');
+    });
+
+    // Group routes with 'can:menu-procurement' middleware
+    Route::middleware('can:menu-procurement')->group(function () {
+        Route::get('administration', [AdministrationController::class, 'index'])->name('administration.index');
+        Route::get('administration/{procurement_id}/create', [AdministrationController::class, 'create'])->name('administration.create');
+        Route::post('administration/store', [AdministrationController::class, 'store'])->name('administration.store');
+        Route::get('administration/{procurement_id}', [AdministrationController::class, 'show'])->name('administration.show');
+        Route::get('administration/{procurement_id}/edit', [AdministrationController::class, 'edit'])->name('administration.edit');
+        Route::put('administration/{procurement_id}/update', [AdministrationController::class, 'update'])->name('administration.update');
+        Route::get('administration/{procurement_id}/change', [AdministrationController::class, 'change'])->name('administration.change');
+        Route::get('administration/{procurement_id}/done', [AdministrationController::class, 'done'])->name('administration.done');
+        Route::get('administration/{procurement_id}/back', [AdministrationController::class, 'back'])->name('administration.back');
+        Route::get('administration/{procurement_id}/view', [AdministrationController::class, 'view'])->name('administration.view');
+        Route::put('administration/{procurement_id}/save', [AdministrationController::class, 'save'])->name('administration.save');
+        Route::delete('administration/{file_id}/destroy', [AdministrationController::class, 'destroy'])->name('administration.destroy');
+    });
 });
 
-Route::prefix('partner')->group(function () {
+
+Route::prefix('partner')->middleware('can:menu-vendor')->group(function () {
     Route::resource('category', CategoryController::class);
     Route::get('document/{partner_id}', [DocumentController::class, 'index'])->name('document.index');
     Route::get('document/{partner_id}/create', [DocumentController::class, 'create'])->name('document.create');
@@ -96,62 +108,64 @@ Route::prefix('partner')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('report', [ReportController::class, 'index'])->name('report.index');
+    //pengadaan
+    Route::get('report', [ReportController::class, 'index'])->name('report.index')->middleware('can:report-tender');
     Route::get('report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
     Route::get('report-blacklist', [ReportController::class, 'blacklist'])->name('report.blacklist');
-    Route::get('review', [ReviewController::class, 'index'])->name('review.index');
+    Route::get('report-join', [ReportController::class, 'join'])->name('report.join');
+    Route::get('review', [ReviewController::class, 'index'])->name('review.index')->middleware('can:report-tender');
     Route::get('review-vendor', [ReviewController::class, 'vendor'])->name('review.vendor');
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
-    Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego');
+    //administrasi
+    Route::get('recap-process-nego', [RecapitulationController::class, 'getProcessNego'])->name('recap.process-nego')->middleware('can:report-administration');
     Route::get('recap-process-nego-data', [RecapitulationController::class, 'getProcessNegoData'])->name('recap.process-nego-data');
     Route::get('recap-process-nego-excel', [RecapitulationController::class, 'getProcessNegoExcel'])->name('recap.process-nego-excel');
-    Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix');
+    Route::get('recap-comparison-matrix', [RecapitulationController::class, 'getComparisonMatrix'])->name('recap.comparison-matrix')->middleware('can:report-administration');
     Route::get('recap-comparison-matrix-data', [RecapitulationController::class, 'getComparisonMatrixData'])->name('recap.comparison-matrix-data');
     Route::get('recap-comparison-matrix-excel', [RecapitulationController::class, 'getComparisonMatrixExcel'])->name('recap.comparison-matrix-excel');
-    Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost');
+    Route::get('recap-efficiency-cost', [RecapitulationController::class, 'getEfficiencyCost'])->name('recap.efficiency-cost')->middleware('can:report-administration');
     Route::get('recap-efficiency-cost-data', [RecapitulationController::class, 'getEfficiencyCostData'])->name('recap.efficiency-cost-data');
     Route::get('recap-efficiency-cost-excel', [RecapitulationController::class, 'getEfficiencyCostExcel'])->name('recap.efficiency-cost-excel');
-    Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled');
+    Route::get('recap-request-cancelled', [RecapitulationController::class, 'getRequestCancelled'])->name('recap.request-cancelled')->middleware('can:report-administration');
     Route::get('recap-request-cancelled-data', [RecapitulationController::class, 'getRequestCancelledData'])->name('recap.request-cancelled-data');
     Route::get('recap-request-cancelled-excel', [RecapitulationController::class, 'getRequestCancelledExcel'])->name('recap.request-cancelled-excel');
-    Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value');
+    Route::get('documentation-value', [DocumentationController::class, 'basedOnValue'])->name('documentation.value')->middleware('can:report-administration');
     Route::get('documentation-value-monthly-data', [DocumentationController::class, 'basedOnValueMonthlyData'])->name('documentation.value-monthly-data');
     Route::get('documentation-value-annual-data', [DocumentationController::class, 'basedOnValueAnnualData'])->name('documentation.value-annual-data');
     Route::get('documentation-value-monthly-excel', [DocumentationController::class, 'basedOnValueMonthlyExcel'])->name('documentation.value-monthly-excel');
     Route::get('documentation-value-annual-excel', [DocumentationController::class, 'basedOnValueAnnualExcel'])->name('documentation.value-annual-excel');
-    Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division');
+    Route::get('documentation-division', [DocumentationController::class, 'basedOnDivision'])->name('documentation.division')->middleware('can:report-administration');
     Route::get('documentation-division-monthly-data', [DocumentationController::class, 'basedOnDivisionMonthlyData'])->name('documentation.division-monthly-data');
     Route::get('documentation-division-monthly-excel', [DocumentationController::class, 'basedOnDivisionMonthlyExcel'])->name('documentation.division-monthly-excel');
     Route::get('documentation-division-annual-data', [DocumentationController::class, 'basedOnDivisionAnnualData'])->name('documentation.division-annual-data');
     Route::get('documentation-division-annual-excel', [DocumentationController::class, 'basedOnDivisionAnnualExcel'])->name('documentation.division-annual-excel');
-    Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval');
+    Route::get('documentation-approval', [DocumentationController::class, 'basedOnApproval'])->name('documentation.approval')->middleware('can:report-administration');
     Route::get('documentation-approval-monthly-data', [DocumentationController::class, 'basedOnApprovalMonthlyData'])->name('documentation.approval-monthly-data');
     Route::get('documentation-approval-monthly-excel', [DocumentationController::class, 'basedOnApprovalMonthlyExcel'])->name('documentation.approval-monthly-excel');
     Route::get('documentation-approval-annual-data', [DocumentationController::class, 'basedOnApprovalAnnualData'])->name('documentation.approval-annual-data');
     Route::get('documentation-approval-annual-excel', [DocumentationController::class, 'basedOnApprovalAnnualExcel'])->name('documentation.approval-annual-excel');
-    Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request');
+    Route::get('documentation-request', [DocumentationController::class, 'basedOnRequest'])->name('documentation.request')->middleware('can:report-administration');
     Route::get('documentation-request-monthly-data', [DocumentationController::class, 'basedOnRequestMonthlyData'])->name('documentation.request-monthly-data');
     Route::get('documentation-request-monthly-excel', [DocumentationController::class, 'basedOnRequestMonthlyExcel'])->name('documentation.request-monthly-excel');
     Route::get('documentation-request-annual-data', [DocumentationController::class, 'basedOnRequestAnnualData'])->name('documentation.request-annual-data');
     Route::get('documentation-request-annual-excel', [DocumentationController::class, 'basedOnRequestAnnualExcel'])->name('documentation.request-annual-excel');
-    Route::get('documentation-compare', [DocumentationController::class, 'basedOnCompare'])->name('documentation.compare');
+    Route::get('documentation-compare', [DocumentationController::class, 'basedOnCompare'])->name('documentation.compare')->middleware('can:report-administration');
     Route::get('documentation-compare-monthly-data', [DocumentationController::class, 'basedOnCompareMonthlyData'])->name('documentation.compare-monthly-data');
     Route::get('documentation-compare-monthly-excel', [DocumentationController::class, 'basedOnCompareMonthlyExcel'])->name('documentation.compare-monthly-excel');
     Route::get('documentation-compare-annual-data', [DocumentationController::class, 'basedOnCompareAnnualData'])->name('documentation.compare-annual-data');
     Route::get('documentation-compare-annual-excel', [DocumentationController::class, 'basedOnCompareAnnualExcel'])->name('documentation.compare-annual-excel');
-    Route::get('monitoring-selected', [MonitoringController::class, 'tenderVendorSelected'])->name('monitoring.selected');
+    Route::get('monitoring-selected', [MonitoringController::class, 'tenderVendorSelected'])->name('monitoring.selected')->middleware('can:report-administration');
     Route::get('monitoring-selected-data', [MonitoringController::class, 'tenderVendorSelectedData'])->name('monitoring.selected-data');
     Route::get('monitoring-selected-excel', [MonitoringController::class, 'tenderVendorSelectedExcel'])->name('monitoring.selected-excel');
-    Route::get('monitoring-process', [MonitoringController::class, 'monitoringProcess'])->name('monitoring.process');
+    Route::get('monitoring-process', [MonitoringController::class, 'monitoringProcess'])->name('monitoring.process')->middleware('can:report-administration');
     Route::get('monitoring-process-data', [MonitoringController::class, 'monitoringProcessData'])->name('monitoring.process-data');
     Route::get('monitoring-process-excel', [MonitoringController::class, 'monitoringProcessExcel'])->name('monitoring.process-excel');
-    Route::get('chart', [ChartController::class, 'index'])->name('chart.index');
+    Route::get('chart', [ChartController::class, 'index'])->name('chart.index')->middleware('can:dashboard-administration');
     Route::get('chart/procurements-data', [ChartController::class, 'procurementsData'])->name('chart.procurementsData');
     Route::get('chart/bar-chart', [ChartController::class, 'barChart'])->name('chart.barChart');
-    Route::get('diagram', [DiagramController::class, 'index'])->name('diagram.index');
+    Route::get('diagram', [DiagramController::class, 'index'])->name('diagram.index')->middleware('can:dashboard-administration');
     Route::get('diagram/procurements-data', [DiagramController::class, 'procurementsData'])->name('diagram.procurementsData');
     Route::get('diagram/pie-diagram', [DiagramController::class, 'pieDiagram'])->name('diagram.pieDiagram');
-
 });
 
 Route::get('/', function () {
@@ -159,21 +173,21 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('definitions', DefinitionController::class);
-    Route::resource('officials', OfficialController::class);
-    Route::resource('divisions', DivisionController::class);
-    Route::resource('procurements', ProcurementController::class);
-    Route::resource('core-business', CoreBusinessController::class);
-    Route::resource('classification', ClassificationController::class);
-    Route::resource('partner', PartnerController::class);
-    Route::resource('offer', OfferController::class);
+    Route::resource('definitions', DefinitionController::class)->middleware('can:submenu-definition');
+    Route::resource('officials', OfficialController::class)->middleware('can:submenu-official');
+    Route::resource('divisions', DivisionController::class)->middleware('can:submenu-division');
+    Route::resource('procurements', ProcurementController::class)->middleware('can:menu-procurement');
+    Route::resource('core-business', CoreBusinessController::class)->middleware('can:submenu-core-business');
+    Route::resource('classification', ClassificationController::class)->middleware('can:submenu-classification');
+    Route::resource('partner', PartnerController::class)->middleware('can:menu-vendor');
+    Route::resource('offer', OfferController::class)->middleware('can:menu-tender');
 });
 
 Route::middleware(['auth', 'verified'])->group(function(){
-    Route::resource('user', UserController::class);
-    Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
-    Route::resource('logactivity', LogActivityController::class)->only(['index', 'show']);
+    Route::resource('user', UserController::class)->middleware('can:menu-config');
+    Route::resource('role', RoleController::class)->middleware('can:menu-config');
+    Route::resource('permission', PermissionController::class)->middleware('can:menu-config');
+    Route::resource('logactivity', LogActivityController::class)->only(['index', 'show'])->middleware('can:menu-logactivity');
 });
 
 Route::prefix('dashboard')->group(function () {

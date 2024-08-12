@@ -120,7 +120,7 @@
 
             <div class="section perihal">
                 <p class="label bold">Perihal : </p>
-                <p class="bold">Hasil Klarisifikasi &#38; Negosiasi
+                <p class="bold">Hasil Klarifikasi &#38; Negosiasi
                     @if($businessPartner->pivot->is_selected == '1')
                         Penetapan Pemenang
                     @endif
