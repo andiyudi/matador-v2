@@ -364,6 +364,8 @@ $title    = 'Estimate';
                                             File Evaluation CMNP to Vendor
                                             @elseif ($tenderFile->type === 5)
                                             File Evaluation Vendor to CMNP
+                                            @elseif ($tenderFile->type === 6)
+                                            File Rollback Tender
                                             @else
                                             Unknown
                                             @endif

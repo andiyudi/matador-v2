@@ -37,6 +37,31 @@
                 const stepPercentage = orderOfMagnitudePercentage / 5;
                 const maxAxisValuePercentage = (Math.ceil(maxDataValuePercentage / stepPercentage) * stepPercentage + stepPercentage * 5).toFixed(2);
 
+                const textAccumulative = {
+                    id: 'textAccumulative',
+                    beforeDatasetsDraw(chart, args, plugins) {
+                        const { ctx, data } =  chart;
+                        const xCenter = chart.getDatasetMeta(0).data[0].x;
+                        const yCenter = chart.getDatasetMeta(0).data[0].y;
+
+                        // Menghitung total persentase
+                        const totalPercentage = dataUserPercentage.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+                        // Mendapatkan bulan saat ini (0 untuk Januari, 1 untuk Februari, dst.)
+                        const currentMonth = new Date().getMonth() + 1; // +1 untuk membuat Januari menjadi 1, Februari menjadi 2, dst.
+
+                        // Menghitung rata-rata persentase
+                        const averagePercentage = totalPercentage / currentMonth;
+
+                        ctx.save();
+                        ctx.font = 'bold 10px sans-serif';
+                        ctx.fillStyle = 'blue';
+                        ctx.textAlign ='left';
+                        ctx.fillText(`Akumulatif Persentase Dari Keseluruhan`, xCenter + 550, 20);
+                        ctx.fillText(`Terhadap EE User VS Hasil Negosiasi : ${averagePercentage.toFixed(2)}%`, xCenter + 550, 30);
+                    }
+                }
+
                 const bgColor = {
                     id: 'bgColor',
                     beforeDraw: (chart, steps, options) => {
@@ -162,7 +187,7 @@
                             },
                         },
                     },
-                    plugins: [bgColor],
+                    plugins: [bgColor, textAccumulative],
                 })
             },
             error: function(error){

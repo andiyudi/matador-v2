@@ -36,13 +36,16 @@ class AdministrationController extends Controller
                 return $procurement->official->name;
             })
             ->editColumn('user_estimate', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->user_estimate, 0, ',', '.');
+                $user_estimate = $procurement->user_estimate;
+                return 'Rp. ' . ($user_estimate ? number_format($user_estimate, fmod($user_estimate, 1) !== 0.0 ? 2 : 0, ',', '.') : '0');
             })
             ->editColumn('technique_estimate', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->technique_estimate, 0, ',', '.');
+                $technique_estimate = $procurement->technique_estimate;
+                return 'Rp. ' . ($technique_estimate ? number_format($technique_estimate, fmod($technique_estimate, 1) !== 0.0 ? 2 : 0, ',', '.') : '0');
             })
             ->editColumn('deal_nego', function ($procurement) {
-                return 'Rp. ' . number_format($procurement->deal_nego, 0, ',', '.');
+                $deal_nego = $procurement->deal_nego;
+                return 'Rp. ' . ($deal_nego ? number_format($deal_nego, fmod($deal_nego, 1) !== 0.0 ? 2 : 0, ',', '.') : '0');
             })
             ->editColumn('user_percentage', function ($procurement) {
                 // Pastikan bahwa user_percentage tidak null sebelum memformat
@@ -184,6 +187,13 @@ class AdministrationController extends Controller
         return view('procurement.administration.edit', compact('procurement', 'divisions', 'officials', 'tendersCount', 'procurementStatus', 'tenderData'));
     }
 
+    // Helper function to convert formatted string to float
+    private function convertToFloat($number)
+    {
+        $number = str_replace('.', '', $number); // Remove thousand separator
+        $number = str_replace(',', '.', $number); // Replace comma with dot
+        return floatval($number);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -198,10 +208,10 @@ class AdministrationController extends Controller
 
             $procurement = Procurement::find($id);
 
-            $procurement->user_estimate = str_replace('.', '', $request->user_estimate);
-            $procurement->technique_estimate = str_replace('.', '', $request->technique_estimate);
+            $procurement->user_estimate = $this->convertToFloat($request->user_estimate);
+            $procurement->technique_estimate = $this->convertToFloat($request->technique_estimate);
             if ($request->has('deal_nego')) {
-                $procurement->deal_nego = str_replace('.', '', $request->deal_nego);
+                $procurement->deal_nego = $this->convertToFloat($request->deal_nego);
             }
             $procurement->information = $request->information;
             $procurement->return_to_user = $request->return_to_user;
@@ -214,30 +224,38 @@ class AdministrationController extends Controller
             $procurement->op_number = $request->op_number;
             $procurement->contract_number = $request->contract_number;
             if ($request->has('contract_value')) {
-                $procurement->contract_value = str_replace('.', '', $request->contract_value);
+                $procurement->contract_value = $this->convertToFloat($request->contract_value);
             }
             $procurement->contract_date = $request->contract_date;
 
             // Menghitung persentase perbedaan antara user_estimate dan deal_nego
+             // Calculate percentages
             if ($request->has('deal_nego')) {
-                $userEstimate = floatval(str_replace('.', '', $request->user_estimate));
-                $dealNego = floatval(str_replace('.', '', $request->deal_nego));
+                $userEstimate = $procurement->user_estimate;
+                $dealNego = $procurement->deal_nego;
 
+                if ($userEstimate == 0) {
+                    Alert::error('Error', 'User Estimate must be larger than 0');
+                    return redirect()->back();
+                }
                 $userEstimatePercentage = number_format(($userEstimate - $dealNego) / $userEstimate * 100, 2);
                 $procurement->user_percentage = $userEstimatePercentage;
             } else {
-                $procurement->user_percentage = null; // Atau berikan nilai default jika tidak diperlukan
+                $procurement->user_percentage = null;
             }
 
-            // Menghitung persentase perbedaan antara technique_estimate dan deal_nego
             if ($request->has('deal_nego')) {
-                $techniqueEstimate = floatval(str_replace('.', '', $request->technique_estimate));
-                $dealNego = floatval(str_replace('.', '', $request->deal_nego));
+                $techniqueEstimate = $procurement->technique_estimate;
+                $dealNego = $procurement->deal_nego;
 
+                if ($techniqueEstimate == 0) {
+                    Alert::error('Error', 'Technique Estimate must be larger than 0');
+                    return redirect()->back();
+                }
                 $techniqueEstimatePercentage = number_format(($techniqueEstimate - $dealNego) / $techniqueEstimate * 100, 2);
                 $procurement->technique_percentage = $techniqueEstimatePercentage;
             } else {
-                $procurement->technique_percentage = null; // Atau berikan nilai default jika tidak diperlukan
+                $procurement->technique_percentage = null;
             }
 
             $procurement->save();
@@ -248,7 +266,7 @@ class AdministrationController extends Controller
                     $tender = Tender::find($tenderId);
 
                     if ($tender) {
-                        $negotiationResult = str_replace('.', '', $request->input('negotiation_result_' . $tenderId));
+                        $negotiationResult = $this->convertToFloat($request->input('negotiation_result_' . $tenderId));
 
                         // Sesuaikan ini dengan kolom-kolom yang ingin Anda update pada tabel Tender
                         $tender->report_nego_result = $request->input('report_nego_result_' . $tenderId);

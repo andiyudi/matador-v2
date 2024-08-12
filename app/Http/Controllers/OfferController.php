@@ -449,4 +449,48 @@ class OfferController extends Controller
             return redirect()->back();
         }
     }
+
+    public function rollback(Request $request, $id)
+    {
+        // dd($request->all());
+        $request->validate([
+            'rollbackDocument' => 'required|file', // Sesuaikan ukuran file maksimum dengan kebutuhan Anda
+            'rollbackNotes' => 'required',
+        ]);
+        try {
+            // Simpan file upload
+            if ($request->hasFile('rollbackDocument')) {
+                $file = $request->file('rollbackDocument');
+                $name = time() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('tender_partner', $name, 'public');
+                // Logika tambahan untuk menyimpan data terkait rollback
+                // Misalnya menyimpan informasi file di database
+                $rollback = new TenderFile();
+                $rollback->tender_id = $id;
+                $rollback->name = $name;
+                $rollback->type = 6;
+                $rollback->path = $path;
+                $rollback->notes = $request->input('rollbackNotes');
+                $rollback->save();
+
+                //jika file berhasil diupload ubah tender dan procurement menjadi proses
+                $tender = Tender::find($id);
+                $tender->status = '0';
+                $tender->save();
+
+                $procurement = Procurement::find($tender->procurement_id);
+                $procurement->status = '0';
+                $procurement->save();
+
+                Alert::success('Success', 'Rollback document uploaded successfully.');
+                return to_route('offer.index');
+            } else {
+                Alert::Error('Error', 'No file was uploaded.');
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            Alert::Error('Error', 'Failed to upload rollback document: ' . $e->getMessage());
+            return redirect()->back();
+        }
+    }
 }

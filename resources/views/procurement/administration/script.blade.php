@@ -1,27 +1,32 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Temukan semua elemen dengan class 'currency'
-        const currencyInputs = document.querySelectorAll('.currency');
+    const currencyInputs = document.querySelectorAll('.currency');
 
-        // Tambahkan event listener untuk setiap elemen
-        currencyInputs.forEach(function (input) {
-            input.addEventListener('input', function (e) {
-                // Hapus karakter selain digit dan koma
-                const rawValue = e.target.value.replace(/[^\d,]/g, '');
+    currencyInputs.forEach(function (input) {
+        input.addEventListener('input', function (e) {
+            // Hapus karakter selain digit dan koma
+            const rawValue = e.target.value.replace(/[^\d]/g, '');
 
-                // Konversi nilai ke format mata uang
-                const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
+            // Konversi nilai ke format mata uang dengan dua desimal
+            const formattedValue = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(parseFloat(rawValue) / 100 || 0);
 
-                // Setel nilai input yang sudah diformat
-                e.target.value = formattedValue;
-            });
-
-            // Format nilai mata uang saat halaman dimuat
-            const rawValue = input.value.replace(/[^\d,]/g, '');
-            const formattedValue = new Intl.NumberFormat('id-ID').format(Number(rawValue));
-            input.value = formattedValue;
+            // Setel nilai input yang sudah diformat
+            e.target.value = formattedValue;
         });
+
+            // Cek nilai dari database dan format nilai mata uang saat halaman dimuat
+            const valueFromDB = input.value ? parseFloat(input.value.replace(/[^\d.-]/g, '')) : 0;
+            const formattedValue = valueFromDB === 0 ? '0' : new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(valueFromDB);
+
+            input.value = formattedValue;
     });
+});
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
