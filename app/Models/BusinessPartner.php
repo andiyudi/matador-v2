@@ -55,7 +55,7 @@ class BusinessPartner extends Model
     {
         return $this->belongsToMany(Tender::class, 'business_partner_tender')
         ->withPivot('start_hour', 'end_hour', 'is_selected', 'value_cost', 'document_pickup', 'aanwijzing_date', 'quotation')
-        ->withTimestamp();
+        ->withTimestamps();
     }
 
     public function negotiations()

@@ -16,50 +16,55 @@ class NegotiationController extends Controller
      * Display a listing of the resource.
      */
     public function index($id)
-    {
-        $tender = Tender::findOrFail($id);
-        $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
+{
+    $tender = Tender::findOrFail($id);
+    $negotiationCount = Negotiation::where('tender_id', $tender->id)->count();
 
-        // Mengambil nilai nego_price terendah untuk tender ini
-        $minNegoPrice = Negotiation::where('tender_id', $tender->id)
-            ->where('nego_price', '>', 0) // Memastikan nego_price lebih dari 0
-            ->min('nego_price');
+    $minNegoPrice = Negotiation::where('tender_id', $tender->id)
+        ->where('nego_price', '>', 0)
+        ->min('nego_price');
 
-        // Mendapatkan business partner yang memiliki nego_price terendah
-        $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
-            ->where('nego_price', $minNegoPrice)
-            ->get();
+    $businessPartnersWithMinNegoPrice = Negotiation::where('tender_id', $tender->id)
+        ->where('nego_price', $minNegoPrice)
+        ->get();
 
-        $businessPartnersNames = [];
-        foreach ($businessPartnersWithMinNegoPrice as $negotiation) {
-            $businessPartner = BusinessPartner::find($negotiation->business_partner_id);
-            if ($businessPartner) {
-                $businessPartnersNames[] = $businessPartner->partner->name;
-            }
+    $businessPartnersNames = [];
+    foreach ($businessPartnersWithMinNegoPrice as $negotiation) {
+        $businessPartner = BusinessPartner::find($negotiation->business_partner_id);
+        if ($businessPartner) {
+            $businessPartnersNames[] = $businessPartner->partner->name;
         }
-
-        $multipleBusinessPartners = count($businessPartnersNames) > 1; // Check if more than one business partner
-
-        // Mendapatkan daftar business partners dengan urutan tertentu
-        $businessPartners = $tender->businessPartners->sortBy(function($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '>', 0)->min('nego_price');
-        });
-
-        // Memisahkan business partners dengan nego_price 0
-        $businessPartnersWithZeroPrice = $businessPartners->filter(function ($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
-        });
-
-        // Menghapus business partners dengan nego_price 0 dari daftar utama
-        $businessPartners = $businessPartners->reject(function ($businessPartner) {
-            return $businessPartner->negotiations->where('nego_price', '==', 0)->count() > 0;
-        });
-
-        // Menggabungkan kembali business partners dengan nego_price 0 di akhir daftar
-        $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice);
-
-        return view('offer.negotiation.index', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners', 'businessPartners'));
     }
+
+    $multipleBusinessPartners = count($businessPartnersNames) > 1;
+
+    // Retrieve business partners associated with this tender and eager load the pivot data
+    $businessPartners = $tender->businessPartners()->withPivot(['document_pickup', 'aanwijzing_date', 'quotation'])
+        ->with(['negotiations' => function ($query) use ($id) {
+            $query->where('tender_id', $id);
+        }])
+        ->get();
+
+    // Sort business partners based on their negotiation prices
+    $businessPartners = $businessPartners->sortBy(function($businessPartner) {
+        return $businessPartner->negotiations->where('nego_price', '>', 0)->min('nego_price');
+    });
+
+    // Separate and handle business partners with a zero negotiation price
+    $businessPartnersWithZeroPrice = $businessPartners->filter(function ($businessPartner) {
+        return $businessPartner->negotiations->where('nego_price', 0)->count() > 0;
+    });
+
+    $businessPartners = $businessPartners->reject(function ($businessPartner) {
+        return $businessPartner->negotiations->where('nego_price', 0)->count() > 0;
+    });
+
+    $businessPartners = $businessPartners->concat($businessPartnersWithZeroPrice);
+
+    // Return the view with the data
+    return view('offer.negotiation.index', compact('tender', 'minNegoPrice', 'businessPartnersNames', 'negotiationCount', 'multipleBusinessPartners', 'businessPartners'));
+}
+
 
 
     /**
@@ -143,7 +148,13 @@ class NegotiationController extends Controller
      */
     public function show($id)
     {
-        $tender = Tender::findOrFail($id);
+        $tender = Tender::with(['businessPartners' => function ($query) use ($id) {
+            $query->with(['negotiations' => function ($query) use ($id) {
+                $query->where('tender_id', $id);
+            }])->whereHas('tenders', function ($query) use ($id) {
+                $query->where('tender_id', $id);
+            });
+        }])->findOrFail($id);
 
         $leadName = request()->query('leadName');
         $leadPosition = request()->query('leadPosition');
@@ -199,7 +210,14 @@ class NegotiationController extends Controller
      */
     public function edit($id)
     {
-        $tender = Tender::findOrFail($id);
+        $tender = Tender::with(['businessPartners' => function ($query) use ($id) {
+            $query->with(['negotiations' => function ($query) use ($id) {
+                $query->where('tender_id', $id);
+            }])->whereHas('tenders', function ($query) use ($id) {
+                $query->where('tender_id', $id);
+            });
+        }])->findOrFail($id);
+
         return view('offer.negotiation.edit', compact('tender'));
     }
 
