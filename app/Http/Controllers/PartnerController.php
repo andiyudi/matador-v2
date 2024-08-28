@@ -198,9 +198,12 @@ class PartnerController extends Controller
             ->where('is_blacklist', '!=', '1')
             ->with('partner')
             ->join('partners', 'business_partner.partner_id', '=', 'partners.id')
+            ->select('business_partner.id as business_partner_id', 'partners.*') // Make sure this line is correct
             ->orderBy('partners.status', 'asc')
             ->get();
+
         return response()->json($partners);
     }
+
 
 }

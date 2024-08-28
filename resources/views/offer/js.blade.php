@@ -67,69 +67,72 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <script>
     $(document).ready(function () {
-        const businessSelect = $('#business');
-        const selectedPartnersTable = $('#selected_partners_table');
-        const selectedPartnersList = $('#selected_partners_list');
+    const businessSelect = $('#business');
+    const selectedPartnersList = $('#selected_partners_list');
 
-        businessSelect.on('change', function () {
-            selectedPartnersList.empty();
+    businessSelect.on('change', function () {
+        selectedPartnersList.empty();
+        const selectedBusinessId = businessSelect.val();
 
-            const selectedBusinessId = businessSelect.val();
+        $.ajax({
+            url: "{{ route('partner.fetch', '') }}/" + selectedBusinessId,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                const partners = response;
+                console.log(partners);  // Check the response data
 
-            $.ajax({
-                url: route('partner.fetch', selectedBusinessId),
-                method: 'GET',
-                dataType: 'json',
-                success: function (response) {
-                    const partners = response;
+                if (partners.length === 0) {
+                    const noDataMessage = `
+                        <tr>
+                            <td colspan="7" class="text-center">Data vendor dengan kategori ini tidak ditemukan</td>
+                        </tr>
+                    `;
+                    selectedPartnersList.append(noDataMessage);
+                } else {
+                    partners.forEach(partner => {
+                        if (!partner.business_partner_id) {
+                            console.error('business_partner_id is undefined for partner:', partner);
+                            return;  // Skip this iteration if the ID is undefined
+                        }
 
-                    if (partners.length === 0) {
-                        const noDataMessage = `
+                        let partnerStatus = '';
+                        switch (partner.status) {
+                            case '0': partnerStatus = 'Registered'; break;
+                            case '1': partnerStatus = 'Active'; break;
+                            case '2': partnerStatus = 'Inactive'; break;
+                            default: partnerStatus = 'Unknown'; break;
+                        }
+
+                        let formattedEndDeed = '';
+                        if (partner.end_deed) {
+                            const endDeedDate = new Date(partner.end_deed);
+                            formattedEndDeed = `${endDeedDate.getDate()}-${endDeedDate.getMonth() + 1}-${endDeedDate.getFullYear()}`;
+                        }
+
+                        const row = `
                             <tr>
-                                <td colspan="6" class="text-center">Data vendor dengan kategori ini tidak ditemukan</td>
+                                <td>
+                                    <input type="checkbox" name="selected_partners[]" value="${partner.business_partner_id}">
+                                </td>
+                                <td>${partner.name}</td>
+                                <td>${partnerStatus}</td>
+                                <td>${partner.director}</td>
+                                <td>${partner.phone}</td>
+                                <td>${partner.email}</td>
+                                <td>${formattedEndDeed}</td>
                             </tr>
                         `;
-                        selectedPartnersList.append(noDataMessage);
-                    } else {
-                        partners.forEach(partner => {
-                            let partnerStatus = '';
-                            if (partner.partner.status === '0') {
-                                partnerStatus = 'Registered';
-                            } else if (partner.partner.status === '1') {
-                                partnerStatus = 'Active';
-                            } else if (partner.partner.status === '2') {
-                                partnerStatus = 'Inactive';
-                            } else {
-                                partnerStatus = 'Unknown';
-                            }
-                            let formattedEndDeed = ''; // Inisialisasi dengan string kosong
-                            if (partner.partner.end_deed) {
-                                const endDeedDate = new Date(partner.partner.end_deed);
-                                formattedEndDeed = `${endDeedDate.getDate()}-${endDeedDate.getMonth() + 1}-${endDeedDate.getFullYear()}`;
-                            }
-                            const row = `
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="selected_partners[]" value="${partner.id}">
-                                    </td>
-                                    <td>${partner.partner.name}</td>
-                                    <td>${partnerStatus}</td>
-                                    <td>${partner.partner.director}</td>
-                                    <td>${partner.partner.phone}</td>
-                                    <td>${partner.partner.email}</td>
-                                    <td>${formattedEndDeed}</td>
-                                </tr>
-                            `;
-                            selectedPartnersList.append(row);
-                        });
-                    }
-                },
-                error: function (error) {
-                    console.error('Error fetching partners:', error);
-                    //alert('Error fetching partners: ' + error.responseText);
+                        selectedPartnersList.append(row);
+                    });
                 }
-            });
+            },
+            error: function (error) {
+                console.error('Error fetching partners:', error);
+                alert('Error fetching partners: ' + error.responseText);
+            }
         });
     });
+});
 </script>
 

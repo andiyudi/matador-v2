@@ -45,20 +45,26 @@
                         const yCenter = chart.getDatasetMeta(0).data[0].y;
 
                         // Menghitung total persentase
-                        const totalPercentage = dataUserPercentage.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        // const totalPercentage = dataUserPercentage.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        const totalEEUser = dataEEUser.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        const totalHasilNego = dataDealNego.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                        const selisihNegoUser = totalEEUser-totalHasilNego
+
 
                         // Mendapatkan bulan saat ini (0 untuk Januari, 1 untuk Februari, dst.)
-                        const currentMonth = new Date().getMonth() + 1; // +1 untuk membuat Januari menjadi 1, Februari menjadi 2, dst.
+                        // const currentMonth = new Date().getMonth() + 1; // +1 untuk membuat Januari menjadi 1, Februari menjadi 2, dst.
 
                         // Menghitung rata-rata persentase
-                        const averagePercentage = totalPercentage / currentMonth;
+                        // const averagePercentage = totalPercentage / currentMonth;
+                        const averagePercentage = selisihNegoUser / totalEEUser * 100;
+                        console.log(averagePercentage);
 
                         ctx.save();
-                        ctx.font = 'bold 10px sans-serif';
+                        ctx.font = 'bold 12px sans-serif';
                         ctx.fillStyle = 'blue';
                         ctx.textAlign ='left';
-                        ctx.fillText(`Akumulatif Persentase Dari Keseluruhan`, xCenter + 550, 20);
-                        ctx.fillText(`Terhadap EE User VS Hasil Negosiasi : ${averagePercentage.toFixed(2)}%`, xCenter + 550, 30);
+                        ctx.fillText(`Perbandingan Nilai PP dengan`, xCenter + 550, 20);
+                        ctx.fillText(`Selisih Nilai Hasil Negosiasi : ${averagePercentage.toFixed(2)}%`, xCenter + 550, 30);
                     }
                 }
 
