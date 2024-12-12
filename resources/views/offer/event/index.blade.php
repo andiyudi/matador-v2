@@ -46,9 +46,10 @@ $title    = 'Pengadaan';
             eventContent: function(arg) {
                 let title = arg.event.title; // Default to title (initials and number)
                 let activity = arg.event.extendedProps.activity;
+                let procurement_name = arg.event.extendedProps.procurement_name;
 
                 if (arg.view.type === 'listWeek' || arg.view.type === 'listDay') {
-                    title += ' - ' + activity; // Include activity for listDay view
+                    title += '<br>' + procurement_name + '<br>' + activity; // Include activity for listDay view
                 }
 
                 return { html: title };

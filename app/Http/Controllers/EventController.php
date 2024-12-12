@@ -49,11 +49,13 @@ class EventController extends Controller
         $events = $schedules->map(function ($item) {
             $officialName = $item->tender->procurement->official->initials ?? 'N/A';
             $procurementNumber = $item->tender->procurement->number ?? 'N/A';
+            $procurementName = $item->tender->procurement->name ?? 'N/A';
             return [
                 'id' => $item->id,
                 'title' => $officialName . ' - ' . $procurementNumber,
                 'extendedProps' => [
                     'activity' => $item->activity,
+                    'procurement_name' => $procurementName
                 ],
                 'start' => $item->start_date,
                 'end' => $item->end_date,

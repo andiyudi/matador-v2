@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h4>Laporan Hasil Negosiasi</h4>
-        <p>Bersama ini kami laporkan hasil negosiasi <strong>{{ ucwords(strtolower($tender->procurement->name)) }}</strong> PT Citra Marga Nusaphala Persada Tbk dengan No. PP: {{ $tender->procurement->number }} sebagai berikut:</p>
+        <p>Bersama ini kami laporkan hasil negosiasi <strong>{{ ucwords(strtolower($tender->procurement->name)) }}</strong> dengan No. PP: {{ $tender->procurement->number }} sebagai berikut:</p>
 
         <table>
             <thead>
