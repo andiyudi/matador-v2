@@ -16,13 +16,17 @@ $title    = 'ISO Report';
                         <button class="nav-link" id="blacklistTab" data-bs-toggle="tab" data-bs-target="#blacklistContent" type="button" role="tab" aria-controls="blacklistContent" aria-selected="false">Rekap Blacklist Category Vendor</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="newTab" data-bs-toggle="tab" data-bs-target="#newContent" type="button" role="tab" aria-controls="newContent" aria-selected="false">Rekap Vendor Baru</button>
+                        <button class="nav-link" id="newTab" data-bs-toggle="tab" data-bs-target="#newContent" type="button" role="tab" aria-controls="newContent" aria-selected="false">Rekap New Vendor</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="historyTab" data-bs-toggle="tab" data-bs-target="#historyContent" type="button" role="tab" aria-controls="historyContent" aria-selected="false">History Vendor Active</button>
                     </li>
                 </ul>
                 <div class="tab-content mt-3" id="reportTabsContent">
                     @include('report.vendor')
                     @include('report.blacklist')
                     @include('report.new')
+                    @include('report.history')
                 </div>
             </div>
         </div>

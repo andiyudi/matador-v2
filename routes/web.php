@@ -113,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('report-vendor', [ReportController::class, 'vendor'])->name('report.vendor');
     Route::get('report-blacklist', [ReportController::class, 'blacklist'])->name('report.blacklist');
     Route::get('report-join', [ReportController::class, 'join'])->name('report.join');
+    Route::get('report-history', [ReportController::class, 'history'])->name('report.history');
     Route::get('review', [ReviewController::class, 'index'])->name('review.index')->middleware('can:report-tender');
     Route::get('review-vendor', [ReviewController::class, 'vendor'])->name('review.vendor');
     Route::get('review-company', [ReviewController::class, 'company'])->name('review.company');
