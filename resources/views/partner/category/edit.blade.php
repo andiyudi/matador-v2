@@ -16,6 +16,15 @@ $title    = 'Vendor Category';
                     <input type="hidden" name="type" id="type" value="{{ $data->is_blacklist === 0 ? 1 : 0 }}">
                     <div class="row mb-3">
                         <div class="row mb-3">
+                            <label for="blacklist_at" class="col-sm-2 col-form-label required">Blacklist Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" id="blacklist_at" name="blacklist_at" value="{{ $data->blacklist_at }}">
+                                @error('blacklist_at')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                         <label for="file" class="col-sm-2 col-form-label required">Upload Document</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="file" id="file" name="file">

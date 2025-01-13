@@ -253,7 +253,7 @@
                 <td style="text-align: right">{{ number_format($totalTechniqueEstimate3 + $totalTechniqueEstimateCancel3, 0, ',', '.') }}</td>
             </tr>
         </tbody>
-        <tfoot>
+        <tbody>
             <tr style="text-align: center">
                 <td colspan="4"><strong>TOTAL PP {{ strtoupper($monthName) }}</strong></td>
                 <td>{{ $totalBerkas1 + $totalBerkas2 + $totalBerkas3 + $totalBerkasCancel1 + $totalBerkasCancel2 + $totalBerkasCancel3 }}</td>
@@ -261,7 +261,7 @@
                 <td style="text-align: right">{{ number_format($totalUserEstimate1 + $totalUserEstimate2 + $totalUserEstimate3 + $totalUserEstimateCancel1 + $totalUserEstimateCancel2 + $totalUserEstimateCancel3, 0, ',', '.') }}</td>
                 <td style="text-align: right">{{ number_format($totalTechniqueEstimate1 + $totalTechniqueEstimate2 + $totalTechniqueEstimate3 + $totalTechniqueEstimateCancel1 + $totalTechniqueEstimateCancel2 + $totalTechniqueEstimateCancel3, 0, ',', '.') }}</td>
             </tr>
-        </tfoot>
+        </tbody>
     </table>
     <br>
 </div>

@@ -140,6 +140,7 @@ class CategoryController extends Controller
                 'is_blacklist' => 'required',
                 'type' => 'required',
                 'notes' => 'required',
+                'blacklist_at' => 'required',
             ]);
             $category_id = BusinessPartner::findOrFail($request->id_category);
 
@@ -164,10 +165,11 @@ class CategoryController extends Controller
                         'whitelist_at' => now(),
                     ]);
                 } else if ($request->type == 1) {
+                    $blacklistDate = Carbon::parse($request->blacklist_at); // Pastikan ini adalah tanggal yang valid
                     $category_id->update([
                         'is_blacklist' => $request->type,
-                        'blacklist_at' => now(),
-                        'can_whitelist_at' => now()->addYears(2),
+                        'blacklist_at' => $request->blacklist_at,
+                        'can_whitelist_at' => $blacklistDate->addYears(2),
                     ]);
                 }
 

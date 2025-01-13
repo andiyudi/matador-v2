@@ -100,12 +100,10 @@ class ReportController extends Controller
         $startDateBlacklist = Carbon::createFromFormat('!m-Y', $startDateBlacklist)->startOfMonth();
         $endDateBlacklist = Carbon::createFromFormat('m-Y', $endDateBlacklist)->endOfMonth();
 
-        $vendors = Partner::with(['businesses' => function ($query) {
-            $query->where('is_blacklist', "1");
-        }])
-        // $vendors = Partner::with('businesses')
-            ->whereBetween('updated_at', [$startDateBlacklist, $endDateBlacklist])
-            ->get();
+        $vendors = Partner::with(['businesses' => function ($query) use ($startDateBlacklist, $endDateBlacklist) {
+            $query->where('is_blacklist', '1')
+                  ->whereBetween('blacklist_at', [$startDateBlacklist, $endDateBlacklist]);
+        }])->get();
 
         //sembunyikan vendor yg tidak memiliki business partner is_blacklist = 1 kurang dari 1
         $vendors = $vendors->filter(function ($vendor) {
