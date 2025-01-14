@@ -316,54 +316,10 @@ class ReportController extends Controller
     {
         $startDateHistory = $request->input('startDateHistory');
         $endDateHistory = $request->input('endDateHistory');
+        $history_type = $request->input('history_type');
 
         $startDateHistory = Carbon::createFromFormat('!m-Y', $startDateHistory)->startOfMonth();
         $endDateHistory = Carbon::createFromFormat('m-Y', $endDateHistory)->endOfMonth();
-
-        // Query untuk mendapatkan partner_id melalui relasi
-        $partnerIds = BusinessPartnerTender::with('businessPartner')
-            ->whereBetween('created_at', [$startDateHistory, $endDateHistory])
-            ->get()
-            ->pluck('businessPartner.partner_id')
-            ->filter()
-            ->unique();
-
-        // Query untuk mendapatkan data Partner berdasarkan ID
-        $vendors = Partner::with('businesses')
-            ->whereIn('id', $partnerIds)
-            ->get();
-
-        // Transform data vendors
-        $vendors->transform(function ($vendor) {
-            $vendor->join_date = Carbon::parse($vendor->join_date)->format('d-m-Y');
-
-            $coreBusinesses = [];
-            $classifications = [];
-
-            foreach ($vendor->businesses as $business) {
-                // Jika business memiliki parent, maka ini adalah Classification
-                $classifications[] = $business->name;
-                // Cek apakah business parent dari classification adalah Core Business
-                $parentBusiness = Business::find($business->parent_id);
-                if ($parentBusiness && $parentBusiness->parent_id === null) {
-                    $coreBusinesses[$parentBusiness->id] = $parentBusiness->name;
-                }
-            }
-
-            // Mengurutkan array dan menambahkan nomor urut
-            sort($coreBusinesses);
-            sort($classifications);
-
-            $vendor->core_businesses = implode('<br>', array_map(function ($business, $index) {
-                return ($index + 1) . '.' . $business;
-            }, $coreBusinesses, array_keys($coreBusinesses)));
-
-            $vendor->classifications = implode('<br>', array_map(function ($business, $index) {
-                return ($index + 1) . '.' . $business;
-            }, $classifications, array_keys($classifications)));
-
-            return $vendor;
-        });
 
         // Mengambil path file logo
         $logoPath = public_path('assets/logo/cmnplogo.png');
@@ -382,16 +338,101 @@ class ReportController extends Controller
         $formattedStartDate = Carbon::parse($startDateHistory)->format('F Y');
         $formattedEndDate = Carbon::parse($endDateHistory)->format('F Y');
 
-        return view('report.history-result', compact(
-            'vendors',
-            'logoBase64',
-            'formattedStartDate',
-            'formattedEndDate',
-            'creatorNameHistory',
-            'creatorPositionHistory',
-            'supervisorNameHistory',
-            'supervisorPositionHistory'
-        ));
+        // Query untuk mendapatkan partner_id melalui relasi
+        $partnerIds = BusinessPartnerTender::with('businessPartner')
+            ->whereBetween('created_at', [$startDateHistory, $endDateHistory])
+            ->get()
+            ->pluck('businessPartner.partner_id')
+            ->filter()
+            ->unique();
+
+        // Query untuk mendapatkan data Partner berdasarkan ID
+        $vendors = Partner::with('businesses')
+            ->whereIn('id', $partnerIds)
+            ->get();
+
+        if ($history_type === 'result'){
+            // Transform data vendors
+            $vendors->transform(function ($vendor) {
+                $vendor->join_date = Carbon::parse($vendor->join_date)->format('d-m-Y');
+
+                $coreBusinesses = [];
+                $classifications = [];
+
+                foreach ($vendor->businesses as $business) {
+                    // Jika business memiliki parent, maka ini adalah Classification
+                    $classifications[] = $business->name;
+                    // Cek apakah business parent dari classification adalah Core Business
+                    $parentBusiness = Business::find($business->parent_id);
+                    if ($parentBusiness && $parentBusiness->parent_id === null) {
+                        $coreBusinesses[$parentBusiness->id] = $parentBusiness->name;
+                    }
+                }
+
+                // Mengurutkan array dan menambahkan nomor urut
+                sort($coreBusinesses);
+                sort($classifications);
+
+                $vendor->core_businesses = implode('<br>', array_map(function ($business, $index) {
+                    return ($index + 1) . '.' . $business;
+                }, $coreBusinesses, array_keys($coreBusinesses)));
+
+                $vendor->classifications = implode('<br>', array_map(function ($business, $index) {
+                    return ($index + 1) . '.' . $business;
+                }, $classifications, array_keys($classifications)));
+
+                return $vendor;
+            });
+            return view('report.history-result', compact(
+                'vendors',
+                'logoBase64',
+                'formattedStartDate',
+                'formattedEndDate',
+                'creatorNameHistory',
+                'creatorPositionHistory',
+                'supervisorNameHistory',
+                'supervisorPositionHistory'
+            ));
+        } else if ($history_type === 'recapitulation') {
+            $recapitulation = $vendors->groupBy(function ($vendor) {
+                // Ambil core business pertama
+                $coreBusiness = null;
+                foreach ($vendor->businesses as $business) {
+                    $parentBusiness = Business::find($business->parent_id);
+                    if ($parentBusiness && $parentBusiness->parent_id === null) {
+                        $coreBusiness = $parentBusiness->name;
+                        break;
+                    }
+                }
+                return $coreBusiness ?: 'Lainnya'; // Default jika tidak ada core business
+            })->map(function ($group) {
+                // Hitung jumlah aktif dan berdasarkan kualifikasi/grade
+                return [
+                    'total_aktif' => $group->count(),
+                    'besar' => $group->where('grade', '2')->count(),
+                    'menengah' => $group->where('grade', '1')->count(),
+                    'kecil' => $group->where('grade', '0')->count(),
+                ];
+            });
+             // Hitung total untuk setiap kolom
+            $totals = [
+                'total_aktif' => $recapitulation->sum('total_aktif'),
+                'besar' => $recapitulation->sum('besar'),
+                'menengah' => $recapitulation->sum('menengah'),
+                'kecil' => $recapitulation->sum('kecil'),
+            ];
+            return view ('report.history-recapitulation', compact(
+                'recapitulation',
+                'totals',
+                'logoBase64',
+                'formattedStartDate',
+                'formattedEndDate',
+                'creatorNameHistory',
+                'creatorPositionHistory',
+                'supervisorNameHistory',
+                'supervisorPositionHistory'
+            ));
+        }
     }
 
 }
