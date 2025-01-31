@@ -40,7 +40,7 @@
                 <td style="text-align: justify">{{ $tender->procurement->name }}</td>
             </tr>
             <tr style="height:15pt">
-                <td style="width: 24%;">No. PP</td>
+                <td style="width: 24%;">No. PR</td>
                 <td style="width: 1%">:</td>
                 <td>{{ $tender->procurement->number }}</td>
             </tr>

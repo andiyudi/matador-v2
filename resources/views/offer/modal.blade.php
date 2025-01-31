@@ -17,7 +17,7 @@
                         </div>
                         <div class="col mb-3">
                             <label for="supervisorName" class="form-label">Supervisor Name</label>
-                            <input type="text" class="form-control" id="supervisorName" value="Tinne Ratulangi" placeholder="Enter supervisor name" required>
+                            <input type="text" class="form-control" id="supervisorName" value="" placeholder="Enter supervisor name" required>
                         </div>
                     </div>
                     <div class="row">
