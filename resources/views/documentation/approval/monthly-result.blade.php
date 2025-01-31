@@ -10,8 +10,8 @@
         <thead>
             <tr style="text-align: center">
                 <th width="2%">No</th>
-                <th width="4%">TTPP</th>
-                <th width="4%">No PP</th>
+                <th width="4%">TTPR</th>
+                <th width="4%">No PR</th>
                 <th width="15%">Nama Pekerjaan</th>
                 <th width="3%">Divisi</th>
                 <th width="6%">PIC Pengadaan</th>
@@ -23,7 +23,7 @@
                 <th>Jangka Waktu Pekerjaan</th>
             </tr>
             <tr>
-                <td colspan="12" style="color: red; font-weight: bold">PP YANG DISETUJUI DIREKSI</td>
+                <td colspan="12" style="color: red; font-weight: bold">PR YANG DISETUJUI DIREKSI</td>
             </tr>
         </thead>
         <tbody>
@@ -83,8 +83,8 @@
         <thead>
             <tr style="text-align: center">
                 <th width="2%">No</th>
-                <th width="4%">TTPP</th>
-                <th width="4%">No PP</th>
+                <th width="4%">TTPR</th>
+                <th width="4%">No PR</th>
                 <th width="15%">Nama Pekerjaan</th>
                 <th width="3%">Divisi</th>
                 <th width="6%">PIC Pengadaan</th>
@@ -96,7 +96,7 @@
                 <th>Jangka Waktu Pekerjaan</th>
             </tr>
             <tr>
-                <td colspan="12" style="color: red; font-weight: bold">PP MASIH DALAM PROSES NEGOSIASI</td>
+                <td colspan="12" style="color: red; font-weight: bold">PR MASIH DALAM PROSES NEGOSIASI</td>
             </tr>
         </thead>
         <tbody>
@@ -142,8 +142,8 @@
         <thead>
             <tr style="text-align: center">
                 <th width="2%">No</th>
-                <th width="4%">TTPP</th>
-                <th width="4%">No PP</th>
+                <th width="4%">TTPR</th>
+                <th width="4%">No PR</th>
                 <th width="15%">Nama Pekerjaan</th>
                 <th width="3%">Divisi</th>
                 <th width="6%">PIC Pengadaan</th>
@@ -155,7 +155,7 @@
                 <th>Jangka Waktu Pekerjaan</th>
             </tr>
             <tr>
-                <td colspan="12" style="color: red; font-weight: bold">PP DIBATALKAN</td>
+                <td colspan="12" style="color: red; font-weight: bold">PR DIBATALKAN</td>
             </tr>
         </thead>
         <tbody>

@@ -75,7 +75,7 @@
     </thead>
 </table>
 <p style="text-align: center; font-size: 14pt">
-    REKAPITULASI DOKUMEN PERMINTAAN PEKERJAAN (PP) MASUK<br>
+    REKAPITULASI DOKUMEN PERMINTAAN PEKERJAAN (PR) MASUK<br>
     @php
         $bulan = [
         '01' => 'JANUARI',

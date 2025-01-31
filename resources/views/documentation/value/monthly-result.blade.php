@@ -17,12 +17,12 @@
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
-                <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                <th rowspan="2" width="7%" style="text-align: center">TTPR</th>
+                <th rowspan="2" width="5%" style="text-align: center">No PR</th>
                 <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
                 <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
                 <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
-                <th colspan="2" style="text-align: center">Nilai PP</th>
+                <th colspan="2" style="text-align: center">Nilai PR</th>
             </tr>
             <tr>
                 <th>EE User</th>
@@ -31,7 +31,7 @@
         </thead>
         <tbody>
                 <tr>
-                    <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI 0 s.d <  100 JUTA</td>
+                    <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PR NILAI 0 s.d <  100 JUTA</td>
                 </tr>
             @foreach($procurements as $procurement)
                 @if ($procurement->user_estimate < 100000000 && $procurement->status != '2')
@@ -61,7 +61,7 @@
             @endforeach
             @if ( $cekDataCancel1 > 0)
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PR DIBATALKAN</td>
             </tr>
             @endif
             @foreach($procurements as $procurement)
@@ -98,12 +98,12 @@
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
-                <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                <th rowspan="2" width="7%" style="text-align: center">TTPR</th>
+                <th rowspan="2" width="5%" style="text-align: center">No PR</th>
                 <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
                 <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
                 <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
-                <th colspan="2" style="text-align: center">Nilai PP</th>
+                <th colspan="2" style="text-align: center">Nilai PR</th>
             </tr>
             <tr>
                 <th>EE User</th>
@@ -112,7 +112,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI &#8805; 100 JUTA s.d < 1 M</td>
+                <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PR NILAI &#8805; 100 JUTA s.d < 1 M</td>
             </tr>
         @foreach($procurements as $procurement)
         @if ($procurement->user_estimate >= 100000000 && $procurement->user_estimate < 1000000000 && $procurement->status != '2')
@@ -142,7 +142,7 @@
             @endforeach
             @if ( $cekDataCancel2 > 0)
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PR DIBATALKAN</td>
             </tr>
             @endif
             @foreach($procurements as $procurement)
@@ -179,12 +179,12 @@
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
-                <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                <th rowspan="2" width="7%" style="text-align: center">TTPR</th>
+                <th rowspan="2" width="5%" style="text-align: center">No PR</th>
                 <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
                 <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
                 <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
-                <th colspan="2" style="text-align: center">Nilai PP</th>
+                <th colspan="2" style="text-align: center">Nilai PR</th>
             </tr>
             <tr>
                 <th>EE User</th>
@@ -193,7 +193,7 @@
         </thead>
         <tbody>
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PP NILAI &#8805; 1 M</td>
+                <td colspan="8" style="color: red; font-weight: bold">DOKUMEN PR NILAI &#8805; 1 M</td>
             </tr>
             @foreach($procurements as $procurement)
             @if ($procurement->user_estimate >= 1000000000 && $procurement->status != '2')
@@ -223,7 +223,7 @@
             @endforeach
             @if ( $cekDataCancel3 > 0)
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PR DIBATALKAN</td>
             </tr>
             @endif
             @foreach($procurements as $procurement)
@@ -255,7 +255,7 @@
         </tbody>
         <tbody>
             <tr style="text-align: center">
-                <td colspan="4"><strong>TOTAL PP {{ strtoupper($monthName) }}</strong></td>
+                <td colspan="4"><strong>TOTAL PR {{ strtoupper($monthName) }}</strong></td>
                 <td>{{ $totalBerkas1 + $totalBerkas2 + $totalBerkas3 + $totalBerkasCancel1 + $totalBerkasCancel2 + $totalBerkasCancel3 }}</td>
                 <td>BERKAS</td>
                 <td style="text-align: right">{{ number_format($totalUserEstimate1 + $totalUserEstimate2 + $totalUserEstimate3 + $totalUserEstimateCancel1 + $totalUserEstimateCancel2 + $totalUserEstimateCancel3, 0, ',', '.') }}</td>

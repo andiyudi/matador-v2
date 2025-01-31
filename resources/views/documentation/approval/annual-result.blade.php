@@ -38,7 +38,7 @@
         <tbody style="text-align: center">
             <tr>
                 <td>1</td>
-                <td style="text-align: left">PP Masuk All User</td>
+                <td style="text-align: left">PR Masuk All User</td>
                 @foreach ($months as $month)
                     <td>{{ $totalsAll['totalPerBulan'][$month] ?? 0 }}</td>
                 @endforeach
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <td>2</td>
-                <td style="text-align: left">PP Yang Disetujui Direksi</td>
+                <td style="text-align: left">PR Yang Disetujui Direksi</td>
                 @foreach ($months as $month)
                     <td>{{ $totalsStatus1['totalPerBulan'][$month] ?? 0 }}</td>
                 @endforeach
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td>3</td>
-                <td style="text-align: left">PP Masih Dalam Proses Negosiasi</td>
+                <td style="text-align: left">PR Masih Dalam Proses Negosiasi</td>
                 @foreach ($months as $month)
                     <td>{{ $totalsStatus0['totalPerBulan'][$month] ?? 0 }}</td>
                 @endforeach
@@ -62,7 +62,7 @@
             </tr>
             <tr>
                 <td>4</td>
-                <td style="text-align: left">PP Dibatalkan</td>
+                <td style="text-align: left">PR Dibatalkan</td>
                 @foreach ($months as $month)
                     <td>{{ $totalsStatus2['totalPerBulan'][$month] ?? 0 }}</td>
                 @endforeach

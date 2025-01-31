@@ -3,8 +3,8 @@
         <thead>
             <tr>
                 <th rowspan="2" style="text-align: center; width: 2%">No</th>
-                <th rowspan="2" style="text-align: center; width: 8%">TTPP</th>
-                <th rowspan="2" style="text-align: center; width: 5%">No PP</th>
+                <th rowspan="2" style="text-align: center; width: 8%">TTPR</th>
+                <th rowspan="2" style="text-align: center; width: 5%">No PR</th>
                 <th rowspan="2" style="text-align: center; width: 20%">Nama Pekerjaan</th>
                 <th rowspan="2" style="text-align: center; width: 4%">Divisi</th>
                 <th rowspan="2" style="text-align: center; width: 7%">PIC Pengadaan</th>

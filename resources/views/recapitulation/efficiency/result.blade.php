@@ -7,7 +7,7 @@
                 <th colspan="4" style="text-align: center;">Perbandingan</th>
             </tr>
             <tr>
-                <th>Nilai PP</th>
+                <th>Nilai PR</th>
                 <th>Hasil Negosiasi</th>
                 <th>Efisiensi</th>
                 <th>Persentase</th>

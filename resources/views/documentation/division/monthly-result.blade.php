@@ -15,12 +15,12 @@
         <thead>
             <tr>
                 <th rowspan="2" width="3%" style="text-align: center">No</th>
-                <th rowspan="2" width="7%" style="text-align: center">TTPP</th>
-                <th rowspan="2" width="5%" style="text-align: center">No PP</th>
+                <th rowspan="2" width="7%" style="text-align: center">TTPR</th>
+                <th rowspan="2" width="5%" style="text-align: center">No PR</th>
                 <th rowspan="2" width="40%" style="text-align: center">Nama Pekerjaan</th>
                 <th rowspan="2" width="5%" style="text-align: center">Divisi</th>
                 <th rowspan="2" width="8%" style="text-align: center">PIC Pengadaan</th>
-                <th colspan="2" style="text-align: center">Nilai PP</th>
+                <th colspan="2" style="text-align: center">Nilai PR</th>
             </tr>
             <tr>
                 <th>EE User</th>
@@ -56,7 +56,7 @@
             @endforeach
             @if ( $cekDataCancel > 0)
             <tr>
-                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PP DIBATALKAN</td>
+                <td colspan="8" style="color: red; font-weight: bold; text-align: center">PR DIBATALKAN</td>
             </tr>
             @endif
             @foreach($procurements as $procurement)

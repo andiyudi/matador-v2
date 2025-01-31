@@ -11,7 +11,7 @@ $title    = 'Masih Dalam Proses Negosiasi';
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label" for="vendorStatus">Masukkan No PP</label>
+                            <label class="form-label" for="vendorStatus">Masukkan No PR</label>
                             <input type="text" class="form-control" name="number" id="number">
                         </div>
                     </div>

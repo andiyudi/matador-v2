@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Rekap PP Masih Dalam Proses Negosiasi</title>
+    <title>Laporan Rekap PR Masih Dalam Proses Negosiasi</title>
 </head>
 <body>
     @include('recapitulation.process.style')
@@ -17,7 +17,7 @@
         </thead>
     </table>
     <p style="text-align: center; font-size: 14pt">
-        REKAPITULASI PP MASIH DALAM PROSES NEGOSIASI<br>
+        REKAPITULASI PR MASIH DALAM PROSES NEGOSIASI<br>
         PERIODE {{ strtoupper($formattedStartDate) }} - {{ strtoupper($formattedEndDate) }}<br>
         UPDATE : {{ strtoupper($formattedDate) }}
     </p>

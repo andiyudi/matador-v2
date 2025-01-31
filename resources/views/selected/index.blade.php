@@ -24,7 +24,7 @@ $title    = 'Pemenang Tender';
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="number" class="form-label">Masukkan No PP</label>
+                            <label for="number" class="form-label">Masukkan No PR</label>
                             <input type="text" name="number" id="number" class="form-control">
                         </div>
                     </div>

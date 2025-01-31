@@ -3,11 +3,11 @@
         <thead>
             <tr>
                 <th rowspan="4">No</th>
-                <th rowspan="4">TTPP</th>
-                <th rowspan="4">No PP</th>
+                <th rowspan="4">TTPR</th>
+                <th rowspan="4">No PR</th>
                 <th rowspan="4">Nama Pekerjaan</th>
                 <th rowspan="4">PIC Pengadaan</th>
-                <th rowspan="4">PP &#43; OE Diterima</th>
+                <th rowspan="4">PR &#43; OE Diterima</th>
                 <th colspan="2">Disposisi</th>
                 <th colspan="13">Proses Tender &#38; Negosiasi</th>
                 <th colspan="4" rowspan="3">Waktu Penyelesaian Tender &#40;Hari&#41;</th>
@@ -76,7 +76,7 @@
                     <td>{{ $procurement->vendor_offer ? date('d-M-Y', strtotime($procurement->vendor_offer)) : '' }}</td>
                     @if($procurement->status == '2')
                     <td colspan="{{ $colspan }}" style="text-align: center; {{ $fontColor }}{{ $backgroundColor }}">
-                        PP DIBATALKAN  {{ $procurement->cancellation_memo }}  {{ $procurement->information }}
+                        PR DIBATALKAN  {{ $procurement->cancellation_memo }}  {{ $procurement->information }}
                     </td>
                     @else
                     @php

@@ -21,7 +21,7 @@
             <tr>
                 <th width="3%" style="text-align: center">No</th>
                 <th style="text-align: center">BULAN</th>
-                <th style="text-align: center">PERMINTAAN PEKERJAAN (PP) MASUK</th>
+                <th style="text-align: center">PERMINTAAN PEKERJAAN (PR) MASUK</th>
             </tr>
         </thead>
         <tbody style="text-align: center">

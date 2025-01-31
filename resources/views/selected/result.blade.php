@@ -5,7 +5,7 @@
                 <th width="2%">No</th>
                 <th width="10%">Nama Vendor / Mitra Kerja</th>
                 <th width="15%">Nama Pekerjaan</th>
-                <th width="4%">No PP</th>
+                <th width="4%">No PR</th>
                 <th width="3%">Divisi</th>
                 <th width="6%">PIC Pengadaan</th>
                 <th width="7%">Tanggal Persetujuan Direksi</th>
@@ -46,7 +46,7 @@
                 </tr>
             @endforeach
                 <tr style="text-align: center; font-weight: bold">
-                    <td colspan="3">TOTAL PP</td>
+                    <td colspan="3">TOTAL PR</td>
                     <td></td>
                     <td>{{ $procurements->count() }}</td>
                     <td>BERKAS</td>

@@ -18,7 +18,7 @@
     </table>
     <p style="text-align: center; font-size: 14pt">
         MATRIK PERBANDINGAN<br>
-        NILAI PP VS HASIL NEGOSIASI - NILAI VERIFIKASI TEKNIK VS HASIL NEGOSIASI<br>
+        NILAI PR VS HASIL NEGOSIASI - NILAI VERIFIKASI TEKNIK VS HASIL NEGOSIASI<br>
         @php
         $bulan = [
         '01' => 'JANUARI',

@@ -18,7 +18,7 @@
     </table>
     <p style="text-align: center; font-size: 14pt">
         LAPORAN EFISIENSI BIAYA PERSEROAN<br>
-        NILAI PP VS HASIL NEGOSIASI<br>
+        NILAI PR VS HASIL NEGOSIASI<br>
         @php
         $bulan = [
         '01' => 'JANUARI',

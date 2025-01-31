@@ -9,8 +9,8 @@
         <thead>
             <tr style="text-align: center">
                 <th rowspan="2" width="2%">No</th>
-                <th rowspan="2" width="4%">TTPP</th>
-                <th rowspan="2" width="4%">No PP</th>
+                <th rowspan="2" width="4%">TTPR</th>
+                <th rowspan="2" width="4%">No PR</th>
                 <th rowspan="2" width="10%">Nama Pekerjaan</th>
                 <th rowspan="2" width="3%">Divisi</th>
                 <th rowspan="2" width="3%">PIC Pengadaan</th>

@@ -75,7 +75,7 @@
     </thead>
 </table>
 <p style="text-align: center; font-size: 14pt">
-    REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PP)<br>
+    REKAPITULASI DOKUMEN PERMINTAAN PENGADAAN (PR)<br>
     BERDASARKAN DIVISI<br>
     @php
         $bulan = [

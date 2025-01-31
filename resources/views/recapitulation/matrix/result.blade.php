@@ -3,8 +3,8 @@
         <thead>
             <tr>
                 <th rowspan="2">No</th>
-                <th rowspan="2">TTPP</th>
-                <th rowspan="2">No PP</th>
+                <th rowspan="2">TTPR</th>
+                <th rowspan="2">No PR</th>
                 <th rowspan="2">No OP</th>
                 <th rowspan="2">No Kontrak</th>
                 <th rowspan="2">Tgl Kontrak / OP</th>

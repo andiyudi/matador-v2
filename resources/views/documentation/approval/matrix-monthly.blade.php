@@ -76,7 +76,7 @@
 </table>
 <p style="text-align: center; font-size: 14pt">
     REKAPITULASI HASIL NEGOSIASI PENGADAAN BARANG ( OP ) DAN ATAU JASA ( KONTRAK )<br>
-    PP YANG DISETUJUI DIREKSI<br>
+    PR YANG DISETUJUI DIREKSI<br>
     PERIODE : {{ strtoupper($periodFormatted) }}
 </p>
 

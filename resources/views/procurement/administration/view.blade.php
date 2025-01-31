@@ -9,7 +9,7 @@ $title    = 'Estimate';
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
-                    <label for="receipt" class="col-sm-2 col-form-label">TTPP</label>
+                    <label for="receipt" class="col-sm-2 col-form-label">TTPR</label>
                     <div class="col-sm-4">
                         <input type="date" class="form-control" name="receipt" id="receipt" value="{{ $procurement->receipt }}" readonly>
                     </div>
@@ -176,7 +176,7 @@ $title    = 'Estimate';
                 </div>
                 <div class="row mb-3">
                     <label for="ppoe_accepted" class="col-sm-2 col-form-label">
-                        PP &#43; OE Diterima
+                        PR &#43; OE Diterima
                     </label>
                     <div class="col-sm-10">
                         <input type="date" class="form-control" id="ppoe_accepted" name="ppoe_accepted" value="{{ old('ppoe_accepted', $procurement->ppoe_accepted) }}"  readonly>
