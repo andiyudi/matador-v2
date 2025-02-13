@@ -137,7 +137,7 @@
                     <span class="label">Waktu</span><span>:</span><span>{{ $meetingTime }}</span>
                 </p>
                 <p>
-                    <span class="label">Tempat</span><span>:</span><span>Ruang Rapat {{ $meetingLocation }} LT.2 Kantor PT. CMNP Tbk<br>
+                    <span class="label">Tempat</span><span>:</span><span>Ruang Rapat {{ $meetingLocation }} Kantor PT. CMNP Tbk<br>
                     Jalan Yos Sudarso Kav.28 Jakarta 14350</span>
                 </p>
                 <p>

@@ -233,10 +233,12 @@
                             <label for="meetingLocation" class="form-label">Meeting Location</label>
                             <select name="meetingLocation" id="meetingLocation" class="form-select" required>
                                 <option disabled selected>Pilih Ruang Rapat</option>
-                                <option value="Nusaphala 1">Nusaphala 1</option>
-                                <option value="Nusaphala 3">Nusaphala 3</option>
-                                <option value="Nusaphala 4">Nusaphala 4</option>
-                                <option value="Nusaphala 8">Nusaphala 8</option>
+                                <option value="Nusaphala 1 LT.3">Nusaphala 1</option>
+                                <option value="Nusaphala 3 LT.2">Nusaphala 3</option>
+                                <option value="Nusaphala 4 LT.2">Nusaphala 4</option>
+                                <option value="Nusaphala 8 LT.1">Nusaphala 8</option>
+                                <option value="Nusaphala 9 LT.1">Nusaphala 9</option>
+                                <option value="Auditor LT.2">Auditor</option>
                             </select>
                         </div>
                         <div class="col mb-3">
