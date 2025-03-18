@@ -238,6 +238,7 @@
                                 <option value="Nusaphala 4 LT.2">Nusaphala 4</option>
                                 <option value="Nusaphala 8 LT.1">Nusaphala 8</option>
                                 <option value="Nusaphala 9 LT.1">Nusaphala 9</option>
+                                <option value="Nusaphala 12 LT.2">Nusaphala 12</option>
                                 <option value="Auditor LT.2">Auditor</option>
                             </select>
                         </div>
